@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { navigate } from '@reach/router';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { navigate } from "@reach/router";
 import {
   Box,
   Button,
@@ -10,14 +10,18 @@ import {
   Table,
   Text,
   Toast,
-} from 'gestalt';
-import 'gestalt/dist/gestalt.css';
-import { addSignee, selectAssignees } from './AssignSlice';
+  Switch,
+  Label,
+  Flex,
+} from "gestalt";
+import "gestalt/dist/gestalt.css";
+import { addSignee, removeSignee, selectAssignees } from "./AssignSlice";
 
 const Assign = () => {
-  const [email, setEmail] = useState('');
-  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [addMyself, setAddMyself] = useState(false);
   const assignees = useSelector(selectAssignees);
   const dispatch = useDispatch();
 
@@ -31,12 +35,19 @@ const Assign = () => {
   };
 
   const addUser = (name, email) => {
-    const key = `${new Date().getTime()}${email}`;
-    if (name !== '' && email !== '') {
-      dispatch(addSignee({ key, name, email }));
-      setEmail('');
-      setDisplayName('');
+    if (name.trim() !== "" && email.trim() !== "") {
+      dispatch(addSignee({ name, email }));
+      setEmail("");
+      setDisplayName("");
     }
+  };
+
+  const handleChangeWrap = () => {
+    if (!addMyself) addUser("Jones", "Michael");
+    else dispatch(removeSignee({ name: "Jones", email: "Michael" }));
+    setAddMyself((a) => !a);
+    setEmail("");
+    setDisplayName("");
   };
 
   return (
@@ -49,7 +60,7 @@ const Assign = () => {
           <Box padding={2}>
             <TextField
               id="displayName"
-              onChange={event => setDisplayName(event.value)}
+              onChange={(event) => setDisplayName(event.value)}
               placeholder="Enter recipient's name"
               label="Name"
               value={displayName}
@@ -59,16 +70,17 @@ const Assign = () => {
           <Box padding={2}>
             <TextField
               id="email"
-              onChange={event => setEmail(event.value)}
+              onChange={(event) => setEmail(event.value)}
               placeholder="Enter recipient's email"
               label="Email"
               value={email}
               type="email"
             />
           </Box>
+
           <Box padding={2}>
             <Button
-              onClick={event => {
+              onClick={(event) => {
                 addUser(displayName, email);
               }}
               text="Add user"
@@ -76,20 +88,41 @@ const Assign = () => {
               inline
             />
           </Box>
+          <Box padding={2} marginTop={2}>
+            <Box display="flex">
+              <Switch
+                id="addMyself"
+                onChange={handleChangeWrap}
+                switched={addMyself}
+              />
+              <Label htmlFor="addMyself" inline>
+                <Text inline>Add myself</Text>
+              </Label>
+            </Box>
+          </Box>
+
+          {assignees && assignees?.length > 0 && (
+            <Box paddingX={2} marginTop={8} gap={2}>
+              <Heading size="md">Signers</Heading>
+            </Box>
+          )}
+
           <Box padding={2}>
             <Table>
               <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>
-                    <Text weight="bold">Name</Text>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    <Text weight="bold">Email</Text>
-                  </Table.HeaderCell>
-                </Table.Row>
+                {assignees && assignees?.length > 0 && (
+                  <Table.Row>
+                    <Table.HeaderCell>
+                      <Text weight="bold">Name</Text>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <Text weight="bold">Email</Text>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                )}
               </Table.Header>
               <Table.Body>
-                {assignees.map(user => (
+                {assignees.map((user) => (
                   <Table.Row key={user.key}>
                     <Table.Cell>
                       <Text>{user.name}</Text>
@@ -102,16 +135,18 @@ const Assign = () => {
               </Table.Body>
             </Table>
           </Box>
-          <Box padding={2}>
-            <Button onClick={prepare} text="Continue" color="blue" inline />
-          </Box>
+          {assignees && assignees?.length > 0 && (
+            <Box padding={2}>
+              <Button onClick={prepare} text="Continue" color="blue" inline />
+            </Box>
+          )}
           <Box
             fit
             dangerouslySetInlineStyle={{
               __style: {
                 bottom: 50,
-                left: '50%',
-                transform: 'translateX(-50%)',
+                left: "50%",
+                transform: "translateX(-50%)",
               },
             }}
             paddingX={1}

@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const SignDocumentSlice = createSlice({
-  name: 'signDoc',
+  name: "signDoc",
   initialState: {
     docToSign: null,
   },
@@ -11,12 +11,12 @@ export const SignDocumentSlice = createSlice({
     },
     resetDocToSign: (state, action) => {
       state.docToSign = null;
-    }
+    },
   },
 });
 
 export const { setDocToSign, resetDocToSign } = SignDocumentSlice.actions;
 
-export const selectDocToSign = state => state.signDoc.docToSign;
+export const selectDocToSign = (state) => state.signDoc.docToSign;
 
 export default SignDocumentSlice.reducer;

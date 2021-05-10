@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Table, Text, Spinner } from 'gestalt';
-import 'gestalt/dist/gestalt.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { searchForDocumentsSigned } from '../../firebase/firebase';
-import { selectUser } from '../../firebase/firebaseSlice';
-import { setDocToView } from '../ViewDocument/ViewDocumentSlice';
-import { navigate } from '@reach/router';
+import React, { useEffect, useState } from "react";
+import { Button, Table, Text, Spinner } from "gestalt";
+import "gestalt/dist/gestalt.css";
+import { useSelector, useDispatch } from "react-redux";
+// import { searchForDocumentsSigned } from "../../firebase/firebase";
+import { selectUser } from "../../firebase/firebaseSlice";
+import { setDocToView } from "../ViewDocument/ViewDocumentSlice";
+import { navigate } from "@reach/router";
 
 const SignedList = () => {
   const user = useSelector(selectUser);
-  const { email } = user;
+  const email = user?.email;
   const [docs, setDocs] = useState([]);
   const [show, setShow] = useState(true);
 
@@ -17,17 +17,19 @@ const SignedList = () => {
 
   useEffect(() => {
     async function getDocs() {
-      const docsToView = await searchForDocumentsSigned(email);
-      setDocs(docsToView);
+      // const docsToView = await searchForDocumentsSigned(email);
+      // setDocs(docsToView);
       setShow(false);
     }
     setTimeout(getDocs, 1000);
   }, [email]);
 
   return (
-    <div>
+    <div className="content-welcome">
       {show ? (
-        <Spinner show={show} accessibilityLabel="spinner" />
+        <div className="item-center">
+          <Spinner show={show} accessibilityLabel="spinner" />
+        </div>
       ) : (
         <div>
           {docs.length > 0 ? (
@@ -43,19 +45,25 @@ const SignedList = () => {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {docs.map(doc => (
+                {docs.map((doc) => (
                   <Table.Row key={doc.docRef}>
                     <Table.Cell>
-                      {doc.emails.map(email => (
+                      {doc.emails.map((email) => (
                         <Text key={email}>{email}</Text>
                       ))}
                     </Table.Cell>
                     <Table.Cell>
-                      <Text>{doc.signedTime ? new Date(doc.signedTime.seconds*1000).toDateString() : ''}</Text>
+                      <Text>
+                        {doc.signedTime
+                          ? new Date(
+                              doc.signedTime.seconds * 1000
+                            ).toDateString()
+                          : ""}
+                      </Text>
                     </Table.Cell>
                     <Table.Cell>
                       <Button
-                        onClick={event => {
+                        onClick={(event) => {
                           const { docRef, docId } = doc;
                           dispatch(setDocToView({ docRef, docId }));
                           navigate(`/viewDocument`);
@@ -70,7 +78,9 @@ const SignedList = () => {
               </Table.Body>
             </Table>
           ) : (
-            'You do not have any documents to review'
+            <div className="text-center">
+              You do not have any documents to review
+            </div>
           )}
         </div>
       )}

@@ -1,23 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const AssignSlice = createSlice({
-  name: 'assign',
+  name: "assign",
   initialState: {
     signees: [],
   },
   reducers: {
     addSignee: (state, action) => {
-      state.signees = [...state.signees, { key: action.payload.key, name: action.payload.name, email: action.payload.email } ];
+      state.signees = [
+        ...state.signees,
+        { name: action.payload.name, email: action.payload.email },
+      ];
+    },
+    removeSignee: (state, action) => {
+      state.signees = state.signees.filter(
+        (signee) =>
+          signee.name !== action.payload.name &&
+          signee.email !== action.payload.email
+      );
     },
     resetSignee: (state, action) => {
-      console.log('resetSignee');
+      console.log("resetSignee");
       state.signees = [];
-    }
+    },
   },
 });
 
-export const { addSignee, resetSignee } = AssignSlice.actions;
+export const { addSignee, resetSignee, removeSignee } = AssignSlice.actions;
 
-export const selectAssignees = state => state.assign.signees;
+export const selectAssignees = (state) => state.assign.signees;
 
 export default AssignSlice.reducer;

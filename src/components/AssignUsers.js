@@ -1,14 +1,8 @@
-import React from 'react';
-import Assign from './Assign/Assign';
-import Profile from './Profile/Profile';
+import React from "react";
+import Assign from "./Assign/Assign";
 
 const AssignUsers = () => {
-  return (
-    <div>
-      <Profile />
-      <Assign />
-    </div>
-  );
+  return <Assign />;
 };
 
 export default AssignUsers;

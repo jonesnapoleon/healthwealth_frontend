@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const ViewDocumentSlice = createSlice({
-  name: 'viewDoc',
+  name: "viewDoc",
   initialState: {
     docToView: null,
   },
@@ -11,12 +11,12 @@ export const ViewDocumentSlice = createSlice({
     },
     resetDocToView: (state, action) => {
       state.docToView = null;
-    }
+    },
   },
 });
 
 export const { setDocToView, resetDocToView } = ViewDocumentSlice.actions;
 
-export const selectDocToView = state => state.viewDoc.docToView;
+export const selectDocToView = (state) => state.viewDoc.docToView;
 
 export default ViewDocumentSlice.reducer;

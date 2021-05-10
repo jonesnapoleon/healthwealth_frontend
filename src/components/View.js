@@ -1,14 +1,8 @@
-import React from 'react';
-import Profile from './Profile/Profile';
-import ViewDocument from './ViewDocument/ViewDocument';
+import React from "react";
+import ViewDocument from "./ViewDocument/ViewDocument";
 
 const View = () => {
-  return (
-    <div>
-      <Profile />
-      <ViewDocument />
-    </div>
-  );
+  return <ViewDocument />;
 };
 
 export default View;
