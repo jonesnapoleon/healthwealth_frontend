@@ -11,9 +11,9 @@ import {
   Heading,
 } from "gestalt";
 import "gestalt/dist/gestalt.css";
-import { auth } from "../../firebase/firebase";
+// import { auth } from "../../api";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, setUser } from "../../firebase/firebaseSlice";
+import { selectUser, setUser } from "../../api/authSlice";
 import { resetSignee } from "../Assign/AssignSlice";
 import { navigate, Link } from "@reach/router";
 import "./Profile.css";
@@ -27,13 +27,14 @@ const Navbar = () => {
 
   return (
     <Box
-      paddingX={12}
+      lgPaddingX={12}
+      smPaddingX={0}
       dangerouslySetInlineStyle={{
         __style: { backgroundColor: "var(--text-color) " },
       }}
     >
-      <Box paddingX={12}>
-        <Box display="flex" direction="row" paddingY={2}>
+      <Box lgPaddingX={12} smPaddingX={0}>
+        <Box display="flex" direction="row" lgPaddingY={2} smPaddingX={0}>
           <Column span={9}>
             <Box padding={3}>
               <Link to="/" className="profileLink">
@@ -49,7 +50,7 @@ const Navbar = () => {
               }}
             >
               <Row justifyContent="end">
-                <Box padding={1} justifyContent="flex-end">
+                <Box padding={1}>
                   <Avatar name={displayName} size="sm" src={photoURL} />
                 </Box>
                 <Stack>
@@ -59,7 +60,7 @@ const Navbar = () => {
                 <Box padding={1}>
                   <Button
                     onClick={() => {
-                      auth.signOut();
+                      // auth.signOut();
                       dispatch(setUser(null));
                       dispatch(resetSignee());
                       navigate("/");

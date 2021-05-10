@@ -1,5 +1,5 @@
 import React from "react";
-import ViewDocument from "./ViewDocument/ViewDocument";
+import ViewDocument from "./ViewDocument";
 
 const View = () => {
   return <ViewDocument />;

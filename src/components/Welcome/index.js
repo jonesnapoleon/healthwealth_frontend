@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { navigate } from "@reach/router";
 import { useDispatch } from "react-redux";
-import SignList from "./Lists/SignList";
-import SignedList from "./Lists/SignedList";
-import { resetDocToView } from "./ViewDocument/ViewDocumentSlice";
-import { resetDocToSign } from "./SignDocument/SignDocumentSlice";
-import { Box, Button, Container, Heading, Text, Tabs } from "gestalt";
+import SignList from "../Lists/SignList";
+import SignedList from "../Lists/SignedList";
+import { resetDocToView } from "../ViewDocument/ViewDocumentSlice";
+import { resetDocToSign } from "../SignDocument/SignDocumentSlice";
+import { Box, Button, Heading, Text, Tabs } from "gestalt";
 import "gestalt/dist/gestalt.css";
 
 const TABS = [
@@ -14,7 +14,7 @@ const TABS = [
   { text: "Need Signature" },
 ];
 
-const ProfilePage = () => {
+const Welcome = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetDocToView());
@@ -34,8 +34,8 @@ const ProfilePage = () => {
   };
 
   return (
-    <Box paddingX={12}>
-      <Box paddingX={12}>
+    <Box lgPaddingX={12} smPaddingX={0}>
+      <Box lgPaddingX={12} smPaddingX={0}>
         <Box paddingX={3} paddingY={3}>
           <Text size="lg" weight="bold">
             Welcome, John!
@@ -44,12 +44,16 @@ const ProfilePage = () => {
         </Box>
 
         <Box
-          padding={3}
+          lgPaddingX={3}
+          lgPaddingY={3}
+          smPaddingX={0}
+          smPaddingY={3}
           color="white"
           display="flex"
           direction="row"
           alignItems="center"
           justifyContent="between"
+          wrap={true}
         >
           <div>
             <Box>
@@ -65,9 +69,7 @@ const ProfilePage = () => {
           </div>
           <div>
             <Button
-              onClick={(event) => {
-                navigate(`/assignUsers`);
-              }}
+              onClick={() => navigate(`/new`)}
               text="+ Create document"
               color="blue"
               inline
@@ -92,4 +94,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default Welcome;

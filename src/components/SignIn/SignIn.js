@@ -2,15 +2,8 @@ import React, { useState } from "react";
 import { Link, navigate } from "@reach/router";
 import GoogleLogin from "react-google-login";
 // import { auth, signInWithGoogle } from "../../firebase/firebase";
-import {
-  Box,
-  Button,
-  Toast,
-  Container,
-  Text,
-  TextField,
-  Heading,
-} from "gestalt";
+import { Box, Button, Container, Text, TextField, Heading } from "gestalt";
+import Snackbar from "../commons/Snackbar";
 import "gestalt/dist/gestalt.css";
 import "./SignIn.css";
 
@@ -41,7 +34,7 @@ const SignIn = () => {
       >
         <Container>
           <Box padding={4}>
-            {error !== null && <Toast text={error} />}
+            {error !== null && <Snackbar text={error} />}
             <Heading size="lg" align="center">
               Sign in
             </Heading>

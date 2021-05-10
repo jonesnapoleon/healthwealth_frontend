@@ -3,7 +3,7 @@ import { Button, Table, Text, Spinner } from "gestalt";
 import "gestalt/dist/gestalt.css";
 import { useDispatch, useSelector } from "react-redux";
 // import { searchForDocumentToSign } from "../../firebase/firebase";
-import { selectUser } from "../../firebase/firebaseSlice";
+import { selectUser } from "../../api/authSlice";
 import { setDocToSign } from "../SignDocument/SignDocumentSlice";
 import { navigate } from "@reach/router";
 

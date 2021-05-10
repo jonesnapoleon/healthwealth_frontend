@@ -2,16 +2,15 @@ import React, { useEffect } from "react";
 import { Router } from "@reach/router";
 import { useSelector, useDispatch } from "react-redux";
 
-import AssignUsers from "./components/AssignUsers";
+import New from "./components/Assign/New";
 import SignIn from "./components/SignIn/SignIn";
-import Preparation from "./components/Preparation";
-import Sign from "./components/Sign";
-import View from "./components/View";
-import Header from "./components/Header";
-import Welcome from "./components/Welcome";
+import Preparation from "./components/PrepareDocument/Preparation";
+import Sign from "./components/SignDocument/Sign";
+import View from "./components/ViewDocument/View";
+import Welcome from "./components/Welcome/index";
 
 // import { auth, generateUserDocument } from "./firebase/firebase";
-import { setUser, selectUser } from "./firebase/firebaseSlice";
+import { setUser, selectUser } from "./api/authSlice";
 import "./index.css";
 import Navbar from "./components/Profile/Navbar";
 
@@ -34,7 +33,7 @@ const App = () => {
       <Navbar />
       <Router>
         <Welcome path="/" />
-        <AssignUsers path="/assignUsers" />
+        <New path="/new" />
         <Preparation path="/prepareDocument" />
         <Sign path="/signDocument" />
         <View path="/viewDocument" />
@@ -44,8 +43,6 @@ const App = () => {
     <div>
       <Router>
         <SignIn path="/" />
-        {/* <SignUp path="signUp" /> */}
-        {/* <PasswordReset path="passwordReset" /> */}
       </Router>
     </div>
   );

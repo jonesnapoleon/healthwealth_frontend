@@ -12,9 +12,9 @@ import {
   Toast,
   Switch,
   Label,
-  Flex,
 } from "gestalt";
 import "gestalt/dist/gestalt.css";
+import Snackbar from "../commons/Snackbar";
 import { addSignee, removeSignee, selectAssignees } from "./AssignSlice";
 
 const Assign = () => {
@@ -54,7 +54,7 @@ const Assign = () => {
     <div>
       <Box padding={3}>
         <Container>
-          <Box padding={3}>
+          <Box padding={2}>
             <Heading size="md">Who needs to sign?</Heading>
           </Box>
           <Box padding={2}>
@@ -90,11 +90,13 @@ const Assign = () => {
           </Box>
           <Box padding={2} marginTop={2}>
             <Box display="flex">
-              <Switch
-                id="addMyself"
-                onChange={handleChangeWrap}
-                switched={addMyself}
-              />
+              <Box marginEnd={2}>
+                <Switch
+                  id="addMyself"
+                  onChange={handleChangeWrap}
+                  switched={addMyself}
+                />
+              </Box>
               <Label htmlFor="addMyself" inline>
                 <Text inline>Add myself</Text>
               </Label>
@@ -152,9 +154,7 @@ const Assign = () => {
             paddingX={1}
             position="fixed"
           >
-            {showToast && (
-              <Toast color="red" text={<>Please add at least one user</>} />
-            )}
+            {showToast && <Snackbar text={"Please add at least one user"} />}
           </Box>
         </Container>
       </Box>
