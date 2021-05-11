@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { navigate } from "@reach/router";
 import {
@@ -9,7 +9,6 @@ import {
   TextField,
   Table,
   Text,
-  Toast,
   Switch,
   Label,
 } from "gestalt";
@@ -17,7 +16,7 @@ import "gestalt/dist/gestalt.css";
 import Snackbar from "../commons/Snackbar";
 import { addSignee, removeSignee, selectAssignees } from "./AssignSlice";
 
-const Assign = () => {
+const Assign = ({ setAvailableLevel }) => {
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -33,6 +32,10 @@ const Assign = () => {
       setTimeout(() => setShowToast(false), 1000);
     }
   };
+
+  useEffect(() => {
+    if (assignees.length > 0) dispatch(setAvailableLevel(2));
+  }, [assignees, setAvailableLevel, dispatch]);
 
   const addUser = (name, email) => {
     if (name.trim() !== "" && email.trim() !== "") {
@@ -80,7 +83,7 @@ const Assign = () => {
 
           <Box padding={2}>
             <Button
-              onClick={(event) => {
+              onClick={() => {
                 addUser(displayName, email);
               }}
               text="Add user"

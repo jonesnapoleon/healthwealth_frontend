@@ -6,8 +6,12 @@ export const AssignSlice = createSlice({
     signees: [],
     activeStage: 0,
     uploadedFile: null,
+    availableLevel: 1,
   },
   reducers: {
+    setAvailableLevel: (state, action) => {
+      state.availableLevel = action.payload;
+    },
     setActiveStage: (state, action) => {
       state.activeStage = action.payload;
     },
@@ -39,10 +43,12 @@ export const {
   removeSignee,
   setActiveStage,
   setUploadedFile,
+  setAvailableLevel,
 } = AssignSlice.actions;
 
 export const selectAssignees = (state) => state.assign.signees;
 export const activeStage = (state) => state.assign.activeStage;
 export const uploadedFile = (state) => state.assign.uploadedFile;
+export const availableLevel = (state) => state.assign.availableLevel;
 
 export default AssignSlice.reducer;

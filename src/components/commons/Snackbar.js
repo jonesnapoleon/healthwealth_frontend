@@ -4,7 +4,6 @@ import { Box, Toast } from "gestalt";
 const Snackbar = ({ text, color = "red" }) => {
   return (
     <Box
-      fit
       dangerouslySetInlineStyle={{
         __style: {
           bottom: 50,
@@ -12,10 +11,11 @@ const Snackbar = ({ text, color = "red" }) => {
           transform: "translateX(-50%)",
         },
       }}
-      paddingX={1}
       position="fixed"
     >
-      <Toast color={color} text={text} />
+      <div className="toast">
+        <Toast color={color} text={text} />
+      </div>
     </Box>
   );
 };

@@ -1,3 +1,6 @@
+#drag-drop-icon-button > div {
+  text-align: center;
+}
 #drag-drop-icon-button button {
   margin: auto;
 }

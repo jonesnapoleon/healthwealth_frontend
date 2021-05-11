@@ -18,7 +18,7 @@ import WebViewer from "@pdftron/webviewer";
 import "gestalt/dist/gestalt.css";
 import "./PrepareDocument.css";
 
-const PrepareDocument = () => {
+const PrepareDocument = ({ setAvailableLevel }) => {
   const [instance, setInstance] = useState(null);
   const [dropPoint, setDropPoint] = useState(null);
 
@@ -36,7 +36,8 @@ const PrepareDocument = () => {
   const uid = user?.uid;
 
   const viewer = useRef(null);
-  const filePicker = useRef(null);
+  const [fileUrl, setFileUrl] = useState("");
+  // const filePicker = useRef(null);
 
   // if using a class, equivalent of componentDidMount
   useEffect(() => {
@@ -64,15 +65,17 @@ const PrepareDocument = () => {
       iframeDoc.addEventListener("drop", (e) => {
         drop(e, instance);
       });
-
-      filePicker.current.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          instance.loadDocument(file);
-        }
-      };
+      // filePicker.current.onchange = (e) => {
+      //   const file = e.target.files[0];
+      //   if (file) {
+      //     instance.loadDocument(file);
+      //   }
+      // };
     });
   }, []);
+  useEffect(() => {
+    if (fileUrl) instance.loadDocument(fileUrl, { filename: "JONe.pdf" });
+  }, [fileUrl, instance]);
 
   const applyFields = async () => {
     const { Annotations, docViewer } = instance;
@@ -325,29 +328,10 @@ const PrepareDocument = () => {
             <Heading size="md">Prepare Document</Heading>
           </Box>
           <Box padding={3}>
-            <Row gap={1}>
-              <Stack>
-                <Box padding={2}>
-                  <Text>{"Step 1"}</Text>
-                </Box>
-                <Box padding={2}>
-                  <Button
-                    onClick={() => {
-                      if (filePicker) {
-                        filePicker.current.click();
-                      }
-                    }}
-                    accessibilityLabel="upload a document"
-                    text="Upload a document"
-                    iconEnd="add-circle"
-                  />
-                </Box>
-              </Stack>
-            </Row>
             <Row>
               <Stack>
                 <Box padding={2}>
-                  <Text>{"Step 2"}</Text>
+                  <Text>{"Step 1"}</Text>
                 </Box>
                 <Box padding={2}>
                   <SelectList
@@ -425,7 +409,6 @@ const PrepareDocument = () => {
           <div className="webviewer" ref={viewer}></div>
         </Column>
       </Box>
-      <input type="file" ref={filePicker} style={{ display: "none" }} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Icon, Text, Pog, Divider, Button } from "gestalt";
 
-const Stepper = ({ items, activeItem, setActiveItem }) => {
+const Stepper = ({ items, activeItem, setActiveItem, availableLevel }) => {
   return (
     <div>
       <Box
@@ -40,7 +40,8 @@ const Stepper = ({ items, activeItem, setActiveItem }) => {
             onClick={() => setActiveItem(-1)}
           />
           <Button
-            color="blue"
+            color={"blue"}
+            disabled={activeItem === availableLevel}
             text="Next"
             inline
             onClick={() => setActiveItem(1)}

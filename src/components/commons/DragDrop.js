@@ -52,7 +52,12 @@ class DragDrop extends Component {
   render() {
     return (
       <div
-        style={{ display: "inline-block", position: "relative" }}
+        style={{
+          display: "grid",
+          position: "relative",
+          width: "100%",
+          minHeight: "20vh",
+        }}
         ref={this.dropRef}
       >
         {this.state.dragging && (

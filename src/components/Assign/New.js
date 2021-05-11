@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Assign from "./Assign";
 import { useSelector, useDispatch } from "react-redux";
 import Stepper from "../commons/Stepper";
 import { Box } from "gestalt";
 import UploadDocument from "./UploadDocument";
-import { setActiveStage, activeStage } from "./AssignSlice";
+import PrepareDocument from "../PrepareDocument/PrepareDocument";
+import {
+  setActiveStage,
+  activeStage,
+  availableLevel,
+  setAvailableLevel,
+} from "./AssignSlice";
 
 const stepperData = [
   {
@@ -27,11 +33,16 @@ const stepperData = [
 
 const AssignUsers = () => {
   const activeItem = useSelector(activeStage);
+  const lvlAvailable = useSelector(availableLevel);
   const dispatch = useDispatch();
 
   const getContent = () => {
-    if (activeItem === 0) return <UploadDocument />;
-    if (activeItem === 1) return <Assign />;
+    if (activeItem === 0)
+      return <UploadDocument setAvailableLevel={setAvailableLevel} />;
+    if (activeItem === 1)
+      return <Assign setAvailableLevel={setAvailableLevel} />;
+    if (activeItem === 2)
+      return <PrepareDocument setAvailableLevel={setAvailableLevel} />;
     // if(activeItem === 0) return <UploadDocument/>
   };
 
@@ -43,8 +54,10 @@ const AssignUsers = () => {
         setActiveItem={(inc) =>
           activeItem + inc >= 0 &&
           activeItem + inc < stepperData?.length &&
+          activeItem + inc <= lvlAvailable &&
           dispatch(setActiveStage(activeItem + inc))
         }
+        availableLevel={lvlAvailable}
       />
       {getContent()}
     </Box>

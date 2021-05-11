@@ -1,49 +1,52 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  TextField,
-  Table,
-  Text,
-  IconButton,
-  Popover,
-  Toast,
-  Icon,
-  Switch,
-  Label,
-} from "gestalt";
+import { Box, Container, Heading, Text, IconButton } from "gestalt";
 import "gestalt/dist/gestalt.css";
-import { setUploadedFile, uploadedFile } from "./AssignSlice";
+import { uploadedFile } from "./AssignSlice";
 import Snackbar from "../commons/Snackbar";
-import WebViewer from "@pdftron/webviewer";
 import DragDrop from "../commons/DragDrop";
 import "./Assign.css";
 
-const UploadDocument = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [open, setOpen] = useState(false);
-  const file = useSelector(uploadedFile);
+const UploadDocument = ({ setAvailableLevel }) => {
+  const [snackbarData, setSnackbarData] = useState({ open: false });
+  const [file, setFile] = useState(false);
+  const fileUrl = useSelector(uploadedFile);
 
   const dispatch = useDispatch();
   const filePicker = useRef(null);
-  const anchorRef = useRef(null);
 
   useEffect(() => {
     filePicker.current.onchange = (e) => {
       const newFile = e.target.files[0];
-      if (newFile) dispatch(setUploadedFile(newFile));
+      if (newFile) setFile(newFile);
+      else setSnackbarData({ open: true, text: "Upload file failed" });
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    if (fileUrl !== null) dispatch(setAvailableLevel(1));
+  }, [fileUrl, dispatch, setAvailableLevel]);
+
   const handleDrop = (file) => {
-    if (file) dispatch(setUploadedFile(file));
+    console.log(file);
+    if (file) setFile(file);
+    else setSnackbarData({ open: true, text: "Upload file failed" });
+  };
+
+  const copyToClipboard = () => {
+    const body = document.getElementsByTagName("body")[0];
+    let tempInput = document.createElement("input");
+    body.appendChild(tempInput);
+    tempInput.setAttribute("value", fileUrl);
+    tempInput.select();
+    document.execCommand("copy");
+    body.removeChild(tempInput);
+    setSnackbarData({ open: true, text: "Copied to clipboard", color: "blue" });
+    setTimeout(() => setSnackbarData({ open: false }), 1000);
   };
 
   return (
-    <div>
+    <>
       <Box padding={3}>
         <Container>
           <Box padding={2}>
@@ -52,28 +55,26 @@ const UploadDocument = () => {
           <Box padding={2} marginTop={8} gap={2}>
             <Heading size="sm">Select document</Heading>
           </Box>
-          <Box
-            padding={2}
-            color="lightGray"
-            height="20vh"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box padding={2} color="lightGray" fit>
             <div id="drag-drop-icon-button">
               <DragDrop handleDrop={handleDrop}>
                 <IconButton
                   accessibilityLabel="Default IconButton"
                   icon="share"
                   size="xl"
-                  iconColor="darkGray"
+                  bgColor="darkGray"
+                  iconColor="white"
                   onClick={() => {
                     if (filePicker) {
                       filePicker.current.click();
                     }
                   }}
                 />
-                <Text weight="bold">Drag and drop file or click to upload</Text>
+                <Text weight="bold" align="center">
+                  {file && file?.name
+                    ? "Reupload to change file"
+                    : "Drag and drop file or tap icon to upload"}
+                </Text>
                 <input
                   type="file"
                   ref={filePicker}
@@ -87,36 +88,60 @@ const UploadDocument = () => {
             <>
               <Box paddingX={2} marginTop={8} gap={2}>
                 <Heading size="sm">Documents you've selected</Heading>
-                <Text>Tap to copy</Text>
+                <Text>{file?.name}</Text>
               </Box>
-              <Box paddingX={2} marginTop={0}>
-                <Box marginEnd={1} padding={1} inline>
-                  <Popover
-                    anchor={anchorRef.current}
-                    idealDirection="down"
-                    onDismiss={() => setOpen(false)}
-                    positionRelativeToAnchor={false}
-                    size="xl"
-                  >
+              <Box
+                paddingX={2}
+                marginTop={0}
+                display="flex"
+                alignItems="center"
+              >
+                <Box paddingX={2} marginTop={0} display="inlineBlock">
+                  {fileUrl && (
                     <IconButton
                       accessibilityLabel="Pin"
-                      icon="drag-drop"
+                      size="xl"
+                      icon="canonical-pin"
                       iconColor="darkGray"
-                      onClick={() => {}}
                       inline
+                      onClick={copyToClipboard}
                     />
-                  </Popover>
+                  )}
                 </Box>
-                <Text paddingX={2} weight="bold">
-                  https
-                </Text>
+
+                <Box
+                  fit
+                  as={"section"}
+                  dangerouslySetInlineStyle={{
+                    __style: {
+                      borderBottom: "4px solid var(--primary-color)",
+                    },
+                  }}
+                  paddingY={1}
+                  marginTop={4}
+                  display="inlineBlock"
+                  borderStyle="shadow"
+                >
+                  <Text
+                    size="lg"
+                    paddingX={2}
+                    weight="bold"
+                    inline
+                    underline={true}
+                    overflowX={"auto"}
+                  >
+                    {fileUrl}
+                  </Text>
+                </Box>
               </Box>
             </>
           )}
-          {showToast && <Snackbar text={"Upload fail"} />}
+          {snackbarData?.open && (
+            <Snackbar text={snackbarData?.text} color={snackbarData?.color} />
+          )}
         </Container>
       </Box>
-    </div>
+    </>
   );
 };
 
