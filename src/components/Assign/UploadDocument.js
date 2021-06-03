@@ -41,7 +41,11 @@ const UploadDocument = ({ setAvailableLevel }) => {
     tempInput.select();
     document.execCommand("copy");
     body.removeChild(tempInput);
-    setSnackbarData({ open: true, text: "Copied to clipboard", color: "blue" });
+    setSnackbarData({
+      open: true,
+      text: "Copied to clipboard",
+      type: "primary",
+    });
     setTimeout(() => setSnackbarData({ open: false }), 1000);
   };
 
