@@ -12,18 +12,21 @@ import {
 } from "gestalt";
 import "gestalt/dist/gestalt.css";
 // import { auth } from "../../api";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import { selectUser, setUser } from "../../api/authSlice";
 import { resetSignee } from "../Assign/AssignSlice";
 import { navigate, Link } from "@reach/router";
 import "./Profile.css";
 
 const Navbar = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const displayName = user?.displayName;
-  const photoURL = user?.photoURL;
-  const email = user?.email;
+  // const dispatch = useDispatch();
+  // const user = useSelector(selectUser);
+  // const displayName = user?.displayName;
+  // const photoURL = user?.photoURL;
+  // const email = user?.email;
+  const displayName = "";
+  const photoURL = "";
+  const email = "";
 
   return (
     <Box
@@ -61,8 +64,8 @@ const Navbar = () => {
                   <Button
                     onClick={() => {
                       // auth.signOut();
-                      dispatch(setUser(null));
-                      dispatch(resetSignee());
+                      // dispatch(setUser(null));
+                      // dispatch(resetSignee());
                       navigate("/");
                     }}
                     accessibilityLabel="Sign out of your account"

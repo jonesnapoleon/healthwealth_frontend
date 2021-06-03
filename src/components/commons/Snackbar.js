@@ -1,22 +1,15 @@
 import React from "react";
-import { Box, Toast } from "gestalt";
+import "./style.css";
 
-const Snackbar = ({ text, color = "red" }) => {
-  return (
-    <Box
-      dangerouslySetInlineStyle={{
-        __style: {
-          bottom: 50,
-          left: "50%",
-          transform: "translateX(-50%)",
-        },
-      }}
-      position="fixed"
-    >
-      <div className="toast">
-        <Toast color={color} text={text} />
+const Snackbar = ({ text, type = "danger" }) => {
+  return text ? (
+    <div className="snackbar-wrapper">
+      <div class={`alert alert-${type}`} role="alert">
+        {text}
       </div>
-    </Box>
+    </div>
+  ) : (
+    <></>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { navigate } from "@reach/router";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import SignList from "../Lists/SignList";
 import SignedList from "../Lists/SignedList";
 import { resetDocToView } from "../ViewDocument/ViewDocumentSlice";
@@ -15,11 +15,11 @@ const TABS = [
 ];
 
 const Welcome = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(resetDocToView());
-    dispatch(resetDocToSign());
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(resetDocToView());
+  //   dispatch(resetDocToSign());
+  // }, [dispatch]);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const handleChange = ({ activeTabIndex, event }) => {

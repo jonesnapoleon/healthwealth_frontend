@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 import { useSelector, useDispatch } from "react-redux";
 
 import New from "./components/Assign/New";
-import SignIn from "./components/SignIn/SignIn";
+import SignIn from "./components/SignIn";
 import Preparation from "./components/PrepareDocument/Preparation";
 import Sign from "./components/SignDocument/Sign";
 import View from "./components/ViewDocument/View";
@@ -13,10 +13,12 @@ import Welcome from "./components/Welcome/index";
 import { setUser, selectUser } from "./api/authSlice";
 import "./index.css";
 import Navbar from "./components/Profile/Navbar";
+import AuthProvider from "./contexts/AuthContext";
 
 const App = () => {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const user = "";
+  // const user = useSelector(selectUser);
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     // auth.onAuthStateChanged(async (userAuth) => {
@@ -26,25 +28,22 @@ const App = () => {
     //     dispatch(setUser({ uid, displayName, email, photoURL }));
     //   }
     // });
-  }, [dispatch]);
+  }, []);
 
-  return !user ? (
-    <div className="background-general">
-      <Navbar />
-      <Router>
-        <Welcome path="/" />
-        <New path="/new" />
-        <Preparation path="/prepareDocument" />
-        <Sign path="/signDocument" />
-        <View path="/viewDocument" />
-      </Router>
-    </div>
-  ) : (
-    <div>
-      <Router>
-        <SignIn path="/" />
-      </Router>
-    </div>
+  return (
+    <AuthProvider>
+      <div className="background-general">
+        <Navbar />
+        <Router>
+          <SignIn path="/login" />
+          <Welcome path="/" />
+          <New path="/new" />
+          <Preparation path="/prepareDocument" />
+          <Sign path="/signDocument" />
+          <View path="/viewDocument" />
+        </Router>
+      </div>
+    </AuthProvider>
   );
 };
 

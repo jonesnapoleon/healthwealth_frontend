@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Text, Spinner } from "gestalt";
 import "gestalt/dist/gestalt.css";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 // import { searchForDocumentsSigned } from "../../firebase/firebase";
 import { selectUser } from "../../api/authSlice";
 import { setDocToView } from "../ViewDocument/ViewDocumentSlice";
 import { navigate } from "@reach/router";
 
 const SignedList = () => {
-  const user = useSelector(selectUser);
-  const email = user?.email;
+  // const user = useSelector(selectUser);
+  // const email = user?.email;
   const [docs, setDocs] = useState([]);
   const [show, setShow] = useState(true);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     async function getDocs() {
@@ -22,7 +22,7 @@ const SignedList = () => {
       setShow(false);
     }
     setTimeout(getDocs, 1000);
-  }, [email]);
+  }, []);
 
   return (
     <div className="content-welcome">
@@ -65,7 +65,7 @@ const SignedList = () => {
                       <Button
                         onClick={(event) => {
                           const { docRef, docId } = doc;
-                          dispatch(setDocToView({ docRef, docId }));
+                          // dispatch(setDocToView({ docRef, docId }));
                           navigate(`/viewDocument`);
                         }}
                         text="View"
