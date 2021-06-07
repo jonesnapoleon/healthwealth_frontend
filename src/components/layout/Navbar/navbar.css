@@ -1,0 +1,26 @@
+.navbar-wrapper {
+  box-shadow: 0px 1px 10px #888888;
+  background-color: var(--text-color);
+}
+.navbar-wrapper img {
+  max-height: 3.5rem;
+}
+.nav-area {
+  padding: 2rem 6rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  max-width: 300px;
+}
+@media screen and (max-width: 800px) {
+  .nav-area {
+    padding: 1rem;
+  }
+  .logo {
+    max-width: 180px;
+  }
+}

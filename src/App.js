@@ -1,18 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { Router } from "@reach/router";
 import { useSelector, useDispatch } from "react-redux";
 
 import New from "./components/Assign/New";
-import SignIn from "./components/SignIn";
 import Preparation from "./components/PrepareDocument/Preparation";
 import Sign from "./components/SignDocument/Sign";
 import View from "./components/ViewDocument/View";
-import Welcome from "./components/Welcome/index";
-
+import SignIn from "./components/SignIn";
+import Landing from "./components/Landing";
+import LayoutWrapper from "./components/layout/Wrapper";
 // import { auth, generateUserDocument } from "./firebase/firebase";
-import { setUser, selectUser } from "./api/authSlice";
+// import { setUser, selectUser } from "./api/authSlice";
 import "./index.css";
-import Navbar from "./components/Profile/Navbar";
+import "./overrides.css";
+import "./helpers/i18n";
+
+import LoadingBackdrop from "./components/commons/LoadingBackdrop";
+import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
 
 const App = () => {
@@ -34,14 +38,16 @@ const App = () => {
     <AuthProvider>
       <div className="background-general">
         <Navbar />
-        <Router>
-          <SignIn path="/login" />
-          <Welcome path="/" />
-          <New path="/new" />
-          <Preparation path="/prepareDocument" />
-          <Sign path="/signDocument" />
-          <View path="/viewDocument" />
-        </Router>
+        <LayoutWrapper>
+          <Router>
+            <SignIn path="/login" />
+            <Landing path="/" />
+            {/* <New path="/new" />
+            <Preparation path="/prepareDocument" />
+            <Sign path="/signDocument" />
+            <View path="/viewDocument" /> */}
+          </Router>
+        </LayoutWrapper>
       </div>
     </AuthProvider>
   );

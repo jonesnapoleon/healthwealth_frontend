@@ -8,6 +8,7 @@
   --secondary-extra-color-1: #4095e3;
   --secondary-extra-color-2: #2f7bf7;
   --tertiary-color: blue;
+  --border-radius: 25px;
 }
 
 body {
@@ -36,6 +37,13 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
+}
+.item-centery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .text-center {
   text-align: center;
@@ -50,4 +58,36 @@ code {
 .toast > div > div {
   padding: 0.8rem 0;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.btn-primary {
+  border-radius: var(--border-radius);
+  background: var(--secondary-extra-color-1);
+  color: var(--text-color);
+  padding: 0.8rem 1.6rem;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  border-radius: var(--border-radius);
+  background: var(--secondary-extra-color-2);
+  color: var(--text-color);
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+}
+
+.rounded-img {
+  border-radius: 50%;
+}
+
+.super-pt-2 > * {
+  padding: 0 1rem;
+}
+
+.super-pt-1 > * {
+  padding: 0 0.5rem;
 }
