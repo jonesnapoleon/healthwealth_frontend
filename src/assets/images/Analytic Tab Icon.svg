@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17.366" height="15.787" viewBox="0 0 17.366 15.787">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4b4b4b;
+      }
+    </style>
+  </defs>
+  <g id="analytics-outline-badged" transform="translate(-2 -1)">
+    <path id="Path_24" data-name="Path 24" class="cls-1" d="M17.787,9.326v8.3H3.052V6.052h9.772a3.777,3.777,0,0,1,0-1.052H3.052A1.052,1.052,0,0,0,2,6.052V17.63a1.052,1.052,0,0,0,1.052,1.052H17.787A1.052,1.052,0,0,0,18.84,17.63V8.863A3.934,3.934,0,0,1,17.787,9.326Z" transform="translate(0 -1.895)"/>
+    <path id="Path_25" data-name="Path 25" class="cls-1" d="M10.849,13.876l-3.167,4.6L5.55,16.592l.558-.63,1.42,1.256,3.329-4.837,3.552,5.27,3.554-4.7.671.508L14.369,19.1Z" transform="translate(-1.682 -5.391)"/>
+    <path id="Path_26" data-name="Path 26" class="cls-1" d="M30.262,3.631A2.631,2.631,0,1,1,27.631,1a2.631,2.631,0,0,1,2.631,2.631Z" transform="translate(-10.896)"/>
+  </g>
+</svg>

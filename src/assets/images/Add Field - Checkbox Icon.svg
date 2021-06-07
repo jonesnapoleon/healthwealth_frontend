@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17.179" height="17.179" viewBox="0 0 17.179 17.179">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #707070;
+      }
+    </style>
+  </defs>
+  <path id="Icon_ionic-md-checkbox-outline" data-name="Icon ionic-md-checkbox-outline" class="cls-1" d="M9.176,11.276,7.84,12.612l4.295,4.295,9.544-9.544L20.343,6.027l-8.208,8.16ZM19.77,19.77H6.409V6.409h9.544V4.5H6.409A1.914,1.914,0,0,0,4.5,6.409V19.77a1.914,1.914,0,0,0,1.909,1.909H19.77a1.914,1.914,0,0,0,1.909-1.909V12.135H19.77Z" transform="translate(-4.5 -4.5)"/>
+</svg>

@@ -1,62 +1,95 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { Link, useLocation } from "@reach/router";
+
+import signatureIcon from "../../../assets/images/Add Signer Icon.svg";
+import analyticsIcon from "../../../assets/images/Analytic Tab Icon.svg";
+import documentIcon from "../../../assets/images/document tab icon.svg";
+import integrationIcon from "../../../assets/images/Integration Tab Icon.svg";
+import templateIcon from "../../../assets/images/Template Tab Icon.svg";
+import settingIcon from "../../../assets/images/setting tab icon.svg";
+import userIcon from "../../../assets/images/User tab icon.svg";
+
+import lockIcon from "../../../assets/images/Lock Tab Icon.svg";
+
+import "./sidebar.css";
 
 const landingData = [
   {
     isAvailable: true,
     name: "Sign",
     link: "/",
-    icon: "",
+    icon: signatureIcon,
   },
   {
     isAvailable: true,
     name: "Documents",
     link: "/docs",
-    icon: "",
+    icon: documentIcon,
   },
   {
     isAvailable: true,
     name: "Settings",
     link: "/settings",
-    icon: "",
+    icon: settingIcon,
   },
   {
     isAvailable: false,
     name: "Team",
     link: "/",
-    icon: "",
+    icon: userIcon,
+  },
+  {
+    isAvailable: false,
+    name: "Templates",
+    link: "/",
+    icon: templateIcon,
   },
   {
     isAvailable: false,
     name: "Integration",
     link: "/",
-    icon: "",
+    icon: integrationIcon,
   },
   {
     isAvailable: false,
     name: "Analytic",
     link: "/",
-    icon: "",
+    icon: analyticsIcon,
   },
 ];
 
 const Sidebar = () => {
+  // const location = useLocation();
+
   return (
-    <>
-      {landingData?.map((datum) =>
-        datum?.isAvailable ? (
-          <Link to={datum?.link}>
-            <div>
-              <img src={""} alt={datum?.name} /> {datum?.name} .{" "}
+    <div className="row">
+      <div className="col col-8">
+        <div className="sidebar">
+          {landingData?.map((datum, i) => (
+            <div className="one-sidebar-item" key={i}>
+              {datum?.isAvailable ? (
+                <Link to={datum?.link}>
+                  <div>
+                    <img src={datum?.icon} alt={datum?.name} className="icon" />
+                    <span>{datum?.name}</span>
+                  </div>
+                  <div>&gt;</div>{" "}
+                </Link>
+              ) : (
+                <div>
+                  <div>
+                    <img src={datum?.icon} alt={datum?.name} className="icon" />
+                    <span>{datum?.name}</span>
+                  </div>
+                  <img src={lockIcon} alt={datum?.name} />
+                  <div className="coming-soon">Coming soon</div>
+                </div>
+              )}
             </div>
-          </Link>
-        ) : (
-          <div>
-            <img src={""} alt={datum?.name} /> {datum?.name} .{" "}
-          </div>
-        )
-      )}
-    </>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
