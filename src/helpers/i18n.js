@@ -2,11 +2,11 @@ import i18n from "i18next";
 import Backend from "i18next-xhr-backend";
 import { initReactI18next } from "react-i18next";
 
-const getLanguage = () => {
-  let req = localStorage.getItem("language");
-  const res = !req ? "en" : req;
-  return res;
-};
+// const getLanguage = () => {
+//   let req = localStorage.getItem("language");
+//   const res = !req ? "en" : req;
+//   return res;
+// };
 
 // .use(LanguageDetector)
 i18n
@@ -18,7 +18,7 @@ i18n
       loadPath: "/i18n/translations/en.json",
     },
     fallbackLng: "en",
-    debug: true,
+    debug: false,
     ns: ["translations"],
     defaultNS: "translations",
     interpolation: {

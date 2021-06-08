@@ -4,9 +4,12 @@ const API_LOGIN = "/api/login/";
 
 export const login = async (token) => {
   try {
-    const response = await axios.post(API_LOGIN, {
-      token,
-    });
+    // const response = await axios.post(API_LOGIN, {
+    //   token,
+    // });
+    const response = await axios.get("/api/user/1/");
+    console.log(response);
+    console.log(axios.defaults.headers);
     return response.data;
   } catch (e) {
     if (e?.response) {

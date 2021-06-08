@@ -7,3 +7,22 @@
     max-width: 1240px;
   }
 }
+
+.form-input {
+  border: 1px solid var(--tertiary-color);
+  border-radius: var(--form-border-radius);
+  padding: 0.5rem 1rem;
+  width: 15rem;
+  text-align: center;
+  outline: none;
+}
+
+.form-input.disabled {
+  border: 0;
+  opacity: 1;
+  color: var(--primary-color);
+  background-color: var(--secondary-extra-color-1);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  outline: none;
+}

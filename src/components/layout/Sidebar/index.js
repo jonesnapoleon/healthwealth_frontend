@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "@reach/router";
+import { NavLink } from "react-router-dom";
 
 import signatureIcon from "../../../assets/images/Add Signer Icon.svg";
 import analyticsIcon from "../../../assets/images/Analytic Tab Icon.svg";
@@ -17,7 +18,7 @@ const landingData = [
   {
     isAvailable: true,
     name: "Sign",
-    link: "/",
+    link: "/sign",
     icon: signatureIcon,
   },
   {
@@ -68,13 +69,16 @@ const Sidebar = () => {
           {landingData?.map((datum, i) => (
             <div className="one-sidebar-item" key={i}>
               {datum?.isAvailable ? (
-                <Link to={datum?.link}>
+                <NavLink
+                  to={datum?.link}
+                  activeClassName="active primary-color"
+                >
                   <div>
                     <img src={datum?.icon} alt={datum?.name} className="icon" />
                     <span>{datum?.name}</span>
                   </div>
                   <div>&gt;</div>{" "}
-                </Link>
+                </NavLink>
               ) : (
                 <div>
                   <div>
@@ -82,7 +86,7 @@ const Sidebar = () => {
                     <span>{datum?.name}</span>
                   </div>
                   <img src={lockIcon} alt={datum?.name} />
-                  <div className="coming-soon">Coming soon</div>
+                  {/* <div className="coming-soon">Coming soon</div> */}
                 </div>
               )}
             </div>

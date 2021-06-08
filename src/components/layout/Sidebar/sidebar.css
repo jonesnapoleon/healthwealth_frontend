@@ -28,7 +28,7 @@
 }
 
 .one-sidebar-item .coming-soon {
-  visibility: hidden;
+  /* visibility: hidden; */
   position: absolute;
 }
 

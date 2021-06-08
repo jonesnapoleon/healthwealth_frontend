@@ -12,6 +12,9 @@
   align-items: center;
   justify-content: space-between;
 }
+.last-nav-child {
+  border-left: 1px solid var(--primary-color);
+}
 
 .logo {
   max-width: 300px;

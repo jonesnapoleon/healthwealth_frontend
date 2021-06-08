@@ -4,6 +4,7 @@ import { isTimeInMsBeforeNow } from "../helpers/utils";
 import Snackbar from "../components/commons/Snackbar";
 import { navigate } from "@reach/router";
 import { AUTH_KEY } from "../helpers/constant";
+import axios from "axios";
 
 // import { DynamicRoute } from "../../utils/constants/dynamic-route";
 
@@ -16,6 +17,7 @@ const AuthProvider = ({ children }) => {
 
   const setAndSaveAuth = async (newValue) => {
     try {
+      axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
       const res = await login(newValue?.id_token);
       console.log(res);
       if (res) {

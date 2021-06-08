@@ -1,5 +1,6 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { Router } from "@reach/router";
+// import { Router } from "@reach/router";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import New from "./components/Assign/New";
@@ -18,6 +19,7 @@ import "./helpers/i18n";
 import LoadingBackdrop from "./components/commons/LoadingBackdrop";
 import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
+import Settings from "./components/Settings";
 
 const App = () => {
   const user = "";
@@ -37,17 +39,20 @@ const App = () => {
   return (
     <AuthProvider>
       <div className="background-general">
-        <Navbar />
-        <LayoutWrapper>
-          <Router>
-            <SignIn path="/login" />
-            <Landing path="/" />
+        <Router>
+          <Navbar />
+          <LayoutWrapper>
+            <Route component={Landing} path={"/sign"} exact />
+            <Route component={SignIn} path={"/login"} exact />
+            <Route component={Settings} path={"/settings"} exact />
+            {/* <Route component={Settings} path={'/docs'}/> */}
+
             {/* <New path="/new" />
             <Preparation path="/prepareDocument" />
             <Sign path="/signDocument" />
             <View path="/viewDocument" /> */}
-          </Router>
-        </LayoutWrapper>
+          </LayoutWrapper>
+        </Router>
       </div>
     </AuthProvider>
   );

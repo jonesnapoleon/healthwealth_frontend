@@ -22,6 +22,7 @@
     "viewMore": "View more",
     "hide": "Hide",
     "see": "See",
+    "submit": "Submit",
     "delete": "Delete",
     "cancel": "Cancel",
     "save": "Save",
@@ -180,16 +181,36 @@
     "noPhoneStore": "No. Shop Phone",
     "showNoPhoneinDetail": "Show No. Call on the Product Details Page after the product has been uploaded successfully",
     "noPhoneUseForOrderProduct": "No. The shop phone will be used for other SMEs to place product orders. This number can be changed at any time on your Store Profile Page.",
-    "productName": "Product Name",
-    "productDescription": "Product Description",
-    "category": "Category",
-    "typeUnit": "Unit Type",
-    "priceUnitInRP": "Unit Price (in Rp)",
     "addPhoto": "Add Photo",
     "editPhotoProfile": "Edit Profile Photo",
     "addPhotoProfile": "Add Profile Photo",
     "editPhotoStore": "Edit Shop Photo",
     "addPhotoStore": "Add Shop Photo"
+  },
+  "settings": {
+    "complyText": "Comply with Indonesian e-signature law by completing your e-kyc",
+    "ekyc": {
+      "personalDetail": "Personal Detail",
+      "name": "Name",
+      "nik": "NIK",
+      "birthDate": "Tanggal lahir",
+      "email": "Email",
+      "phoneNumber": "Phone number",
+      "companyName": "Company name",
+      "title": "Title",
+      "takeAPicture": "Take a picture",
+      "takeAPictureHead": "Upload Proof of Identity",
+      "takeAPictureDesc": "We accept KTP / Passport",
+      "proofIdentity": "Proof of Identity",
+      "proofIdentityHead": "Take a selfie",
+      "proofIdentityDesc": "Allow access to your computer camera"
+    },
+    "signature": {
+      "text": "Signature",
+      "initial": "Initials",
+      "addSignature": "Add signature",
+      "addInitials": "Add initials"
+    }
   },
   "header": {
     "login": "Login",

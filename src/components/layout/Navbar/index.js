@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@reach/router";
 import "./navbar.css";
 
+import logoUrl from "../../../assets/images/Company Logo@2x.png";
+import helpSvg from "../../../assets/images/Help Icon.svg";
+
 const Navbar = () => {
   // const dispatch = useDispatch();
   // const user = useSelector(selectUser);
@@ -23,7 +26,7 @@ const Navbar = () => {
       <div className="nav-area">
         <div className="">
           <Link to="/" className="profileLink">
-            <img className="logo" src={photoURL} alt="" />
+            <img className="logo" src={logoUrl} alt="" />
           </Link>
         </div>
 
@@ -38,14 +41,17 @@ const Navbar = () => {
               <div className="btn-secondary">{t("general.signout") ?? "e"}</div>
             </div>
           </div>
-          <div className="item-center super-pt-1">
+          <div className="item-center super-pt-1 last-nav-child">
             <img
               className="rounded-img"
               src={"https://jonesnapoleon.com/static/media/Jones.14fc7267.png"}
               alt=""
             />
             <div>{displayName}</div>
-            <div>\</div>
+            <div>&gt;</div>
+            <div>
+              <img src={helpSvg} alt="" />
+            </div>
           </div>
         </div>
       </div>
