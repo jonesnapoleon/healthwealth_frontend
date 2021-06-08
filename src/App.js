@@ -1,6 +1,5 @@
-import React, { useEffect, Suspense, lazy } from "react";
-// import { Router } from "@reach/router";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import New from "./components/Assign/New";
@@ -16,10 +15,12 @@ import "./index.css";
 import "./overrides.css";
 import "./helpers/i18n";
 
+import Me from "./components/Sign/Me";
 import LoadingBackdrop from "./components/commons/LoadingBackdrop";
 import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
 import Settings from "./components/Settings";
+import Docs from "./components/Docs";
 
 const App = () => {
   const user = "";
@@ -37,24 +38,52 @@ const App = () => {
   }, []);
 
   return (
-    <AuthProvider>
-      <div className="background-general">
-        <Router>
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="background-general">
           <Navbar />
-          <LayoutWrapper>
-            <Route component={Landing} path={"/sign"} exact />
+          <Switch>
+            <Route render={() => <Me />} path={"/me"} exact />
             <Route component={SignIn} path={"/login"} exact />
-            <Route component={Settings} path={"/settings"} exact />
+            <Route
+              render={() => (
+                <LayoutWrapper>
+                  <Landing />
+                </LayoutWrapper>
+              )}
+              path={"/sign"}
+              exact
+            />
+            <Route
+              render={() => (
+                <LayoutWrapper>
+                  <Settings />
+                </LayoutWrapper>
+              )}
+              path={"/settings"}
+              exact
+            />
+            <Route
+              render={() => (
+                <LayoutWrapper>
+                  <Docs />
+                </LayoutWrapper>
+              )}
+              path={"/docs"}
+              exact
+            />
+            {/* <LayoutWrapper>
+            </LayoutWrapper> */}
             {/* <Route component={Settings} path={'/docs'}/> */}
 
             {/* <New path="/new" />
             <Preparation path="/prepareDocument" />
             <Sign path="/signDocument" />
-            <View path="/viewDocument" /> */}
-          </LayoutWrapper>
-        </Router>
-      </div>
-    </AuthProvider>
+          <View path="/viewDocument" /> */}
+          </Switch>
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
   );
 };
 

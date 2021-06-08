@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, useLocation } from "@reach/router";
 import { NavLink } from "react-router-dom";
 
 import signatureIcon from "../../../assets/images/Add Signer Icon.svg";

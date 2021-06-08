@@ -142,6 +142,8 @@
     }
   },
   "form": {
+    "uploadFile": "Upload file",
+    "dragDrop": "Drag and drop files here",
     "email": "Email",
     "password": "Password",
     "pleaseWait": "Please Wait...",
@@ -210,6 +212,12 @@
       "initial": "Initials",
       "addSignature": "Add signature",
       "addInitials": "Add initials"
+    }
+  },
+  "sign": {
+    "selectDocument": {
+      "whatNeed": "What needs to be signed?",
+      "text": "Select documents"
     }
   },
   "header": {

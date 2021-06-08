@@ -1,9 +1,8 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { login } from "../api/auth";
 import { isTimeInMsBeforeNow } from "../helpers/utils";
-import Snackbar from "../components/commons/Snackbar";
-import { navigate } from "@reach/router";
 import { AUTH_KEY } from "../helpers/constant";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // import { DynamicRoute } from "../../utils/constants/dynamic-route";
@@ -14,7 +13,7 @@ export const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [auth, setAuth] = useState({});
-
+  const history = useHistory();
   const setAndSaveAuth = async (newValue) => {
     try {
       axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
@@ -27,7 +26,7 @@ const AuthProvider = ({ children }) => {
         );
         setAuth(newValue);
         setAuthenticated(true);
-        navigate("/");
+        history.push("/");
       }
     } catch (e) {
       console.log("this is err");

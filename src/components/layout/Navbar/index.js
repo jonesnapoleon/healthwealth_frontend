@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { auth } from "../../api";
 // import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link } from "@reach/router";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import "./navbar.css";
 
 import logoUrl from "../../../assets/images/Company Logo@2x.png";
 import helpSvg from "../../../assets/images/Help Icon.svg";
 
 const Navbar = () => {
+  // console.log(props);
   // const dispatch = useDispatch();
   // const user = useSelector(selectUser);
   // const displayName = user?.displayName;
   // const photoURL = user?.photoURL;
   // const email = user?.email;
   const { t } = useTranslation();
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (location?.pathname === "/" || location?.pathname === "")
+      history.push("/sign");
+  }, [location, history]);
 
   const displayName = "Christopher Chatoel";
   const photoURL =

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, navigate } from "@reach/router";
 import GoogleLogin from "react-google-login";
 // import { auth, signInWithGoogle } from "../../firebase/firebase";
 import Snackbar from "../commons/Snackbar";
 import "gestalt/dist/gestalt.css";
 import "./SignIn.css";
-import { AUTH_KEY } from "../../helpers/constant";
-import { isTimeInMsBeforeNow } from "../../helpers/utils";
 import { useAuth } from "../../contexts/AuthContext";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;

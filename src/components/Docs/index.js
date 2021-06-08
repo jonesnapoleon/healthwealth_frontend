@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@reach/router";
 // import { useDispatch } from "react-redux";
 import SignList from "../Lists/SignList";
 import SignedList from "../Lists/SignedList";
 // import { resetDocToView } from "../ViewDocument/ViewDocumentSlice";
 // import { resetDocToSign } from "../SignDocument/SignDocumentSlice";
-import "./index.css";
+import "./docs.css";
 import { useTranslation } from "react-i18next";
 
 // const TABS = [
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 //   { text: "Need Signature" },
 // ];
 
-const Welcome = () => {
+const Docs = () => {
   const { t } = useTranslation();
   // const dispatch = useDispatch();
   // useEffect(() => {
@@ -60,6 +60,9 @@ const Welcome = () => {
   const name = "John";
   return (
     <>
+      <div>
+        <input className="form-area" />
+      </div>
       <strong className="hello lead">
         {t("landing.hello")}, {name}!
       </strong>
@@ -93,52 +96,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
-
-{
-  /* <Box
-    lgPaddingX={3}
-    lgPaddingY={3}
-    smPaddingX={0}
-    smPaddingY={3}
-    color="white"
-    display="flex"
-    direction="row"
-    alignItems="center"
-    justifyContent="between"
-    wrap={true}
-  >
-    <div>
-      <Box>
-        <Box overflow="auto" borderStyle="lg" padding={3}>
-          <Tabs
-            activeTabIndex={activeIndex}
-            onChange={handleChange}
-            size={"lg"}
-            tabs={TABS}
-          />
-        </Box>
-      </Box>
-    </div>
-    <div>
-      <Button
-      text="+ Create document"
-      color="blue"
-      inline
-      size="lg"
-    />
-    </div>
-  </Box>
-
-  <Box
-    marginTop={6}
-    padding={3}
-    color="white"
-    display="flex"
-    direction="row"
-    alignItems="center"
-    justifyContent="center"
-  >
-    {getContent()}
-  </Box> */
-}
+export default Docs;

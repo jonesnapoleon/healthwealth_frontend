@@ -18,9 +18,6 @@ var jsonizedToken = JSON.parse(token);
 if (token && token?.id_token) {
   axios.defaults.headers["Authorization"] = `Bearer ${jsonizedToken?.id_token}`;
 }
-// else {
-//   window.location.href = "/login";
-// }
 
 axios.interceptors.response.use(
   (response) => response,
@@ -28,8 +25,8 @@ axios.interceptors.response.use(
 );
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
+  // <React.StrictMode>
+  // </React.StrictMode>
   document.getElementById("root")
 );

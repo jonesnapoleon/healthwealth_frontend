@@ -14,3 +14,24 @@
 .image-upload-container img {
   height: 2rem;
 }
+
+.drag-drop-container {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  max-width: 500px;
+  background-color: var(--secondary-extra-color-1);
+  color: var(--primary-color);
+  border: 0.5px dashed var(--primary-color);
+}
+
+.drag-drop-container .drag-drop-area {
+  border-left: 2px solid var(--primary-color);
+}
+
+.drag-drop-container .drag-drop-area img {
+  height: 2rem;
+  padding: 0.2rem 1rem;
+}
