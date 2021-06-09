@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useFormInput } from "../../../helpers/hooks";
@@ -6,13 +6,43 @@ import { useFormInput } from "../../../helpers/hooks";
 const PersonalDetail = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const name = useFormInput("");
-  const nik = useFormInput("");
-  const birthDate = useFormInput("");
-  const phoneNumber = useFormInput("");
-  const companyName = useFormInput("");
-  const title = useFormInput("");
-  const email = useFormInput("");
+  const name = useFormInput(auth?.fullname);
+  const nik = useFormInput(auth?.nik);
+  const birthDate = useFormInput(auth?.birthDate);
+  const phoneNumber = useFormInput(auth?.phone);
+  const companyName = useFormInput(auth?.company);
+  const title = useFormInput(auth?.title);
+
+  const [showButton, setShowButton] = useState(false);
+
+  const isSameAsOriginal = useMemo(() => {
+    if (name?.value !== "" && String(name?.value) !== String(auth?.fullname))
+      return false;
+    if (nik?.value !== "" && String(nik?.value) !== String(auth?.nik))
+      return false;
+    if (
+      birthDate?.value !== "" &&
+      String(birthDate?.value) !== String(auth?.birthDate)
+    )
+      return false;
+    if (
+      phoneNumber?.value !== "" &&
+      String(phoneNumber?.value) !== String(auth?.phone)
+    )
+      return false;
+    if (
+      companyName?.value !== "" &&
+      String(companyName?.value) !== String(auth?.company)
+    )
+      return false;
+    if (title?.value !== "" && String(title?.value) !== String(auth?.title))
+      return false;
+    return true;
+  }, [name, nik, birthDate, phoneNumber, companyName, title, auth]);
+
+  useEffect(() => {
+    setShowButton(!isSameAsOriginal);
+  }, [name, nik, birthDate, phoneNumber, companyName, title, isSameAsOriginal]);
 
   return (
     <>
@@ -44,7 +74,7 @@ const PersonalDetail = () => {
           <tr>
             <td>{t("settings.ekyc.email")}</td>
             <td>
-              <input className="form-input" {...email} />
+              <input className="form-input" value={auth?.email} disabled />
             </td>
           </tr>
 
@@ -70,9 +100,13 @@ const PersonalDetail = () => {
           </tr>
         </tbody>
       </table>
-      <div className="mt-4">
-        <button className="btn btn-outline-primary">{t("general.save")}</button>
-      </div>
+      {showButton && (
+        <div className="mt-4">
+          <button className="btn btn-outline-primary">
+            {t("general.save")}
+          </button>
+        </div>
+      )}
     </>
   );
 };

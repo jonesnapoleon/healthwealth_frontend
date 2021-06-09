@@ -26,11 +26,6 @@ const Navbar = () => {
       history.push("/sign");
   }, [location, history]);
 
-  const displayName = "Christopher Chatoel";
-  const photoURL =
-    "https://indodax.com/v2/images/logo-indodax-dark.png?20210525";
-  const email = "";
-
   if (location?.pathname === "/login" || location?.pathname === "/login/")
     return <></>;
 

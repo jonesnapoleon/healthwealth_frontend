@@ -2,7 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from "react";
 import { login } from "../api/auth";
 import { isTimeInMsBeforeNow } from "../helpers/utils";
 import { AUTH_KEY } from "../helpers/constant";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 
 // import { DynamicRoute } from "../../utils/constants/dynamic-route";
@@ -14,6 +14,8 @@ const AuthProvider = ({ children }) => {
   // const [authenticated, setAuthenticated] = useState(false);
   const [auth, setAuth] = useState({});
   const history = useHistory();
+  const location = useLocation();
+
   const setAndSaveAuth = async (newValue) => {
     try {
       axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
@@ -45,11 +47,12 @@ const AuthProvider = ({ children }) => {
     if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
       setAuth(tokenData);
       // setAuthenticated(true);
-      history.push("/");
+      if (location?.pathname === "/login" || location?.pathname === "/login/")
+        history.push("/");
     } else {
       history.push("/login");
     }
-  }, [history]);
+  }, [history, location]);
 
   const authContext = {
     // authenticated,
