@@ -6,7 +6,7 @@ export const DataContext = createContext({});
 export const useData = () => useContext(DataContext);
 
 const DataProvider = ({ children }) => {
-  const [docs, setDocs] = useState({});
+  const [docs, setDocs] = useState(false);
   const [fileUrl, setFileUrl] = useState("");
   // const history = useHistory();
   // const location = useLocation();

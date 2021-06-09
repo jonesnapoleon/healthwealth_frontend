@@ -13,6 +13,6 @@ export const uploadFile = async (file) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.message ?? "Fail to login";
+    throw e?.response?.data?.message ?? "Fail to upload file";
   }
 };

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_LOGIN = "/api/login/";
 const API_GET_USER = "/api/user/";
+const API_GET_USER_DOCS = "/api/user/doc/";
 
 export const login = async (token) => {
   try {
@@ -25,6 +26,18 @@ export const getUser = async (userId) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.message ?? "Fail to login";
+    throw e?.response?.data?.message ?? "";
+  }
+};
+
+export const getAllDocs = async () => {
+  try {
+    const response = await axios.get(`${API_GET_USER_DOCS}`);
+    return response.data;
+  } catch (e) {
+    // if (e?.response) {
+    //   const errorCode = e.response?.data?.code;
+    // }
+    throw e?.response?.data?.message ?? "";
   }
 };

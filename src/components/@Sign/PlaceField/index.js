@@ -6,9 +6,11 @@ import { Box, Column, Heading, Row, Stack, Button } from "gestalt";
 // import { storage } from '../../firebase/firebase';
 import WebViewer from "@pdftron/webviewer";
 import { useData } from "../../../contexts/DataContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const PlaceField = () => {
   const [instance, setInstance] = useState(null);
+  const { auth } = useAuth();
 
   const { fileUrl } = useData();
   //   const doc = useSelector(selectDocToView);
@@ -16,6 +18,8 @@ const PlaceField = () => {
   //   const { docRef } = doc;
 
   const viewer = useRef(null);
+
+  console.log(fileUrl);
 
   useEffect(() => {
     if (typeof fileUrl === "string")
@@ -33,6 +37,10 @@ const PlaceField = () => {
         // select only the view group
         instance.loadDocument(fileUrl, {
           filename: "myfile.pdf",
+          customHeaders: {
+            Authorization: `Bearer ${auth?.id_token}`,
+          },
+          withCredentials: true,
         });
 
         instance.setToolbarGroup("toolbarGroup-View");

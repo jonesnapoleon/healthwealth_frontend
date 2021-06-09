@@ -30,3 +30,26 @@
 .btn {
   padding: 0.5rem 2.4rem !important;
 }
+
+.formarea {
+  position: relative;
+  max-width: 25rem;
+  text-align: left;
+  background: transparent;
+}
+.formarea .search-bar {
+  width: 100%;
+  border-color: var(--primary-color);
+  text-align: left;
+}
+.formarea .search-bar-icon {
+  position: absolute;
+  border: 0;
+  right: 20px;
+  top: 0.5rem;
+  height: 0.8rem;
+  width: auto;
+  height: auto;
+  right: 1rem;
+  margin-top: 0;
+}
