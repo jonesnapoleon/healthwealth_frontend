@@ -1,21 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useFormInput } from "../../../helpers/hooks";
+import { useFile, useFormInput } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
 
 import ktpSvg from "../../../assets/images/ID Card icon.svg";
 import cameraSvg from "../../../assets/images/Camera icon.svg";
 
-const PersonalDetail = () => {
+const Picture = () => {
   const { t } = useTranslation();
-  const name = useFormInput("");
-  const nik = useFormInput("");
-  const birthDate = useFormInput("");
-  const phoneNumber = useFormInput("");
-  const companyName = useFormInput("");
-  const title = useFormInput("");
-  const email = useFormInput("");
+
+  const identity = useFile();
+  const takePict = useFile();
 
   const imagesData = [
     {
@@ -36,11 +32,11 @@ const PersonalDetail = () => {
     <>
       <div className="lead">{t("settings.ekyc.proofIdentity")}</div>
       <div className="mt-1">
-        <ImageUpload meta={imagesData[0]} />
+        <ImageUpload meta={imagesData[0]} data={identity} />
       </div>
       <div className="lead mt-5">{t("settings.ekyc.takeAPicture")}</div>
       <div className="mt-1">
-        <ImageUpload meta={imagesData[1]} />
+        <ImageUpload meta={imagesData[1]} data={takePict} />
       </div>
       <div className="mt-5">
         <button className="btn btn-outline-primary">
@@ -51,4 +47,4 @@ const PersonalDetail = () => {
   );
 };
 
-export default PersonalDetail;
+export default Picture;

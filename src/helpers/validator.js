@@ -32,7 +32,9 @@ export const isValidContactNumber = (number) => {
 };
 
 export const isFileValid = (file, extensions, maxFileSize) => {
-  const format = `.${file?.name?.type.split("/").pop()}`;
+  return true;
+  // TUGAS JOJO
+  const format = `.${file?.type.split("/").pop()}`;
   const allowAllFile = extensions.includes("*");
 
   if (!allowAllFile) {
@@ -45,7 +47,7 @@ export const isFileValid = (file, extensions, maxFileSize) => {
     }
   }
 
-  const size = Math.ceil(file.size / 1024 / 1000);
+  const size = Math.ceil(file?.size / 1024 / 1000);
   const sizeConstraint = parseInt(maxFileSize.split(" ")[0]);
   if (size > sizeConstraint) {
     throw new Error(`file_size_error ${maxFileSize}.`);

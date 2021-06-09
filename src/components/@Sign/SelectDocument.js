@@ -13,22 +13,25 @@ import { isFileValid } from "../../helpers/validator";
 const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const data = useFile();
 
   const handleUploadFile = async () => {
-    console.log(data?.file);
+    setLoading(true);
     try {
       if (!data?.file || data?.file === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const bool = isFileValid(data?.file, ["pdf", "docx"], 3000);
+      const bool = isFileValid(data?.file, [".pdf", ".docx", ".png"], 3000);
       if (bool) {
         const res = await uploadFile(data?.file);
         console.log(res);
         setActiveItem(1);
       }
     } catch (err) {
-      setError(err);
+      setError(String(err));
       setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,6 +59,7 @@ const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           onClickNext={handleUploadFile}
+          loading={loading}
           t={t}
         />
       )}

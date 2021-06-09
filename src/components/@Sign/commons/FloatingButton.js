@@ -5,6 +5,7 @@ const FloatingButton = ({
   onClickNext,
   activeItem,
   availableLevel,
+  loading,
   onClickPrev,
 }) => {
   // console.log(availableLevel);
@@ -14,13 +15,17 @@ const FloatingButton = ({
         <div className="item-right">
           <div>
             {availableLevel > -20 && (
-              <button onClick={onClickPrev} className="btn btn-light">
+              <button
+                onClick={onClickPrev}
+                className="btn btn-light"
+                disabled={loading}
+              >
                 {t("general.back")}
               </button>
             )}
             <button
               onClick={onClickNext}
-              // disabled={activeItem === availableLevel}
+              disabled={loading}
               className="btn btn-primary"
             >
               {t("general.next")}

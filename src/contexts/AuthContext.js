@@ -11,7 +11,7 @@ export const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-  // const [authenticated, setAuthenticated] = useState(false);
+  const [firstTime, setFirstTime] = useState(true);
   const [auth, setAuth] = useState({});
   const history = useHistory();
   const location = useLocation();
@@ -44,15 +44,17 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
-    if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
-      setAuth(tokenData);
-      // setAuthenticated(true);
-      if (location?.pathname === "/login" || location?.pathname === "/login/")
-        history.push("/");
-    } else {
-      history.push("/login");
+    if (firstTime) {
+      if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
+        setAuth(tokenData);
+        if (location?.pathname === "/login" || location?.pathname === "/login/")
+          history.push("/");
+      } else {
+        history.push("/login");
+      }
+      setFirstTime(false);
     }
-  }, [history, location]);
+  }, [history, location, firstTime]);
 
   const authContext = {
     // authenticated,
