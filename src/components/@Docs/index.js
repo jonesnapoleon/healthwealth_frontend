@@ -36,9 +36,9 @@ const Docs = () => {
     fetchingDocs();
   }, [fetchingDocs]);
 
-  const handleClickingComponent = (obj) => {
+  const handleClickingComponent = useCallback((obj) => {
     console.log(obj);
-  };
+  }, []);
 
   useEffect(() => {
     const trimmedQuery = String(query?.value).trim();
@@ -46,9 +46,7 @@ const Docs = () => {
       const temp = docs?.filter((doc) => doc?.name?.includes(trimmedQuery));
       displayedDocs.set(temp);
     };
-    if (trimmedQuery !== "") {
-      filterDocs();
-    }
+    if (trimmedQuery !== "") filterDocs();
   }, [query?.value, docs, displayedDocs]);
 
   return (

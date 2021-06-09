@@ -7,7 +7,7 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
       <thead>
         <tr>
           <td className="lead">{t("docs.table.title")}</td>
-          <td className="lead">{t("docs.table.status")}</td>
+          <td className="lead">{t("docs.table.status.text")}</td>
           <td className="lead">{t("docs.table.action.text")}</td>
           <td className="lead">{t("docs.table.SLA")}</td>
         </tr>
@@ -22,12 +22,10 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
             >
               <td>
                 <span
-                  className={`${
-                    activeDoc?.value?.docid === component?.docid
-                      ? "font-weight-bold"
-                      : ""
+                  className={`cursor-pointer ${
+                    activeDoc?.value?.docid === component?.docid ? "bold" : ""
                   } `}
-                  onClick={activeDoc?.set(component)}
+                  onClick={() => activeDoc?.set(component)}
                 >
                   {component?.name ?? "Jones Napoleon Autumn"}
                 </span>

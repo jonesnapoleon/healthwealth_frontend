@@ -23,6 +23,7 @@ import AuthProvider from "./contexts/AuthContext";
 import Settings from "./components/@Settings";
 import Docs from "./components/@Docs";
 import DataProvider from "./contexts/DataContext";
+import ModalProvider from "./contexts/ModalContext";
 
 const App = () => {
   // const user = "";
@@ -43,49 +44,51 @@ const App = () => {
     <BrowserRouter>
       <AuthProvider>
         <DataProvider>
-          <div className="background-general">
-            <Navbar />
-            <Switch>
-              <Route component={SignIn} path={"/login"} exact />
-              <Route render={() => <Me />} path={"/me"} exact />
-              <Route render={() => <All />} path={"/all"} exact />
-              <Route
-                render={() => (
-                  <LayoutWrapper>
-                    <Landing />
-                  </LayoutWrapper>
-                )}
-                path={"/sign"}
-                exact
-              />
-              <Route
-                render={() => (
-                  <LayoutWrapper>
-                    <Settings />
-                  </LayoutWrapper>
-                )}
-                path={"/settings"}
-                exact
-              />
-              <Route
-                render={() => (
-                  <LayoutWrapper>
-                    <Docs />
-                  </LayoutWrapper>
-                )}
-                path={"/docs"}
-                exact
-              />
-              {/* <LayoutWrapper>
+          <ModalProvider>
+            <div className="background-general">
+              <Navbar />
+              <Switch>
+                <Route component={SignIn} path={"/login"} exact />
+                <Route render={() => <Me />} path={"/me"} exact />
+                <Route render={() => <All />} path={"/all"} exact />
+                <Route
+                  render={() => (
+                    <LayoutWrapper>
+                      <Landing />
+                    </LayoutWrapper>
+                  )}
+                  path={"/sign"}
+                  exact
+                />
+                <Route
+                  render={() => (
+                    <LayoutWrapper>
+                      <Settings />
+                    </LayoutWrapper>
+                  )}
+                  path={"/settings"}
+                  exact
+                />
+                <Route
+                  render={() => (
+                    <LayoutWrapper>
+                      <Docs />
+                    </LayoutWrapper>
+                  )}
+                  path={"/docs"}
+                  exact
+                />
+                {/* <LayoutWrapper>
             </LayoutWrapper> */}
-              {/* <Route component={Settings} path={'/docs'}/> */}
+                {/* <Route component={Settings} path={'/docs'}/> */}
 
-              {/* <New path="/new" />
+                {/* <New path="/new" />
             <Preparation path="/prepareDocument" />
             <Sign path="/signDocument" />
           <View path="/viewDocument" /> */}
-            </Switch>
-          </div>
+              </Switch>
+            </div>
+          </ModalProvider>
         </DataProvider>
       </AuthProvider>
     </BrowserRouter>

@@ -1,36 +1,165 @@
-#  Name of workflow
-name: Production workflow
-
-# When workflow is triggered
+name: Google Cloud Run Deploy
 on:
   push:
     branches:
       - main
 
-# Jobs to carry out
+env:
+  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+  RUN_REGION: asia-southeast2
+  SERVICE_NAME: legaltech-frontend
+
 jobs:
-  deploy:
-    # Operating system to run job on
+  build:
+    name: Build React
     runs-on: ubuntu-latest
-    # Steps in job
+
     steps:
-      # Get code from repo
-      - name: Checkout code
-        uses: actions/checkout@v1
-      # Install NodeJS
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Checkout Repo
+        uses: actions/checkout@main
+
+      - name: Setup Node.js (NPM)
+        uses: actions/setup-node@master
         with:
-          node-version: 12.x
-      # Run npm install and build on our code
-      - run: npm install
-      - run: CI=false npm run build
-      # Deploy to Netlify using our production secrets
-      - name: Deploy to netlify
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          node-version: "12.x"
+
+      - name: Use cached node_modules
+        uses: actions/cache@master
         with:
-          args: deploy --dir=build --prod
-          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.lock') }}
+          restore-keys: |
+            nodeModules-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Development
+        run: CI=false npm run build
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: build
+          path: build
+
+  deploy-gcr:
+    name: Deploy to Google Cloud Run
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+
+      - name: Download Artifact
+        uses: actions/download-artifact@main
+        with:
+          name: build
+          path: .docker/build
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: "286.0.0"
+          service_account_email: ${{ secrets.RUN_SA_EMAIL }}
+          service_account_key: ${{ secrets.RUN_SA_KEY }}
+          project_id: ${{ secrets.RUN_PROJECT }}
+
+      # Build and push image to Google Container Registry
+      - name: Build & Push
+        run: |-
+          gcloud builds submit \
+            --quiet \
+            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+        working-directory: .docker
+
+      # Deploy image to Cloud Run
+      - name: Deploy GCR
+        run: |-
+          gcloud run deploy "$SERVICE_NAME" \
+            --quiet \
+            --region "$RUN_REGION" \
+            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+            --platform "managed" \
+            --allow-unauthenticated
+
+# name: Build using Cloud Build
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# env:
+#   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+#   SERVICE_NAME: frontendv1
+
+# jobs:
+#   setup-build-deploy:
+#     name: Setup, Build, and Deploy
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v1
+
+#       # Setup gcloud CLI
+#       - uses: google-github-actions/setup-gcloud@master
+#         with:
+#           version: "286.0.0"
+#           service_account_email: ${{ secrets.RUN_SA_EMAIL }}
+#           service_account_key: ${{ secrets.RUN_SA_KEY }}
+#           project_id: ${{ secrets.RUN_PROJECT }}
+
+#       # Build and push image to Google Container Registry
+#       - name: Build
+#         run: |-
+#           gcloud builds submit \
+#             --quiet \
+#             --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+
+#       # Deploy to Cloud Run
+#       - name: Deploy service to Cloud Run
+#         run: |-
+#           gcloud run deploy "$SERVICE_NAME" \
+#           --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+#           --platform managed \
+#           --region asia-southeast2
+
+# #  Name of workflow
+# name: Production workflow
+
+# # When workflow is triggered
+# on:
+#   push:
+#     branches:
+#       - main
+
+# # Jobs to carry out
+# jobs:
+#   deploy:
+#     # Operating system to run job on
+#     runs-on: ubuntu-latest
+#     # Steps in job
+#     steps:
+#       # Get code from repo
+#       - name: Checkout code
+#         uses: actions/checkout@v1
+#       # Install NodeJS
+#       - name: Use Node.js 12.x
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 12.x
+#       # Run npm install and build on our code
+#       - run: npm install
+#       - run: CI=false npm run build
+#       # Deploy to Netlify using our production secrets
+#       - name: Deploy to netlify
+#         uses: netlify/actions/cli@master
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+#         with:
+#           args: deploy --dir=build --prod
+#           secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'

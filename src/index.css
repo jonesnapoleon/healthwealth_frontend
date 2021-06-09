@@ -112,7 +112,9 @@ code {
 .super-pt-1 > * {
   padding: 0 0.5rem;
 }
-
+.cursor-pointer {
+  cursor: pointer;
+}
 .text-only-button {
   background: transparent;
   border: 0;

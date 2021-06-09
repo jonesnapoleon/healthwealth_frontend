@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { BREAKPOINT_WIDTH } from "./constant";
 
+export const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  return { value, set: setValue };
+};
 export const useRefreshedData = (updatingValue) => {
   const [value, setValue] = useState(updatingValue);
   useEffect(() => {
@@ -81,6 +85,5 @@ export const useWidth = () => {
 
 export const useIsLargeScreen = () => {
   const width = useWidth();
-  console.log(width);
   return width > BREAKPOINT_WIDTH;
 };

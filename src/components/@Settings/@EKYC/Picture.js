@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile } from "../../../helpers/hooks";
 
@@ -6,10 +6,13 @@ import ImageUpload from "../../commons/ImageUpload";
 
 import ktpSvg from "../../../assets/images/ID Card icon.svg";
 import cameraSvg from "../../../assets/images/Camera icon.svg";
+import TakePhoto from "../../commons/ImageUpload/TakePhoto";
+import { useModal } from "../../../contexts/ModalContext";
 
 const Picture = () => {
   const { t } = useTranslation();
-
+  // const [takePhoto, setTakePhoto] = useState(false);
+  const { setInnerComponent, show } = useModal();
   const identity = useFile();
   const takePict = useFile();
 
@@ -36,7 +39,14 @@ const Picture = () => {
       </div>
       <div className="lead mt-5">{t("settings.ekyc.takeAPicture")}</div>
       <div className="mt-1">
-        <ImageUpload meta={imagesData[1]} data={takePict} />
+        <ImageUpload
+          meta={imagesData[1]}
+          data={takePict}
+          onClick={() => {
+            setInnerComponent(<TakePhoto />);
+            show?.set(true);
+          }}
+        />
       </div>
       <div className="mt-5">
         <button className="btn btn-outline-primary">
