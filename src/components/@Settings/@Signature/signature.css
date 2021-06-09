@@ -1,0 +1,13 @@
+.signature-container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.signature-container > * {
+  padding: 1rem 4rem 0 0;
+}
+
+.signature-container .lead {
+  margin-bottom: 0.75rem;
+}

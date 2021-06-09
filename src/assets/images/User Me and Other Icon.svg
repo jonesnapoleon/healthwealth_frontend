@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="39.734" height="33.163" viewBox="0 0 39.734 33.163">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: rgba(47,122,247,0.8);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="Icon_feather-users" data-name="Icon feather-users" transform="translate(0 -2.892)">
+    <path id="Path_7" data-name="Path 7" class="cls-1" d="M28.215,32.518V29.179A6.679,6.679,0,0,0,21.537,22.5H8.179A6.679,6.679,0,0,0,1.5,29.179v3.339" transform="translate(0 2.037)"/>
+    <path id="Path_8" data-name="Path 8" class="cls-1" d="M20.858,11.179A6.679,6.679,0,1,1,14.179,4.5a6.679,6.679,0,0,1,6.679,6.679Z" transform="translate(0.679)"/>
+    <path id="Path_9" data-name="Path 9" class="cls-1" d="M35.009,32.5V29.157A6.679,6.679,0,0,0,30,22.7" transform="translate(3.225 2.059)"/>
+    <path id="Path_10" data-name="Path 10" class="cls-1" d="M24,4.7a6.679,6.679,0,0,1,0,12.94" transform="translate(2.546 0.022)"/>
+  </g>
+</svg>

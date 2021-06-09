@@ -1,0 +1,108 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --primary-color: #000000;
+  --secondary-color: #fafafa;
+  --text-color: #fff;
+  --secondary-extra-color-1: #f0f0f0;
+  --secondary-extra-color-2: #2f7bf7;
+  --tertiary-color: #2f7bf7;
+  --border-radius: 25px;
+  --form-border-radius: 5px;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+* {
+  font-family: "Roboto", sans-serif !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.background-general {
+  background-color: var(--secondary-color);
+  min-height: 100vh;
+  min-width: 100vw;
+}
+.item-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.item-centery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.item-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: row;
+}
+.item-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+}
+
+.content-welcome {
+  min-height: 40vh;
+  display: grid;
+  place-items: center;
+}
+
+/* toast */
+.toast > div > div {
+  padding: 0.8rem 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.primary-color {
+  color: var(--tertiary-color) !important;
+}
+
+.btn-primary {
+  border-radius: var(--border-radius);
+  background: var(--tertiary-color);
+  color: var(--text-color);
+  padding: 0.8rem 1.6rem;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  border-radius: var(--border-radius);
+  background: var(--secondary-extra-color-2);
+  color: var(--text-color);
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+}
+
+.rounded-img {
+  border-radius: 50%;
+}
+
+.super-pt-2 > * {
+  padding: 0 1rem;
+}
+
+.super-pt-1 > * {
+  padding: 0 0.5rem;
+}

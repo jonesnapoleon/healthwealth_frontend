@@ -1,0 +1,30 @@
+.home-wrapper {
+  padding-top: 2rem;
+}
+
+.home-wrapper .hello {
+  padding: 2rem 0.5rem;
+  font-weight: bolder;
+}
+
+.home-wrapper .sign-area {
+  padding: 0.5rem;
+}
+
+.home-wrapper .sign-area > div {
+  /* border: 1px solid; */
+  box-shadow: 0.2px 0.2px 5px 0 var(--tertiary-color);
+  margin: 1rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  padding: 2.4rem;
+}
+
+.home-wrapper .sign-area img {
+  max-width: 4rem;
+  padding-bottom: 1rem;
+}
+
+.home-wrapper .sign-area .button {
+  padding-top: 2rem;
+}

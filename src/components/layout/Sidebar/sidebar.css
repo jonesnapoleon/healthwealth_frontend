@@ -1,0 +1,37 @@
+.sidebar {
+}
+.one-sidebar-item {
+  padding: 0.5rem 0;
+}
+.one-sidebar-item > * {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+
+.one-sidebar-item a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.one-sidebar-item img {
+  height: 1rem;
+  width: auto;
+}
+.one-sidebar-item img.icon {
+  width: 1rem;
+  height: auto;
+}
+
+.one-sidebar-item span {
+  padding-left: 1rem;
+}
+
+.one-sidebar-item .coming-soon {
+  /* visibility: hidden; */
+  position: absolute;
+}
+
+.one-sidebar-item .coming-soon:hover {
+  visibility: visible;
+}

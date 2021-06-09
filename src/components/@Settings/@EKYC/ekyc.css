@@ -1,0 +1,15 @@
+.ekyc-container {
+  margin-top: 3rem;
+}
+
+.ekyc-container table {
+  margin-top: 1rem;
+}
+
+.ekyc-container table td {
+  padding-bottom: 0.5rem;
+}
+
+.ekyc-container table td:first-child {
+  padding-right: 2rem;
+}

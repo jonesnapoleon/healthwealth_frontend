@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11.671" height="11.671" viewBox="0 0 11.671 11.671">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(255,255,255,0.3);
+      }
+    </style>
+  </defs>
+  <path id="Icon_metro-insert-template" data-name="Icon metro-insert-template" class="cls-1" d="M6.947,4.116H8.406v.729H6.947Zm2.188,0h1.459v.729H9.136Zm3.647,0V7.034H10.594V6.3h1.459V4.846h-.729V4.116ZM6.218,6.3H7.677v.729H6.218Zm2.188,0H9.865v.729H8.406ZM4.759,4.846V6.3h.729v.729H4.03V4.116H6.218v.729ZM6.947,8.493H8.406v.729H6.947Zm2.188,0h1.459v.729H9.136Zm3.647,0v2.918H10.594v-.729h1.459V9.222h-.729V8.493ZM6.218,10.681H7.677v.729H6.218Zm2.188,0H9.865v.729H8.406ZM4.759,9.222v1.459h.729v.729H4.03V8.493H6.218v.729Zm8.753-6.565H3.3V12.869H13.512V2.657Zm.729-.729V13.6H2.571V1.928H14.242Z" transform="translate(-2.571 -1.928)"/>
+</svg>

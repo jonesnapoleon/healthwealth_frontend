@@ -1,0 +1,31 @@
+<svg id="Component_58_22" data-name="Component 58 – 22" xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        stroke: #707070;
+      }
+
+      .cls-2, .cls-4 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-3 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Ellipse_32" data-name="Ellipse 32" class="cls-1">
+    <circle class="cls-3" cx="13.5" cy="13.5" r="13.5"/>
+    <circle class="cls-4" cx="13.5" cy="13.5" r="13"/>
+  </g>
+  <path id="Icon_feather-check" data-name="Icon feather-check" class="cls-2" d="M16.922,9l-3.641,3.641L9.413,16.509,6,13.1" transform="translate(1.646 0.741)"/>
+</svg>
