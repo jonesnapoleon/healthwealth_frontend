@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { BREAKPOINT_WIDTH } from "./constant";
 
 export const useRefreshedData = (updatingValue) => {
   const [value, setValue] = useState(updatingValue);
@@ -12,6 +13,7 @@ export const useRefreshedData = (updatingValue) => {
   }, [updatingValue]);
   return { value, set: setValue };
 };
+
 export const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
   // const [isTouched, setIsTouched] = useState(false);
@@ -57,4 +59,28 @@ export const useFile = () => {
     filePicker,
     onChange: handleUploadFile,
   };
+};
+
+export const usePrevious = (value) => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+};
+
+export const useWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [width]);
+  return width;
+};
+
+export const useIsLargeScreen = () => {
+  const width = useWidth();
+  console.log(width);
+  return width > BREAKPOINT_WIDTH;
 };

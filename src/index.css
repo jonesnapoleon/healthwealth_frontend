@@ -112,3 +112,12 @@ code {
 .super-pt-1 > * {
   padding: 0 0.5rem;
 }
+
+.text-only-button {
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+}
+
+/* .text-only-button:hover {
+} */

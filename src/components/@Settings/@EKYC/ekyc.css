@@ -7,9 +7,23 @@
 }
 
 .ekyc-container table td {
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.6rem;
+  vertical-align: top;
 }
 
 .ekyc-container table td:first-child {
   padding-right: 2rem;
+}
+
+/* .ekyc-container table td.circle-correct-icon {
+  padding-left: 2rem;
+} */
+
+/* .ekyc-container table td.phone-number-area input {
+  display: block;
+} */
+
+.ekyc-container table td .circle-correct-icon {
+  padding-top: 0.7rem;
+  width: 1.2rem;
 }

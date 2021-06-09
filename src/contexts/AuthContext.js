@@ -43,10 +43,6 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log(auth);
-  }, [auth]);
-
-  useEffect(() => {
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
 

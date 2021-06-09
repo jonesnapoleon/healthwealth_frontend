@@ -209,11 +209,11 @@
       "companyName": "Company name",
       "title": "Title",
       "takeAPicture": "Take a picture",
-      "takeAPictureHead": "Upload Proof of Identity",
-      "takeAPictureDesc": "We accept KTP / Passport",
+      "takeAPictureHead": "Take a selfie",
+      "takeAPictureDesc": "Allow access to your computer camera",
       "proofIdentity": "Proof of Identity",
-      "proofIdentityHead": "Take a selfie",
-      "proofIdentityDesc": "Allow access to your computer camera"
+      "proofIdentityHead": "Upload Proof of Identity",
+      "proofIdentityDesc": "We accept KTP / Passport"
     },
     "signature": {
       "text": "Signature",
@@ -242,12 +242,18 @@
   "docs": {
     "table": {
       "title": "Title",
-      "status": "Status",
       "SLA": "SLA",
       "action": {
         "text": "Action",
         "edit": "Edit",
         "sign": "Sign",
+        "sendReminder": "Send reminder",
+        "download": "Download"
+      },
+      "status": {
+        "text": "Status",
+        "edit": "Drafting Document",
+        "sign": "",
         "sendReminder": "Send reminder",
         "download": "Download"
       }

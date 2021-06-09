@@ -3,7 +3,9 @@ import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
 import { getUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useFormInput } from "../../../helpers/hooks";
+import { useFormInput, useIsLargeScreen } from "../../../helpers/hooks";
+
+import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
 
 const PersonalDetail = () => {
   const { t } = useTranslation();
@@ -16,6 +18,7 @@ const PersonalDetail = () => {
   const phoneNumber = useFormInput(auth?.phone);
   const companyName = useFormInput(auth?.company);
   const title = useFormInput(auth?.title);
+  const isLargeScreen = useIsLargeScreen();
 
   const [showButton, setShowButton] = useState(false);
 
@@ -96,12 +99,26 @@ const PersonalDetail = () => {
             <td>
               <input className="form-input" value={auth?.email} disabled />
             </td>
+            {isLargeScreen && (
+              <td>
+                <img
+                  src={circleCorrectIcon}
+                  alt=""
+                  className="mx-2 circle-correct-icon"
+                />
+              </td>
+            )}
           </tr>
 
           <tr>
             <td>{t("settings.ekyc.phoneNumber")}</td>
             <td>
               <input className="form-input" {...phoneNumber} />
+              <br />
+
+              <div className="item-right">
+                <button className="text-only-button">Send OTP</button>
+              </div>
             </td>
           </tr>
 

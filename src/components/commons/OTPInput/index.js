@@ -1,11 +1,7 @@
 import React, { memo, useState, useCallback } from "react";
 import SingleInput from "./SingleInput";
 
-export function OTPInputComponent({
-  otp,
-  isNumberInput = true,
-  autoFocus = true,
-}) {
+const OTPInputComponent = ({ otp, isNumberInput = true, autoFocus = true }) => {
   const length = otp.value.length;
 
   const [activeInput, setActiveInput] = useState(0);
@@ -110,7 +106,7 @@ export function OTPInputComponent({
         ))}
     </div>
   );
-}
+};
 
 const OTPInput = memo(OTPInputComponent);
 export default OTPInput;

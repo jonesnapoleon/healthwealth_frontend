@@ -1,7 +1,7 @@
 import React, { memo, useRef, useLayoutEffect } from "react";
-import usePrevious from "hooks/usePrevious";
+import { usePrevious } from "../../../helpers/hooks";
 
-export function SingleOTPInputComponent(props) {
+const SingleOTPInputComponent = (props) => {
   const { focus, autoFocus, ...rest } = props;
   const inputRef = useRef(null);
   const prevFocus = usePrevious(!!focus);
@@ -19,7 +19,7 @@ export function SingleOTPInputComponent(props) {
   }, [autoFocus, focus, prevFocus]);
 
   return <input ref={inputRef} size="1" {...rest} />;
-}
+};
 
 const SingleOTPInput = memo(SingleOTPInputComponent);
 export default SingleOTPInput;
