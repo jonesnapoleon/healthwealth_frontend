@@ -68,7 +68,7 @@ const PersonalDetail = () => {
           </tr>
         </tbody>
       </table>
-      <div className="item-right mt-4">
+      <div className="mt-4">
         <button className="btn btn-outline-primary">{t("general.save")}</button>
       </div>
     </>

@@ -42,7 +42,7 @@ const PersonalDetail = () => {
       <div className="mt-1">
         <ImageUpload meta={imagesData[1]} />
       </div>
-      <div className="mt-5 item-right">
+      <div className="mt-5">
         <button className="btn btn-outline-primary">
           {t("general.submit")}
         </button>

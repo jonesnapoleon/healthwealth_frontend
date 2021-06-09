@@ -34,6 +34,8 @@
     "youAndOtherPeopleLike": "You and {{count}} others people like",
     "learningDuration": "Learning Duration",
     "by": "By: ",
+    "back": "Back",
+    "next": "Next",
     "sort": "Sort",
     "sortBy": "Sort By",
     "reset": "Reset",
@@ -217,7 +219,18 @@
   "sign": {
     "selectDocument": {
       "whatNeed": "What needs to be signed?",
-      "text": "Select documents"
+      "text": "Select documents",
+      "docsUSelected": "Documents you've selected"
+    },
+    "addSigners": {
+      "text": "Add signers",
+      "whoNeed": "Who need to sign?"
+    },
+    "placeFields": {
+      "text": "Place fields"
+    },
+    "reviewSend": {
+      "text": "Review and send"
     }
   },
   "header": {

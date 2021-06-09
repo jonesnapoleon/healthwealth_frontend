@@ -1,55 +1,20 @@
 import React from "react";
-import { Box, Icon, Text, Pog, Divider, Button } from "gestalt";
 
 const Stepper = ({ items, activeItem, setActiveItem, availableLevel }) => {
   return (
     <div>
-      <Box
-        alignItems="center"
-        display="flex"
-        justifyContent="center"
-        wrap={true}
-      >
+      <div className="item-center my-4">
         {items?.map((datum, i) => (
-          <>
-            <Box marginEnd={1} padding={1}>
-              <Pog
-                icon={datum.icon}
-                iconColor={i <= activeItem ? "blue" : "gray"}
-              />
-            </Box>
-            <Text align="center" color="darkGray" weight="bold">
-              {datum.name}
-            </Text>
-            {i !== items?.length - 1 && (
-              <Box lgPadding={3} smPadding={2}>
-                <Icon
-                  icon={"directional-arrow-right"}
-                  accessibilityLabel="Pin"
-                  color="eggplant"
-                />
-              </Box>
-            )}
-          </>
+          <span className={`item-center ${i <= activeItem ? "" : "disabled"}`}>
+            {i !== 0 && <strong className="px-2 lead">➔</strong>}
+            <div className={`px-2`}>
+              <img src={datum?.icon} alt="" className={`px-1 `} />
+            </div>
+            <div>{datum.name}</div>
+          </span>
         ))}
-        <Box position="absolute" right padding={8}>
-          <Button
-            color="transparentWhiteText"
-            text="Back"
-            inline
-            onClick={() => setActiveItem(-1)}
-          />
-          <Button
-            color={"blue"}
-            disabled={activeItem === availableLevel}
-            text="Next"
-            inline
-            onClick={() => setActiveItem(1)}
-          />
-        </Box>
-      </Box>
-
-      <Divider />
+      </div>
+      <hr />
     </div>
   );
 };

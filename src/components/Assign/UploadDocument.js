@@ -4,7 +4,7 @@ import { Box, Container, Heading, Text, IconButton } from "gestalt";
 import "gestalt/dist/gestalt.css";
 import { uploadedFile } from "./AssignSlice";
 import Snackbar from "../commons/Snackbar";
-import DragDrop from "../commons/DragDrop";
+import DragDrop from "../commons/ImageUpload/DragDropClass";
 import "./Assign.css";
 
 const UploadDocument = ({ setAvailableLevel }) => {

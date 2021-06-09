@@ -35,3 +35,7 @@
   height: 2rem;
   padding: 0.2rem 1rem;
 }
+
+.drag-drop-container .upload-button {
+  border: 1px solid var(--primary-color);
+}

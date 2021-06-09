@@ -32,6 +32,17 @@ const Me = () => {
       ),
     },
     {
+      name: t("sign.addSigners.text"),
+      icon: personAddIcon,
+      component: (
+        <AddSigners
+          activeItem={activeItem}
+          availableLevel={availableLevel}
+          setActiveItem={setActiveItem}
+        />
+      ),
+    },
+    {
       name: t("sign.placeFields.text"),
       icon: placeFieldIcon,
     },

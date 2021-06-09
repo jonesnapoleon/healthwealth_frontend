@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 
-import New from "./components/Assign/New";
-import Preparation from "./components/PrepareDocument/Preparation";
-import Sign from "./components/SignDocument/Sign";
-import View from "./components/ViewDocument/View";
+// import New from "./components/Assign/New";
+// import Preparation from "./components/PrepareDocument/Preparation";
+// import Sign from "./components/SignDocument/Sign";
+// import View from "./components/ViewDocument/View";
 import SignIn from "./components/SignIn";
 import Landing from "./components/Landing";
 import LayoutWrapper from "./components/layout/Wrapper";
@@ -16,14 +16,15 @@ import "./overrides.css";
 import "./helpers/i18n";
 
 import Me from "./components/Sign/Me";
-import LoadingBackdrop from "./components/commons/LoadingBackdrop";
+import All from "./components/Sign/All";
+// import LoadingBackdrop from "./components/commons/LoadingBackdrop";
 import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
 import Settings from "./components/Settings";
 import Docs from "./components/Docs";
 
 const App = () => {
-  const user = "";
+  // const user = "";
   // const user = useSelector(selectUser);
   // const dispatch = useDispatch();
 
@@ -44,6 +45,7 @@ const App = () => {
           <Navbar />
           <Switch>
             <Route render={() => <Me />} path={"/me"} exact />
+            <Route render={() => <All />} path={"/all"} exact />
             <Route component={SignIn} path={"/login"} exact />
             <Route
               render={() => (

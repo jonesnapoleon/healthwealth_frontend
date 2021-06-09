@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
@@ -16,4 +16,11 @@ export const useFormInput = (initialValue) => {
     }
   }, [isTouched, value]);
   return { value, setValue, onChange: handleChange, errorClassName };
+};
+
+export const useFile = () => {
+  const [file, setFile] = useState(null);
+  const filePicker = useRef(null);
+
+  return { file, setFile, filePicker };
 };
