@@ -25,7 +25,8 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
         setAuth(allValue);
         // setAuthenticated(true);
-        history.push("/");
+        if (location?.pathname === "/login" || location?.pathname === "/login/")
+          history.push("/");
       }
     } catch (e) {
       localStorage.removeItem(AUTH_KEY);

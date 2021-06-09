@@ -1,11 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
+import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
+import { getUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useFormInput } from "../../../helpers/hooks";
 
 const PersonalDetail = () => {
   const { t } = useTranslation();
-  const { auth } = useAuth();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { auth, setAuth } = useAuth();
   const name = useFormInput(auth?.fullname);
   const nik = useFormInput(auth?.nik);
   const birthDate = useFormInput(auth?.birthDate);
@@ -40,6 +44,19 @@ const PersonalDetail = () => {
     return true;
   }, [name, nik, birthDate, phoneNumber, companyName, title, auth]);
 
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const res = await getUser(auth?.userid);
+      console.log(res);
+    } catch (err) {
+      setError(String(err));
+      setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setShowButton(!isSameAsOriginal);
   }, [name, nik, birthDate, phoneNumber, companyName, title, isSameAsOriginal]);
@@ -47,6 +64,7 @@ const PersonalDetail = () => {
   return (
     <>
       <div className="lead">{t("settings.ekyc.personalDetail")}</div>
+      {error && <Snackbar text={error} />}
 
       <table>
         <tbody>
@@ -102,7 +120,11 @@ const PersonalDetail = () => {
       </table>
       {showButton && (
         <div className="mt-4">
-          <button className="btn btn-outline-primary">
+          <button
+            className="btn btn-outline-primary"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
             {t("general.save")}
           </button>
         </div>
