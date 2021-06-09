@@ -189,7 +189,11 @@
     "editPhotoProfile": "Edit Profile Photo",
     "addPhotoProfile": "Add Profile Photo",
     "editPhotoStore": "Edit Shop Photo",
-    "addPhotoStore": "Add Shop Photo"
+    "addPhotoStore": "Add Shop Photo",
+    "error": {
+      "fileNotUploadedYet": "File not uploaded yet",
+      "fileNotValid": "File not valid"
+    }
   },
   "settings": {
     "complyText": "Comply with Indonesian e-signature law by completing your e-kyc",

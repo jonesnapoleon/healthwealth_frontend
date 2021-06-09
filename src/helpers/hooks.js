@@ -31,5 +31,18 @@ export const useFile = () => {
   const [file, setFile] = useState(null);
   const filePicker = useRef(null);
 
-  return { file, setFile, filePicker };
+  const handleUploadFile = (e) => {
+    if (e?.target?.files) {
+      if (e?.target?.files[0]) {
+        setFile(e.target.files[0]);
+      }
+    }
+  };
+
+  return {
+    file,
+    setFile,
+    filePicker,
+    onChange: handleUploadFile,
+  };
 };

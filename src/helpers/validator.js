@@ -30,3 +30,25 @@ export const isValidContactNumber = (number) => {
   }
   return true;
 };
+
+export const isFileValid = (file, extensions, maxFileSize) => {
+  const format = `.${file?.name?.type.split("/").pop()}`;
+  const allowAllFile = extensions.includes("*");
+
+  if (!allowAllFile) {
+    if (format && !extensions.includes(format)) {
+      const fileExtensionText = extensions?.reduce(
+        (accumulator, extension, i) =>
+          `${accumulator}${i === 0 ? "" : ", "}${extension}`
+      );
+      throw new Error(`file_format_error ${fileExtensionText}.`);
+    }
+  }
+
+  const size = Math.ceil(file.size / 1024 / 1000);
+  const sizeConstraint = parseInt(maxFileSize.split(" ")[0]);
+  if (size > sizeConstraint) {
+    throw new Error(`file_size_error ${maxFileSize}.`);
+  }
+  return true;
+};

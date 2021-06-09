@@ -1,23 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile } from "../../helpers/hooks";
 import DragDrop from "../commons/ImageUpload/DragDrop";
 import "./main.css";
 import icon from "../../assets/images/Upload Document Icon.svg";
 import FloatingButton from "./commons/FloatingButton";
+import Snackbar from "../commons/Snackbar";
+
+import { uploadFile } from "../../api/upload";
+import { isFileValid } from "../../helpers/validator";
 
 const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();
+  const [error, setError] = useState(null);
   const data = useFile();
 
-  const handleUploadFile = () => {
-    console.log("f");
-
-    setActiveItem(1);
+  const handleUploadFile = async () => {
+    console.log(data?.file);
+    try {
+      if (!data?.file || data?.file === null)
+        throw new Error(t("form.error.fileNotUploadedYet"));
+      const bool = isFileValid(data?.file, ["pdf", "docx"], 3000);
+      if (bool) {
+        const res = await uploadFile(data?.file);
+        console.log(res);
+        setActiveItem(1);
+      }
+    } catch (err) {
+      setError(err);
+      setTimeout(() => setError(false), 3000);
+    }
   };
 
   return (
     <div className="container sign-select-document-container">
+      {error && <Snackbar text={error} />}
       <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
       <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
       <DragDrop data={data} />
