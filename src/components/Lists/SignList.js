@@ -11,7 +11,7 @@ const SignList = () => {
   const user = useSelector(selectUser);
   const email = user?.email;
 
-  const [docs, setDocs] = useState([]);
+  const docs = [];
   const [show, setShow] = useState(true);
 
   const dispatch = useDispatch();

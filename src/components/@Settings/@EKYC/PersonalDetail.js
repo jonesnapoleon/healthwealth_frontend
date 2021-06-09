@@ -48,7 +48,9 @@ const PersonalDetail = () => {
     setLoading(true);
     try {
       const res = await getUser(auth?.userid);
-      console.log(res);
+      if (res) {
+        setAuth(res);
+      }
     } catch (err) {
       setError(String(err));
       setTimeout(() => setError(false), 3000);

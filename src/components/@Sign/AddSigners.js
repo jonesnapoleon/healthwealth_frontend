@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useFile } from "../../helpers/hooks";
-import DragDrop from "../commons/ImageUpload/DragDrop";
 import FloatingButton from "./commons/FloatingButton";
 import "./main.css";
-import icon from "../../assets/images/Upload Document Icon.svg";
+// import DragDrop from "../commons/ImageUpload/DragDrop";
+// import icon from "../../assets/images/Upload Document Icon.svg";
 
 const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();

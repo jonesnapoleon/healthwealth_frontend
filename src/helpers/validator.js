@@ -1,5 +1,5 @@
+/* eslint-disable no-useless-escape */
 export const isValidEmail = (email) => {
-  // eslint-disable-next-line no-useless-escape
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
@@ -34,23 +34,23 @@ export const isValidContactNumber = (number) => {
 export const isFileValid = (file, extensions, maxFileSize) => {
   return true;
   // TUGAS JOJO
-  const format = `.${file?.type.split("/").pop()}`;
-  const allowAllFile = extensions.includes("*");
+  // const format = `.${file?.type.split("/").pop()}`;
+  // const allowAllFile = extensions.includes("*");
 
-  if (!allowAllFile) {
-    if (format && !extensions.includes(format)) {
-      const fileExtensionText = extensions?.reduce(
-        (accumulator, extension, i) =>
-          `${accumulator}${i === 0 ? "" : ", "}${extension}`
-      );
-      throw new Error(`file_format_error ${fileExtensionText}.`);
-    }
-  }
+  // if (!allowAllFile) {
+  //   if (format && !extensions.includes(format)) {
+  //     const fileExtensionText = extensions?.reduce(
+  //       (accumulator, extension, i) =>
+  //         `${accumulator}${i === 0 ? "" : ", "}${extension}`
+  //     );
+  //     throw new Error(`file_format_error ${fileExtensionText}.`);
+  //   }
+  // }
 
-  const size = Math.ceil(file?.size / 1024 / 1000);
-  const sizeConstraint = parseInt(maxFileSize.split(" ")[0]);
-  if (size > sizeConstraint) {
-    throw new Error(`file_size_error ${maxFileSize}.`);
-  }
-  return true;
+  // const size = Math.ceil(file?.size / 1024 / 1000);
+  // const sizeConstraint = parseInt(maxFileSize.split(" ")[0]);
+  // if (size > sizeConstraint) {
+  //   throw new Error(`file_size_error ${maxFileSize}.`);
+  // }
+  // return true;
 };

@@ -10,7 +10,12 @@ import Snackbar from "../commons/Snackbar";
 import { uploadFile } from "../../api/upload";
 import { isFileValid } from "../../helpers/validator";
 
-const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
+const SelectDocument = ({
+  activeItem,
+  setActiveItem,
+  availableLevel,
+  setFileUrl,
+}) => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +29,7 @@ const SelectDocument = ({ activeItem, setActiveItem, availableLevel }) => {
       const bool = isFileValid(data?.file, [".pdf", ".docx", ".png"], 3000);
       if (bool) {
         const res = await uploadFile(data?.file);
-        console.log(res);
+        setFileUrl(res.url);
         setActiveItem(1);
       }
     } catch (err) {

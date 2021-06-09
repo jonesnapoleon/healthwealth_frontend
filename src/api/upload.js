@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_UPLOAD = "/api/upload/";
+const API_UPLOAD = "/api/doc/upload/";
 
 export const uploadFile = async (file) => {
   const data = new FormData();

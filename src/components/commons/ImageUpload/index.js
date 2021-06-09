@@ -8,6 +8,7 @@ const ImageUpload = ({ meta, data }) => {
     <div className="image-upload-container">
       <div>
         <div>{head}</div>
+        {isUpload}
         <div>{desc}</div>
       </div>
       <div>

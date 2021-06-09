@@ -15,7 +15,7 @@ axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
 var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);
 
-if (token && token?.id_token) {
+if (jsonizedToken && jsonizedToken?.id_token) {
   axios.defaults.headers["Authorization"] = `Bearer ${jsonizedToken?.id_token}`;
 }
 

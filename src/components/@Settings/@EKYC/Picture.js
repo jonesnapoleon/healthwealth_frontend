@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useFile, useFormInput } from "../../../helpers/hooks";
+import { useFile } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
 
