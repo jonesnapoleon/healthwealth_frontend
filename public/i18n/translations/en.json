@@ -6,6 +6,7 @@
     "readTime_plural": "{{count}} minutes read time",
     "minutes": "minutes",
     "views": "Views",
+    "view": "View",
     "comments": "Comments",
     "source": "Sumber",
     "share": "Share",
@@ -238,6 +239,56 @@
       "text": "Review and send"
     }
   },
+  "docs": {
+    "table": {
+      "title": "Title",
+      "status": "Status",
+      "SLA": "SLA",
+      "action": {
+        "text": "Action",
+        "edit": "Edit",
+        "sign": "Sign",
+        "sendReminder": "Send reminder",
+        "download": "Download"
+      }
+    },
+    "auditTrail": {
+      "title": "Document Audit Trail",
+      "ctaText": "Only me",
+      "desc": "Sign a document yourself"
+    },
+    "all": {
+      "title": "Me & Others",
+      "ctaText": "Me & Others",
+      "desc": "Sign a document for others and yourself to sign"
+    },
+    "req": {
+      "title": "Request Sign",
+      "ctaText": "Request Sign",
+      "desc": "Send a document for others to sign"
+    }
+  },
+  "landing": {
+    "fullTitle": "History Working Capital Loan with Invoice Registered and Controlled by OJK",
+    "welcome": "Welcome",
+    "hello": "Hello",
+    "dashboard": "Dashboard",
+    "me": {
+      "title": "Only me",
+      "ctaText": "Only me",
+      "desc": "Sign a document yourself"
+    },
+    "all": {
+      "title": "Me & Others",
+      "ctaText": "Me & Others",
+      "desc": "Sign a document for others and yourself to sign"
+    },
+    "req": {
+      "title": "Request Sign",
+      "ctaText": "Request Sign",
+      "desc": "Send a document for others to sign"
+    }
+  },
   "header": {
     "login": "Login",
     "signReq": " of 3 signature requests",
@@ -318,27 +369,7 @@
     "successStory": "Success Story",
     "myBusinessStore": "myBusiness Store"
   },
-  "landing": {
-    "fullTitle": "History Working Capital Loan with Invoice Registered and Controlled by OJK",
-    "welcome": "Welcome",
-    "hello": "Hello",
-    "dashboard": "Dashboard",
-    "me": {
-      "title": "Only me",
-      "ctaText": "Only me",
-      "desc": "Sign a document yourself"
-    },
-    "all": {
-      "title": "Me & Others",
-      "ctaText": "Me & Others",
-      "desc": "Sign a document for others and yourself to sign"
-    },
-    "req": {
-      "title": "Request Sign",
-      "ctaText": "Request Sign",
-      "desc": "Send a document for others to sign"
-    }
-  },
+
   "noData": {
     "title": "No Data"
   },

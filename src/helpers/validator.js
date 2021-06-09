@@ -31,9 +31,11 @@ export const isValidContactNumber = (number) => {
   return true;
 };
 
+export const isTimeInMsBeforeNow = (ms) => ms > Date.now();
+
 export const isFileValid = (file, extensions, maxFileSize) => {
   return true;
-  // TUGAS JOJO
+  // TODO JOJO
   // const format = `.${file?.type.split("/").pop()}`;
   // const allowAllFile = extensions.includes("*");
 

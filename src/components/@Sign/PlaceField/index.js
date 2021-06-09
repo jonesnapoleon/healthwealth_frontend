@@ -22,7 +22,7 @@ const PlaceField = () => {
   console.log(fileUrl);
 
   useEffect(() => {
-    if (typeof fileUrl === "string")
+    if (typeof fileUrl === "string" && auth?.id_token)
       WebViewer(
         {
           path: "webviewer",
@@ -53,7 +53,7 @@ const PlaceField = () => {
         // console.log(URL);
         // instance.docViewer.loadDocument(URL);
       });
-  }, [fileUrl]);
+  }, [fileUrl, auth?.id_token]);
 
   const download = () => {
     instance.downloadPdf(true);

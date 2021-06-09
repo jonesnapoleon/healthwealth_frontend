@@ -10,7 +10,8 @@ axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 axios.defaults.withCredentials = false;
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
+// axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
+axios.defaults.headers["Content-Type"] = "application/json";
 
 var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);

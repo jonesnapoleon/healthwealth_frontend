@@ -8,6 +8,7 @@ import FloatingButton from "./commons/FloatingButton";
 import Snackbar from "../commons/Snackbar";
 
 import { uploadFile } from "../../api/upload";
+import { addDoc } from "../../api/docs";
 import { isFileValid } from "../../helpers/validator";
 
 const SelectDocument = ({
@@ -26,11 +27,17 @@ const SelectDocument = ({
     try {
       if (!data?.file || data?.file === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const bool = isFileValid(data?.file, [".pdf", ".docx", ".png"], 3000);
+      const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
         const res = await uploadFile(data?.file);
-        setFileUrl(res.url);
-        setActiveItem(1);
+        if (res) {
+          const newRes = await addDoc(res?.url, data?.file?.name);
+          if (newRes) {
+            console.log(newRes);
+            setFileUrl(newRes?.linkToPdf);
+            setActiveItem(1);
+          }
+        }
       }
     } catch (err) {
       setError(String(err));

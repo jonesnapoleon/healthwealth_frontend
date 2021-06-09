@@ -40,6 +40,12 @@ code {
   align-items: center;
   flex-direction: row;
 }
+.item-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
 .item-centery {
   display: flex;
   justify-content: center;

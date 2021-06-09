@@ -40,10 +40,7 @@ const Welcome = () => {
 
       <div className="row">
         {signComponents?.map((component) => (
-          <div
-            className="col col-xl-4 col-sm-12 sign-area"
-            key={component?.title}
-          >
+          <div className="col-xl-4 col-sm-12 sign-area" key={component?.title}>
             <div className="item-centery">
               <img
                 src={

@@ -14,30 +14,30 @@ export const login = async (token) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.message ?? "Fail to login";
+    throw e?.response?.data?.error?.message ?? "Fail to login";
   }
 };
 
 export const getUser = async (userId) => {
   try {
-    const response = await axios.get(`${API_GET_USER}${userId}/`);
+    const response = await axios.get(`${API_GET_USER}${userId + 222}/`);
     return response.data;
   } catch (e) {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.message ?? "";
+    throw e?.response?.data?.error?.message ?? "";
   }
 };
 
 export const getAllDocs = async () => {
   try {
     const response = await axios.get(`${API_GET_USER_DOCS}`);
-    return response.data;
+    return response.data?.data;
   } catch (e) {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.message ?? "";
+    throw e?.response?.data?.error?.message ?? "";
   }
 };

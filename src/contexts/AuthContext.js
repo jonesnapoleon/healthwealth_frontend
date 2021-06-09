@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { login } from "../api/auth";
-import { isTimeInMsBeforeNow } from "../helpers/utils";
+import { isTimeInMsBeforeNow } from "../helpers/validator";
 import { AUTH_KEY } from "../helpers/constant";
 import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -43,8 +43,13 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log(auth);
+  }, [auth]);
+
+  useEffect(() => {
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
+
     if (firstTime) {
       if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
         setAuth(tokenData);

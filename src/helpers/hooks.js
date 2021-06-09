@@ -1,5 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 
+export const useRefreshedData = (updatingValue) => {
+  const [value, setValue] = useState(updatingValue);
+  useEffect(() => {
+    if (
+      updatingValue !== null &&
+      updatingValue !== "" &&
+      updatingValue !== undefined
+    )
+      setValue(updatingValue);
+  }, [updatingValue]);
+  return { value, set: setValue };
+};
 export const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
   // const [isTouched, setIsTouched] = useState(false);
