@@ -7,11 +7,13 @@ import "./navbar.css";
 
 import logoUrl from "../../../assets/images/Company Logo@2x.png";
 import helpSvg from "../../../assets/images/Help Icon.svg";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Navbar = () => {
   // console.log(props);
   // const dispatch = useDispatch();
   // const user = useSelector(selectUser);
+  const { auth, signOut } = useAuth();
   // const displayName = user?.displayName;
   // const photoURL = user?.photoURL;
   // const email = user?.email;
@@ -28,6 +30,9 @@ const Navbar = () => {
   const photoURL =
     "https://indodax.com/v2/images/logo-indodax-dark.png?20210525";
   const email = "";
+
+  if (location?.pathname === "/login" || location?.pathname === "/login/")
+    return <></>;
 
   return (
     <div className="navbar-wrapper">
@@ -46,16 +51,14 @@ const Navbar = () => {
               <span>{t("header.thisMonth")}</span>
             </div>
             <div>
-              <div className="btn-secondary">{t("general.signout") ?? "e"}</div>
+              <div className="btn-secondary" onClick={signOut}>
+                {t("general.signout") ?? "e"}
+              </div>
             </div>
           </div>
           <div className="item-center super-pt-1 last-nav-child">
-            <img
-              className="rounded-img"
-              src={"https://jonesnapoleon.com/static/media/Jones.14fc7267.png"}
-              alt=""
-            />
-            <div>{displayName}</div>
+            <img className="rounded-img" src={auth?.picture} alt="" />
+            <div>{auth?.fullname}</div>
             <div>&gt;</div>
             <div>
               <img src={helpSvg} alt="" />

@@ -7,14 +7,11 @@ export const login = async (token) => {
     const response = await axios.post(API_LOGIN, {
       token,
     });
-    console.log(response);
-    console.log(axios.defaults.headers);
     return response.data;
   } catch (e) {
-    if (e?.response) {
-      const errorCode = e.response?.data?.code;
-      console.log(e);
-    }
+    // if (e?.response) {
+    //   const errorCode = e.response?.data?.code;
+    // }
     throw e?.response?.data?.message ?? "Fail to login";
   }
 };

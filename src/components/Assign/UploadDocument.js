@@ -28,7 +28,7 @@ const UploadDocument = ({ setAvailableLevel }) => {
   }, [fileUrl, dispatch, setAvailableLevel]);
 
   const handleDrop = (file) => {
-    console.log(file);
+    // console.log(file);
     if (file) setFile(file);
     else setSnackbarData({ open: true, text: "Upload file failed" });
   };

@@ -7,7 +7,7 @@ const FloatingButton = ({
   availableLevel,
   onClickPrev,
 }) => {
-  console.log(availableLevel);
+  // console.log(availableLevel);
   return (
     <div className="row mt-2">
       <div className="col col-sm-12 col-lg-7">

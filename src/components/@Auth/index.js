@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 // import { auth, signInWithGoogle } from "../../firebase/firebase";
 import Snackbar from "../commons/Snackbar";
@@ -23,14 +23,6 @@ const SignIn = () => {
       setTimeout(() => setError(false), 3000);
     }
   };
-
-  // useEffect(() => {
-  //   const savedAuth = localStorage.getItem(AUTH_KEY);
-  //   const tokenData = JSON.parse(savedAuth) ?? {};
-  //   if (tokenData && isTimeInMsBeforeNow(tokenData?.expired_in)) {
-  //     navigate("/");
-  //   }
-  // }, []);
 
   return (
     <div className="background-sign-in1">

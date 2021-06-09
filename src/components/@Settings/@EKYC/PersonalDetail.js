@@ -1,9 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../../contexts/AuthContext";
 import { useFormInput } from "../../../helpers/hooks";
 
 const PersonalDetail = () => {
   const { t } = useTranslation();
+  const { auth } = useAuth();
   const name = useFormInput("");
   const nik = useFormInput("");
   const birthDate = useFormInput("");

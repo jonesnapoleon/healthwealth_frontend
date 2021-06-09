@@ -44,9 +44,9 @@ const App = () => {
         <div className="background-general">
           <Navbar />
           <Switch>
+            <Route component={SignIn} path={"/login"} exact />
             <Route render={() => <Me />} path={"/me"} exact />
             <Route render={() => <All />} path={"/all"} exact />
-            <Route component={SignIn} path={"/login"} exact />
             <Route
               render={() => (
                 <LayoutWrapper>

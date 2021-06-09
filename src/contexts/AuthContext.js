@@ -11,43 +11,50 @@ export const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  // const [authenticated, setAuthenticated] = useState(false);
   const [auth, setAuth] = useState({});
   const history = useHistory();
   const setAndSaveAuth = async (newValue) => {
     try {
       axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
       const res = await login(newValue?.id_token);
-      console.log(res);
       if (res) {
-        localStorage.setItem(
-          AUTH_KEY,
-          JSON.stringify({ ...newValue, ...res.data })
-        );
-        setAuth(newValue);
-        setAuthenticated(true);
+        const allValue = { ...newValue, ...res.data };
+        localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
+        setAuth(allValue);
+        // setAuthenticated(true);
         history.push("/");
       }
     } catch (e) {
-      console.log("this is err");
       localStorage.removeItem(AUTH_KEY);
-      setAuthenticated(false);
+      // setAuthenticated(false);
       throw e;
     }
+  };
+
+  const signOut = () => {
+    setAuth({});
+    // setAuthenticated(false);
+    history.push("/login");
+    localStorage.removeItem(AUTH_KEY);
   };
 
   useEffect(() => {
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
-    if (tokenData && isTimeInMsBeforeNow(tokenData?.expired_in)) {
+    if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
       setAuth(tokenData);
-      setAuthenticated(true);
+      // setAuthenticated(true);
+      history.push("/");
+    } else {
+      history.push("/login");
     }
-  }, []);
+  }, [history]);
 
   const authContext = {
-    authenticated,
+    // authenticated,
     auth,
+    signOut,
     setAuth: setAndSaveAuth,
   };
 
