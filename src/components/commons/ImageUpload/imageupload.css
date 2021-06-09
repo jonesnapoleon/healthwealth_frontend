@@ -39,3 +39,10 @@
 .drag-drop-container .upload-button {
   border: 1px solid var(--primary-color);
 }
+
+.open-cam-container video {
+  max-width: 60%;
+}
+.open-cam-container button {
+  font-size: 3rem;
+}

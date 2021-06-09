@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import OpenCam from "./OpenCam";
 
 const TakePhoto = ({ data }) => {
-  const [isAlertOpen, setIsAlertOpen] = useState(!false);
   const [isRecording, setIsRecording] = useState(!false);
   // const [isSimpaned, setIsSimpaned] = useState(false);
 
-  const playerORImage = (imageData) =>
-    Boolean(imageData?.value) && <img src={imageData?.value} alt={""} />;
+  const PlayerORImage = ({ imageData }) => {
+    console.log(imageData);
+    return Boolean(imageData.value) && <img src={imageData?.value} alt={""} />;
+  };
 
   // const handleClick = () => {
   //   if (isKtpForLife.value !== "true" && ktpNumber.value && ktpLife.value) {
@@ -43,21 +44,22 @@ const TakePhoto = ({ data }) => {
 
       {isRecording ? (
         <OpenCam
-          imageDataURL={data?.value}
+          imageDataURL={data}
           setIsRecording={setIsRecording}
-          isAlertOpen={isAlertOpen}
+          //   isAlertOpen={isAlertOpen}
         />
       ) : (
         <>
           <div style={{ margin: "0 1rem" }}>
-            <div className="image-frame">{playerORImage(data)}</div>
+            <div className="image-frame">
+              <PlayerORImage imageData={data} />
+            </div>
           </div>
           <div className="bottom-photo-container">
             <div>
               <div
                 className="small-icon"
                 onClick={() => {
-                  setIsAlertOpen(false);
                   setIsRecording(true);
                 }}
               ></div>

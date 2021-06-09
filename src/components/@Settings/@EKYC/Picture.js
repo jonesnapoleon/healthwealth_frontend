@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFile } from "../../../helpers/hooks";
+import { useFile, useInput } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
 
@@ -13,8 +13,12 @@ const Picture = () => {
   const { t } = useTranslation();
   // const [takePhoto, setTakePhoto] = useState(false);
   const { setInnerComponent, show } = useModal();
-  const identity = useFile();
-  const takePict = useFile();
+  const identity = useInput(null);
+  const takePict = useInput("");
+
+  // useEffect(() => {
+  //   console.log(takePict);
+  // }, [takePict]);
 
   const imagesData = [
     {
@@ -41,9 +45,9 @@ const Picture = () => {
       <div className="mt-1">
         <ImageUpload
           meta={imagesData[1]}
-          data={takePict}
+          // data={takePict}
           onClick={() => {
-            setInnerComponent(<TakePhoto />);
+            setInnerComponent(<TakePhoto data={takePict} />);
             show?.set(true);
           }}
         />

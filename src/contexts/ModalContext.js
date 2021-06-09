@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import { useInput, useRefreshedData } from "../helpers/hooks";
+import { useInput } from "../helpers/hooks";
 // import { useHistory, useLocation } from "react-router-dom";
 // import axios from "axios";
 import "react-responsive-modal/styles.css";
@@ -11,8 +11,8 @@ export const ModalContext = createContext({});
 export const useModal = () => useContext(ModalContext);
 
 const ModalProvider = ({ children }) => {
-  const innerComponent = useRefreshedData();
-  const show = useInput(<div />);
+  const innerComponent = useInput(<div />);
+  const show = useInput();
   // const history = useHistory();
   // const location = useLocation();
 

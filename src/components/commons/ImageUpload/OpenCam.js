@@ -4,7 +4,7 @@ import React from "react";
 
 class OpenCam extends React.Component {
   initializeMedia = () => {
-    this.props.imageDataURL.set(null);
+    this.props.imageDataURL?.set(null);
 
     if (!("mediaDevices" in navigator)) {
       navigator.mediaDevices = {};
@@ -36,16 +36,12 @@ class OpenCam extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.isAlertOpen) {
-      this.initializeMedia();
-    }
+    this.initializeMedia();
   }
 
-  componentDidUpdate() {
-    if (!this.props.isAlertOpen) {
-      this.initializeMedia();
-    }
-  }
+  //   componentDidUpdate() {
+  //     this.initializeMedia();
+  //   }
 
   capturePicture = () => {
     if (this.player && this.player.srcObject) {
@@ -58,8 +54,7 @@ class OpenCam extends React.Component {
         track.stop();
       });
 
-      console.log(canvas.toDataURL());
-      this.props.imageDataURL.set(canvas.toDataURL());
+      this.props.imageDataURL?.set(canvas.toDataURL());
       this.props.setIsRecording((a) => !a);
     }
   };
@@ -67,23 +62,23 @@ class OpenCam extends React.Component {
   render() {
     return (
       <>
-        <div className="open-cam-container">
-          <button
-            style={{ padding: 0, marginTop: "1rem" }}
-            onClick={() => this.props.setIsRecording(false)}
-          >
-            CLICK
-          </button>
-          <h2 className="title">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-          </h2>
+        <div className="open-cam-container item-centery">
           <video
             ref={(refrence) => {
               this.player = refrence;
             }}
             autoPlay
           ></video>
-          <div className="small-icon" onClick={this.capturePicture}></div>
+          <button
+            onClick={() => {
+              this.capturePicture();
+              //   this.props.setIsRecording(false);
+            }}
+            className="btn btn-outline-light"
+          >
+            ⚪
+          </button>
+          {/* <div className="small-icon" onClick={}></div> */}
         </div>
       </>
     );
