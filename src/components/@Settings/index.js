@@ -11,8 +11,8 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import lockIcon from "../../assets/images/Lock Tab Icon.svg";
 
-import EKYC from "./EKYC";
-import Signature from "./Signature";
+import EKYC from "./@EKYC";
+import Signature from "./@Signature";
 
 import "./settings.css";
 

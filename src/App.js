@@ -6,8 +6,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 // import Preparation from "./components/PrepareDocument/Preparation";
 // import Sign from "./components/SignDocument/Sign";
 // import View from "./components/ViewDocument/View";
-import SignIn from "./components/SignIn";
-import Landing from "./components/Landing";
+import SignIn from "./components/@Auth";
+import Landing from "./components/@Landing";
 import LayoutWrapper from "./components/layout/Wrapper";
 // import { auth, generateUserDocument } from "./firebase/firebase";
 // import { setUser, selectUser } from "./api/authSlice";
@@ -15,13 +15,13 @@ import "./index.css";
 import "./overrides.css";
 import "./helpers/i18n";
 
-import Me from "./components/Sign/Me";
-import All from "./components/Sign/All";
+import Me from "./components/@Sign/@Me";
+import All from "./components/@Sign/@All";
 // import LoadingBackdrop from "./components/commons/LoadingBackdrop";
 import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
-import Settings from "./components/Settings";
-import Docs from "./components/Docs";
+import Settings from "./components/@Settings";
+import Docs from "./components/@Docs";
 
 const App = () => {
   // const user = "";
