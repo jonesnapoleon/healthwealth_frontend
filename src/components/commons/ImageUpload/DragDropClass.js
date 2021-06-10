@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class DragDrop extends Component {
+class DragDropClass extends Component {
   state = {
     drag: false,
   };
@@ -56,7 +56,7 @@ class DragDrop extends Component {
           display: "grid",
           position: "relative",
           width: "100%",
-          minHeight: "20vh",
+          // minHeight: "20vh",
         }}
         ref={this.dropRef}
       >
@@ -93,4 +93,4 @@ class DragDrop extends Component {
     );
   }
 }
-export default DragDrop;
+export default DragDropClass;
