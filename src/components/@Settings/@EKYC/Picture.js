@@ -14,7 +14,7 @@ const Picture = () => {
   // const [takePhoto, setTakePhoto] = useState(false);
   const { setInnerComponent, show } = useModal();
   const identity = useInput(null);
-  const takePict = useInput("");
+  const takePict = useInput(null);
 
   // useEffect(() => {
   //   console.log(takePict);

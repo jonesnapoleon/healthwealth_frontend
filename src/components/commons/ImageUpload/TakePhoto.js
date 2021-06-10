@@ -1,53 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OpenCam from "./OpenCam";
+import WebCam from "./WebCam";
 
 const TakePhoto = ({ data }) => {
   const [isRecording, setIsRecording] = useState(!false);
-  // const [isSimpaned, setIsSimpaned] = useState(false);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const PlayerORImage = ({ imageData }) => {
-    console.log(imageData);
     return Boolean(imageData.value) && <img src={imageData?.value} alt={""} />;
   };
 
-  // const handleClick = () => {
-  //   if (isKtpForLife.value !== "true" && ktpNumber.value && ktpLife.value) {
-  //     ktpLife.onChange({ target: { value: null } });
-  //   }
-  // };
-
-  //   const check = () => {
-
-  //   };
-
   return (
     <div className="articles">
-      {/* <AlertDialog
-        title={
-          documentType === "ktp"
-            ? t("loanRequest.takePhoto.guideKtp")
-            : t("loanRequest.takePhoto.guideSelfie")
-        }
-        subTitle={<Lists ul lists={lists} />}
-        imageNodes={[
-          "https://thumbs.dreamstime.com/z/blank-check-open-space-your-text-19414606.jpg",
-          "https://thumbs.dreamstime.com/z/blank-check-open-space-your-text-19414606.jpg",
-        ]}
-        onClick={() => {
-          setIsAlertOpen((a) => !a);
-          setIsRecording(true);
-        }}
-        titleAction={"Ambil foto"}
-        isAlertOpen={isAlertOpen}
-        setIsAlertOpen={setIsAlertOpen}
-      /> */}
-
       {isRecording ? (
-        <OpenCam
-          imageDataURL={data}
-          setIsRecording={setIsRecording}
-          //   isAlertOpen={isAlertOpen}
-        />
+        <>
+          <OpenCam imageDataURL={data} setIsRecording={setIsRecording} />
+          <WebCam imageDataURL={data} setIsRecording={setIsRecording} />
+        </>
       ) : (
         <>
           <div style={{ margin: "0 1rem" }}>
@@ -65,19 +37,6 @@ const TakePhoto = ({ data }) => {
               ></div>
               Ambil ulang
             </div>
-            {/* <Grid item xs={6}>
-                {!isSimpaned && (
-                  <div
-                    className="small-icon"
-                    onClick={() =>
-                      documentType !== "ktp"
-                        ? history.push(routerPath.loanRequest.addDocument)
-                        : setIsSimpaned(true)
-                    }
-                  />
-                )}
-                {!isSimpaned ? "Simpan" : "Tersimpan"}
-              </Grid> */}
           </div>
         </>
       )}

@@ -1,88 +1,80 @@
-import React from "react";
-// import { IconButton } from "@material-ui/core";
-// import { ChevronLeft } from "@material-ui/icons";
+import React, { useEffect, useRef } from "react";
+import { useInput } from "../../../helpers/hooks";
 
-class OpenCam extends React.Component {
-  initializeMedia = () => {
-    this.props.imageDataURL?.set(null);
+const OpenCam = (props) => {
+  const player = useRef(null);
 
-    if (!("mediaDevices" in navigator)) {
-      navigator.mediaDevices = {};
-    }
+  useEffect(() => {
+    const initializeMedia = () => {
+      if (!("mediaDevices" in navigator)) navigator.mediaDevices = {};
 
-    if (!("getUserMedia" in navigator.mediaDevices)) {
-      navigator.mediaDevices.getUserMedia = function (constraints) {
-        var getUserMedia =
-          navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      if (!("getUserMedia" in navigator.mediaDevices)) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          var getUserMedia =
+            navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        if (!getUserMedia) {
-          return Promise.reject(new Error("getUserMedia Not Implemented"));
-        }
+          if (!getUserMedia)
+            return Promise.reject(new Error("getUserMedia Not Implemented"));
 
-        return new Promise((resolve, reject) => {
-          getUserMedia.call(navigator, constraints, resolve, reject);
+          return new Promise((resolve, reject) => {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        };
+      }
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: { facingMode: "user" },
+        })
+        .then((stream) => {
+          player.current.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error(error);
         });
-      };
-    }
-
-    navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: this.props.facingMode ?? "user" } })
-      .then((stream) => {
-        this.player.srcObject = stream;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  componentDidMount() {
-    this.initializeMedia();
-  }
+    };
+    initializeMedia();
+  }, []);
 
   //   componentDidUpdate() {
   //     this.initializeMedia();
   //   }
 
-  capturePicture = () => {
-    if (this.player && this.player.srcObject) {
+  const capturePicture = async () => {
+    if (player?.current && player?.current?.srcObject) {
       var canvas = document.createElement("canvas");
-      canvas.width = this.player.videoWidth;
-      canvas.height = this.player.videoHeight;
+      canvas.width = player.current?.videoWidth;
+      canvas.height = player.current?.videoHeight;
       var contex = canvas.getContext("2d");
-      contex.drawImage(this.player, 0, 0, canvas.width, canvas.height);
-      this.player.srcObject.getVideoTracks().forEach((track) => {
+      contex.drawImage(player.current, 0, 0, canvas.width, canvas.height);
+      player.current.srcObject.getVideoTracks().forEach((track) => {
         track.stop();
       });
 
-      this.props.imageDataURL?.set(canvas.toDataURL());
-      this.props.setIsRecording((a) => !a);
+      await props.imageDataURL?.set(canvas?.toDataURL());
     }
   };
 
-  render() {
-    return (
-      <>
-        <div className="open-cam-container item-centery">
-          <video
-            ref={(refrence) => {
-              this.player = refrence;
-            }}
-            autoPlay
-          ></video>
-          <button
-            onClick={() => {
-              this.capturePicture();
-              //   this.props.setIsRecording(false);
-            }}
-            className="btn btn-outline-light"
-          >
-            ⚪
-          </button>
-          {/* <div className="small-icon" onClick={}></div> */}
-        </div>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <div className="open-cam-container item-centery">
+        <video ref={player} autoPlay></video>
+        <button
+          onClick={async () => {
+            await capturePicture();
+            console.log(props.imageDataURL);
+
+            // console.log(dataUrl);
+            // props.setIsRecording(false);
+          }}
+          className="btn btn-outline-light"
+        >
+          ⚪
+        </button>
+        {/* <div className="small-icon" onClick={}></div> */}
+      </div>
+    </>
+  );
+};
 
 export default OpenCam;
