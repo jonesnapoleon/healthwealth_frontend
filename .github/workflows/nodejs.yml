@@ -52,12 +52,6 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@main
 
-      - name: Download Artifact
-        uses: actions/download-artifact@main
-        with:
-          name: build
-          path: .docker/build
-
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -72,7 +66,6 @@ jobs:
           gcloud builds submit \
             --quiet \
             --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
-        working-directory: .docker
 
       # Deploy image to Cloud Run
       - name: Deploy GCR
