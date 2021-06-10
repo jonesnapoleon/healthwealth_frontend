@@ -5,14 +5,20 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-
+  cursor: pointer;
   background-color: var(--secondary-extra-color-1);
   color: var(--primary-color);
   border: 0.5px dashed var(--primary-color);
 }
 
 .image-upload-container img {
+  margin: auto;
   height: 2rem;
+}
+
+.image-upload-container img.showing-image {
+  width: 70%;
+  height: auto;
 }
 
 .drag-drop-container {
