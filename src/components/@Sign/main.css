@@ -1,3 +1,10 @@
 .sign-select-document-container {
   margin-top: 3rem;
 }
+.one-person-row-container {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  background: var(--secondary-extra-color-1);
+  margin: 1rem 0;
+}

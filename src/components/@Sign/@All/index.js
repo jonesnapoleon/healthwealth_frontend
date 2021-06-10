@@ -25,11 +25,10 @@ const Me = () => {
       name: t("sign.selectDocument.text"),
       icon: selectIcon,
       component: (
-        <SelectDocument
+        <AddSigners
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
-          setFileUrl={setFileUrl}
         />
       ),
     },
@@ -37,11 +36,17 @@ const Me = () => {
       name: t("sign.addSigners.text"),
       icon: personAddIcon,
       component: (
-        <AddSigners
+        <SelectDocument
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          setFileUrl={setFileUrl}
         />
+        // <AddSigners
+        //   activeItem={activeItem}
+        //   availableLevel={availableLevel}
+        //   setActiveItem={setActiveItem}
+        // />
       ),
     },
     {

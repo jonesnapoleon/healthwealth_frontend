@@ -230,7 +230,13 @@
     },
     "addSigners": {
       "text": "Add signers",
-      "whoNeed": "Who need to sign?"
+      "whoNeed": "Who need to sign?",
+      "sender": "Sender",
+      "sequenceSign": "Sequence sign",
+      "importBulkList": "Import Bulk List",
+      "name": "Name",
+      "emailAddress": "Email address",
+      "addSigner": "Add signer"
     },
     "placeFields": {
       "text": "Place fields"

@@ -53,6 +53,7 @@ const AuthProvider = ({ children }) => {
           history.push("/");
       } else {
         history.push("/login");
+        localStorage.removeItem(AUTH_KEY);
       }
       setFirstTime(false);
     }
