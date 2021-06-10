@@ -57,3 +57,8 @@
 .bold {
   font-weight: bold;
 }
+
+ul,
+li {
+  list-style: none;
+}

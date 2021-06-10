@@ -1,14 +1,34 @@
 import React from "react";
-import { Droppable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
-const PersonRow = ({ data, id }) => {
+// const src =
+//   "https://lh3.googleusercontent.com/a/AATXAJx1LiuKljmJO8H4h1gOlUI3V5VIF2Jo7NJQNcTz=s96-c";
+
+const PersonRow = ({ data, index, handleValue }) => {
   return (
-    <div className="one-person-row-container">
-      <Droppable droppableId={id}>
-        {data?.name}
-        {data?.name}
-      </Droppable>
-    </div>
+    <Draggable draggableId={data?.id} index={index}>
+      {(provided) => (
+        <li
+          className="one-person-row-container"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div className="">
+            <input
+              value={data?.name}
+              onChange={(e) => handleValue("name", e.target.value, index)}
+            />
+          </div>
+          <div className="">
+            <input
+              value={data?.email}
+              onChange={(e) => handleValue("email", e.target.value, index)}
+            />
+          </div>
+        </li>
+      )}
+    </Draggable>
   );
 };
 

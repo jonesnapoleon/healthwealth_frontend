@@ -4,7 +4,18 @@
 .one-person-row-container {
   padding: 0.6rem 1.4rem;
   border: 1px solid var(--primary);
+  list-style-type: none;
+  position: relative;
   cursor: pointer;
+  /* list-style-image: url(https://cdn.iconscout.com/icon/free/png-256/drag-indicator-1781281-1513602.png); */
+
   background: var(--secondary-extra-color-1);
-  margin: 1rem 0;
+  margin: 0rem 0 0.5rem;
+}
+
+.person-row-container {
+  padding-left: 0;
+}
+.add-signers-area {
+  margin: 0 0 1rem;
 }
