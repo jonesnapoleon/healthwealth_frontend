@@ -10,6 +10,7 @@ import { useHistory, useLocation } from "react-router-dom";
 // import userIcon from "../../../assets/images/User tab icon.svg";
 
 import lockIcon from "../../assets/images/Lock Tab Icon.svg";
+import { FRONTEND_URL } from "../../helpers/constant";
 
 import EKYC from "./@EKYC";
 import Signature from "./@Signature";
@@ -70,7 +71,7 @@ const Settings = () => {
             onClick={() => {
               if (datum?.isAvailable) {
                 setActive(datum?.hash);
-                history.push(`/settings${datum?.hash}`);
+                history.push(`${FRONTEND_URL.settings}${datum?.hash}`);
               }
             }}
           >

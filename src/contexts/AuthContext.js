@@ -5,7 +5,7 @@ import { AUTH_KEY } from "../helpers/constant";
 import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 
-// import { DynamicRoute } from "../../utils/constants/dynamic-route";
+import { FRONTEND_URL } from "../helpers/constant";
 
 export const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
@@ -24,21 +24,21 @@ const AuthProvider = ({ children }) => {
         const allValue = { ...newValue, ...res.data };
         localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
         setAuth(allValue);
-        // setAuthenticated(true);
-        if (location?.pathname === "/login" || location?.pathname === "/login/")
-          history.push("/");
+        if (
+          location?.pathname === FRONTEND_URL.login ||
+          location?.pathname === `${FRONTEND_URL.login}/`
+        )
+          history.push(FRONTEND_URL.base);
       }
     } catch (e) {
       localStorage.removeItem(AUTH_KEY);
-      // setAuthenticated(false);
       throw e;
     }
   };
 
   const signOut = () => {
     setAuth({});
-    // setAuthenticated(false);
-    history.push("/login");
+    history.push(FRONTEND_URL.login);
     localStorage.removeItem(AUTH_KEY);
   };
 
@@ -49,10 +49,13 @@ const AuthProvider = ({ children }) => {
     if (firstTime) {
       if (tokenData && isTimeInMsBeforeNow(tokenData?.expires_at)) {
         setAuth(tokenData);
-        if (location?.pathname === "/login" || location?.pathname === "/login/")
-          history.push("/");
+        if (
+          location?.pathname === FRONTEND_URL.login ||
+          location?.pathname === `${FRONTEND_URL.login}/`
+        )
+          history.push(FRONTEND_URL.base);
       } else {
-        history.push("/login");
+        history.push(FRONTEND_URL.login);
         localStorage.removeItem(AUTH_KEY);
       }
       setFirstTime(false);
@@ -60,7 +63,6 @@ const AuthProvider = ({ children }) => {
   }, [history, location, firstTime]);
 
   const authContext = {
-    // authenticated,
     auth,
     signOut,
     setAuth: setAndSaveAuth,

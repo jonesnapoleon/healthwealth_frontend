@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useData } from "../../../contexts/DataContext";
 import { useHistory } from "react-router-dom";
 import { getReadableWord } from "../../../helpers/transformer";
+import { FRONTEND_URL } from "../../../helpers/constant";
 // import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
 // import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
 // import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
@@ -56,7 +57,9 @@ const Me = () => {
   );
 
   useEffect(() => {
-    history.push(`/me#${getReadableWord(stepperData?.[activeItem]?.name)}`);
+    history.push(
+      `${FRONTEND_URL.me}#${getReadableWord(stepperData?.[activeItem]?.name)}`
+    );
   }, [activeItem, history, stepperData]);
 
   return (

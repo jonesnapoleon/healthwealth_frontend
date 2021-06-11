@@ -59,6 +59,21 @@
     "success": "Success",
     "failed": "Failed"
   },
+  "otp": {
+    "sendOtp": "Send OTP",
+    "optConfirm": "Confirm OTP",
+    "enterOTPCodeEmail": "Enter the OTP code that has been sent via email to the email ",
+    "resendOTP": "Didn't receive the code? Wait ",
+    "resendCode": " to Resend Code",
+    "enterOTPCodeSms": "Enter the OTP code that has been sent via SMS to the number ",
+    "digitCode": "Digit Code",
+    "incorrectOTP": "Wrong OTP code",
+    "verifyYourPhone": "Verify Your Phone Number",
+    "upgradeYourSecurity": "Improve security and you start using Telkomsel and LinkAja Bill payments",
+    "verifyNow": "Verify now",
+    "verificationSuccessLinkDisplay": "Phone Number Verification Is Successful And LinkAja Balance Is Displayed",
+    "verificationSuccessPhone": "Phone Number Verified"
+  },
   "alert": {
     "success": {
       "addToFav": "Successfully added content to favorites",
@@ -316,6 +331,7 @@
     "wishlist": "Wishlist"
   },
   "login": {
+    "loginWithGoogle": "Login with Google",
     "goodMorning": "Good Morning!",
     "goodAfternoon": "Good Afternoon!",
     "goodEvening": "Good Evening!",
@@ -329,7 +345,7 @@
     "welcome": "Welcome",
     "in99": "to 99% Usahaku",
     "forgotPassword": "Forgot Password?",
-    "login": "Login",
+    "text": "Login",
     "registerForStart": "Register To Start",
     "haveAccount": "Already have an account? ",
     "termAndCondition": "Terms and Condition",
@@ -355,20 +371,7 @@
     "noFavorite": "There is no favorite yet",
     "try30Days": "Try 30 days"
   },
-  "otp": {
-    "optConfirm": "Confirm OTP",
-    "enterOTPCodeEmail": "Enter the OTP code that has been sent via email to the email ",
-    "resendOTP": "Didn't receive the code? Wait ",
-    "resendCode": " to Resend Code",
-    "enterOTPCodeSms": "Enter the OTP code that has been sent via SMS to the number ",
-    "digitCode": "Digit Code",
-    "incorrectOTP": "Wrong OTP code",
-    "verifyYourPhone": "Verify Your Phone Number",
-    "upgradeYourSecurity": "Improve security and you start using Telkomsel and LinkAja Bill payments",
-    "verifyNow": "Verify now",
-    "verificationSuccessLinkDisplay": "Phone Number Verification Is Successful And LinkAja Balance Is Displayed",
-    "verificationSuccessPhone": "Phone Number Verified"
-  },
+
   "homepage": {
     "homepage": "Home",
     "readMore": "Read More",
