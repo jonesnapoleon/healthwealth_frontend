@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import { FRONTEND_URL } from "../../../helpers/constant";
+
 import signatureIcon from "../../../assets/images/Add Signer Icon.svg";
 import analyticsIcon from "../../../assets/images/Analytic Tab Icon.svg";
 import documentIcon from "../../../assets/images/document tab icon.svg";
@@ -17,50 +19,48 @@ const landingData = [
   {
     isAvailable: true,
     name: "Sign",
-    link: "/sign",
+    link: FRONTEND_URL.sign,
     icon: signatureIcon,
   },
   {
     isAvailable: true,
     name: "Documents",
-    link: "/docs",
+    link: FRONTEND_URL.docs,
     icon: documentIcon,
   },
   {
     isAvailable: true,
     name: "Settings",
-    link: "/settings",
+    link: FRONTEND_URL.settings,
     icon: settingIcon,
   },
   {
     isAvailable: false,
     name: "Team",
-    link: "/",
+    link: FRONTEND_URL.realBase,
     icon: userIcon,
   },
   {
     isAvailable: false,
     name: "Templates",
-    link: "/",
+    link: FRONTEND_URL.realBase,
     icon: templateIcon,
   },
   {
     isAvailable: false,
     name: "Integration",
-    link: "/",
+    link: FRONTEND_URL.realBase,
     icon: integrationIcon,
   },
   {
     isAvailable: false,
     name: "Analytic",
-    link: "/",
+    link: FRONTEND_URL.realBase,
     icon: analyticsIcon,
   },
 ];
 
 const Sidebar = () => {
-  // const location = useLocation();
-
   return (
     <div className="row">
       <div className="col col-8">

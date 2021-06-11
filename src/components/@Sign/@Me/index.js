@@ -1,23 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
-import SelectDocument from "../SelectDocument";
-import Stepper from "../../commons/Stepper";
-
-import PlaceField from "../PlaceField";
-import selectIcon from "../../../assets/images/document tab icon.svg";
-import placeFieldIcon from "../../../assets/images/document tab icon.svg";
-import reviewSendIcon from "../../../assets/images/document tab icon.svg";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../../contexts/DataContext";
 import { useHistory } from "react-router-dom";
 import { getReadableWord } from "../../../helpers/transformer";
 import { FRONTEND_URL } from "../../../helpers/constant";
+
+import SelectDocument from "../SelectDocument";
+import Stepper from "../../layout/Stepper";
+
+import PlaceField from "../PlaceField";
+import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as ReviewSendIcon } from "../../../assets/images/document tab icon.svg";
 // import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
 // import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
 // import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
-  const availableLevel = activeItem;
+  const [availableLevel, setAvailableItem] = useState(0);
   const { setFileUrl } = useData();
   const history = useHistory();
   const { t } = useTranslation();
@@ -26,19 +27,20 @@ const Me = () => {
     () => [
       {
         name: t("sign.selectDocument.text"),
-        icon: selectIcon,
+        icon: <SelectIcon />,
         component: (
           <SelectDocument
             activeItem={activeItem}
             availableLevel={availableLevel}
             setFileUrl={setFileUrl}
             setActiveItem={setActiveItem}
+            setAvailableItem={setAvailableItem}
           />
         ),
       },
       {
         name: t("sign.placeFields.text"),
-        icon: placeFieldIcon,
+        icon: <PlaceFieldIcon />,
         component: (
           <PlaceField
             activeItem={activeItem}
@@ -50,7 +52,7 @@ const Me = () => {
       },
       {
         name: t("sign.reviewSend.text"),
-        icon: reviewSendIcon,
+        icon: <ReviewSendIcon />,
       },
     ],
     [activeItem, t, availableLevel, setFileUrl]

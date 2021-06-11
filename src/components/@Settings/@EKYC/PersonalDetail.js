@@ -117,9 +117,7 @@ const PersonalDetail = () => {
               <br />
 
               <div className="item-right">
-                <button className="text-only-button">
-                  {t("form.sendOtp")}
-                </button>
+                <button className="text-only-button">{t("otp.sendOtp")}</button>
               </div>
             </td>
           </tr>

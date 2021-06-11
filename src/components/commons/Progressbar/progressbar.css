@@ -1,0 +1,48 @@
+.progressbar {
+  overflow: hidden;
+  transition: width 0.6s ease;
+  width: 27rem;
+  position: relative;
+}
+
+.progressbar .text {
+  color: var(--common-background-color);
+  font-weight: bold;
+  display: inline;
+  position: absolute;
+  right: 4rem;
+  top: -0.25rem;
+  font-size: 1rem;
+}
+
+.progressbar .bar {
+  height: 1rem;
+  width: 20rem;
+  position: relative;
+  background: var(--secondary-extra-color-1);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+}
+
+.progressbar .progress {
+  height: 1rem;
+  max-width: 20rem;
+  border-radius: var(--border-radius);
+  background: var(--secondary-extra-color-2);
+  float: left;
+}
+
+@media (max-width: 1000px) {
+  .progressbar {
+    width: 21rem;
+  }
+  .progressbar .bar {
+    width: 15rem;
+  }
+  .progressbar .progress {
+    max-width: 15rem !important;
+  }
+  .progressbar .text {
+    right: 2rem;
+  }
+}

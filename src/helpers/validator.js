@@ -1,3 +1,5 @@
+import { highlightedNavs } from "./constant";
+
 /* eslint-disable no-useless-escape */
 export const isValidEmail = (email) => {
   const re =
@@ -55,4 +57,12 @@ export const isFileValid = (file, extensions, maxFileSize) => {
   //   throw new Error(`file_size_error ${maxFileSize}.`);
   // }
   // return true;
+};
+
+export const isHeaderHighlighted = (pathname) => {
+  if (!pathname) return false;
+  for (let nav of highlightedNavs) {
+    if (nav === pathname || pathname === `${nav}/`) return true;
+  }
+  return false;
 };

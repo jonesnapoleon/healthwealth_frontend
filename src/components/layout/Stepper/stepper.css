@@ -1,0 +1,23 @@
+.stepper-container {
+  background: var(--tertiary-color);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.stepper-container * {
+  color: white;
+}
+.stepper-container .back {
+  border-right: 2px solid var(--tertiary-color);
+}
+.stepper-container .stepper-buy-now-button {
+  color: rgba(var(--primary-color-divide), 0.7);
+  font-weight: bolder;
+  cursor: pointer;
+  background: var(--secondary-extra-color-2);
+}
+.stepper-container .stepper-buy-now-button:hover {
+  color: var(--tertiary-color);
+  font-weight: bolder;
+  background: var(--secondary-extra-color-2);
+}

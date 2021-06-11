@@ -3,13 +3,21 @@
 
 :root {
   --primary-color: #000000;
+  --primary-color-divide: 0, 0, 0;
+
   --secondary-color: #fafafa;
   --text-color: #fff;
   --secondary-extra-color-1: #f0f0f0;
-  --secondary-extra-color-2: #2f7bf7;
+  --secondary-extra-color-2: #dde4f1;
   --tertiary-color: #2f7bf7;
   --border-radius: 25px;
   --form-border-radius: 5px;
+  --standard-font-size: 16px;
+}
+@media (max-width: 1000px) {
+  :root {
+    --standard-font-size: 12px;
+  }
 }
 
 body {
@@ -17,7 +25,16 @@ body {
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: var(--standard-font-size);
   overflow-x: hidden;
+}
+p,
+div,
+span,
+input,
+button,
+.btn {
+  font-size: var(--standard-font-size);
 }
 
 * {

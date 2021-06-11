@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-// import { useFile } from "../../helpers/hooks";
-import FloatingButton from "./commons/FloatingButton";
+import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { useAuth } from "../../contexts/AuthContext";
-import "./main.css";
-import PersonRow from "./commons/PersonRow";
+import { useAuth } from "../../../contexts/AuthContext";
+import "./addSigners.css";
+import PersonRow from "../commons/PersonRow";
 
 const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
 
-  // const data = useFile();
   const { auth } = useAuth();
 
   const handleUploadFile = () => {

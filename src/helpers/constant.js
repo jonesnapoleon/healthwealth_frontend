@@ -3,6 +3,7 @@ export const BREAKPOINT_WIDTH = 769;
 export const MODAL_ANIMATE_DURATION = 800;
 
 export const FRONTEND_URL = {
+  realBase: "/",
   base: "/sign",
   login: "/login",
   me: "/me",
@@ -11,3 +12,6 @@ export const FRONTEND_URL = {
   settings: "/settings",
   docs: "/docs",
 };
+
+export const highlightedNavs = [FRONTEND_URL.me, FRONTEND_URL.all];
+export const PROGRESS_BAR_INTERVAL = 30;

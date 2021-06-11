@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { BREAKPOINT_WIDTH } from "./constant";
+import { BREAKPOINT_WIDTH, PROGRESS_BAR_INTERVAL } from "./constant";
 
 export const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
@@ -86,4 +86,23 @@ export const useWidth = () => {
 export const useIsLargeScreen = () => {
   const width = useWidth();
   return width > BREAKPOINT_WIDTH;
+};
+
+export const useProgressBar = () => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    console.log(value);
+    const updateProgress = () => {
+      if (value !== 99) {
+        setValue(value + 1);
+      }
+    };
+    if (value > 0 && value < 100) {
+      const id = setInterval(updateProgress, PROGRESS_BAR_INTERVAL);
+      return () => clearInterval(id);
+    }
+  }, [value]);
+
+  return { value, set: setValue };
 };

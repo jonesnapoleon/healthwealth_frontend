@@ -57,7 +57,8 @@
     "tryAgainLater": "Sorry, could not access server. Try again later.",
     "status": "Status",
     "success": "Success",
-    "failed": "Failed"
+    "failed": "Failed",
+    "buyNow": "Buy Now"
   },
   "otp": {
     "sendOtp": "Send OTP",
@@ -727,7 +728,6 @@
     "covered": "Covered",
     "free": "FREE",
     "manageOrder": "Manage Order",
-    "buyNow": "Buy Now",
     "addToCart": "Add to Cart",
     "minBuy1": "Minumun puchase: 1",
     "shoppingTotal": "Total Purchase",

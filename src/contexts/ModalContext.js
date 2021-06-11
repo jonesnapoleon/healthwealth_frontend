@@ -1,7 +1,5 @@
 import React, { createContext, useContext } from "react";
 import { useInput } from "../helpers/hooks";
-// import { useHistory, useLocation } from "react-router-dom";
-// import axios from "axios";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { MODAL_ANIMATE_DURATION } from "../helpers/constant";
@@ -13,8 +11,6 @@ export const useModal = () => useContext(ModalContext);
 const ModalProvider = ({ children }) => {
   const innerComponent = useInput(<div />);
   const show = useInput();
-  // const history = useHistory();
-  // const location = useLocation();
 
   return (
     <ModalContext.Provider
@@ -30,11 +26,11 @@ const ModalProvider = ({ children }) => {
           onClose={() => {
             show?.set(false);
           }}
-          // onAnimationEnd={() => {
-          //   if (!show?.value) {
-          //     show?.set(false);
-          //   }
-          // }}
+          onAnimationEnd={() => {
+            if (!show?.value) {
+              show?.set(false);
+            }
+          }}
           center
           classNames={{
             modal: `modal-base`,

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
-import Stepper from "../../commons/Stepper";
-
-import selectIcon from "../../../assets/images/document tab icon.svg";
-import personAddIcon from "../../../assets/images/document tab icon.svg";
-import placeFieldIcon from "../../../assets/images/document tab icon.svg";
-import reviewSendIcon from "../../../assets/images/document tab icon.svg";
+import Stepper from "../../layout/Stepper";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../../contexts/DataContext";
+
+import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as ReviewSendIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as PersonAddIcon } from "../../../assets/images/document tab icon.svg";
+
 // import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
 // import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
 // import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
@@ -23,7 +24,7 @@ const Me = () => {
   const stepperData = [
     {
       name: t("sign.selectDocument.text"),
-      icon: selectIcon,
+      icon: <SelectIcon />,
       component: (
         <AddSigners
           activeItem={activeItem}
@@ -34,7 +35,7 @@ const Me = () => {
     },
     {
       name: t("sign.addSigners.text"),
-      icon: personAddIcon,
+      icon: <PersonAddIcon />,
       component: (
         <SelectDocument
           activeItem={activeItem}
@@ -51,11 +52,11 @@ const Me = () => {
     },
     {
       name: t("sign.placeFields.text"),
-      icon: placeFieldIcon,
+      icon: <PlaceFieldIcon />,
     },
     {
       name: t("sign.reviewSend.text"),
-      icon: reviewSendIcon,
+      icon: <ReviewSendIcon />,
     },
   ];
 
