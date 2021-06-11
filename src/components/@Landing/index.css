@@ -28,3 +28,7 @@
 .home-wrapper .sign-area .button {
   padding-top: 2rem;
 }
+
+.home-wrapper .sign-area .button .button-landing {
+  border-radius: var(--border-radius);
+}

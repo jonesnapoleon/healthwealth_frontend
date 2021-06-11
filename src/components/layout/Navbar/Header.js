@@ -23,9 +23,9 @@ const Header = ({ auth, t, signOut }) => {
               <span>{t("header.thisMonth")}</span>
             </div>
             <div>
-              <div className="btn-secondary cursor-pointer" onClick={signOut}>
+              <button className="logout-button btn-secondary" onClick={signOut}>
                 {t("general.signout")}
-              </div>
+              </button>
             </div>
           </div>
           <div className="item-center super-pt-1 last-nav-child">

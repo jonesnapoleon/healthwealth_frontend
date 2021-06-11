@@ -3,15 +3,15 @@ import { NavLink } from "react-router-dom";
 
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import signatureIcon from "../../../assets/images/Add Signer Icon.svg";
-import analyticsIcon from "../../../assets/images/Analytic Tab Icon.svg";
-import documentIcon from "../../../assets/images/document tab icon.svg";
-import integrationIcon from "../../../assets/images/Integration Tab Icon.svg";
-import templateIcon from "../../../assets/images/Template Tab Icon.svg";
-import settingIcon from "../../../assets/images/setting tab icon.svg";
-import userIcon from "../../../assets/images/User tab icon.svg";
+import { ReactComponent as SignatureIcon } from "../../../assets/images/Add Signer Icon.svg";
+import { ReactComponent as AnalyticsIcon } from "../../../assets/images/Analytic Tab Icon.svg";
+import { ReactComponent as DocumentIcon } from "../../../assets/images/document tab icon.svg";
+import { ReactComponent as IntegrationIcon } from "../../../assets/images/Integration Tab Icon.svg";
+import { ReactComponent as TemplateIcon } from "../../../assets/images/Template Tab Icon.svg";
+import { ReactComponent as SettingIcon } from "../../../assets/images/setting tab icon.svg";
+import { ReactComponent as UserIcon } from "../../../assets/images/User tab icon.svg";
 
-import lockIcon from "../../../assets/images/Lock Tab Icon.svg";
+import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
 
 import "./sidebar.css";
 
@@ -20,72 +20,85 @@ const landingData = [
     isAvailable: true,
     name: "Sign",
     link: FRONTEND_URL.sign,
-    icon: signatureIcon,
+    icon: <SignatureIcon />,
   },
   {
     isAvailable: true,
     name: "Documents",
     link: FRONTEND_URL.docs,
-    icon: documentIcon,
+    icon: <DocumentIcon />,
   },
   {
     isAvailable: true,
     name: "Settings",
     link: FRONTEND_URL.settings,
-    icon: settingIcon,
+    icon: <SettingIcon />,
   },
   {
     isAvailable: false,
     name: "Team",
     link: FRONTEND_URL.realBase,
-    icon: userIcon,
+    icon: <UserIcon />,
   },
   {
     isAvailable: false,
     name: "Templates",
     link: FRONTEND_URL.realBase,
-    icon: templateIcon,
+    icon: <TemplateIcon />,
   },
   {
     isAvailable: false,
     name: "Integration",
     link: FRONTEND_URL.realBase,
-    icon: integrationIcon,
+    icon: <IntegrationIcon />,
   },
   {
     isAvailable: false,
     name: "Analytic",
     link: FRONTEND_URL.realBase,
-    icon: analyticsIcon,
+    icon: <AnalyticsIcon />,
   },
 ];
 
 const Sidebar = () => {
+  // useEffect(() => {
+  //   const temp = Array.from(Array(landingData.length));
+  //   Array.from(Array(landingData.length)).forEach((a, i) => {
+  //     const id = `one-sidebar-item-${i}`;
+  //     const tag = document.getElementById(id);
+
+  //     window.addEventListener('');
+  //   });
+  // }, []);
+
   return (
     <div className="row">
       <div className="col col-8">
         <div className="sidebar">
           {landingData?.map((datum, i) => (
-            <div className="one-sidebar-item" key={i}>
+            <div className={`one-sidebar-item`} key={i}>
               {datum?.isAvailable ? (
                 <NavLink
                   to={datum?.link}
                   activeClassName="active primary-color"
                 >
-                  <div>
-                    <img src={datum?.icon} alt={datum?.name} className="icon" />
+                  <div className="sidebar-icon">
+                    {datum?.icon}
+                    {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
                   <div>&gt;</div>{" "}
                 </NavLink>
               ) : (
-                <div>
+                <div id={`one-sidebar-item-${i}`}>
                   <div>
-                    <img src={datum?.icon} alt={datum?.name} className="icon" />
+                    {datum?.icon}
+                    {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
-                  <img src={lockIcon} alt={datum?.name} />
-                  {/* <div className="coming-soon">Coming soon</div> */}
+                  <LockIcon />
+                  {/* <img src={lockIcon} alt={datum?.name} /> */}
+                  <small id={`coming-soon-${i}`}>Coming soon</small>
                 </div>
               )}
             </div>

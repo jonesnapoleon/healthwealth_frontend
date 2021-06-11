@@ -5,6 +5,15 @@
 .navbar-wrapper img {
   max-height: 3.5rem;
 }
+.navbar-wrapper .logout-button {
+  border-radius: var(--border-radius);
+  border: 0;
+  background: var(--secondary-extra-color-3);
+  color: var(--text-color);
+}
+.navbar-wrapper .logout-button:hover {
+  background-color: var(--tertiary-color);
+}
 .nav-area {
   padding: 1rem 6rem;
   display: flex;

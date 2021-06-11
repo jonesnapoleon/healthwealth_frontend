@@ -31,9 +31,9 @@ const Stepper = ({ items, activeItem }) => {
       <div className="item-center">{renderSteppers()}</div>
       <div className="item-center">
         <div>
-          <div className="btn-secondary stepper-buy-now-button">
+          <button className="stepper-buy-now-button">
             {t("general.buyNow")}
-          </div>
+          </button>
         </div>
         <div className="">
           <HelpSvg />

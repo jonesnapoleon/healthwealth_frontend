@@ -24,9 +24,9 @@ const Picture = () => {
   //   console.log(takePict);
   // }, [takePict]);
 
-  useEffect(() => {
-    console.log(identity);
-  }, [identity]);
+  // useEffect(() => {
+  //   console.log(identity);
+  // }, [identity]);
 
   const handleSubmitIdentity = async () => {
     try {

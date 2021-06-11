@@ -52,7 +52,10 @@ const Welcome = () => {
               <div className="lead">{component?.title}</div>
               <div className="desc">{component?.desciption}</div>
               <div className="button">
-                <Link className="btn-primary" to={component?.dest}>
+                <Link
+                  className="btn-primary button-landing"
+                  to={component?.dest}
+                >
                   {component?.ctaText}
                 </Link>
               </div>

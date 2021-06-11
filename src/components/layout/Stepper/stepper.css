@@ -14,10 +14,13 @@
   color: rgba(var(--primary-color-divide), 0.7);
   font-weight: bolder;
   cursor: pointer;
+  border-radius: var(--border-radius);
+  padding: 0.8rem 2rem;
+  border: 0;
+  text-decoration: none;
   background: var(--secondary-extra-color-2);
 }
 .stepper-container .stepper-buy-now-button:hover {
   color: var(--tertiary-color);
-  font-weight: bolder;
   background: var(--secondary-extra-color-2);
 }
