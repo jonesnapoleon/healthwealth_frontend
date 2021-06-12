@@ -26,6 +26,18 @@ const PersonRow = ({ data, index, handleValue }) => {
               onChange={(e) => handleValue("email", e.target.value, index)}
             />
           </div>
+          <div className="">
+            <select
+              value={data?.access}
+              onChange={(e) => handleValue("access", e.target.value, index)}
+            >
+              {["sign", "review"]?.map((datum, i) => (
+                <option key={i} value={datum}>
+                  {datum}
+                </option>
+              ))}
+            </select>
+          </div>
         </li>
       )}
     </Draggable>

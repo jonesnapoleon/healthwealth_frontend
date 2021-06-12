@@ -54,7 +54,12 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
 
   const addUser = () => {
     let items = Array.from(data);
-    items.push({ name: "", email: "", id: String(items.length) });
+    items.push({
+      name: "",
+      email: "",
+      id: String(items.length),
+      access: "sign",
+    });
     setData(items);
   };
 
