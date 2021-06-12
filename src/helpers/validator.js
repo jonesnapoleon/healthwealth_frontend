@@ -23,7 +23,7 @@ export const isValidAccountNumber = (number) => {
 
 export const isValidContactNumber = (number) => {
   const text = String(number).trim();
-  if (text.length !== 12) return false;
+  // if (text.length !== 12) return false;
   const range = ["0".charCodeAt(0), "9".charCodeAt(0)];
   for (let i = 0; i < text.length; i++) {
     const dec = text.charCodeAt(i);
@@ -77,3 +77,20 @@ export const isHeaderHighlighted = (pathname) => {
   }
   return false;
 };
+
+export class PersonalDetailValidator {
+  isValidName = (inputName, authName) =>
+    inputName !== "" && String(inputName) !== String(authName);
+  isValidNIK = (inputNik, authNik) =>
+    inputNik !== "" && String(inputNik) !== String(authNik);
+  isValidBirthDate = (inputBirthDate, authBirthDate) =>
+    inputBirthDate !== "" &&
+    inputBirthDate !== undefined &&
+    inputBirthDate !== null &&
+    String(inputBirthDate) !== String(authBirthDate) &&
+    !isDateSame(inputBirthDate, new Date());
+  isValidPhoneNumber = (inputPhoneNumber, authPhoneNumber) =>
+    inputPhoneNumber !== "" &&
+    String(inputPhoneNumber) !== String(authPhoneNumber) &&
+    String(inputPhoneNumber).length > 4;
+}

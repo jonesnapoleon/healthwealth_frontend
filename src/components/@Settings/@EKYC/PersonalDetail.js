@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import DatePicker from "react-date-picker";
 import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
-import { getUser, updateUser } from "../../../api/auth";
+import { updateUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
 import { ReactComponent as CalendarIcon } from "../../../assets/images/Add Field - Dates Icon.svg";
 import {
@@ -12,67 +12,64 @@ import {
 } from "../../../helpers/hooks";
 
 import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
-import { isDateSame, isValidContactNumber } from "../../../helpers/validator";
+import { PersonalDetailValidator } from "../../../helpers/validator";
 
 const PersonalDetail = () => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { auth, setAuth } = useAuth();
+  const { auth, putAuth } = useAuth();
   const name = useFormInput(auth?.fullname ?? "");
   const nik = useFormInput(auth?.nik ?? "");
   const birthDate = useInput(auth?.birthDate);
   const phoneNumber = useFormInput(auth?.phone ?? "");
-  const companyName = useFormInput(auth?.company ?? "");
+  const company = useFormInput(auth?.company ?? "");
   const title = useFormInput(auth?.title ?? "");
   const isLargeScreen = useIsLargeScreen();
+  const V = useMemo(() => new PersonalDetailValidator(), []);
 
   const [showButton, setShowButton] = useState(false);
 
   const isSameAsOriginal = useMemo(() => {
-    // console.table([name, nik, birthDate, phoneNumber, companyName, title]);
-    if (name?.value !== "" && String(name?.value) !== String(auth?.fullname))
-      return false;
-    if (nik?.value !== "" && String(nik?.value) !== String(auth?.nik))
-      return false;
-    if (
-      birthDate?.value !== "" &&
-      birthDate?.value !== undefined &&
-      birthDate?.value !== null &&
-      String(birthDate?.value) !== String(auth?.birthDate) &&
-      !isDateSame(birthDate?.value, new Date())
-    )
-      return false;
-    if (
-      phoneNumber?.value !== "" &&
-      String(phoneNumber?.value) !== String(auth?.phone) &&
-      isValidContactNumber(auth?.phone)
-    )
-      return false;
-    if (
-      companyName?.value !== "" &&
-      String(companyName?.value) !== String(auth?.company)
-    )
-      return false;
-    if (title?.value !== "" && String(title?.value) !== String(auth?.title))
-      return false;
+    if (V.isValidName(name?.value, auth?.fullname)) return false;
+    if (V.isValidNIK(nik?.value, auth?.nik)) return false;
+    if (V.isValidBirthDate(birthDate?.value, auth?.birthDate)) return false;
+    if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
+    if (V.isValidName(company?.value, auth?.company)) return false;
+    if (V.isValidName(title?.value, auth?.title)) return false;
     return true;
-  }, [name, nik, birthDate, phoneNumber, companyName, title, auth]);
+  }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
+
+  useLayoutEffect(() => {
+    const inputNumbers = document.querySelectorAll("input[type='number']");
+    inputNumbers?.forEach((tag) =>
+      tag.addEventListener("keypress", function (evt) {
+        if (
+          (evt.which !== 8 && evt.which !== 0 && evt.which < 48) ||
+          evt.which > 57
+        )
+          evt.preventDefault();
+      })
+    );
+  }, []);
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const dataToBeSubmitted = {
-        name: name?.value,
-        nik: nik?.value,
-        birthDate: birthDate?.value,
-        phoneNumber: phoneNumber?.value,
-        companyName: companyName?.value,
-        title: title?.value,
-      };
-      const res = await updateUser(dataToBeSubmitted, auth?.userid);
+      let temp = {};
+      if (V.isValidName(name?.value, auth?.fullname)) temp.name = name?.value;
+      if (V.isValidName(company?.value, auth?.company))
+        temp.company = company?.value;
+      if (V.isValidName(title?.value, auth?.title)) temp.title = title?.value;
+      if (V.isValidNIK(nik?.value, auth?.nik)) temp.nik = nik?.value;
+      if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone))
+        temp.phone = phoneNumber?.value;
+      if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
+        temp.birthdate = birthDate?.value;
+      console.table(temp);
+      const res = await updateUser(temp, auth?.userid);
       if (res) {
-        console.log(res);
+        putAuth(res?.data);
       }
     } catch (err) {
       setError(String(err));
@@ -84,7 +81,7 @@ const PersonalDetail = () => {
 
   useEffect(() => {
     setShowButton(!isSameAsOriginal);
-  }, [name, nik, birthDate, phoneNumber, companyName, title, isSameAsOriginal]);
+  }, [name, nik, birthDate, phoneNumber, company, title, isSameAsOriginal]);
 
   return (
     <>
@@ -107,7 +104,7 @@ const PersonalDetail = () => {
                 className="form-input"
                 {...nik}
                 type="number"
-                inputmode="numeric"
+                inputMode="numeric"
               />
             </td>
           </tr>
@@ -126,7 +123,6 @@ const PersonalDetail = () => {
                 maxDate={new Date()}
                 calendarIcon={<CalendarIcon />}
               />
-              {/* <input className="form-input" {...birthDate} /> */}
             </td>
           </tr>
 
@@ -153,7 +149,7 @@ const PersonalDetail = () => {
                 className="form-input"
                 {...phoneNumber}
                 type="number"
-                inputmode="numeric"
+                inputMode="numeric"
               />
               <br />
 
@@ -166,7 +162,7 @@ const PersonalDetail = () => {
           <tr>
             <td>{t("settings.ekyc.companyName")}</td>
             <td>
-              <input className="form-input" {...companyName} />
+              <input className="form-input" {...company} />
             </td>
           </tr>
 

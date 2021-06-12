@@ -36,6 +36,22 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const putAuth = async (newValue) => {
+    const savedAuth = localStorage.getItem(AUTH_KEY);
+    const tokenData = JSON.parse(savedAuth) ?? {};
+    if (newValue) {
+      if (tokenData?.expires_at && tokenData?.id_token) {
+        const allValue = {
+          ...newValue,
+          expires_at: tokenData.expires_at,
+          id_token: tokenData?.id_token,
+        };
+        console.log(allValue);
+        localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
+      }
+    }
+  };
+
   const signOut = () => {
     setAuth({});
     history.push(FRONTEND_URL.login);
@@ -66,6 +82,7 @@ const AuthProvider = ({ children }) => {
     auth,
     signOut,
     setAuth: setAndSaveAuth,
+    putAuth,
   };
 
   return (
