@@ -33,10 +33,11 @@ export const updateUser = async (data, userId) => {
     const response = await axios.put(`${API_UPDATE_USER}${userId}/`, data);
     return response.data;
   } catch (e) {
+    console.log(e);
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.error?.message ?? "Fail";
   }
 };
 

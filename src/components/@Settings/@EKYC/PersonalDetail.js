@@ -66,12 +66,12 @@ const PersonalDetail = () => {
         temp.phone = phoneNumber?.value;
       if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
         temp.birthdate = birthDate?.value;
-      console.table(temp);
       const res = await updateUser(temp, auth?.userid);
       if (res) {
         putAuth(res?.data);
       }
     } catch (err) {
+      console.log(err);
       setError(String(err));
       setTimeout(() => setError(false), 3000);
     } finally {

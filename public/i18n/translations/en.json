@@ -334,7 +334,9 @@
     "wishlist": "Wishlist"
   },
   "login": {
-    "loginWithGoogle": "Login with Google",
+    "signUp": "Sign up",
+    "loginWithYourAccount": "Log in with your account",
+    "loginWithGoogle": "Log In with Google",
     "goodMorning": "Good Morning!",
     "goodAfternoon": "Good Afternoon!",
     "goodEvening": "Good Evening!",
