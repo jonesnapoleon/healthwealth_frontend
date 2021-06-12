@@ -13,11 +13,12 @@
 
 .home-wrapper .sign-area > div {
   /* border: 1px solid; */
+  height: 100%;
   box-shadow: 0.2px 0.2px 5px 0 var(--tertiary-color);
   margin: 1rem;
   border-radius: var(--border-radius);
   text-align: center;
-  padding: 2.4rem;
+  padding: 1.6rem;
 }
 
 .home-wrapper .sign-area img {
