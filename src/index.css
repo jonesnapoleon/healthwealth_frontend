@@ -60,6 +60,12 @@ code {
   align-items: center;
   flex-direction: row;
 }
+.item-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
 .item-between {
   display: flex;
   justify-content: space-between;

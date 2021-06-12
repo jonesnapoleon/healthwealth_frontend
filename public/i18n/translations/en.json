@@ -164,6 +164,8 @@
     "uploadFile": "Upload file",
     "dragDrop": "Drag and drop files here",
     "email": "Email",
+    "emailAddress": "Email address",
+    "name": "Name",
     "search": "Search",
     "password": "Password",
     "pleaseWait": "Please Wait...",

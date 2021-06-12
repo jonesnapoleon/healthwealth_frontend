@@ -9,6 +9,16 @@
   background: var(--secondary-extra-color-1);
   margin: 0rem 0 0.5rem;
 }
+.one-person-row-container .order {
+  position: absolute;
+  padding: 0 0.4rem;
+  background: var(--secondary-color);
+}
+.one-person-row-container .info {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.8rem;
+}
 
 .person-row-container {
   padding-left: 0;
@@ -18,4 +28,32 @@
 }
 .add-signers-button {
   width: 100%;
+  border: 1px dashed var(--primary-color);
+  background-color: transparent;
+  text-align: left;
+  padding: 0.5rem 1rem 0.4rem;
+}
+.add-signers-button span {
+  padding: 0.5rem 0.7rem 0.4rem;
+}
+
+.one-person-row-container .item-center {
+  align-items: flex-end;
+}
+
+.one-person-row-container .item-center > div {
+  padding: 0.7rem 1rem;
+}
+
+.one-person-row-container .item-center input {
+  width: 15rem;
+}
+
+@media (max-width: 1000px) {
+  .one-person-row-container .item-center input {
+    width: 7rem;
+  }
+  .one-person-row-container .item-center > div {
+    padding: 0.7rem 0.4rem;
+  }
 }

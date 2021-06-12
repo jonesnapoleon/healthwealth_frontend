@@ -3,14 +3,14 @@ import "./toggle-button.css";
 
 const ToggleButton = ({ text, disabled }) => {
   return (
-    <div class="form-check form-switch">
+    <div className="form-check form-switch">
       <input
         disabled={disabled}
-        class="form-check-input"
+        className="form-check-input"
         type="checkbox"
         id="flexSwitchCheckDefault"
       />
-      <label class="form-check-label" for="flexSwitchCheckDefault">
+      <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
         <small>{text}</small>
       </label>
     </div>

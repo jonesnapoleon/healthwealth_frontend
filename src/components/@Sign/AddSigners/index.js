@@ -11,6 +11,7 @@ import { addUserToDocument } from "../../../api/docs";
 import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
 import ToggleButton from "../../commons/ToggleButton";
 import Snackbar from "../../commons/Snackbar";
+import { isValidEmail } from "../../../helpers/validator";
 
 const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();
@@ -48,9 +49,9 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
     setData(items);
   };
 
-  useEffect(() => {
-    console.table(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.table(data);
+  // }, [data]);
 
   const addUser = () => {
     let items = Array.from(data);
@@ -63,11 +64,24 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
     setData(items);
   };
 
+  useEffect(() => {
+    if (data?.length > 0) {
+      console.log(data);
+      for (let { name, email } of data) {
+        if (name !== "" && email !== "" && isValidEmail(email)) continue;
+        else {
+          setLoading(0);
+          return;
+        }
+      }
+      setLoading(1);
+      return;
+    }
+  }, [data]);
+
   const handleValue = (type, value, index) => {
-    console.log(index);
     let items = Array.from(data);
     items[index][type] = value;
-    setLoading(1);
     setData(items);
   };
 
@@ -131,7 +145,8 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
         )}
 
         <button className="add-signers-button" onClick={addUser}>
-          {t("sign.addSigners.addSigner")}
+          <LockIcon />
+          <span>{t("sign.addSigners.addSigner")}</span>
         </button>
       </div>
       <FloatingButton

@@ -69,15 +69,20 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+svg {
+  vertical-align: text-top;
+}
+
 @media (min-width: 1280px) {
   .container,
+  .container.container-center,
   .container-lg,
   .container-xl {
     max-width: 92% !important;
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1150px) {
   .container.container-center {
     width: 100% !important;
   }
