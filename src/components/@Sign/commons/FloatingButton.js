@@ -1,14 +1,15 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./commons.css";
 
 const FloatingButton = ({
-  t,
   onClickNext,
   activeItem,
   availableLevel,
   loading,
   onClickPrev,
 }) => {
+  const { t } = useTranslation();
   // console.log(availableLevel);
   return (
     <div className="floating-button-container">

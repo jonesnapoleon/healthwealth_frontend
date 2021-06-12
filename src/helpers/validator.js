@@ -1,4 +1,5 @@
 import { highlightedNavs } from "./constant";
+import { format } from "date-fns";
 
 /* eslint-disable no-useless-escape */
 export const isValidEmail = (email) => {
@@ -31,6 +32,16 @@ export const isValidContactNumber = (number) => {
     }
   }
   return true;
+};
+
+export const isDateSame = (date1, date2) => {
+  try {
+    const oldDate = format(date1, "yyyy-MM-dd");
+    const newDate = format(date2, "yyyy-MM-dd");
+    return String(oldDate) === String(newDate);
+  } catch {
+    return false;
+  }
 };
 
 export const isTimeInMsBeforeNow = (ms) => ms > Date.now();

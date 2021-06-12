@@ -111,11 +111,9 @@ const SelectDocument = ({
         activeItem={activeItem}
         availableLevel={availableLevel}
         onClickNext={() => {
-          console.log("eheh");
           setActiveItem(1);
         }}
         loading={loading?.value}
-        t={t}
       />
     </div>
   );

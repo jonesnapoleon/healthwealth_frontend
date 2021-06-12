@@ -6,14 +6,37 @@ import { useAuth } from "../../../contexts/AuthContext";
 import "./addSigners.css";
 import PersonRow from "../commons/PersonRow";
 
+import { addUserToDocument } from "../../../api/docs";
+
+import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
+import ToggleButton from "../../commons/ToggleButton";
+import Snackbar from "../../commons/Snackbar";
+
 const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(0); // 0: disabled, 1: active
+  const [error, setError] = useState(null);
 
   const { auth } = useAuth();
 
-  const handleUploadFile = () => {
-    console.log("f");
+  const handleSubmit = async () => {
+    try {
+      setLoading(0);
+      const res = await addUserToDocument(data?.file);
+      if (res) {
+        console.log(res);
+        setActiveItem((a) => a + 1);
+        // setFileUrl(newRes?.linkToPdf);
+        // setAvailableItem((a) => a + 1);
+        // progress.set(100);
+      }
+    } catch (err) {
+      setError(String(err));
+      setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(1);
+    }
   };
 
   const handleOnDragEnd = (result) => {
@@ -32,7 +55,6 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   const addUser = () => {
     let items = Array.from(data);
     items.push({ name: "", email: "", id: String(items.length) });
-
     setData(items);
   };
 
@@ -40,17 +62,41 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
     console.log(index);
     let items = Array.from(data);
     items[index][type] = value;
-
+    setLoading(1);
     setData(items);
   };
 
   return (
-    <div className="container sign-select-document-container">
+    <div className="container container-center sign-select-document-container">
+      {error && <Snackbar text={error} />}
       <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
-      <div className="mt-5 lead mb-2">{t("sign.addSigners.sender")}</div>
-      <div className="lead">{auth?.fullname}</div>
+      <div className="mt-3 mb-0">
+        <strong>{t("sign.addSigners.sender")}</strong>
+      </div>
+      <div className="">
+        <em>{auth?.fullname}</em>
+      </div>
 
-      <div className="mt-5 lead mb-2">{t("sign.addSigners.text")}</div>
+      <div className="mt-3 mb-2">
+        <div className="item-between">
+          <strong>{t("sign.addSigners.text")}</strong>
+          <div className="item-between">
+            <div className="pt-1 px-3">
+              <ToggleButton
+                text={t("sign.addSigners.sequenceSign")}
+                disabled={true}
+              />
+            </div>
+
+            <div className="disabled">
+              <LockIcon />
+              <small className="px-1">
+                {t("sign.addSigners.importBulkList")}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="add-signers-area">
         {data?.length > 0 && (
@@ -79,18 +125,16 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
           </DragDropContext>
         )}
 
-        <button className="btn btn-secondary" onClick={addUser}>
+        <button className="add-signers-button" onClick={addUser}>
           {t("sign.addSigners.addSigner")}
         </button>
       </div>
-      {data?.length > 0 && (
-        <FloatingButton
-          activeItem={activeItem}
-          availableLevel={availableLevel}
-          onClickNext={handleUploadFile}
-          t={t}
-        />
-      )}
+      <FloatingButton
+        loading={loading === 0}
+        activeItem={activeItem}
+        availableLevel={availableLevel}
+        onClickNext={handleSubmit}
+      />
     </div>
   );
 };

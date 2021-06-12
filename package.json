@@ -20,6 +20,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.1.0",
+    "react-date-picker": "^8.2.0",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.2.2",
     "react-i18next": "^11.10.0",

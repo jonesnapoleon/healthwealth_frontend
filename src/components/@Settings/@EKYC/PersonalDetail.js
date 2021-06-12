@@ -1,40 +1,52 @@
 import React, { useEffect, useMemo, useState } from "react";
+import DatePicker from "react-date-picker";
 import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
-import { getUser } from "../../../api/auth";
+import { getUser, updateUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useFormInput, useIsLargeScreen } from "../../../helpers/hooks";
+import { ReactComponent as CalendarIcon } from "../../../assets/images/Add Field - Dates Icon.svg";
+import {
+  useFormInput,
+  useInput,
+  useIsLargeScreen,
+} from "../../../helpers/hooks";
 
 import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
+import { isDateSame, isValidContactNumber } from "../../../helpers/validator";
 
 const PersonalDetail = () => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { auth, setAuth } = useAuth();
-  const name = useFormInput(auth?.fullname);
-  const nik = useFormInput(auth?.nik);
-  const birthDate = useFormInput(auth?.birthDate);
-  const phoneNumber = useFormInput(auth?.phone);
-  const companyName = useFormInput(auth?.company);
-  const title = useFormInput(auth?.title);
+  const name = useFormInput(auth?.fullname ?? "");
+  const nik = useFormInput(auth?.nik ?? "");
+  const birthDate = useInput(auth?.birthDate);
+  const phoneNumber = useFormInput(auth?.phone ?? "");
+  const companyName = useFormInput(auth?.company ?? "");
+  const title = useFormInput(auth?.title ?? "");
   const isLargeScreen = useIsLargeScreen();
 
   const [showButton, setShowButton] = useState(false);
 
   const isSameAsOriginal = useMemo(() => {
+    // console.table([name, nik, birthDate, phoneNumber, companyName, title]);
     if (name?.value !== "" && String(name?.value) !== String(auth?.fullname))
       return false;
     if (nik?.value !== "" && String(nik?.value) !== String(auth?.nik))
       return false;
     if (
       birthDate?.value !== "" &&
-      String(birthDate?.value) !== String(auth?.birthDate)
+      birthDate?.value !== undefined &&
+      birthDate?.value !== null &&
+      String(birthDate?.value) !== String(auth?.birthDate) &&
+      !isDateSame(birthDate?.value, new Date())
     )
       return false;
     if (
       phoneNumber?.value !== "" &&
-      String(phoneNumber?.value) !== String(auth?.phone)
+      String(phoneNumber?.value) !== String(auth?.phone) &&
+      isValidContactNumber(auth?.phone)
     )
       return false;
     if (
@@ -50,9 +62,17 @@ const PersonalDetail = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const res = await getUser(auth?.userid);
+      const dataToBeSubmitted = {
+        name: name?.value,
+        nik: nik?.value,
+        birthDate: birthDate?.value,
+        phoneNumber: phoneNumber?.value,
+        companyName: companyName?.value,
+        title: title?.value,
+      };
+      const res = await updateUser(dataToBeSubmitted, auth?.userid);
       if (res) {
-        setAuth(res);
+        console.log(res);
       }
     } catch (err) {
       setError(String(err));
@@ -83,14 +103,30 @@ const PersonalDetail = () => {
           <tr>
             <td>{t("settings.ekyc.nik")}</td>
             <td>
-              <input className="form-input" {...nik} />
+              <input
+                className="form-input"
+                {...nik}
+                type="number"
+                inputmode="numeric"
+              />
             </td>
           </tr>
 
           <tr>
             <td>{t("settings.ekyc.birthDate")}</td>
-            <td>
-              <input className="form-input" {...birthDate} />
+            <td className="date-table-data">
+              <DatePicker
+                onChange={birthDate?.set}
+                value={birthDate?.value}
+                className="form-input"
+                dayPlaceholder="DD"
+                monthPlaceholder="MM"
+                yearPlaceholder="YYYY"
+                format="dd-MM-yyyy"
+                maxDate={new Date()}
+                calendarIcon={<CalendarIcon />}
+              />
+              {/* <input className="form-input" {...birthDate} /> */}
             </td>
           </tr>
 
@@ -113,7 +149,12 @@ const PersonalDetail = () => {
           <tr>
             <td>{t("settings.ekyc.phoneNumber")}</td>
             <td>
-              <input className="form-input" {...phoneNumber} />
+              <input
+                className="form-input"
+                {...phoneNumber}
+                type="number"
+                inputmode="numeric"
+              />
               <br />
 
               <div className="item-right">
@@ -135,19 +176,24 @@ const PersonalDetail = () => {
               <input className="form-input" {...title} />
             </td>
           </tr>
+          {showButton && (
+            <tr>
+              <td></td>
+              <td className="item-right">
+                <button
+                  className="button-settings"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {t("general.save")}
+                </button>
+              </td>
+            </tr>
+          )}
+          {/* <div className="mt-4">
+        </div> */}
         </tbody>
       </table>
-      {showButton && (
-        <div className="mt-4">
-          <button
-            className="btn btn-outline-primary"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {t("general.save")}
-          </button>
-        </div>
-      )}
     </>
   );
 };
