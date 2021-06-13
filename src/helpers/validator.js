@@ -36,8 +36,8 @@ export const isValidContactNumber = (number) => {
 
 export const isDateSame = (date1, date2) => {
   try {
-    const oldDate = format(date1, "yyyy-MM-dd");
-    const newDate = format(date2, "yyyy-MM-dd");
+    const oldDate = format(new Date(date1), "yyyy-MM-dd");
+    const newDate = format(new Date(date2), "yyyy-MM-dd");
     return String(oldDate) === String(newDate);
   } catch {
     return false;

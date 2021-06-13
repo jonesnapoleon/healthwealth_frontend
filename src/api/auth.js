@@ -30,6 +30,7 @@ export const getUser = async (userId) => {
 
 export const updateUser = async (data, userId) => {
   try {
+    // if (!userId) throw new Error("No User ID");
     const response = await axios.put(`${API_UPDATE_USER}${userId}/`, data);
     return response.data;
   } catch (e) {

@@ -45,16 +45,16 @@ const Header = ({ auth, t, signOut }) => {
             <img className="rounded-img" src={auth?.picture} alt="" />
             <div>{auth?.fullname}</div>
             <div className="dropright">
-              <span role="button" class="navlink expanded" id="comp-nav">
+              <span role="button" className="navlink expanded" id="comp-nav">
                 &gt;
               </span>
               <ul id="navdropdown">
-                <li class="navlink inactive">
+                <li className="navlink inactive">
                   <Link className="dropdownede-item" to={FRONTEND_URL.settings}>
                     {t("header.myProfile")}
                   </Link>
                 </li>
-                <li class="navlink inactive">
+                <li className="navlink inactive">
                   <div className="droefpdown-item" onClick={signOut}>
                     {t("header.signOut")}
                   </div>

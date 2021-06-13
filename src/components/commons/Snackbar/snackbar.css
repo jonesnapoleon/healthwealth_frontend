@@ -4,3 +4,6 @@
   transform: translateX(-50%);
   position: fixed;
 }
+.snackbar-wrapper .alert {
+  transition: 2s;
+}

@@ -219,6 +219,7 @@
     "complyText": "Comply with Indonesian e-signature law by completing your e-kyc",
     "ekyc": {
       "personalDetail": "Personal Detail",
+      "editProfileSuccess": "Profile successfully edited",
       "name": "Name",
       "nik": "NIK",
       "birthDate": "Tanggal lahir",

@@ -13,27 +13,32 @@ import {
 
 import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
 import { PersonalDetailValidator } from "../../../helpers/validator";
+import { getBackendDateFormat } from "../../../helpers/transformer";
 
 const PersonalDetail = () => {
+  const { auth, putAuth } = useAuth();
   const { t } = useTranslation();
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { auth, putAuth } = useAuth();
+  const V = useMemo(() => new PersonalDetailValidator(), []);
+
   const name = useFormInput(auth?.fullname ?? "");
   const nik = useFormInput(auth?.nik ?? "");
-  const birthDate = useInput(auth?.birthDate);
+  const birthDate = useInput(
+    auth?.birthdate ? new Date(auth?.birthdate) : new Date()
+  );
   const phoneNumber = useFormInput(auth?.phone ?? "");
   const company = useFormInput(auth?.company ?? "");
   const title = useFormInput(auth?.title ?? "");
   const isLargeScreen = useIsLargeScreen();
-  const V = useMemo(() => new PersonalDetailValidator(), []);
 
   const [showButton, setShowButton] = useState(false);
 
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
     if (V.isValidNIK(nik?.value, auth?.nik)) return false;
-    if (V.isValidBirthDate(birthDate?.value, auth?.birthDate)) return false;
+    if (V.isValidBirthDate(birthDate?.value, auth?.birthdate)) return false;
     if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
     if (V.isValidName(company?.value, auth?.company)) return false;
     if (V.isValidName(title?.value, auth?.title)) return false;
@@ -43,7 +48,7 @@ const PersonalDetail = () => {
   useLayoutEffect(() => {
     const inputNumbers = document.querySelectorAll("input[type='number']");
     inputNumbers?.forEach((tag) =>
-      tag.addEventListener("keypress", function (evt) {
+      tag.addEventListener("keypress", (evt) => {
         if (
           (evt.which !== 8 && evt.which !== 0 && evt.which < 48) ||
           evt.which > 57
@@ -65,11 +70,14 @@ const PersonalDetail = () => {
       if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone))
         temp.phone = phoneNumber?.value;
       if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
-        temp.birthdate = birthDate?.value;
+        temp.birthdate = getBackendDateFormat(birthDate?.value);
       const res = await updateUser(temp, auth?.userid);
-      if (res) {
-        putAuth(res?.data);
+      if (res?.data) {
+        putAuth(res.data);
+        setShowButton(false);
       }
+      setSuccess(t("settings.ekyc.editProfileSuccess"));
+      setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       console.log(err);
       setError(String(err));
@@ -79,6 +87,10 @@ const PersonalDetail = () => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log(auth);
+  // }, [auth]);
+
   useEffect(() => {
     setShowButton(!isSameAsOriginal);
   }, [name, nik, birthDate, phoneNumber, company, title, isSameAsOriginal]);
@@ -87,6 +99,7 @@ const PersonalDetail = () => {
     <>
       <div className="lead">{t("settings.ekyc.personalDetail")}</div>
       {error && <Snackbar text={error} />}
+      {success && <Snackbar type="success" text={success} />}
 
       <table>
         <tbody>
