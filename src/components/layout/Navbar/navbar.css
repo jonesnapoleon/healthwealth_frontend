@@ -14,24 +14,25 @@
 .navbar-wrapper .logout-button:hover {
   background-color: var(--tertiary-color);
 }
-.dropdown-menu.nav-dropdown {
-  right: 4rem;
-}
+
 .dropright {
   position: relative;
   cursor: pointer;
 }
-#navdropdown {
+.nav-dropdown {
   width: 100%;
   transition: all 0.2s ease-in;
   position: absolute;
   top: 1rem;
-  left: -2rem;
+  right: 0rem;
+}
+.nav-dropdown:hover {
+  display: block !important;
 }
 /* .navbar-wrapper .dropright {
   transform: rotate(-90deg);
 } */
-.dropdown-toggle::after {
+.dropright .dropdown-toggle::after {
   content: ">";
   border: 0;
 }

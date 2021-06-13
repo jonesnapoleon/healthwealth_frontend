@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
@@ -7,6 +7,7 @@ import logoUrl from "../../../assets/images/Company Logo@2x.png";
 
 const Header = ({ auth, t, signOut }) => {
   // console.log(temp);
+  const [showNavChild, setShowNavChild] = useState(false);
   const dropdownSelector = document.querySelector(
     ".dropdown-menu.nav-dropdown"
   );
@@ -44,7 +45,7 @@ const Header = ({ auth, t, signOut }) => {
           <div className="item-center super-pt-1 last-nav-child">
             <img className="rounded-img" src={auth?.picture} alt="" />
             <div>{auth?.fullname}</div>
-            <div className="dropright">
+            {/* <div className="dropright">
               <span role="button" className="navlink expanded" id="comp-nav">
                 &gt;
               </span>
@@ -60,8 +61,8 @@ const Header = ({ auth, t, signOut }) => {
                   </div>
                 </li>
               </ul>
-            </div>
-            {/* <div className="dropright">
+            </div> */}
+            <div className="dropright">
               <div
                 className="dropdown-toggle"
                 type="button"
@@ -79,7 +80,7 @@ const Header = ({ auth, t, signOut }) => {
                   {t("header.signOut")}
                 </div>
               </div>
-            </div> */}
+            </div>
             {/* <div onClick={}>&gt;</div> */}
             <div>
               <HelpSvg />

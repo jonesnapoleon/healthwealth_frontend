@@ -21,3 +21,26 @@
 .background-sign-in .text-container {
   padding: 1rem 0 3rem;
 }
+.background-sign-in .cta-container {
+  box-shadow: 0 0px 3px rgba(47, 122, 247, 0.6);
+  width: 420px;
+  border-radius: 7px;
+  padding: 3rem;
+}
+.background-sign-in .cta-container .lower-cta {
+  padding: 3rem 0 2rem;
+}
+.background-sign-in .cta-container button {
+  box-shadow: 0 !important;
+  background: transparent !important;
+  padding-left: 2rem !important;
+  color: var(--primary-color) !important;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  padding-right: 2rem !important;
+  border-radius: var(--border-radius) !important;
+  border: 1px solid var(--primary-color) !important;
+}
+.background-sign-in .cta-container button > div {
+  background: transparent;
+}
