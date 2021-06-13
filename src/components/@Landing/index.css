@@ -14,7 +14,7 @@
 .home-wrapper .sign-area > div {
   /* border: 1px solid; */
   height: 100%;
-  box-shadow: 0.2px 0.2px 5px 0 var(--tertiary-color);
+  box-shadow: 0 0px 6px rgba(47, 122, 247, 0.7);
   margin: 1rem;
   border-radius: var(--border-radius);
   text-align: center;
