@@ -35,16 +35,6 @@ const PersonalDetail = () => {
 
   const [showButton, setShowButton] = useState(false);
 
-  const isSameAsOriginal = useMemo(() => {
-    if (V.isValidName(name?.value, auth?.fullname)) return false;
-    if (V.isValidNIK(nik?.value, auth?.nik)) return false;
-    if (V.isValidBirthDate(birthDate?.value, auth?.birthdate)) return false;
-    if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
-    if (V.isValidName(company?.value, auth?.company)) return false;
-    if (V.isValidName(title?.value, auth?.title)) return false;
-    return true;
-  }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
-
   useLayoutEffect(() => {
     const inputNumbers = document.querySelectorAll("input[type='number']");
     inputNumbers?.forEach((tag) =>
@@ -74,12 +64,10 @@ const PersonalDetail = () => {
       const res = await updateUser(temp, auth?.userid);
       if (res?.data) {
         putAuth(res.data);
-        setShowButton(false);
       }
       setSuccess(t("settings.ekyc.editProfileSuccess"));
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      console.log(err);
       setError(String(err));
       setTimeout(() => setError(false), 3000);
     } finally {
@@ -91,9 +79,20 @@ const PersonalDetail = () => {
   //   console.log(auth);
   // }, [auth]);
 
+  const isSameAsOriginal = useMemo(() => {
+    if (V.isValidName(name?.value, auth?.fullname)) return false;
+    if (V.isValidNIK(nik?.value, auth?.nik)) return false;
+    if (V.isValidBirthDate(birthDate?.value, auth?.birthdate)) return false;
+    if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
+    if (V.isValidName(company?.value, auth?.company)) return false;
+    if (V.isValidName(title?.value, auth?.title)) return false;
+    return true;
+  }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
+
   useEffect(() => {
+    console.log("efr");
     setShowButton(!isSameAsOriginal);
-  }, [name, nik, birthDate, phoneNumber, company, title, isSameAsOriginal]);
+  }, [isSameAsOriginal, setShowButton]);
 
   return (
     <>

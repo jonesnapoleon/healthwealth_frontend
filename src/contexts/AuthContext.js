@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
           expires_at: tokenData.expires_at,
           id_token: tokenData?.id_token,
         };
-        console.log(allValue);
+        setAuth(allValue);
         localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
       }
     }
