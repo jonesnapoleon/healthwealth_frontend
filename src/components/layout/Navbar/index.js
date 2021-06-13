@@ -6,7 +6,7 @@ import "./navbar.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import { FRONTEND_URL } from "../../../helpers/constant";
 import Header from "./Header";
-import { isHeaderHighlighted } from "../../../helpers/validator";
+import { isHeaderHighlighted, isPublicLink } from "../../../helpers/validator";
 
 const Navbar = () => {
   const { auth, signOut } = useAuth();
@@ -25,7 +25,8 @@ const Navbar = () => {
   if (
     location?.pathname === FRONTEND_URL.login ||
     location?.pathname === `${FRONTEND_URL.login}/` ||
-    isHeaderHighlighted(location?.pathname)
+    isHeaderHighlighted(location?.pathname) ||
+    isPublicLink(location?.pathname)
   )
     return <></>;
 

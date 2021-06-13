@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import SignIn from "./components/@Auth";
+import PrivacyPolicy from "./components/@Auth/PrivacyPolicy";
 import Landing from "./components/@Landing";
 import LayoutWrapper from "./components/layout/Wrapper";
 import Me from "./components/@Sign/@Me";
@@ -13,6 +14,11 @@ import { FRONTEND_URL } from "./helpers/constant";
 const Router = () => {
   return (
     <Switch>
+      <Route
+        component={PrivacyPolicy}
+        path={FRONTEND_URL.privacyPolicy}
+        exact
+      />
       <Route component={SignIn} path={FRONTEND_URL.login} exact />
       <Route render={() => <Me />} path={FRONTEND_URL.me} exact />
       <Route render={() => <All />} path={FRONTEND_URL.all} exact />

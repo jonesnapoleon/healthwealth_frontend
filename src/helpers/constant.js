@@ -11,7 +11,10 @@ export const FRONTEND_URL = {
   sign: "/sign",
   settings: "/settings",
   docs: "/docs",
+  privacyPolicy: "/privacy-policy",
 };
+
+export const publicLinks = [FRONTEND_URL.privacyPolicy];
 
 export const highlightedNavs = [FRONTEND_URL.me, FRONTEND_URL.all];
 export const PROGRESS_BAR_INTERVAL = 30;

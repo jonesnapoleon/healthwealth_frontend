@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
@@ -6,20 +6,15 @@ import { ReactComponent as HelpSvg } from "../../../assets/images/Help Icon.svg"
 import logoUrl from "../../../assets/images/Company Logo@2x.png";
 
 const Header = ({ auth, t, signOut }) => {
-  // console.log(temp);
-  const [showNavChild, setShowNavChild] = useState(false);
   const dropdownSelector = document.querySelector(
     ".dropdown-menu.nav-dropdown"
   );
 
   const toggleDropdown = (bool) => {
-    // const sel = dropdownSelector.style.display;
     if (bool) dropdownSelector.style.display = "block";
     else dropdownSelector.style.display = "none";
-    // dropdownSelector.style.display =
-    //   dropdownSelector.style.display === "block" ? "none" : "block";
-    // console.log(dropdownSelector);
   };
+
   return (
     <div className="navbar-wrapper">
       <div className="nav-area">
@@ -45,23 +40,7 @@ const Header = ({ auth, t, signOut }) => {
           <div className="item-center super-pt-1 last-nav-child">
             <img className="rounded-img" src={auth?.picture} alt="" />
             <div>{auth?.fullname}</div>
-            {/* <div className="dropright">
-              <span role="button" className="navlink expanded" id="comp-nav">
-                &gt;
-              </span>
-              <ul id="navdropdown">
-                <li className="navlink inactive">
-                  <Link className="dropdownede-item" to={FRONTEND_URL.settings}>
-                    {t("header.myProfile")}
-                  </Link>
-                </li>
-                <li className="navlink inactive">
-                  <div className="droefpdown-item" onClick={signOut}>
-                    {t("header.signOut")}
-                  </div>
-                </li>
-              </ul>
-            </div> */}
+
             <div className="dropright">
               <div
                 className="dropdown-toggle"
@@ -76,12 +55,9 @@ const Header = ({ auth, t, signOut }) => {
                 <Link className="dropdown-item" to={FRONTEND_URL.settings}>
                   {t("header.myProfile")}
                 </Link>
-                <div className="dropdown-item" onClick={signOut}>
-                  {t("header.signOut")}
-                </div>
+                <div className="dropdown-item">{t("header.upgrade")}</div>
               </div>
             </div>
-            {/* <div onClick={}>&gt;</div> */}
             <div>
               <HelpSvg />
             </div>

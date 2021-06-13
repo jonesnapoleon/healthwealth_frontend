@@ -3,6 +3,8 @@ import GoogleLogin from "react-google-login";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import Snackbar from "../commons/Snackbar";
+import { FRONTEND_URL } from "../../helpers/constant";
+import { Link } from "react-router-dom";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -57,9 +59,12 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
             <div className="lower-cta">
               <div>
                 {t("login.bySigningUpBlabla")}{" "}
-                <span className="text-primary cursor-pointer">
+                <Link
+                  className="text-primary cursor-pointer text-decoration-none"
+                  to={FRONTEND_URL.privacyPolicy}
+                >
                   {t("login.termsAndCondition")}
-                </span>
+                </Link>
               </div>
               <hr />
               <div>

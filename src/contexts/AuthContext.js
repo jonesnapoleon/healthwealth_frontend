@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { login } from "../api/auth";
-import { isTimeInMsBeforeNow } from "../helpers/validator";
+import { isPublicLink, isTimeInMsBeforeNow } from "../helpers/validator";
 import { AUTH_KEY } from "../helpers/constant";
 import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -70,6 +70,7 @@ const AuthProvider = ({ children }) => {
           location?.pathname === `${FRONTEND_URL.login}/`
         )
           history.push(FRONTEND_URL.base);
+      } else if (isPublicLink(location?.pathname)) {
       } else {
         history.push(FRONTEND_URL.login);
         localStorage.removeItem(AUTH_KEY);

@@ -1,4 +1,4 @@
-import { highlightedNavs } from "./constant";
+import { highlightedNavs, publicLinks } from "./constant";
 import { format } from "date-fns";
 
 /* eslint-disable no-useless-escape */
@@ -76,6 +76,11 @@ export const isHeaderHighlighted = (pathname) => {
     if (nav === pathname || pathname === `${nav}/`) return true;
   }
   return false;
+};
+
+export const isPublicLink = (pathname) => {
+  if (!pathname) return false;
+  return publicLinks.includes(pathname);
 };
 
 export class PersonalDetailValidator {
