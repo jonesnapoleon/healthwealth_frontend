@@ -62,9 +62,8 @@ const PersonalDetail = () => {
       if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
         temp.birthdate = getBackendDateFormat(birthDate?.value);
       const res = await updateUser(temp, auth?.userid);
-      if (res?.data) {
-        putAuth(res.data);
-      }
+      if (res?.data) putAuth(res.data);
+
       setSuccess(t("settings.ekyc.editProfileSuccess"));
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
@@ -76,8 +75,9 @@ const PersonalDetail = () => {
   };
 
   // useEffect(() => {
-  //   console.log(auth);
-  // }, [auth]);
+  //   console.log(birthDate?.value);
+  //   console.table(auth);
+  // }, [auth, birthDate]);
 
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
@@ -86,6 +86,7 @@ const PersonalDetail = () => {
     if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
     if (V.isValidName(company?.value, auth?.company)) return false;
     if (V.isValidName(title?.value, auth?.title)) return false;
+    console.log("nbafrme");
     return true;
   }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
 

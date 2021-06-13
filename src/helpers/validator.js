@@ -88,12 +88,17 @@ export class PersonalDetailValidator {
     inputName !== "" && String(inputName) !== String(authName);
   isValidNIK = (inputNik, authNik) =>
     inputNik !== "" && String(inputNik) !== String(authNik);
-  isValidBirthDate = (inputBirthDate, authBirthDate) =>
-    inputBirthDate !== "" &&
-    inputBirthDate !== undefined &&
-    inputBirthDate !== null &&
-    String(inputBirthDate) !== String(authBirthDate) &&
-    !isDateSame(inputBirthDate, new Date());
+  isValidBirthDate = (inputBirthDate, authBirthDate) => {
+    console.log(String(new Date(inputBirthDate)));
+    console.log(String(new Date(authBirthDate)));
+    return (
+      !isDateSame(inputBirthDate, new Date()) &&
+      inputBirthDate !== "" &&
+      inputBirthDate !== undefined &&
+      inputBirthDate !== null &&
+      !isDateSame(inputBirthDate, authBirthDate)
+    );
+  };
   isValidPhoneNumber = (inputPhoneNumber, authPhoneNumber) =>
     inputPhoneNumber !== "" &&
     String(inputPhoneNumber) !== String(authPhoneNumber) &&
