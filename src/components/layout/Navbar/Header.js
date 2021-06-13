@@ -6,11 +6,10 @@ import { ReactComponent as HelpSvg } from "../../../assets/images/Help Icon.svg"
 import logoUrl from "../../../assets/images/Company Logo@2x.png";
 
 const Header = ({ auth, t, signOut }) => {
-  const dropdownSelector = document.querySelector(
-    ".dropdown-menu.nav-dropdown"
-  );
-
   const toggleDropdown = (bool) => {
+    const dropdownSelector = document.querySelector(
+      ".dropdown-menu.nav-dropdown"
+    );
     if (bool) dropdownSelector.style.display = "block";
     else dropdownSelector.style.display = "none";
   };
@@ -32,8 +31,8 @@ const Header = ({ auth, t, signOut }) => {
               <span>{t("header.thisMonth")}</span>
             </div>
             <div>
-              <button className="logout-button btn-secondary" onClick={signOut}>
-                {t("general.signout")}
+              <button className="logout-button btn-secondary">
+                {t("header.upgrade")}
               </button>
             </div>
           </div>
@@ -55,7 +54,9 @@ const Header = ({ auth, t, signOut }) => {
                 <Link className="dropdown-item" to={FRONTEND_URL.settings}>
                   {t("header.myProfile")}
                 </Link>
-                <div className="dropdown-item">{t("header.upgrade")}</div>
+                <div className="dropdown-item" onClick={signOut}>
+                  {t("header.signOut")}
+                </div>
               </div>
             </div>
             <div>
