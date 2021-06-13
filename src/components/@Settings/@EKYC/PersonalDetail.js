@@ -86,12 +86,10 @@ const PersonalDetail = () => {
     if (V.isValidPhoneNumber(phoneNumber?.value, auth?.phone)) return false;
     if (V.isValidName(company?.value, auth?.company)) return false;
     if (V.isValidName(title?.value, auth?.title)) return false;
-    console.log("nbafrme");
     return true;
   }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
 
   useEffect(() => {
-    console.log("efr");
     setShowButton(!isSameAsOriginal);
   }, [isSameAsOriginal, setShowButton]);
 

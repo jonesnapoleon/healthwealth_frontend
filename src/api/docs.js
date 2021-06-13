@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_ADD_DOC = "/api/doc/";
-const API_ADD_USER_TO_DOC = "/api/doc/user";
+const API_ADD_USER_TO_DOC = "/api/docflow";
 
 export const addDoc = async (url, filename) => {
   const data = {

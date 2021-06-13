@@ -18,7 +18,7 @@ const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const availableLevel = activeItem;
 
-  const { setFileUrl } = useData();
+  const { setFileData } = useData();
   const { t } = useTranslation();
 
   const stepperData = [
@@ -41,7 +41,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
-          setFileUrl={setFileUrl}
+          setFileData={setFileData}
         />
         // <AddSigners
         //   activeItem={activeItem}

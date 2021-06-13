@@ -19,7 +19,7 @@ import { ReactComponent as ReviewSendIcon } from "../../../assets/images/documen
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableItem] = useState(0);
-  const { setFileUrl } = useData();
+  const { setFileData } = useData();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -32,7 +32,7 @@ const Me = () => {
           <SelectDocument
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileUrl={setFileUrl}
+            setFileData={setFileData}
             setActiveItem={setActiveItem}
             setAvailableItem={setAvailableItem}
           />
@@ -45,7 +45,7 @@ const Me = () => {
           <PlaceField
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileUrl={setFileUrl}
+            setFileData={setFileData}
             setActiveItem={setActiveItem}
           />
         ),
@@ -55,7 +55,7 @@ const Me = () => {
         icon: <ReviewSendIcon />,
       },
     ],
-    [activeItem, t, availableLevel, setFileUrl]
+    [activeItem, t, availableLevel, setFileData]
   );
 
   useEffect(() => {

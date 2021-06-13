@@ -12,17 +12,17 @@ const PlaceField = () => {
   const [instance, setInstance] = useState(null);
   const { auth } = useAuth();
 
-  const { fileUrl } = useData();
+  const { fileData } = useData();
   //   const doc = useSelector(selectDocToView);
 
   //   const { docRef } = doc;
 
   const viewer = useRef(null);
 
-  console.log(fileUrl);
+  console.log(fileData);
 
   useEffect(() => {
-    if (typeof fileUrl === "string" && auth?.id_token)
+    if (typeof fileData?.linkToPdf === "string" && auth?.id_token)
       WebViewer(
         {
           path: "webviewer",
@@ -35,7 +35,7 @@ const PlaceField = () => {
         viewer.current
       ).then(async (instance) => {
         // select only the view group
-        instance.loadDocument(fileUrl, {
+        instance.loadDocument(fileData?.linkToPdf, {
           filename: "myfile.pdf",
           customHeaders: {
             Authorization: `Bearer ${auth?.id_token}`,
@@ -53,7 +53,7 @@ const PlaceField = () => {
         // console.log(URL);
         // instance.docViewer.loadDocument(URL);
       });
-  }, [fileUrl, auth?.id_token]);
+  }, [fileData, auth?.id_token]);
 
   const download = () => {
     instance.downloadPdf(true);

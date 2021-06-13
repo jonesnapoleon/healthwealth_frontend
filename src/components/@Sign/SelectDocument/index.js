@@ -25,7 +25,7 @@ const SelectDocument = ({
   setActiveItem,
   availableLevel,
   setAvailableItem,
-  setFileUrl,
+  setFileData,
 }) => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
@@ -45,7 +45,7 @@ const SelectDocument = ({
         if (res) {
           const newRes = await addDoc(res?.url, data?.file?.name);
           if (newRes) {
-            setFileUrl(newRes?.linkToPdf);
+            setFileData(newRes);
             setAvailableItem((a) => a + 1);
             progress.set(100);
           }
@@ -55,7 +55,7 @@ const SelectDocument = ({
       setError(String(err));
       setTimeout(() => setError(false), 3000);
     }
-  }, [data?.file, setFileUrl, setAvailableItem, progress]);
+  }, [data?.file, setFileData, setAvailableItem, progress]);
 
   useEffect(() => {
     handleUploadFile();

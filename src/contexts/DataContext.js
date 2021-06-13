@@ -7,15 +7,15 @@ export const useData = () => useContext(DataContext);
 
 const DataProvider = ({ children }) => {
   const [docs, setDocs] = useState(false);
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileData, setFileData] = useState("");
   // const history = useHistory();
   // const location = useLocation();
 
   return (
     <DataContext.Provider
       value={{
-        fileUrl,
-        setFileUrl,
+        fileData,
+        setFileData,
         docs,
         setDocs,
       }}

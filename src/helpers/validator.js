@@ -89,8 +89,6 @@ export class PersonalDetailValidator {
   isValidNIK = (inputNik, authNik) =>
     inputNik !== "" && String(inputNik) !== String(authNik);
   isValidBirthDate = (inputBirthDate, authBirthDate) => {
-    console.log(String(new Date(inputBirthDate)));
-    console.log(String(new Date(authBirthDate)));
     return (
       !isDateSame(inputBirthDate, new Date()) &&
       inputBirthDate !== "" &&
