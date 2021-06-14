@@ -18,7 +18,9 @@ const AuthProvider = ({ children }) => {
 
   const setAndSaveAuth = async (newValue) => {
     try {
-      axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
+      axios.defaults.headers[
+        process.env.REACT_APP_TOKEN_HEADER
+      ] = `${newValue?.id_token}`;
       const res = await login(newValue?.id_token);
       if (res) {
         const allValue = { ...newValue, ...res.data };

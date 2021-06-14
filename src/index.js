@@ -16,7 +16,9 @@ var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);
 
 if (jsonizedToken && jsonizedToken?.id_token) {
-  axios.defaults.headers["Authorization"] = `Bearer ${jsonizedToken?.id_token}`;
+  axios.defaults.headers[
+    process.env.REACT_APP_TOKEN_HEADER
+  ] = `${jsonizedToken?.id_token}`;
 }
 
 axios.interceptors.response.use(

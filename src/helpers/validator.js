@@ -85,9 +85,9 @@ export const isPublicLink = (pathname) => {
 
 export class PersonalDetailValidator {
   isValidName = (inputName, authName) =>
-    inputName !== "" && String(inputName) !== String(authName);
+    inputName !== "" && String(inputName).trim() !== String(authName).trim();
   isValidNIK = (inputNik, authNik) =>
-    inputNik !== "" && String(inputNik) !== String(authNik);
+    inputNik !== "" && String(inputNik).trim() !== String(authNik).trim();
   isValidBirthDate = (inputBirthDate, authBirthDate) => {
     return (
       !isDateSame(inputBirthDate, new Date()) &&
@@ -99,6 +99,6 @@ export class PersonalDetailValidator {
   };
   isValidPhoneNumber = (inputPhoneNumber, authPhoneNumber) =>
     inputPhoneNumber !== "" &&
-    String(inputPhoneNumber) !== String(authPhoneNumber) &&
-    String(inputPhoneNumber).length > 4;
+    String(inputPhoneNumber).trim() !== String(authPhoneNumber).trim() &&
+    String(inputPhoneNumber).trim().length > 4;
 }

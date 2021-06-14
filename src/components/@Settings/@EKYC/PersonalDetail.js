@@ -52,7 +52,8 @@ const PersonalDetail = () => {
     setLoading(true);
     try {
       let temp = {};
-      if (V.isValidName(name?.value, auth?.fullname)) temp.name = name?.value;
+      if (V.isValidName(name?.value, auth?.fullname))
+        temp.fullname = name?.value;
       if (V.isValidName(company?.value, auth?.company))
         temp.company = company?.value;
       if (V.isValidName(title?.value, auth?.title)) temp.title = title?.value;
@@ -62,7 +63,10 @@ const PersonalDetail = () => {
       if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
         temp.birthdate = getBackendDateFormat(birthDate?.value);
       const res = await updateUser(temp, auth?.userid);
-      if (res?.data) putAuth(res.data);
+      if (res?.data) {
+        console.log(res);
+        putAuth(res.data);
+      }
 
       setSuccess(t("settings.ekyc.editProfileSuccess"));
       setTimeout(() => setSuccess(false), 3000);
