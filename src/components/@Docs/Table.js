@@ -12,22 +12,23 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
           <td className="lead">{t("docs.table.SLA")}</td>
         </tr>
       </thead>
+      {console.log(displayedDocs?.value)}
       <tbody>
         {displayedDocs?.value &&
           displayedDocs?.value?.length > 0 &&
           displayedDocs?.value?.map((component) => (
             <tr
               className="col col-xl-4 col-sm-12 sign-area"
-              key={component?.docid}
+              key={component?.id}
             >
               <td>
                 <span
                   className={`cursor-pointer ${
-                    activeDoc?.value?.docid === component?.docid ? "bold" : ""
+                    activeDoc?.value?.id === component?.id ? "bold" : ""
                   } `}
                   onClick={() => activeDoc?.set(component)}
                 >
-                  {component?.name ?? "Jones Napoleon Autumn"}
+                  {component?.filename ?? "Jones Napoleon Autumn"}
                 </span>
               </td>
               <td>{component?.userid}</td>
@@ -39,7 +40,7 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
                   {component?.userid}
                 </button>
               </td>
-              <td>{getMoment(component?.createdDate)}</td>
+              <td>{getMoment(component?.createdAt)}</td>
             </tr>
           ))}
       </tbody>

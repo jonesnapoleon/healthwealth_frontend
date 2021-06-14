@@ -87,7 +87,9 @@ export class PersonalDetailValidator {
   isValidName = (inputName, authName) =>
     inputName !== "" && String(inputName).trim() !== String(authName).trim();
   isValidNIK = (inputNik, authNik) =>
-    inputNik !== "" && String(inputNik).trim() !== String(authNik).trim();
+    inputNik !== "" &&
+    String(inputNik).trim() !== String(authNik).trim() &&
+    String(inputNik).trim().length > 9;
   isValidBirthDate = (inputBirthDate, authBirthDate) => {
     return (
       !isDateSame(inputBirthDate, new Date()) &&

@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  useFile,
-  useRefreshedData,
-  useProgressBar,
-} from "../../../helpers/hooks";
+import { useFile, useProgressBar } from "../../../helpers/hooks";
 
 import DragDrop from "../../commons/ImageUpload/DragDrop";
 import FloatingButton from "../commons/FloatingButton";
@@ -14,8 +10,7 @@ import Progressbar from "../../../components/commons/Progressbar";
 import { ReactComponent as DocumentIcon } from "../../../assets/images/Upload Document Icon.svg";
 import { ReactComponent as DeleteDocumentIcon } from "../../../assets/images/Delete Upload Document Icon.svg";
 
-import { uploadFile, deleteFile } from "../../../api/upload";
-import { addDoc } from "../../../api/docs";
+import { uploadFile, deleteFile, addDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
 
 import "./selectDocument.css";
@@ -31,7 +26,13 @@ const SelectDocument = ({
   const [error, setError] = useState(null);
   const data = useFile();
   const progress = useProgressBar();
-  const loading = useRefreshedData(!data?.file);
+  // const loading = useRefreshedData(!data?.file);
+  // const [canFileBeUploaded, setCanFileBeUploaded] = useState(true);
+
+  // useEffect(() => {
+  //   console.log(loading);
+  //   console.log(data?.file);
+  // }, [data?.file, loading]);
 
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
@@ -42,10 +43,10 @@ const SelectDocument = ({
       if (bool) {
         progress.set(1);
         const res = await uploadFile(data?.file);
-        if (res) {
-          const newRes = await addDoc(res?.url, data?.file?.name);
-          if (newRes) {
-            setFileData(newRes);
+        if (res?.data) {
+          const newRes = await addDoc(res.data?.url, data?.file?.name);
+          if (newRes?.data) {
+            setFileData(newRes.data);
             setAvailableItem((a) => a + 1);
             progress.set(100);
           }
@@ -53,6 +54,7 @@ const SelectDocument = ({
       }
     } catch (err) {
       setError(String(err));
+      progress.set(0);
       setTimeout(() => setError(false), 3000);
     }
   }, [data?.file, setFileData, setAvailableItem, progress]);
@@ -67,14 +69,14 @@ const SelectDocument = ({
         throw new Error(t("form.error.fileNotUploadedYet"));
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
-        progress.set(1);
         const res = await deleteFile(data?.file);
         if (res) {
           console.log(res);
-          progress.set(100);
+          progress.set(0);
         }
       }
     } catch (err) {
+      progress.set(0);
       setError(String(err));
       setTimeout(() => setError(false), 3000);
     }
@@ -85,7 +87,7 @@ const SelectDocument = ({
       {error && <Snackbar text={error} />}
       <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
       <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
-      <DragDrop data={data} />
+      <DragDrop data={data} disabled={progress.value === 100} />
 
       <div className="mt-5 lead mb-2">
         {t("sign.selectDocument.docsUSelected")}
@@ -113,7 +115,7 @@ const SelectDocument = ({
         onClickNext={() => {
           setActiveItem(1);
         }}
-        loading={loading?.value}
+        disabled={progress?.value !== 100}
       />
     </div>
   );

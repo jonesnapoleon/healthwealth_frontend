@@ -8,7 +8,8 @@ import cameraSvg from "../../../assets/images/Camera icon.svg";
 import TakePhoto from "../../commons/ImageUpload/TakePhoto";
 import { useModal } from "../../../contexts/ModalContext";
 import DragDropClass from "../../commons/ImageUpload/DragDropClass";
-import { uploadFile } from "../../../api/upload";
+import { uploadKTP } from "../../../api/auth";
+// uploadSelfie
 import Snackbar from "../../commons/Snackbar";
 
 const Picture = () => {
@@ -33,7 +34,7 @@ const Picture = () => {
       setLoading(true);
       if (!identity?.file || identity?.file === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const res = await uploadFile(identity.file);
+      const res = await uploadKTP(identity.file);
       if (res) {
         console.log(res);
       }

@@ -6,7 +6,7 @@ const FloatingButton = ({
   onClickNext,
   activeItem,
   availableLevel,
-  loading,
+  disabled,
   onClickPrev,
 }) => {
   const { t } = useTranslation();
@@ -19,14 +19,14 @@ const FloatingButton = ({
             <button
               onClick={onClickPrev}
               className="btn btn-light"
-              disabled={loading}
+              disabled={disabled}
             >
               {t("general.back")}
             </button>
           )}
           <button
             onClick={onClickNext}
-            disabled={loading}
+            disabled={disabled}
             className="btn btn-primary"
           >
             {t("general.next")}

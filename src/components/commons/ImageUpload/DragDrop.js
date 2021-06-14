@@ -5,7 +5,7 @@ import icon from "../../../assets/images/Upload Document Icon.svg";
 import "./imageupload.css";
 import DragDropClass from "./DragDropClass";
 
-const DragDrop = ({ data }) => {
+const DragDrop = ({ data, disabled }) => {
   const { setFile, filePicker } = data;
   const { t } = useTranslation();
 
@@ -17,7 +17,9 @@ const DragDrop = ({ data }) => {
   }, [filePicker, setFile]);
 
   const handleDrop = (file) => {
-    if (file) setFile(file[0]);
+    if (!disabled) {
+      if (file) setFile(file[0]);
+    }
   };
 
   return (
@@ -26,10 +28,12 @@ const DragDrop = ({ data }) => {
         <div>
           <button
             className="btn btn-light primary-color upload-button"
+            disabled={disabled}
             onClick={() => {
-              if (filePicker) {
-                filePicker.current.click();
-              }
+              if (!disabled)
+                if (filePicker) {
+                  filePicker.current.click();
+                }
             }}
           >
             {t("form.uploadFile")}
@@ -39,7 +43,12 @@ const DragDrop = ({ data }) => {
           <img src={icon} alt="" />
           <div>{t("form.dragDrop")}</div>
         </div>
-        <input type="file" ref={filePicker} style={{ display: "none" }} />
+        <input
+          type="file"
+          ref={filePicker}
+          style={{ display: "none" }}
+          disabled={disabled}
+        />
       </div>
     </DragDropClass>
   );

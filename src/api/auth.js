@@ -27,7 +27,7 @@ export const getUser = async (userId) => {
     const response = await axios.get(`${API_GET_USER}${userId}/`);
     return response.data;
   } catch (e) {
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -41,7 +41,7 @@ export const updateUser = async (data) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "Fail";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -53,7 +53,7 @@ export const getAllDocs = async () => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -65,7 +65,7 @@ export const getAllSignatures = async () => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -79,7 +79,7 @@ export const uploadKTP = async (file) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -93,6 +93,6 @@ export const uploadSelfie = async (file) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };

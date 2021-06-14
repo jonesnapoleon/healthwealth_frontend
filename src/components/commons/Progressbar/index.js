@@ -10,7 +10,8 @@ const Progressbar = ({ progress, text = "" }) => {
       <div className="text">{`${text} ${Math.round(progress)}%`}</div>
     </div>
   );
-  return progressBar;
+  if (progress !== 0) return progressBar;
+  return <></>;
 };
 // progress > 0 && progress < 101 &&
 

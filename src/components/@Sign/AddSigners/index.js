@@ -150,7 +150,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
         </button>
       </div>
       <FloatingButton
-        loading={loading === 0}
+        disabled={loading === 0}
         activeItem={activeItem}
         availableLevel={availableLevel}
         onClickNext={handleSubmit}
