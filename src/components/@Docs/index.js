@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
@@ -36,6 +36,10 @@ const Docs = () => {
   }, [setDocs, docs]);
 
   useEffect(() => {
+    console.log(displayedDocs);
+  }, [displayedDocs]);
+
+  useEffect(() => {
     fetchingDocs();
   }, [fetchingDocs]);
 
@@ -64,6 +68,7 @@ const Docs = () => {
     if (trimmedQuery.length === 0) displayAll();
   }, [query?.value, trimNow, displayAll]);
 
+  // console.log(displayedDocs);
   return (
     <div className="docs mt-2">
       {error && <Snackbar text={error} />}
