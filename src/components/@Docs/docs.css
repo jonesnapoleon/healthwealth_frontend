@@ -10,9 +10,13 @@
 
 .docs table tbody td {
   padding: 0.7rem 0;
+  font-size: 0.8rem;
   border-top: 0.5px solid var(--primary-color);
 }
 
+.docs table tbody td span {
+  font-size: 0.8rem;
+}
 .docs .audit-trail {
   /* margin-top: 2rem; */
 }

@@ -73,7 +73,7 @@ const Sidebar = () => {
 
   return (
     <div className="row">
-      <div className="col col-8">
+      <div className="col col-10">
         <div className="sidebar">
           {landingData?.map((datum, i) => (
             <div className={`one-sidebar-item`} key={i}>

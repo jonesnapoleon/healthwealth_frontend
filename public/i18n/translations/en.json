@@ -271,16 +271,16 @@
       "action": {
         "text": "Action",
         "DRAFTING": "Edit",
-        "sign": "Sign",
-        "sendReminder": "Send reminder",
-        "download": "Download"
+        "WAITING": "Sign",
+        "OUT": "Send reminder",
+        "COMPLETED": "Download"
       },
       "status": {
         "text": "Status",
         "DRAFTING": "Drafting Document",
-        "sign": "",
-        "sendReminder": "Send reminder",
-        "download": "Download"
+        "WAITING": "Waiting for your signature",
+        "OUT": "Out for signature",
+        "COMPLETED": "Signature completed"
       }
     },
     "auditTrail": {
