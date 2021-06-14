@@ -270,14 +270,14 @@
       "SLA": "SLA",
       "action": {
         "text": "Action",
-        "edit": "Edit",
+        "DRAFTING": "Edit",
         "sign": "Sign",
         "sendReminder": "Send reminder",
         "download": "Download"
       },
       "status": {
         "text": "Status",
-        "edit": "Drafting Document",
+        "DRAFTING": "Drafting Document",
         "sign": "",
         "sendReminder": "Send reminder",
         "download": "Download"

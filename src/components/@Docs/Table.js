@@ -12,7 +12,6 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
           <td className="lead">{t("docs.table.SLA")}</td>
         </tr>
       </thead>
-      {console.log(displayedDocs)}
       <tbody>
         {displayedDocs &&
           displayedDocs?.length > 0 &&
@@ -28,16 +27,16 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
                   } `}
                   onClick={() => activeDoc?.set(component)}
                 >
-                  {component?.filename ?? "Jones Napoleon Autumn"}
+                  {component?.filename ?? "Untitled 225"}
                 </span>
               </td>
-              <td>{component?.userid}</td>
+              <td>{t(`docs.table.status.${component?.status}`)}</td>
               <td>
                 <button
                   onClick={() => handleClickingComponent(component)}
                   className="btn btn-primary btn-sm"
                 >
-                  {component?.userid}
+                  {t(`docs.table.action.${component?.status}`)}
                 </button>
               </td>
               <td>{getMoment(component?.createdAt)}</td>

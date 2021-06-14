@@ -15,7 +15,6 @@ const Docs = () => {
   const query = useFormInput("");
   const [error, setError] = useState(false);
 
-  const tempDocs = useMemo(() => docs, [docs]);
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
     docs ?? []
   );
@@ -35,10 +34,6 @@ const Docs = () => {
       }
     }
   }, [setDocs, docs]);
-
-  useEffect(() => {
-    console.log(displayedDocs);
-  }, [displayedDocs]);
 
   useEffect(() => {
     fetchingDocs();
