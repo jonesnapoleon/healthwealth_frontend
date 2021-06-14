@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { getMoment } from "../../helpers/transformer";
 
 const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
@@ -12,11 +12,11 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
           <td className="lead">{t("docs.table.SLA")}</td>
         </tr>
       </thead>
-      {console.log(displayedDocs?.value)}
+      {console.log(displayedDocs)}
       <tbody>
-        {displayedDocs?.value &&
-          displayedDocs?.value?.length > 0 &&
-          displayedDocs?.value?.map((component) => (
+        {displayedDocs &&
+          displayedDocs?.length > 0 &&
+          displayedDocs?.map((component) => (
             <tr
               className="col col-xl-4 col-sm-12 sign-area"
               key={component?.id}
@@ -48,4 +48,4 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
   );
 };
 
-export default Table;
+export default memo(Table);

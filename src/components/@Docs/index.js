@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
@@ -15,7 +15,11 @@ const Docs = () => {
   const query = useFormInput("");
   const [error, setError] = useState(false);
 
-  const displayedDocs = useRefreshedData(docs ?? []);
+  const tempDocs = useMemo(() => docs, [docs]);
+  const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
+    docs ?? []
+  );
+  // const setDisplayedDocs = displayedDocs.set;
   const activeDoc = useRefreshedData(false);
 
   const fetchingDocs = useCallback(async () => {
@@ -33,6 +37,10 @@ const Docs = () => {
   }, [setDocs, docs]);
 
   useEffect(() => {
+    console.log(displayedDocs);
+  }, [displayedDocs]);
+
+  useEffect(() => {
     fetchingDocs();
   }, [fetchingDocs]);
 
@@ -40,14 +48,26 @@ const Docs = () => {
     console.log(obj);
   }, []);
 
+  const trimNow = useCallback(
+    (trimmedQuery) => {
+      let temp = docs?.filter((doc) =>
+        String(doc?.filename)?.toLowerCase()?.includes(trimmedQuery)
+      );
+
+      setDisplayedDocs(temp);
+    },
+    [setDisplayedDocs, docs]
+  );
+
+  const displayAll = useCallback(() => {
+    setDisplayedDocs(docs);
+  }, [setDisplayedDocs, docs]);
+
   useEffect(() => {
     const trimmedQuery = String(query?.value).trim();
-    const filterDocs = () => {
-      const temp = docs?.filter((doc) => doc?.name?.includes(trimmedQuery));
-      displayedDocs.set(temp);
-    };
-    if (trimmedQuery !== "") filterDocs();
-  }, [query?.value, docs, displayedDocs]);
+    if (trimmedQuery.length > 1) trimNow(trimmedQuery);
+    if (trimmedQuery.length === 0) displayAll();
+  }, [query?.value, trimNow, displayAll]);
 
   return (
     <div className="docs mt-2">
