@@ -32,7 +32,10 @@
 .one-sidebar-item span {
   padding-left: 1rem;
 }
-
+.one-sidebar-item .right-icon > svg {
+  width: 1rem;
+  height: 1rem;
+}
 /* .one-sidebar-item .coming-soon:hover {
   visibility: visible;
 } */

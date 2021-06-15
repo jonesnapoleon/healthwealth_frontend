@@ -87,7 +87,9 @@ const Sidebar = () => {
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
-                  <div>{<RightIcon />}</div>
+                  <span className="right-icon">
+                    <RightIcon />
+                  </span>
                 </NavLink>
               ) : (
                 <div id={`one-sidebar-item-${i}`}>

@@ -46,9 +46,13 @@ const Welcome = () => {
         {signComponents?.map((component) => (
           <div className="col-xl-4 col-sm-12 sign-area" key={component?.title}>
             <div className="item-centery">
-              <div className={`px-2`}>{component?.icon}</div>
-              <div className="lead">{component?.title}</div>
-              <div className="desc">{component?.desciption}</div>
+              <div>
+                <div className={`component-icon`}>{component?.icon}</div>
+                <div>
+                  <div className="lead">{component?.title}</div>
+                  <div className="desc">{component?.desciption}</div>
+                </div>
+              </div>
               <div className="button">
                 <Link
                   className="btn-primary button-landing"

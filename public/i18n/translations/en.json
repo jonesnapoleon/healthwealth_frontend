@@ -244,6 +244,8 @@
   "sign": {
     "selectDocument": {
       "whatNeed": "What needs to be signed?",
+      "uploadFileSuccess": "Upload file succeed",
+      "deleteFileSuccess": "Delete file succeed",
       "text": "Select documents",
       "docsUSelected": "Documents you've selected"
     },

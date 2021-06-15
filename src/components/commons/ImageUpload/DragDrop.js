@@ -17,9 +17,7 @@ const DragDrop = ({ data, disabled }) => {
   }, [filePicker, setFile]);
 
   const handleDrop = (file) => {
-    if (!disabled) {
-      if (file) setFile(file[0]);
-    }
+    if (!disabled && file) setFile(file[0]);
   };
 
   return (
@@ -30,10 +28,9 @@ const DragDrop = ({ data, disabled }) => {
             className="btn btn-light primary-color upload-button"
             disabled={disabled}
             onClick={() => {
-              if (!disabled)
-                if (filePicker) {
-                  filePicker.current.click();
-                }
+              if (!disabled && filePicker) {
+                filePicker.current.click();
+              }
             }}
           >
             {t("form.uploadFile")}

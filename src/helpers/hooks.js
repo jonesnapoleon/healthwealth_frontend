@@ -92,7 +92,6 @@ export const useProgressBar = () => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    console.log(value);
     const updateProgress = () => {
       if (value !== 99) {
         setValue(value + 1);

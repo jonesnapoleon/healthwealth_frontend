@@ -3,14 +3,15 @@ import axios from "axios";
 const API_ADD_DOC = "/api/doc/";
 const API_ADD_USER_TO_DOC = "/api/docflow/";
 
-const API_UPLOAD = "/api/doc/upload/";
-
-export const uploadFile = async (file) => {
+export const addDoc = async (file, fileName) => {
   const data = new FormData();
   data.append("document", file);
 
   try {
-    const response = await axios.post(API_UPLOAD, data);
+    const response = await axios.post(
+      `${API_ADD_DOC}?fileName=${encodeURIComponent(fileName)}`,
+      data
+    );
     return response.data;
   } catch (e) {
     // if (e?.response) {
@@ -20,13 +21,9 @@ export const uploadFile = async (file) => {
   }
 };
 
-// TODO
-export const deleteFile = async (file) => {
-  const data = new FormData();
-  data.append("document", file);
-
+export const deleteDoc = async (fileId) => {
   try {
-    const response = await axios.post(API_UPLOAD, data);
+    const response = await axios.delete(`${API_ADD_DOC}${fileId}/`);
     return response.data;
   } catch (e) {
     // if (e?.response) {
@@ -36,7 +33,7 @@ export const deleteFile = async (file) => {
   }
 };
 
-export const addDoc = async (url, filename) => {
+export const updateDoc = async (url, filename) => {
   const data = {
     linkToPdf: url,
     filename,

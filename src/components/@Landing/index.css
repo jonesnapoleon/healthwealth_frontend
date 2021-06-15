@@ -26,8 +26,14 @@
   padding-bottom: 1rem;
 }
 
+.home-wrapper .component-icon {
+  padding: 0.5rem;
+}
+.home-wrapper .component-icon svg {
+  height: 3rem;
+}
 .home-wrapper .sign-area .button {
-  padding-top: 2rem;
+  margin-top: 0rem;
 }
 
 .home-wrapper .sign-area .button .button-landing {
