@@ -8,7 +8,7 @@ import PersonRow from "../commons/PersonRow";
 
 import { addUserToDocument } from "../../../api/docs";
 
-import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
+import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
 import ToggleButton from "../../commons/ToggleButton";
 import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";

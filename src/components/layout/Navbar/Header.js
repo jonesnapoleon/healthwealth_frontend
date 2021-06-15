@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import { ReactComponent as HelpSvg } from "../../../assets/images/Help Icon.svg";
-import logoUrl from "../../../assets/images/Company Logo@2x.png";
+import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
+import logoUrl from "../../../assets/bnw/Company Logo@2x.png";
 
 const Header = ({ auth, t, signOut }) => {
   const toggleDropdown = (bool) => {

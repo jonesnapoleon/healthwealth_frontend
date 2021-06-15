@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18.346" height="18.346" viewBox="0 0 18.346 18.346">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Icon_feather-help-circle" data-name="Icon feather-help-circle" transform="translate(-2 -2)">
+    <path id="Path_2" data-name="Path 2" class="cls-1" d="M19.346,11.173A8.173,8.173,0,1,1,11.173,3a8.173,8.173,0,0,1,8.173,8.173Z"/>
+    <path id="Path_3" data-name="Path 3" class="cls-1" d="M13.635,12.131a2.452,2.452,0,0,1,4.765.817c0,1.635-2.452,2.452-2.452,2.452" transform="translate(-4.84 -3.41)"/>
+    <path id="Path_4" data-name="Path 4" class="cls-1" d="M18,25.5h0" transform="translate(-6.827 -10.241)"/>
+  </g>
+</svg>

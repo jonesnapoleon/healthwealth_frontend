@@ -4,14 +4,14 @@ import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
 import { updateUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
-import { ReactComponent as CalendarIcon } from "../../../assets/images/Add Field - Dates Icon.svg";
+import { ReactComponent as CalendarIcon } from "../../../assets/bnw/Add Field - Dates Icon.svg";
 import {
   useFormInput,
   useInput,
   useIsLargeScreen,
 } from "../../../helpers/hooks";
 
-import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
+import circleCorrectIcon from "../../../assets/bnw/Circle Correct Icon.svg";
 import { PersonalDetailValidator } from "../../../helpers/validator";
 import { getBackendDateFormat } from "../../../helpers/transformer";
 

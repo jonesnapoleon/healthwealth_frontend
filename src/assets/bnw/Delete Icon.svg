@@ -1,0 +1,17 @@
+<svg id="Component_57_35" data-name="Component 57 – 35" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(112,112,112,0.8);
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+      }
+    </style>
+  </defs>
+  <circle id="Ellipse_13" data-name="Ellipse 13" class="cls-1" cx="15" cy="15" r="15"/>
+  <line id="Line_9" data-name="Line 9" class="cls-2" x2="11.165" y2="11.165" transform="translate(9.335 9.335)"/>
+  <line id="Line_10" data-name="Line 10" class="cls-2" y1="11" x2="11" transform="translate(9.5 9.5)"/>
+</svg>

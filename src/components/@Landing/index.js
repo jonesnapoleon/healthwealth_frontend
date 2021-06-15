@@ -4,27 +4,31 @@ import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
 
+import { ReactComponent as OnlyMeIcon } from "../../assets/bnw/User Me Only Icon.svg";
+import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Icon.svg";
+import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
+
 const Welcome = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
 
   const signComponents = [
     {
-      icon: "",
+      icon: <OnlyMeIcon />,
       title: t("landing.me.title"),
       ctaText: t("landing.me.ctaText"),
       desciption: t("landing.me.desc"),
       dest: "/me",
     },
     {
-      icon: "",
+      icon: <AllIcon />,
       title: t("landing.all.title"),
       ctaText: t("landing.all.ctaText"),
       desciption: t("landing.all.desc"),
       dest: "/all",
     },
     {
-      icon: "",
+      icon: <RequestIcon />,
       title: t("landing.req.title"),
       ctaText: t("landing.req.ctaText"),
       desciption: t("landing.req.desc"),
@@ -42,13 +46,7 @@ const Welcome = () => {
         {signComponents?.map((component) => (
           <div className="col-xl-4 col-sm-12 sign-area" key={component?.title}>
             <div className="item-centery">
-              <img
-                src={
-                  "https://jonesnapoleon.com/static/media/Jones.14fc7267.png" ??
-                  component?.icon
-                }
-                alt=""
-              />
+              <div className={`px-2`}>{component?.icon}</div>
               <div className="lead">{component?.title}</div>
               <div className="desc">{component?.desciption}</div>
               <div className="button">

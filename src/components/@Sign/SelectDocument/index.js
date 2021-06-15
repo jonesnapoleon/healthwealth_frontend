@@ -8,8 +8,8 @@ import FloatingButton from "../commons/FloatingButton";
 import Snackbar from "../../commons/Snackbar";
 import Progressbar from "../../../components/commons/Progressbar";
 
-import { ReactComponent as DocumentIcon } from "../../../assets/images/Upload Document Icon.svg";
-import { ReactComponent as DeleteDocumentIcon } from "../../../assets/images/Delete Upload Document Icon.svg";
+import { ReactComponent as DocumentIcon } from "../../../assets/bnw/Upload Document Icon.svg";
+import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete Upload Document Icon.svg";
 
 import { uploadFile, deleteFile, addDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
