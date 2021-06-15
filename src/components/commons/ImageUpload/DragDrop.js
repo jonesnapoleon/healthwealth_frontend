@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import icon from "../../../assets/images/Upload Document Icon.svg";
+import icon from "../../../assets/bnw/Upload Document Icon.svg";
 import "./imageupload.css";
 import DragDropClass from "./DragDropClass";
 

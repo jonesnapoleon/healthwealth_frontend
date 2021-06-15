@@ -5,14 +5,10 @@ import Stepper from "../../layout/Stepper";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../../contexts/DataContext";
 
-import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as PersonAddIcon } from "../../../assets/images/document tab icon.svg";
-
-// import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
-// import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
-// import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
+import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
+import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);

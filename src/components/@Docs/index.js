@@ -4,7 +4,7 @@ import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
 import { getAllDocs } from "../../api/auth";
 import Snackbar from "../commons/Snackbar";
-import searchIcon from "../../assets/images/Search Icon.svg";
+import searchIcon from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.css";

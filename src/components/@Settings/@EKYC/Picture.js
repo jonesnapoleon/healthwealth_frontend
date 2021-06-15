@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useFile, useInput } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
-import ktpSvg from "../../../assets/images/ID Card icon.svg";
-import cameraSvg from "../../../assets/images/Camera icon.svg";
+import ktpSvg from "../../../assets/bnw/ID Card icon.svg";
+import cameraSvg from "../../../assets/bnw/Camera icon.svg";
 import TakePhoto from "../../commons/ImageUpload/TakePhoto";
 import { useModal } from "../../../contexts/ModalContext";
 import DragDropClass from "../../commons/ImageUpload/DragDropClass";
