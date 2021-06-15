@@ -3,7 +3,6 @@ import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
 import Stepper from "../../layout/Stepper";
 import { useTranslation } from "react-i18next";
-import { useData } from "../../../contexts/DataContext";
 
 import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
@@ -18,7 +17,6 @@ const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const availableLevel = activeItem;
 
-  const { setFileData } = useData();
   const { t } = useTranslation();
 
   const stepperData = [
@@ -41,7 +39,6 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
-          setFileData={setFileData}
         />
         // <AddSigners
         //   activeItem={activeItem}

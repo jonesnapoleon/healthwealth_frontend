@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useData } from "../../../contexts/DataContext";
 import { useHistory } from "react-router-dom";
 import { getReadableWord } from "../../../helpers/transformer";
 import { FRONTEND_URL } from "../../../helpers/constant";
@@ -19,7 +18,6 @@ import { ReactComponent as ReviewSendIcon } from "../../../assets/images/documen
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableItem] = useState(0);
-  const { setFileData } = useData();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -32,7 +30,6 @@ const Me = () => {
           <SelectDocument
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileData={setFileData}
             setActiveItem={setActiveItem}
             setAvailableItem={setAvailableItem}
           />
@@ -45,7 +42,6 @@ const Me = () => {
           <PlaceField
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileData={setFileData}
             setActiveItem={setActiveItem}
           />
         ),
@@ -55,7 +51,7 @@ const Me = () => {
         icon: <ReviewSendIcon />,
       },
     ],
-    [activeItem, t, availableLevel, setFileData]
+    [activeItem, t, availableLevel]
   );
 
   useEffect(() => {

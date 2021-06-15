@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useProgressBar } from "../../../helpers/hooks";
+import { useData } from "../../../contexts/DataContext";
 
 import DragDrop from "../../commons/ImageUpload/DragDrop";
 import FloatingButton from "../commons/FloatingButton";
@@ -20,11 +21,12 @@ const SelectDocument = ({
   setActiveItem,
   availableLevel,
   setAvailableItem,
-  setFileData,
 }) => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
   const data = useFile();
+  const { fileData, setFileData } = useData();
+
   const progress = useProgressBar();
   // const loading = useRefreshedData(!data?.file);
   // const [canFileBeUploaded, setCanFileBeUploaded] = useState(true);
@@ -65,15 +67,12 @@ const SelectDocument = ({
 
   const handleDeleteFile = async () => {
     try {
-      if (!data?.file || data?.file === null)
+      if (!fileData?.docid || fileData?.docid === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
-      if (bool) {
-        const res = await deleteFile(data?.file);
-        if (res) {
-          console.log(res);
-          progress.set(0);
-        }
+      const res = await deleteFile(fileData?.docid);
+      if (res) {
+        console.log(res);
+        progress.set(0);
       }
     } catch (err) {
       progress.set(0);
