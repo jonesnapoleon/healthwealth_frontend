@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logoUrl from "../../assets/Asset B_W/Company Logo@2x.png";
+import logoUrl from "../../assets/bnw/Company Logo@2x.png";
 import "./auth.css";
 import LoginArea from "./LoginArea";
 import { useTranslation } from "react-i18next";
