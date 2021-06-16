@@ -147,7 +147,6 @@ code {
 .btn-primary {
   background: var(--tertiary-color);
   color: var(--text-color);
-  padding: 0.8rem 1.6rem;
   text-decoration: none;
 }
 
@@ -155,7 +154,6 @@ code {
   border-radius: var(--border-radius);
   background: var(--secondary-extra-color-2);
   color: var(--text-color);
-  padding: 0.8rem 2rem;
   text-decoration: none;
 }
 

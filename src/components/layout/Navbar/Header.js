@@ -31,9 +31,7 @@ const Header = ({ auth, t, signOut }) => {
               <span>{t("header.thisMonth")}</span>
             </div>
             <div>
-              <button className="logout-button btn-secondary">
-                {t("header.upgrade")}
-              </button>
+              <button className="logout-button">{t("header.upgrade")}</button>
             </div>
           </div>
           <div className="item-center super-pt-1 last-nav-child">

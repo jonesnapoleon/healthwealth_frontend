@@ -18,7 +18,7 @@ const FloatingButton = ({
           {availableLevel > -20 && (
             <button
               onClick={onClickPrev}
-              className="btn btn-light"
+              className="btn btn-light btn-lg"
               disabled={disabled}
             >
               {t("general.back")}
@@ -27,7 +27,7 @@ const FloatingButton = ({
           <button
             onClick={onClickNext}
             disabled={disabled}
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg"
           >
             {t("general.next")}
           </button>

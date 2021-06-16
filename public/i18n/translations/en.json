@@ -330,15 +330,6 @@
     "signOut": "Sign out",
     "myProfile": "My Profile"
   },
-  "footer": {
-    "home": "Home",
-    "product": "Product",
-    "learning": "Learning",
-    "cart": "Cart",
-    "account": "Account",
-    "transaction": "Transaction",
-    "wishlist": "Wishlist"
-  },
   "login": {
     "signUp": "Sign up",
     "signIn": "Sign in",

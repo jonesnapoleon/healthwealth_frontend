@@ -81,7 +81,7 @@ const Docs = () => {
       </div> */}
 
       <div className="row">
-        <div className="col col-lg-8 col-md-12">
+        <div className="col col-lg-8 col-12">
           <div className="formarea">
             <input className="form-input search-bar" {...query} />
             <span className="search-bar-icon">
@@ -95,7 +95,7 @@ const Docs = () => {
             t={t}
           />
         </div>
-        <div className="col col-lg-4 col-md-12">
+        <div className="col col-lg-4 col-12">
           <AuditTrail activeDoc={activeDoc} t={t} />
         </div>
       </div>
