@@ -1,18 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
   <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-      }
-
-      .cls-2, .cls-3 {
-        stroke: none;
-      }
-
-      .cls-3 {
-        fill: #000;
-      }
-    </style>
+    
   </defs>
   <g id="Group_172" data-name="Group 172" transform="translate(-1254 -381)">
     <g id="Path_43" data-name="Path 43" class="cls-1" transform="translate(1254 381)">

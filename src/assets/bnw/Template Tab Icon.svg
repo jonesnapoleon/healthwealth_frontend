@@ -1,10 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="15.791" height="15.791" viewBox="0 0 15.791 15.791">
   <defs>
-    <style>
-      .cls-1 {
-        fill-rule: evenodd;
-      }
-    </style>
+    
   </defs>
   <g id="template" transform="translate(-4.5 -4.5)">
     <path id="Path_14" data-name="Path 14" class="cls-1" d="M4.5,4.5V9.764H20.291V4.5ZM18.536,6.255H6.255V8.009H18.536Z" transform="translate(0 0)"/>

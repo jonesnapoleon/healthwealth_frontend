@@ -1,18 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
   <defs>
-    <style>
-      .cls-1, .cls-3 {
-        fill: none;
-      }
-
-      .cls-1 {
-        stroke: #000;
-      }
-
-      .cls-2 {
-        stroke: none;
-      }
-    </style>
+    
   </defs>
   <g id="Group_173" data-name="Group 173" transform="translate(-929 -52)">
     <g id="Ellipse_6" data-name="Ellipse 6" class="cls-1" transform="translate(929 52)">

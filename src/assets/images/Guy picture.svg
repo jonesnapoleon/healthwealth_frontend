@@ -1,19 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="235" height="235" viewBox="0 0 235 235">
   <defs>
-    <style>
-      .cls-1 {
-        stroke: #707070;
-        fill: url(#pattern);
-      }
-
-      .cls-2 {
-        stroke: none;
-      }
-
-      .cls-3 {
-        fill: none;
-      }
-    </style>
+    
     <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 4000 4000">
       <image width="4000" height="4000" xlink:href="Guy%20picture-image.jpg"/>
     </pattern>

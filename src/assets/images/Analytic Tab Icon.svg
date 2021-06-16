@@ -1,10 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="17.366" height="15.787" viewBox="0 0 17.366 15.787">
   <defs>
-    <style>
-      .cls-1 {
-        fill: #4b4b4b;
-      }
-    </style>
+    
   </defs>
   <g id="analytics-outline-badged" transform="translate(-2 -1)">
     <path id="Path_24" data-name="Path 24" class="cls-1" d="M17.787,9.326v8.3H3.052V6.052h9.772a3.777,3.777,0,0,1,0-1.052H3.052A1.052,1.052,0,0,0,2,6.052V17.63a1.052,1.052,0,0,0,1.052,1.052H17.787A1.052,1.052,0,0,0,18.84,17.63V8.863A3.934,3.934,0,0,1,17.787,9.326Z" transform="translate(0 -1.895)"/>
