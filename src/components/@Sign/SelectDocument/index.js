@@ -29,8 +29,6 @@ const SelectDocument = ({
   const { fileData, setFileData } = useData();
 
   const progress = useProgressBar();
-  // const loading = useRefreshedData(!data?.file);
-  // const [canFileBeUploaded, setCanFileBeUploaded] = useState(true);
 
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
@@ -60,18 +58,6 @@ const SelectDocument = ({
       setTimeout(() => setError(false), 3000);
     }
   }, [data?.file, setFileData, setAvailableItem, progress, t, fileData]);
-
-  // useEffect(() => {
-  //   if (data?.file && fileData && progress.value === 100) {
-  //     if (data?.file?.name !== fileData?.filename) {
-  //       progress.set(0);
-  //     }
-  //   }
-  // }, [data?.file, progress, fileData]);
-
-  useEffect(() => {
-    console.log(progress.value);
-  }, [progress.value]);
 
   useEffect(() => {
     handleUploadFile();

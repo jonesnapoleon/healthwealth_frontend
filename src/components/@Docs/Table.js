@@ -6,10 +6,10 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
     <table>
       <thead>
         <tr>
-          <td className="lead">{t("docs.table.title")}</td>
-          <td className="lead">{t("docs.table.status.text")}</td>
-          <td className="lead">{t("docs.table.action.text")}</td>
-          <td className="lead">{t("docs.table.SLA")}</td>
+          <td className="">{t("docs.table.title")}</td>
+          <td className="">{t("docs.table.status.text")}</td>
+          <td className="">{t("docs.table.action.text")}</td>
+          <td className="">{t("docs.table.SLA")}</td>
         </tr>
       </thead>
       <tbody>

@@ -37,7 +37,6 @@ export const updateUser = async (data) => {
     const response = await axios.put(`${API_UPDATE_USER}`, data);
     return response.data;
   } catch (e) {
-    console.log(e);
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }

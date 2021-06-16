@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -24,19 +24,18 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   const handleSubmit = async () => {
     try {
       setLoading(0);
-      const res = await addUserToDocument(data?.file);
+      const res = await addUserToDocument(data);
       if (res) {
         console.log(res);
         setActiveItem((a) => a + 1);
         // setFileUrl(newRes?.linkToPdf);
         // setAvailableItem((a) => a + 1);
         // progress.set(100);
+        setLoading(1);
       }
     } catch (err) {
       setError(String(err));
       setTimeout(() => setError(false), 3000);
-    } finally {
-      setLoading(1);
     }
   };
 

@@ -3,6 +3,7 @@
 .one-sidebar-item {
   padding: 0.5rem 0;
 }
+
 .one-sidebar-item > * {
   display: flex;
   align-items: center;
@@ -31,6 +32,7 @@
 
 .one-sidebar-item span {
   padding-left: 1rem;
+  font-size: 0.8rem;
 }
 .one-sidebar-item .right-icon > svg {
   width: 1rem;
