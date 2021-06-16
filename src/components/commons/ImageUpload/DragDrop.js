@@ -5,19 +5,23 @@ import icon from "../../../assets/bnw/Upload Document Icon.svg";
 import "./imageupload.css";
 import DragDropClass from "./DragDropClass";
 
-const DragDrop = ({ data, disabled = false }) => {
+const DragDrop = ({ data, disabled = false, progress }) => {
   const { setFile, filePicker } = data;
   const { t } = useTranslation();
 
   useEffect(() => {
     filePicker.current.onchange = (e) => {
       const newFile = e.target.files[0];
+      progress.set(0);
       if (newFile) setFile(newFile);
     };
-  }, [filePicker, setFile]);
+  }, [filePicker, setFile, progress]);
 
   const handleDrop = (file) => {
-    if (!disabled && file) setFile(file[0]);
+    if (!disabled && file) {
+      progress.set(0);
+      setFile(file[0]);
+    }
   };
 
   return (

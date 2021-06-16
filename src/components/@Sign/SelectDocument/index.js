@@ -32,10 +32,6 @@ const SelectDocument = ({
   // const loading = useRefreshedData(!data?.file);
   // const [canFileBeUploaded, setCanFileBeUploaded] = useState(true);
 
-  useEffect(() => {
-    console.log(data?.filePicker);
-  }, [data?.filePicker]);
-
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
     if (progress.value !== 0) return;
@@ -60,18 +56,22 @@ const SelectDocument = ({
       }
     } catch (err) {
       setError(String(err));
-      progress.set(0);
+      progress.set(-1);
       setTimeout(() => setError(false), 3000);
     }
-  }, [
-    data?.file,
-    setFileData,
-    setAvailableItem,
-    progress,
-    t,
-    setSuccess,
-    fileData,
-  ]);
+  }, [data?.file, setFileData, setAvailableItem, progress, t, fileData]);
+
+  // useEffect(() => {
+  //   if (data?.file && fileData && progress.value === 100) {
+  //     if (data?.file?.name !== fileData?.filename) {
+  //       progress.set(0);
+  //     }
+  //   }
+  // }, [data?.file, progress, fileData]);
+
+  useEffect(() => {
+    console.log(progress.value);
+  }, [progress.value]);
 
   useEffect(() => {
     handleUploadFile();
@@ -92,7 +92,7 @@ const SelectDocument = ({
         setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
-      progress.set(0);
+      progress.set(-1);
       setError(String(err));
       setTimeout(() => setError(false), 3000);
     }
@@ -106,6 +106,7 @@ const SelectDocument = ({
       <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
       <DragDrop
         data={data}
+        progress={progress}
         // disabled={progress.value === 100}
       />
 
