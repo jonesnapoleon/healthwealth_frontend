@@ -5,7 +5,7 @@ import icon from "../../../assets/bnw/Upload Document Icon.svg";
 import "./imageupload.css";
 import DragDropClass from "./DragDropClass";
 
-const DragDrop = ({ data, disabled }) => {
+const DragDrop = ({ data, disabled = false }) => {
   const { setFile, filePicker } = data;
   const { t } = useTranslation();
 

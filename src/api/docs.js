@@ -33,13 +33,18 @@ export const deleteDoc = async (fileId) => {
   }
 };
 
-export const updateDoc = async (url, filename) => {
-  const data = {
-    linkToPdf: url,
-    filename,
-  };
+export const replaceDoc = async (file, fileName, fileId) => {
+  const data = new FormData();
+  data.append("document", file);
+  // const data = {
+  //   linkToPdf: url,
+  //   filename,
+  // };
   try {
-    const response = await axios.post(API_ADD_DOC, data);
+    const response = await axios.post(
+      `${API_ADD_DOC}${fileId}?fileName=${encodeURIComponent(fileName)}/`,
+      data
+    );
     return response.data;
   } catch (e) {
     console.log(e?.response);

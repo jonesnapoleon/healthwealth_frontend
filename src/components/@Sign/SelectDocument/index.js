@@ -11,7 +11,7 @@ import Progressbar from "../../../components/commons/Progressbar";
 import { ReactComponent as DocumentIcon } from "../../../assets/bnw/Upload Document Icon.svg";
 import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete Upload Document Icon.svg";
 
-import { deleteDoc, addDoc } from "../../../api/docs";
+import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
 
 import "./selectDocument.css";
@@ -44,7 +44,12 @@ const SelectDocument = ({
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
         progress.set(1);
-        const res = await addDoc(data?.file, data?.file?.name);
+        let res;
+        if (fileData) {
+          res = await replaceDoc(data?.file, data?.file?.name, fileData.id);
+        } else {
+          res = await addDoc(data?.file, data?.file?.name);
+        }
         if (res?.data) {
           setFileData(res.data);
           setAvailableItem((a) => a + 1);
@@ -58,7 +63,15 @@ const SelectDocument = ({
       progress.set(0);
       setTimeout(() => setError(false), 3000);
     }
-  }, [data?.file, setFileData, setAvailableItem, progress, t, setSuccess]);
+  }, [
+    data?.file,
+    setFileData,
+    setAvailableItem,
+    progress,
+    t,
+    setSuccess,
+    fileData,
+  ]);
 
   useEffect(() => {
     handleUploadFile();
@@ -91,7 +104,10 @@ const SelectDocument = ({
       {success && <Snackbar type="success" text={success} />}
       <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
       <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
-      <DragDrop data={data} disabled={progress.value === 100} />
+      <DragDrop
+        data={data}
+        // disabled={progress.value === 100}
+      />
 
       <div className="mt-5 lead mb-2">
         {t("sign.selectDocument.docsUSelected")}
