@@ -5,8 +5,8 @@ const API_GET_USER = "/api/profile/";
 const API_UPDATE_USER = "/api/profile/";
 const API_GET_USER_DOCS = "/api/docs/";
 const API_GET_USER_SIGNATURES = "/api/signatures/";
-const API_UPLOAD_KTP = "/api/user/ktp/upload/";
-const API_UPLOAD_SELFIE = "/api/user/selfie/upload/";
+const API_UPLOAD_KTP = "/api/user/ktp/";
+const API_UPLOAD_SELFIE = "/api/user/selfie/";
 
 export const login = async (token) => {
   try {

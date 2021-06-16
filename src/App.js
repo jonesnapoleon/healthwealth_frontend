@@ -23,8 +23,8 @@ const App = () => {
             <div className="background-general">
               <Navbar />
               <Router />
-              <Footer />
             </div>
+            <Footer />
           </ModalProvider>
         </DataProvider>
       </AuthProvider>

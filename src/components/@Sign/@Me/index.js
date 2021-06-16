@@ -31,6 +31,7 @@ const Me = () => {
             setAvailableItem={setAvailableItem}
           />
         ),
+        pathName: FRONTEND_URL.sign_selected_document,
       },
       {
         name: t("sign.placeFields.text"),
@@ -42,19 +43,19 @@ const Me = () => {
             setActiveItem={setActiveItem}
           />
         ),
+        pathName: FRONTEND_URL.sign_place_fields,
       },
       {
         name: t("sign.reviewSend.text"),
         icon: <ReviewSendIcon />,
+        pathName: FRONTEND_URL.sign_review_send,
       },
     ],
     [activeItem, t, availableLevel]
   );
 
   useEffect(() => {
-    history.push(
-      `${FRONTEND_URL.me}#${getReadableWord(stepperData?.[activeItem]?.name)}`
-    );
+    history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
   }, [activeItem, history, stepperData]);
 
   return (

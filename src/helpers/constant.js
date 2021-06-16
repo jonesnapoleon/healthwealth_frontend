@@ -12,6 +12,10 @@ export const FRONTEND_URL = {
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",
+  sign_selected_document: "#selected-document",
+  sign_add_signers: "#add-signers",
+  sign_place_fields: "#place-fields",
+  sign_review_send: "#review-send",
 };
 
 export const publicLinks = [FRONTEND_URL.privacyPolicy];

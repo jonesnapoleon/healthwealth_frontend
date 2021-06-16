@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./imageupload.css";
 
-const ImageUpload = ({ meta, data, onClick }) => {
+const ImageUpload = ({ meta, data, onClick, currentFile }) => {
   const { icon, head, desc, isUpload } = meta;
   const [url, setUrl] = useState("");
 
@@ -27,7 +27,9 @@ const ImageUpload = ({ meta, data, onClick }) => {
       className="image-upload-container"
       onClick={isUpload ? () => data?.filePicker?.current?.click() : onClick}
     >
-      {imageToShow ? (
+      {currentFile ? (
+        <img src={currentFile} alt="" className="showing-image" />
+      ) : imageToShow ? (
         <img src={imageToShow} alt="" className="showing-image" />
       ) : (
         <>

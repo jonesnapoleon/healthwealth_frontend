@@ -11,9 +11,15 @@
   justify-content: space-between;
 }
 
+.one-sidebar-item .sidebar-icon {
+  display: flex;
+  align-items: center;
+}
+
 .one-sidebar-item .sidebar-icon > svg {
   height: auto;
   width: 1rem;
+  vertical-align: middle;
 }
 
 .one-sidebar-item a {

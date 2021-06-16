@@ -1,6 +1,6 @@
 .floating-button-container {
   position: absolute;
-  bottom: 2vh;
+  bottom: 0vh;
   left: 25vw;
   right: 25vw;
   border-top: 1px solid var(--primary-color);

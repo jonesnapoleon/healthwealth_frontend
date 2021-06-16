@@ -11,11 +11,14 @@ import DragDropClass from "../../commons/ImageUpload/DragDropClass";
 import { uploadKTP } from "../../../api/auth";
 // uploadSelfie
 import Snackbar from "../../commons/Snackbar";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Picture = () => {
+  const { auth, putAuth } = useAuth();
   const { t } = useTranslation();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   // const [takePhoto, setTakePhoto] = useState(false);
   const { setInnerComponent, show } = useModal();
   const identity = useFile();
@@ -35,8 +38,11 @@ const Picture = () => {
       if (!identity?.file || identity?.file === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
       const res = await uploadKTP(identity.file);
-      if (res) {
+      if (res?.data) {
         console.log(res);
+        putAuth(res.data);
+        setSuccess(t("settings.ekyc.submitIdentitySuccess"));
+        setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
       setError(String(err));
@@ -64,6 +70,7 @@ const Picture = () => {
   return (
     <>
       {error && <Snackbar text={error} />}
+      {success && <Snackbar type="success" text={success} />}
 
       <div className="lead">{t("settings.ekyc.proofIdentity")}</div>
       <div className="mt-1">
@@ -72,7 +79,11 @@ const Picture = () => {
             if (file) identity?.setFile(file[0]);
           }}
         >
-          <ImageUpload meta={imagesData[0]} data={identity} />
+          <ImageUpload
+            meta={imagesData[0]}
+            data={identity}
+            currentFile={auth?.ktp_url}
+          />
         </DragDropClass>
       </div>
       {!(!identity?.file || identity?.file === null) && (
@@ -92,6 +103,7 @@ const Picture = () => {
         <ImageUpload
           meta={imagesData[1]}
           // data={takePict}
+          currentFile={auth?.selfie_url}
           onClick={() => {
             setInnerComponent(<TakePhoto data={takePict} />);
             show?.set(true);

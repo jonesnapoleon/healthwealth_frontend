@@ -8,12 +8,15 @@ import searchIcon from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.css";
+import { useHistory } from "react-router-dom";
+import { FRONTEND_URL } from "../../helpers/constant";
 
 const Docs = () => {
   const { t } = useTranslation();
-  const { docs, setDocs } = useData();
+  const { docs, setDocs, setFileData } = useData();
   const query = useFormInput("");
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
     docs ?? []
@@ -43,9 +46,17 @@ const Docs = () => {
     fetchingDocs();
   }, [fetchingDocs]);
 
-  const handleClickingComponent = useCallback((obj) => {
-    console.log(obj);
-  }, []);
+  const handleClickingComponent = useCallback(
+    (obj) => {
+      if (obj?.nextflow && obj.nextflow?.length === 0) {
+        setFileData(obj);
+        history.push(
+          `${FRONTEND_URL.me}${FRONTEND_URL.sign_selected_document}`
+        );
+      }
+    },
+    [setFileData, history]
+  );
 
   const trimNow = useCallback(
     (trimmedQuery) => {

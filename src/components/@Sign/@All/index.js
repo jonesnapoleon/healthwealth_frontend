@@ -8,6 +8,7 @@ import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar -
 import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
 import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
+import { FRONTEND_URL } from "../../../helpers/constant";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -26,6 +27,7 @@ const Me = () => {
           setActiveItem={setActiveItem}
         />
       ),
+      pathName: FRONTEND_URL.sign_selected_document,
     },
     {
       name: t("sign.addSigners.text"),
@@ -42,14 +44,17 @@ const Me = () => {
         //   setActiveItem={setActiveItem}
         // />
       ),
+      pathName: FRONTEND_URL.sign_add_signers,
     },
     {
       name: t("sign.placeFields.text"),
       icon: <PlaceFieldIcon />,
+      pathName: FRONTEND_URL.sign_place_fields,
     },
     {
       name: t("sign.reviewSend.text"),
       icon: <ReviewSendIcon />,
+      pathName: FRONTEND_URL.sign_review_send,
     },
   ];
 

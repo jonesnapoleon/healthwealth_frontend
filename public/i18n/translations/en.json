@@ -232,6 +232,7 @@
       "takeAPictureDesc": "Allow access to your computer camera",
       "proofIdentity": "Proof of Identity",
       "proofIdentityHead": "Upload Proof of Identity",
+      "submitIdentitySuccess": "Your identity successfully submitted",
       "proofIdentityDesc": "We accept KTP / Passport"
     },
     "signature": {
