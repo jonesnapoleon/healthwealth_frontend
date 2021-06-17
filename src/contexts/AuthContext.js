@@ -56,8 +56,9 @@ const AuthProvider = ({ children }) => {
 
   const signOut = () => {
     setAuth({});
-    history.push(FRONTEND_URL.login);
     localStorage.removeItem(AUTH_KEY);
+    history.push(FRONTEND_URL.login);
+    window.location.reload();
   };
 
   useEffect(() => {

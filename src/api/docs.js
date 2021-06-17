@@ -46,7 +46,7 @@ export const replaceDoc = async (file, fileName, fileId, signType) => {
     const response = await axios.put(
       `${API_ADD_DOC}${fileId}?fileName=${encodeURIComponent(
         fileName
-      )}&signType=${encodeURIComponent(signType)}/`,
+      )}&signType=${encodeURIComponent(signType)}`,
       data
     );
     return response.data;
