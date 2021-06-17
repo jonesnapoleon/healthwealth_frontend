@@ -12,26 +12,38 @@ import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.sv
 import ToggleButton from "../../commons/ToggleButton";
 import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";
+import { useData } from "../../../contexts/DataContext";
 
-const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
+const AddSigners = ({
+  activeItem,
+  setActiveItem,
+  // availableLevel,
+  setAvailableLevel,
+}) => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(0); // 0: disabled, 1: active
+  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
+  const { fileData } = useData();
   const { auth } = useAuth();
 
   const handleSubmit = async () => {
     try {
       setLoading(0);
-      const res = await addUserToDocument(data);
+      const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
+      const res = await addUserToDocument(newData, fileData?.id);
       if (res) {
         console.log(res);
         setActiveItem((a) => a + 1);
+        setAvailableLevel((a) => a + 1);
         // setFileUrl(newRes?.linkToPdf);
         // setAvailableItem((a) => a + 1);
         // progress.set(100);
         setLoading(1);
+        setSuccess(t("sign.addSigners.addSignersSuccess"));
+        setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
       setError(String(err));
@@ -58,7 +70,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
       name: "",
       email: "",
       id: String(items.length),
-      access: "sign",
+      flowtype: "sign",
     });
     setData(items);
   };
@@ -87,6 +99,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   return (
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
+      {success && <Snackbar type="success" text={success} />}
       <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
       <div className="mt-3 mb-0">
         <strong>{t("sign.addSigners.sender")}</strong>
@@ -151,7 +164,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
       <FloatingButton
         disabled={loading === 0}
         activeItem={activeItem}
-        availableLevel={availableLevel}
+        // availableLevel={availableLevel}
         onClickNext={handleSubmit}
       />
     </div>

@@ -51,7 +51,9 @@ const Docs = () => {
       if (obj?.nextflow && obj.nextflow?.length === 0) {
         setFileData(obj);
         history.push(
-          `${FRONTEND_URL.me}${FRONTEND_URL.sign_selected_document}`
+          `${String(obj?.signType).toLowerCase()}${
+            FRONTEND_URL.sign_selected_document
+          }`
         );
       }
     },
@@ -107,7 +109,7 @@ const Docs = () => {
           />
         </div>
         <div className="col col-lg-4 col-12">
-          <AuditTrail activeDoc={activeDoc} t={t} />
+          <AuditTrail activeDoc={activeDoc} />
         </div>
       </div>
     </div>

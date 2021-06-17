@@ -1,6 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
+import { ADDSIGNER } from "../../../helpers/constant";
 
 // const src =
 //   "https://lh3.googleusercontent.com/a/AATXAJx1LiuKljmJO8H4h1gOlUI3V5VIF2Jo7NJQNcTz=s96-c";
@@ -37,12 +38,12 @@ const PersonRow = ({ data, index, handleValue }) => {
                 onChange={(e) => handleValue("email", e.target.value, index)}
               />
             </div>
-            <div className="input-access-area">
+            <div className="input-flowtype-area">
               <select
-                value={data?.access}
-                onChange={(e) => handleValue("access", e.target.value, index)}
+                value={data?.flowtype}
+                onChange={(e) => handleValue("flowtype", e.target.value, index)}
               >
-                {["sign", "review"]?.map((datum, i) => (
+                {[ADDSIGNER.SIGN, ADDSIGNER.REVIEW]?.map((datum, i) => (
                   <option key={i} value={datum}>
                     {datum}
                   </option>

@@ -258,7 +258,8 @@
       "importBulkList": "Import Bulk List",
       "name": "Name",
       "emailAddress": "Email address",
-      "addSigner": "Add signer"
+      "addSigner": "Add signer",
+      "addSignersSuccess": "Add signers succeed"
     },
     "placeFields": {
       "text": "Place fields"

@@ -12,7 +12,7 @@ import { FRONTEND_URL } from "../../../helpers/constant";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
-  const availableLevel = activeItem;
+  const [availableLevel, setAvailableLevel] = useState(activeItem);
 
   const { t } = useTranslation();
 
@@ -25,6 +25,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          setAvailableLevel={setAvailableLevel}
         />
       ),
       pathName: FRONTEND_URL.sign_selected_document,

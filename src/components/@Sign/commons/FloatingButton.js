@@ -5,25 +5,26 @@ import "./commons.css";
 const FloatingButton = ({
   onClickNext,
   activeItem,
-  availableLevel,
+  // availableLevel,
   disabled,
   onClickPrev,
 }) => {
+  console.log(disabled);
   const { t } = useTranslation();
   // console.log(availableLevel);
   return (
     <div className="floating-button-container">
       <div className="item-right">
         <div>
-          {availableLevel > -20 && (
-            <button
-              onClick={onClickPrev}
-              className="btn btn-light btn-lg"
-              disabled={disabled}
-            >
-              {t("general.back")}
-            </button>
-          )}
+          {/* {availableLevel > -20 && (
+          )} */}
+          <button
+            onClick={onClickPrev}
+            className="btn btn-light btn-lg"
+            disabled={disabled}
+          >
+            {t("general.back")}
+          </button>
           <button
             onClick={onClickNext}
             disabled={disabled}

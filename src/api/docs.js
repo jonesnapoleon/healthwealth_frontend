@@ -59,9 +59,10 @@ export const replaceDoc = async (file, fileName, fileId, signType) => {
   }
 };
 
-export const addUserToDocument = async (data) => {
+export const addUserToDocument = async (data, fileId) => {
+  const body = { flow: data };
   try {
-    const response = await axios.post(API_ADD_USER_TO_DOC, data);
+    const response = await axios.post(`${API_ADD_DOC}${fileId}/signers/`, body);
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);

@@ -37,6 +37,11 @@ const SelectDocument = ({
     [location?.pathname]
   );
 
+  const shallNext = () => {
+    if (fileData) return false;
+    return progress.value !== 100;
+  };
+
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
     if (progress.value !== 0) return;
@@ -119,7 +124,22 @@ const SelectDocument = ({
       <div className="mt-5 lead mb-2">
         {t("sign.selectDocument.docsUSelected")}
       </div>
-      {data?.file ? (
+      {fileData && !data?.file && (
+        <>
+          <div className="item-left">
+            {console.log(fileData)}
+            <DocumentIcon />
+            <div className="px-2">{fileData?.filename}</div>
+            <div className="mx-2 cursor-pointer">
+              <DeleteDocumentIcon onClick={handleDeleteFile} />
+            </div>
+          </div>
+          <div className="mt-3">
+            <Progressbar progress={100} />
+          </div>
+        </>
+      )}
+      {data?.file && (
         <>
           <div className="item-left">
             <DocumentIcon />
@@ -132,17 +152,15 @@ const SelectDocument = ({
             <Progressbar progress={progress.value} />
           </div>
         </>
-      ) : (
-        "-"
       )}
 
       <FloatingButton
         activeItem={activeItem}
-        availableLevel={availableLevel}
+        // availableLevel={availableLevel}
         onClickNext={() => {
-          setActiveItem(1);
+          setActiveItem((a) => a + 1);
         }}
-        disabled={progress?.value !== 100}
+        disabled={shallNext()}
       />
     </div>
   );

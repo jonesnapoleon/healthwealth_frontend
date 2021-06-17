@@ -18,6 +18,11 @@ export const FRONTEND_URL = {
   sign_review_send: "#review-send",
 };
 
+export const ADDSIGNER = {
+  SIGN: "SIGN",
+  REVIEW: "REVIEW",
+};
+
 export const publicLinks = [FRONTEND_URL.privacyPolicy];
 
 export const highlightedNavs = [FRONTEND_URL.me, FRONTEND_URL.all];
