@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { getReadableWord } from "../../../helpers/transformer";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
 import SelectDocument from "../SelectDocument";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";

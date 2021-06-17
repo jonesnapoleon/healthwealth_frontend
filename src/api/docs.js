@@ -3,13 +3,15 @@ import axios from "axios";
 const API_ADD_DOC = "/api/doc/";
 const API_ADD_USER_TO_DOC = "/api/docflow/";
 
-export const addDoc = async (file, fileName) => {
+export const addDoc = async (file, fileName, signType) => {
   const data = new FormData();
   data.append("document", file);
 
   try {
     const response = await axios.post(
-      `${API_ADD_DOC}?fileName=${encodeURIComponent(fileName)}`,
+      `${API_ADD_DOC}?fileName=${encodeURIComponent(
+        fileName
+      )}&signType=${encodeURIComponent(signType)}`,
       data
     );
     return response.data;
@@ -33,7 +35,7 @@ export const deleteDoc = async (fileId) => {
   }
 };
 
-export const replaceDoc = async (file, fileName, fileId) => {
+export const replaceDoc = async (file, fileName, fileId, signType) => {
   const data = new FormData();
   data.append("document", file);
   // const data = {
@@ -41,8 +43,10 @@ export const replaceDoc = async (file, fileName, fileId) => {
   //   filename,
   // };
   try {
-    const response = await axios.post(
-      `${API_ADD_DOC}${fileId}?fileName=${encodeURIComponent(fileName)}/`,
+    const response = await axios.put(
+      `${API_ADD_DOC}${fileId}?fileName=${encodeURIComponent(
+        fileName
+      )}&signType=${encodeURIComponent(signType)}/`,
       data
     );
     return response.data;

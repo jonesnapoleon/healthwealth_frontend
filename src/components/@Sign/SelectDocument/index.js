@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useProgressBar } from "../../../helpers/hooks";
 import { useData } from "../../../contexts/DataContext";
@@ -13,8 +13,10 @@ import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
+import { getOnlyThePath } from "../../../helpers/transformer";
 
 import "./selectDocument.css";
+import { useLocation } from "react-router-dom";
 
 const SelectDocument = ({
   activeItem,
@@ -29,6 +31,11 @@ const SelectDocument = ({
   const { fileData, setFileData } = useData();
 
   const progress = useProgressBar();
+  const location = useLocation();
+  const parsedPathname = useMemo(
+    () => getOnlyThePath(location.pathname),
+    [location?.pathname]
+  );
 
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
@@ -40,9 +47,14 @@ const SelectDocument = ({
         progress.set(1);
         let res;
         if (fileData) {
-          res = await replaceDoc(data?.file, data?.file?.name, fileData.id);
+          res = await replaceDoc(
+            data?.file,
+            data?.file?.name,
+            fileData.id,
+            parsedPathname
+          );
         } else {
-          res = await addDoc(data?.file, data?.file?.name);
+          res = await addDoc(data?.file, data?.file?.name, parsedPathname);
         }
         if (res?.data) {
           setFileData(res.data);
@@ -57,7 +69,15 @@ const SelectDocument = ({
       progress.set(-1);
       setTimeout(() => setError(false), 3000);
     }
-  }, [data?.file, setFileData, setAvailableItem, progress, t, fileData]);
+  }, [
+    data?.file,
+    setFileData,
+    setAvailableItem,
+    progress,
+    t,
+    fileData,
+    parsedPathname,
+  ]);
 
   useEffect(() => {
     handleUploadFile();

@@ -26,7 +26,9 @@ const Header = ({ auth, t, signOut }) => {
         <div className="item-center super-pt-2">
           <div className="item-center super-pt-1">
             <div>
-              <strong>{t("header.signReq")}</strong>
+              <strong>
+                {auth?.docCreated} {t("header.signReq")}
+              </strong>
               <br />
               <span>{t("header.thisMonth")}</span>
             </div>

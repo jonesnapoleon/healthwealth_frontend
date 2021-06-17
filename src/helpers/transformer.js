@@ -15,3 +15,9 @@ export const getMoment = (date) => {
 
 export const getBackendDateFormat = (date) =>
   format(new Date(date), "yyyy-MM-dd");
+
+export const getOnlyThePath = (pathName) => {
+  console.log(pathName);
+  console.log(pathName.substring(1));
+  return pathName.toUpperCase().substring(1);
+};
