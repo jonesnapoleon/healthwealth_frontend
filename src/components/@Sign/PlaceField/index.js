@@ -37,10 +37,6 @@ const PlaceField = () => {
         // select only the view group
         instance.loadDocument(fileData?.linkToPdf, {
           filename: "myfile.pdf",
-          customHeaders: {
-            Authorization: `Bearer ${auth?.id_token}`,
-          },
-          withCredentials: true,
         });
 
         instance.setToolbarGroup("toolbarGroup-View");
