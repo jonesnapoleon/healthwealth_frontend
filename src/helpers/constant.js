@@ -9,6 +9,7 @@ export const FRONTEND_URL = {
   me: "/me",
   all: "/all",
   sign: "/sign",
+  request: "/request",
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",
@@ -25,5 +26,9 @@ export const ADDSIGNER = {
 
 export const publicLinks = [FRONTEND_URL.privacyPolicy];
 
-export const highlightedNavs = [FRONTEND_URL.me, FRONTEND_URL.all];
+export const highlightedNavs = [
+  FRONTEND_URL.me,
+  FRONTEND_URL.all,
+  FRONTEND_URL.request,
+];
 export const PROGRESS_BAR_INTERVAL = 30;

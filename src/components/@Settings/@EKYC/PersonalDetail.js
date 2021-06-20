@@ -64,7 +64,6 @@ const PersonalDetail = () => {
         temp.birthdate = getBackendDateFormat(birthDate?.value);
       const res = await updateUser(temp, auth?.userid);
       if (res?.data) {
-        console.log(res);
         putAuth(res.data);
       }
 

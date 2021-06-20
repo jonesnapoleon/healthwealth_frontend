@@ -8,6 +8,7 @@ import { ReactComponent as OnlyMeIcon } from "../../assets/bnw/User Me Only Icon
 import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Icon.svg";
 import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
 import { useData } from "../../contexts/DataContext";
+import { FRONTEND_URL } from "../../helpers/constant";
 
 const Welcome = () => {
   const { t } = useTranslation();
@@ -20,21 +21,21 @@ const Welcome = () => {
       title: t("landing.me.title"),
       ctaText: t("landing.me.ctaText"),
       desciption: t("landing.me.desc"),
-      dest: "/me",
+      dest: FRONTEND_URL.me,
     },
     {
       icon: <AllIcon />,
       title: t("landing.all.title"),
       ctaText: t("landing.all.ctaText"),
       desciption: t("landing.all.desc"),
-      dest: "/all",
+      dest: FRONTEND_URL.all,
     },
     {
       icon: <RequestIcon />,
       title: t("landing.req.title"),
       ctaText: t("landing.req.ctaText"),
       desciption: t("landing.req.desc"),
-      dest: "/req",
+      dest: FRONTEND_URL.request,
     },
   ];
 

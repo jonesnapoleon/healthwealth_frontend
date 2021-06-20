@@ -1,12 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
 // import { navigate } from "@reach/router";
-import { Box, Column, Heading, Row, Stack, Button } from "gestalt";
 // import { selectDocToView } from "./ViewDocumentSlice";
 // import { storage } from '../../firebase/firebase';
-import WebViewer from "@pdftron/webviewer";
+import WebViewer, { Annotations } from "@pdftron/webviewer";
 import { useData } from "../../../contexts/DataContext";
 import { useAuth } from "../../../contexts/AuthContext";
+import "./placefield.css";
+
+const temp =
+  "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
 
 const PlaceField = () => {
   const [instance, setInstance] = useState(null);
@@ -22,78 +25,40 @@ const PlaceField = () => {
   console.log(fileData);
 
   useEffect(() => {
-    if (typeof fileData?.linkToPdf === "string" && auth?.id_token)
+    if ((typeof fileData?.linkToPdf === "string" && auth?.id_token) || temp)
       WebViewer(
         {
           path: "webviewer",
-          disabledElements: [
-            "ribbons",
-            "toggleNotesButton",
-            "contextMenuPopup",
-          ],
+          disabledElements: ["ribbons", "toggleNotesButton"],
         },
         viewer.current
       ).then(async (instance) => {
-        // select only the view group
-        instance.loadDocument(fileData?.linkToPdf, {
-          filename: "myfile.pdf",
+        instance.loadDocument(fileData?.linkToPdf ?? temp, {
+          filename: fileData?.filename,
         });
-
         instance.setToolbarGroup("toolbarGroup-View");
-
         setInstance(instance);
-
-        // load document
-        // const storageRef = storage.ref();
-        // const URL = await storageRef.child(docRef).getDownloadURL();
-        // console.log(URL);
-        // instance.docViewer.loadDocument(URL);
       });
   }, [fileData, auth?.id_token]);
 
-  const download = () => {
-    instance.downloadPdf(true);
-  };
+  // const download = () => {
+  //   instance.downloadPdf(true);
+  // };
 
-  const doneViewing = async () => {
-    // navigate("/");
-    console.log("d");
-  };
+  // const doneViewing = async () => {
+  //   console.log("d");
+  // };
 
   return (
     <div className={"prepareDocument"}>
-      <Box display="flex" direction="row" flex="grow">
-        <Column span={2}>
-          <Box padding={3}>
-            <Heading size="md">View Document</Heading>
-          </Box>
-          <Box padding={3}>
-            <Row gap={1}>
-              <Stack>
-                <Box padding={2}>
-                  <Button
-                    onClick={download}
-                    accessibilityLabel="download signed document"
-                    text="Download"
-                    iconEnd="download"
-                  />
-                </Box>
-                <Box padding={2}>
-                  <Button
-                    onClick={doneViewing}
-                    accessibilityLabel="complete signing"
-                    text="Done viewing"
-                    iconEnd="check"
-                  />
-                </Box>
-              </Stack>
-            </Row>
-          </Box>
-        </Column>
-        <Column span={10}>
+      <div className="row">
+        {/* <div className="col-2">
+          <h1>View Document</h1>          
+        </div> */}
+        <div className="col-12">
           <div className="webviewer" ref={viewer}></div>
-        </Column>
-      </Box>
+        </div>
+      </div>
     </div>
   );
 };

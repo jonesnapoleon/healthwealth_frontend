@@ -86,6 +86,7 @@ const SelectDocument = ({
 
   useEffect(() => {
     handleUploadFile();
+    return () => handleUploadFile();
   }, [handleUploadFile]);
 
   const handleDeleteFile = async () => {

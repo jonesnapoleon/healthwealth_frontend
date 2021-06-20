@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_ADD_DOC = "/api/doc/";
-const API_ADD_USER_TO_DOC = "/api/docflow/";
+// const API_ADD_USER_TO_DOC = "/api/docflow/";
 
 export const addDoc = async (file, fileName, signType) => {
   const data = new FormData();
@@ -62,12 +62,12 @@ export const replaceDoc = async (file, fileName, fileId, signType) => {
 export const addUserToDocument = async (data, fileId) => {
   const body = { flow: data };
   try {
-    const response = await axios.post(`${API_ADD_DOC}${fileId}/signers/`, body);
+    const response = await axios.put(`${API_ADD_DOC}${fileId}/signers/`, body);
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);
     // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
+    //   const errorCode = e.response?.data?.codegit pyu;
     // }
     throw e?.response?.data?.error?.message ?? "Add docs failed";
   }

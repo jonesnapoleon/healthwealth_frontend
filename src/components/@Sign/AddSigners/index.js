@@ -13,6 +13,7 @@ import ToggleButton from "../../commons/ToggleButton";
 import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
+import { ADDSIGNER } from "../../../helpers/constant";
 
 const AddSigners = ({
   activeItem,
@@ -70,7 +71,7 @@ const AddSigners = ({
       name: "",
       email: "",
       id: String(items.length),
-      flowtype: "sign",
+      flowtype: ADDSIGNER.SIGN,
     });
     setData(items);
   };

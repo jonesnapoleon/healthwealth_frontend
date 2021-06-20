@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import SelectDocument from "../SelectDocument";
 import Stepper from "../../layout/Stepper";
 
 import PlaceField from "../PlaceField";
@@ -11,10 +10,10 @@ import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar -
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
 import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 
-const Me = () => {
+const Request = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableItem] = useState(0);
-  // const history = useHistory();
+  const history = useHistory();
   const { t } = useTranslation();
 
   const stepperData = useMemo(
@@ -23,14 +22,13 @@ const Me = () => {
         name: t("sign.selectDocument.text"),
         icon: <SelectIcon />,
         component: (
-          <SelectDocument
+          <PlaceField
             activeItem={activeItem}
             availableLevel={availableLevel}
             setActiveItem={setActiveItem}
-            setAvailableItem={setAvailableItem}
           />
         ),
-        pathName: FRONTEND_URL.sign_selected_document,
+        pathName: FRONTEND_URL.sign_place_fields,
       },
       {
         name: t("sign.placeFields.text"),
@@ -53,9 +51,9 @@ const Me = () => {
     [activeItem, t, availableLevel]
   );
 
-  // useEffect(() => {
-  //   history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
-  // }, [activeItem, history, stepperData]);
+  //   useEffect(() => {
+  //     history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
+  //   }, [activeItem, history, stepperData]);
 
   return (
     <div>
@@ -75,4 +73,4 @@ const Me = () => {
   );
 };
 
-export default Me;
+export default Request;
