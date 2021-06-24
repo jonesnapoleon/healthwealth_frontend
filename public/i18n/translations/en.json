@@ -265,7 +265,24 @@
       "text": "Place fields"
     },
     "reviewSend": {
-      "text": "Review and send"
+      "text": "Review and send",
+      "left": {
+        "doesAnyNeedCopy": "Does anyone else need a copy?",
+        "addReceiver": "Add receiver",
+        "doYouWantCustomize": "Do you want to customize?",
+        "emailSubject": "Email Subject",
+        "emailBody": "Email Body",
+        "charRemains": "Character remaining"
+      },
+      "right": {
+        "summary": "Summary",
+        "documents": "Documents",
+        "signers": "Signers",
+        "receiveCopy": "Receive Copy",
+        "needToSign": "Need to sign",
+        "noEntry": "No entry",
+        "allRecBlaBla": "All receipients will receive an email attachment of the completed documents once everyone has signed"
+      }
     }
   },
   "docs": {

@@ -8,7 +8,7 @@ import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar -
 import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
 import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
-import { FRONTEND_URL } from "../../../helpers/constant";
+import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -26,6 +26,7 @@ const Me = () => {
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
           setAvailableLevel={setAvailableLevel}
+          atr={DOC.all}
         />
       ),
       pathName: FRONTEND_URL.sign_selected_document,
@@ -38,6 +39,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          atr={DOC.all}
         />
         // <AddSigners
         //   activeItem={activeItem}

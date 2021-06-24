@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { useHistory } from "react-router-dom";
-import { FRONTEND_URL } from "../../../helpers/constant";
+import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
 import SelectDocument from "../SelectDocument";
 import Stepper from "../../layout/Stepper";
@@ -28,6 +28,7 @@ const Me = () => {
             availableLevel={availableLevel}
             setActiveItem={setActiveItem}
             setAvailableItem={setAvailableItem}
+            atr={DOC.me}
           />
         ),
         pathName: FRONTEND_URL.sign_selected_document,
@@ -40,6 +41,7 @@ const Me = () => {
             activeItem={activeItem}
             availableLevel={availableLevel}
             setActiveItem={setActiveItem}
+            atr={DOC.me}
           />
         ),
         pathName: FRONTEND_URL.sign_place_fields,

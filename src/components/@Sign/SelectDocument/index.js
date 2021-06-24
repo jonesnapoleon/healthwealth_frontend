@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useProgressBar } from "../../../helpers/hooks";
 import { useData } from "../../../contexts/DataContext";
@@ -13,34 +13,37 @@ import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
-import { getOnlyThePath } from "../../../helpers/transformer";
 
 import "./selectDocument.css";
-import { useLocation } from "react-router-dom";
 
 const SelectDocument = ({
   activeItem,
   setActiveItem,
   availableLevel,
   setAvailableItem,
+  atr,
 }) => {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const data = useFile();
-  const { fileData, setFileData } = useData();
+  const { dataDocs, handle_data_docs, getItemData } = useData();
+
+  const fileData = getItemData(atr, "fileData");
+  useEffect(() => {
+    console.log(fileData);
+  }, [fileData]);
 
   const progress = useProgressBar();
-  const location = useLocation();
-  const parsedPathname = useMemo(
-    () => getOnlyThePath(location.pathname),
-    [location?.pathname]
-  );
 
   const shallNext = () => {
     if (fileData) return false;
     return progress.value !== 100;
   };
+
+  useEffect(() => {
+    console.log(dataDocs);
+  }, [dataDocs]);
 
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
@@ -56,13 +59,17 @@ const SelectDocument = ({
             data?.file,
             data?.file?.name,
             fileData.id,
-            parsedPathname
+            String(atr).toUpperCase()
           );
         } else {
-          res = await addDoc(data?.file, data?.file?.name, parsedPathname);
+          res = await addDoc(
+            data?.file,
+            data?.file?.name,
+            String(atr).toUpperCase()
+          );
         }
         if (res?.data) {
-          setFileData(res.data);
+          handle_data_docs(true, atr, "fileData", res.data);
           setAvailableItem((a) => a + 1);
           progress.set(100);
           setSuccess(t("sign.selectDocument.uploadFileSuccess"));
@@ -76,12 +83,12 @@ const SelectDocument = ({
     }
   }, [
     data?.file,
-    setFileData,
+    handle_data_docs,
     setAvailableItem,
     progress,
     t,
     fileData,
-    parsedPathname,
+    atr,
   ]);
 
   useEffect(() => {
@@ -98,7 +105,7 @@ const SelectDocument = ({
         data?.setFile(null);
         data?.filePicker.current.focus();
         data.filePicker.current.value = null;
-        setFileData(null);
+        handle_data_docs(false, atr, "fileData");
         progress.set(0);
         setSuccess(t("sign.selectDocument.deleteFileSuccess"));
         setTimeout(() => setSuccess(false), 3000);

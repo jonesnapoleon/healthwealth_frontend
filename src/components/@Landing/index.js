@@ -7,13 +7,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import { ReactComponent as OnlyMeIcon } from "../../assets/bnw/User Me Only Icon.svg";
 import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Icon.svg";
 import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
-import { useData } from "../../contexts/DataContext";
 import { FRONTEND_URL } from "../../helpers/constant";
 
 const Welcome = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { setFileData } = useData();
 
   const signComponents = [
     {
@@ -59,7 +57,6 @@ const Welcome = () => {
               <div className="button">
                 <Link
                   className="btn-primary button-landing"
-                  onClick={() => setFileData(null)}
                   to={component?.dest}
                 >
                   {component?.ctaText}

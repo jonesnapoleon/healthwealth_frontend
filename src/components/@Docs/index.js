@@ -9,11 +9,10 @@ import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.css";
 import { useHistory } from "react-router-dom";
-import { FRONTEND_URL } from "../../helpers/constant";
 
 const Docs = () => {
   const { t } = useTranslation();
-  const { docs, setDocs, setFileData } = useData();
+  const { handle_data_docs, docs, setDocs } = useData();
   const query = useFormInput("");
   const [error, setError] = useState(false);
   const history = useHistory();
@@ -49,15 +48,12 @@ const Docs = () => {
   const handleClickingComponent = useCallback(
     (obj) => {
       if (obj?.nextflow && obj.nextflow?.length === 0) {
-        setFileData(obj);
-        history.push(
-          `${String(obj?.signType).toLowerCase()}${
-            FRONTEND_URL.sign_selected_document
-          }`
-        );
+        const key = String(obj?.signType).toLowerCase();
+        handle_data_docs(true, key, "fileData", obj);
+        history.push(`${key}`);
       }
     },
-    [setFileData, history]
+    [handle_data_docs, history]
   );
 
   const trimNow = useCallback(

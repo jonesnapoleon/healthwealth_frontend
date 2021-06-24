@@ -20,6 +20,7 @@ const AddSigners = ({
   setActiveItem,
   // availableLevel,
   setAvailableLevel,
+  atr,
 }) => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -27,8 +28,9 @@ const AddSigners = ({
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
-  const { fileData } = useData();
+  const { handle_data_docs, getItemData } = useData();
   const { auth } = useAuth();
+  const fileData = getItemData(atr, "fileData");
 
   const handleSubmit = async () => {
     try {
@@ -37,6 +39,7 @@ const AddSigners = ({
       const res = await addUserToDocument(newData, fileData?.id);
       if (res) {
         console.log(res);
+        handle_data_docs(true, atr, "signers", data);
         setActiveItem((a) => a + 1);
         setAvailableLevel((a) => a + 1);
         // setFileUrl(newRes?.linkToPdf);
