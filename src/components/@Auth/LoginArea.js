@@ -12,8 +12,10 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
   const [error, setError] = useState(null);
   const { setAuth } = useAuth();
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false); // 0: disabled, 1: active
 
   const responseGoogle = async (response) => {
+    setLoading(true);
     try {
       await setAuth({
         id_token: response?.tokenId,
@@ -22,12 +24,16 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
     } catch (err) {
       setError(err);
       setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       {error && <Snackbar text={error} />}
+      {loading && <Snackbar text={"Loading..."} type="success" />}
+
       <div className="cta-container">
         <div>
           <GoogleLogin

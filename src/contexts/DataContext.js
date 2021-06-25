@@ -28,9 +28,9 @@ const reducer = (state, action) => {
 
 const DataProvider = ({ children }) => {
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
-    me: { docs: false, fileData: false, signers: false, copies: false },
-    all: { docs: false, fileData: false, signers: false, copies: false },
-    request: { docs: false, fileData: false, signers: false, copies: false },
+    me: { docs: false, fileData: false, signers: [], copies: [] },
+    all: { docs: false, fileData: false, signers: [], copies: [] },
+    request: { docs: false, fileData: false, signers: [], copies: [] },
   });
   const [docs, setDocs] = useState(false);
 

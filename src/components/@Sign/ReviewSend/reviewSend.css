@@ -5,6 +5,8 @@
 
 .left.sign-review-send-container .add-receivers > div {
   padding: 0.5rem 0;
+}
+.left.sign-review-send-container .row.add-receivers {
   margin-left: unset;
   margin-right: unset;
 }
@@ -18,11 +20,24 @@
   width: 100%;
 }
 
-.right.sign-review-send-container {
+.right.sign-review-send-container > div:first-child {
   padding-top: 1rem;
+  min-height: 62vh;
 }
 
-.right.sign-review-send-container .table-row {
-  padding: 0.3rem 0;
-  background: var(--secondary-color);
+.right.sign-review-send-container table {
+  width: 100%;
+}
+.right.sign-review-send-container .table-row td {
+  padding: 0.7rem 0.5rem;
+  background-color: #f4f8ff;
+}
+.fallback-empty-row td {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-weight: bolder;
+  background: #f8f8f8;
+}
+
+.right.sign-review-send-container .signers-table {
 }

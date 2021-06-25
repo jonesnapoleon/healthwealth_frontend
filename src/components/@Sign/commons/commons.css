@@ -1,8 +1,8 @@
 .floating-button-container {
-  position: absolute;
+  /* position: absolute;
   bottom: 0vh;
   left: 25vw;
-  right: 25vw;
+  right: 25vw; */
   border-top: 1px solid var(--primary-color);
 }
 .floating-button-container > .item-right {

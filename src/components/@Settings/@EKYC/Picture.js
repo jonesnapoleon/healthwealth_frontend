@@ -70,7 +70,7 @@ const Picture = () => {
   return (
     <>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
+      {success && <Snackbar type="primary" text={success} />}
 
       <div className="lead">{t("settings.ekyc.proofIdentity")}</div>
       <div className="mt-1">

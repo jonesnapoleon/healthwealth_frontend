@@ -266,6 +266,7 @@
     },
     "reviewSend": {
       "text": "Review and send",
+      "submitSuccess": "Submit data success",
       "left": {
         "doesAnyNeedCopy": "Does anyone else need a copy?",
         "addReceiver": "Add receiver",

@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import axios from "axios";
-import { AUTH_KEY } from "./helpers/constant";
+import { AUTH_KEY, FRONTEND_URL } from "./helpers/constant";
+import { isTimeInMsBeforeNow } from "./helpers/validator";
 
 // axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
@@ -14,6 +15,11 @@ axios.defaults.headers["Content-Type"] = "application/json";
 
 var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);
+
+if (jsonizedToken && !isTimeInMsBeforeNow(jsonizedToken?.expires_at)) {
+  window.location.pathname = FRONTEND_URL.login;
+  localStorage.removeItem(AUTH_KEY);
+}
 
 if (jsonizedToken && jsonizedToken?.id_token) {
   axios.defaults.headers[
