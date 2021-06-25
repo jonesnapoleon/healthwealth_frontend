@@ -26,8 +26,8 @@ const ReviewSend = ({
   const [error, setError] = useState(null);
 
   const { handle_data_docs, getItemData } = useData();
-  const fileData = getItemData("fileDate", atr);
-  const signers = getItemData("signers", atr);
+  const fileData = getItemData(atr, "fileData");
+  const signers = getItemData(atr, "signers");
 
   // const { auth } = useAuth();
 

@@ -34,11 +34,6 @@ const DataProvider = ({ children }) => {
   });
   const [docs, setDocs] = useState(false);
 
-  const getFileData = useCallback(
-    (atr) => dataDocs?.[atr]?.fileData,
-    [dataDocs]
-  );
-
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],
     [dataDocs]
@@ -59,7 +54,6 @@ const DataProvider = ({ children }) => {
         setDocs,
         dataDocs,
         handle_data_docs,
-        getFileData,
         getItemData,
       }}
     >
