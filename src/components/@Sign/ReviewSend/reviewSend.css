@@ -20,8 +20,9 @@
   width: 100%;
 }
 
-.right.sign-review-send-container {
+.right.sign-review-send-container > div:first-child {
   padding-top: 1rem;
+  min-height: 62vh;
 }
 
 .right.sign-review-send-container table {

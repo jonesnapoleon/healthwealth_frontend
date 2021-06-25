@@ -104,66 +104,68 @@ const AddSigners = ({
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
       {success && <Snackbar type="primary" text={success} />}
-      <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
-      <div className="mt-3 mb-0">
-        <strong>{t("sign.addSigners.sender")}</strong>
-      </div>
-      <div className="">
-        <em>{auth?.fullname}</em>
-      </div>
+      <div>
+        <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
+        <div className="mt-3 mb-0">
+          <strong>{t("sign.addSigners.sender")}</strong>
+        </div>
+        <div className="">
+          <em>{auth?.fullname}</em>
+        </div>
 
-      <div className="mt-3 mb-2">
-        <div className="item-between">
-          <strong>{t("sign.addSigners.text")}</strong>
+        <div className="mt-3 mb-2">
           <div className="item-between">
-            <div className="pt-1 px-3">
-              <ToggleButton
-                text={t("sign.addSigners.sequenceSign")}
-                disabled={true}
-              />
-            </div>
+            <strong>{t("sign.addSigners.text")}</strong>
+            <div className="item-between">
+              <div className="pt-1 px-3">
+                <ToggleButton
+                  text={t("sign.addSigners.sequenceSign")}
+                  disabled={true}
+                />
+              </div>
 
-            <div className="disabled">
-              <LockIcon />
-              <small className="px-1">
-                {t("sign.addSigners.importBulkList")}
-              </small>
+              <div className="disabled">
+                <LockIcon />
+                <small className="px-1">
+                  {t("sign.addSigners.importBulkList")}
+                </small>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="add-signers-area">
-        {data?.length > 0 && (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="user-data">
-              {(provided) => (
-                <ul
-                  className="user-data person-row-container"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {data.map((datum, index) => {
-                    return (
-                      <PersonRow
-                        handleValue={handleValue}
-                        data={datum}
-                        index={index}
-                        key={datum?.id}
-                      />
-                    );
-                  })}
-                  {provided.placeholder}
-                </ul>
-              )}
-            </Droppable>
-          </DragDropContext>
-        )}
+        <div className="add-signers-area">
+          {data?.length > 0 && (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="user-data">
+                {(provided) => (
+                  <ul
+                    className="user-data person-row-container"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {data.map((datum, index) => {
+                      return (
+                        <PersonRow
+                          handleValue={handleValue}
+                          data={datum}
+                          index={index}
+                          key={datum?.id}
+                        />
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
 
-        <button className="add-signers-button" onClick={addUser}>
-          <LockIcon />
-          <span>{t("sign.addSigners.addSigner")}</span>
-        </button>
+          <button className="add-signers-button" onClick={addUser}>
+            <LockIcon />
+            <span>{t("sign.addSigners.addSigner")}</span>
+          </button>
+        </div>
       </div>
       <FloatingButton
         disabled={loading === 0}

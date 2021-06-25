@@ -28,16 +28,11 @@ const reducer = (state, action) => {
 
 const DataProvider = ({ children }) => {
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
-    me: { docs: false, fileData: false, signers: false, copies: false },
-    all: { docs: false, fileData: false, signers: false, copies: false },
-    request: { docs: false, fileData: false, signers: false, copies: false },
+    me: { docs: false, fileData: false, signers: [], copies: [] },
+    all: { docs: false, fileData: false, signers: [], copies: [] },
+    request: { docs: false, fileData: false, signers: [], copies: [] },
   });
   const [docs, setDocs] = useState(false);
-
-  const getFileData = useCallback(
-    (atr) => dataDocs?.[atr]?.fileData,
-    [dataDocs]
-  );
 
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],
@@ -59,7 +54,6 @@ const DataProvider = ({ children }) => {
         setDocs,
         dataDocs,
         handle_data_docs,
-        getFileData,
         getItemData,
       }}
     >
