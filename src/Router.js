@@ -10,6 +10,7 @@ import All from "./components/@Sign/@All";
 import Settings from "./components/@Settings";
 import Docs from "./components/@Docs";
 import { FRONTEND_URL } from "./helpers/constant";
+import Request from "./components/@Sign/@Request";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
       <Route component={SignIn} path={FRONTEND_URL.login} exact />
       <Route render={() => <Me />} path={FRONTEND_URL.me} exact />
       <Route render={() => <All />} path={FRONTEND_URL.all} exact />
+      <Route render={() => <Request />} path={FRONTEND_URL.request} exact />
       <Route
         render={() => (
           <LayoutWrapper>

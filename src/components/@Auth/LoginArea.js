@@ -32,7 +32,7 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
   return (
     <>
       {error && <Snackbar text={error} />}
-      {loading && <Snackbar text={"Loading..."} type="primary" />}
+      {loading && <Snackbar text={"Loading..."} type="success" />}
 
       <div className="cta-container">
         <div>

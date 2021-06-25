@@ -4,14 +4,14 @@ import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
 import { updateUser } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
-import { ReactComponent as CalendarIcon } from "../../../assets/images/Add Field - Dates Icon.svg";
+import { ReactComponent as CalendarIcon } from "../../../assets/bnw/Add Field - Dates Icon.svg";
 import {
   useFormInput,
   useInput,
   useIsLargeScreen,
 } from "../../../helpers/hooks";
 
-import circleCorrectIcon from "../../../assets/images/Circle Correct Icon.svg";
+import circleCorrectIcon from "../../../assets/bnw/Circle Correct Icon.svg";
 import { PersonalDetailValidator } from "../../../helpers/validator";
 import { getBackendDateFormat } from "../../../helpers/transformer";
 
@@ -52,7 +52,8 @@ const PersonalDetail = () => {
     setLoading(true);
     try {
       let temp = {};
-      if (V.isValidName(name?.value, auth?.fullname)) temp.name = name?.value;
+      if (V.isValidName(name?.value, auth?.fullname))
+        temp.fullname = name?.value;
       if (V.isValidName(company?.value, auth?.company))
         temp.company = company?.value;
       if (V.isValidName(title?.value, auth?.title)) temp.title = title?.value;
@@ -65,6 +66,7 @@ const PersonalDetail = () => {
       if (res?.data) {
         putAuth(res.data);
       }
+
       setSuccess(t("settings.ekyc.editProfileSuccess"));
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
@@ -76,8 +78,9 @@ const PersonalDetail = () => {
   };
 
   // useEffect(() => {
-  //   console.log(auth);
-  // }, [auth]);
+  //   console.log(birthDate?.value);
+  //   console.table(auth);
+  // }, [auth, birthDate]);
 
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
@@ -90,7 +93,6 @@ const PersonalDetail = () => {
   }, [name, nik, birthDate, phoneNumber, company, title, auth, V]);
 
   useEffect(() => {
-    console.log("efr");
     setShowButton(!isSameAsOriginal);
   }, [isSameAsOriginal, setShowButton]);
 
@@ -98,7 +100,7 @@ const PersonalDetail = () => {
     <>
       <div className="lead">{t("settings.ekyc.personalDetail")}</div>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
+      {success && <Snackbar type="primary" text={success} />}
 
       <table>
         <tbody>

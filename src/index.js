@@ -16,13 +16,15 @@ axios.defaults.headers["Content-Type"] = "application/json";
 var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);
 
-if (jsonizedToken && isTimeInMsBeforeNow(jsonizedToken?.expires_at)) {
+if (jsonizedToken && !isTimeInMsBeforeNow(jsonizedToken?.expires_at)) {
   window.location.pathname = FRONTEND_URL.login;
   localStorage.removeItem(AUTH_KEY);
 }
 
 if (jsonizedToken && jsonizedToken?.id_token) {
-  axios.defaults.headers["Authorization"] = `Bearer ${jsonizedToken?.id_token}`;
+  axios.defaults.headers[
+    process.env.REACT_APP_TOKEN_HEADER
+  ] = `${jsonizedToken?.id_token}`;
 }
 
 axios.interceptors.response.use(

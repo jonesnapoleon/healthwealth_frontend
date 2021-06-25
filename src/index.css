@@ -1,6 +1,14 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+@font-face {
+  font-family: Helvetiva;
+  src: url("./assets/Helvetica-Neue-Font/Helvetica Neue Medium Extended/Helvetica Neue Medium Extended.ttf");
+}
+@font-face {
+  font-family: PTSans;
+  src: url("./assets/PT_Sans/PTSans-Regular.ttf");
+}
 :root {
   --primary-color: #000000;
   --primary-color-divide: 0, 0, 0;
@@ -38,7 +46,7 @@
 
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: Helvetiva, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--standard-font-size);
@@ -46,6 +54,7 @@ body {
   width: 100%;
   height: 100%;
 }
+
 p,
 div,
 span,
@@ -56,7 +65,16 @@ button,
 }
 
 * {
-  font-family: "Roboto", sans-serif !important;
+  font-family: Helvetica, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: PTSans, sans-serif;
 }
 
 code {
@@ -66,8 +84,9 @@ code {
 
 .background-general {
   background-color: var(--secondary-color);
-  min-height: 100vh;
+  min-height: 89vh;
   min-width: 100vw;
+  position: relative;
 }
 .item-center {
   display: flex;
@@ -89,7 +108,7 @@ code {
 }
 .item-centery {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
@@ -129,7 +148,6 @@ code {
 .btn-primary {
   background: var(--tertiary-color);
   color: var(--text-color);
-  padding: 0.8rem 1.6rem;
   text-decoration: none;
 }
 
@@ -137,7 +155,6 @@ code {
   border-radius: var(--border-radius);
   background: var(--secondary-extra-color-2);
   color: var(--text-color);
-  padding: 0.8rem 2rem;
   text-decoration: none;
 }
 

@@ -3,15 +3,15 @@ import { NavLink } from "react-router-dom";
 
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import { ReactComponent as SignatureIcon } from "../../../assets/images/Add Signer Icon.svg";
-import { ReactComponent as AnalyticsIcon } from "../../../assets/images/Analytic Tab Icon.svg";
-import { ReactComponent as DocumentIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as IntegrationIcon } from "../../../assets/images/Integration Tab Icon.svg";
-import { ReactComponent as TemplateIcon } from "../../../assets/images/Template Tab Icon.svg";
-import { ReactComponent as SettingIcon } from "../../../assets/images/setting tab icon.svg";
-import { ReactComponent as UserIcon } from "../../../assets/images/User tab icon.svg";
-
-import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
+import { ReactComponent as SignatureIcon } from "../../../assets/bnw/Add Signer Icon.svg";
+import { ReactComponent as AnalyticsIcon } from "../../../assets/bnw/Analytic Tab Icon.svg";
+import { ReactComponent as DocumentIcon } from "../../../assets/bnw/document tab icon.svg";
+import { ReactComponent as IntegrationIcon } from "../../../assets/bnw/Integration Tab Icon.svg";
+import { ReactComponent as TemplateIcon } from "../../../assets/bnw/Template Tab Icon.svg";
+import { ReactComponent as SettingIcon } from "../../../assets/bnw/setting tab icon.svg";
+import { ReactComponent as UserIcon } from "../../../assets/bnw/User tab icon.svg";
+import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
+import { ReactComponent as RightIcon } from "../../../assets/bnw/Right Arrow.svg";
 
 import "./sidebar.css";
 
@@ -73,7 +73,7 @@ const Sidebar = () => {
 
   return (
     <div className="row">
-      <div className="col col-8">
+      <div className="col col-10">
         <div className="sidebar">
           {landingData?.map((datum, i) => (
             <div className={`one-sidebar-item`} key={i}>
@@ -87,11 +87,13 @@ const Sidebar = () => {
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
-                  <div>&gt;</div>{" "}
+                  <span className="right-icon">
+                    <RightIcon />
+                  </span>
                 </NavLink>
               ) : (
                 <div id={`one-sidebar-item-${i}`}>
-                  <div>
+                  <div className="sidebar-icon">
                     {datum?.icon}
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>

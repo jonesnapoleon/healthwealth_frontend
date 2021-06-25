@@ -85,17 +85,22 @@ export const isPublicLink = (pathname) => {
 
 export class PersonalDetailValidator {
   isValidName = (inputName, authName) =>
-    inputName !== "" && String(inputName) !== String(authName);
+    inputName !== "" && String(inputName).trim() !== String(authName).trim();
   isValidNIK = (inputNik, authNik) =>
-    inputNik !== "" && String(inputNik) !== String(authNik);
-  isValidBirthDate = (inputBirthDate, authBirthDate) =>
-    inputBirthDate !== "" &&
-    inputBirthDate !== undefined &&
-    inputBirthDate !== null &&
-    String(inputBirthDate) !== String(authBirthDate) &&
-    !isDateSame(inputBirthDate, new Date());
+    inputNik !== "" &&
+    String(inputNik).trim() !== String(authNik).trim() &&
+    String(inputNik).trim().length > 9;
+  isValidBirthDate = (inputBirthDate, authBirthDate) => {
+    return (
+      !isDateSame(inputBirthDate, new Date()) &&
+      inputBirthDate !== "" &&
+      inputBirthDate !== undefined &&
+      inputBirthDate !== null &&
+      !isDateSame(inputBirthDate, authBirthDate)
+    );
+  };
   isValidPhoneNumber = (inputPhoneNumber, authPhoneNumber) =>
     inputPhoneNumber !== "" &&
-    String(inputPhoneNumber) !== String(authPhoneNumber) &&
-    String(inputPhoneNumber).length > 4;
+    String(inputPhoneNumber).trim() !== String(authPhoneNumber).trim() &&
+    String(inputPhoneNumber).trim().length > 4;
 }

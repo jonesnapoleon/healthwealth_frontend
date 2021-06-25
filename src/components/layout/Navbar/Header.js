@@ -2,15 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import { ReactComponent as HelpSvg } from "../../../assets/images/Help Icon.svg";
-import logoUrl from "../../../assets/images/Company Logo@2x.png";
+import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
+import logoUrl from "../../../assets/bnw/Company Logo@2x.png";
 
 const Header = ({ auth, t, signOut }) => {
-  const dropdownSelector = document.querySelector(
-    ".dropdown-menu.nav-dropdown"
-  );
-
   const toggleDropdown = (bool) => {
+    const dropdownSelector = document.querySelector(
+      ".dropdown-menu.nav-dropdown"
+    );
     if (bool) dropdownSelector.style.display = "block";
     else dropdownSelector.style.display = "none";
   };
@@ -27,14 +26,14 @@ const Header = ({ auth, t, signOut }) => {
         <div className="item-center super-pt-2">
           <div className="item-center super-pt-1">
             <div>
-              <strong>{t("header.signReq")}</strong>
+              <strong>
+                {auth?.docCreated} {t("header.signReq")}
+              </strong>
               <br />
               <span>{t("header.thisMonth")}</span>
             </div>
             <div>
-              <button className="logout-button btn-secondary" onClick={signOut}>
-                {t("general.signout")}
-              </button>
+              <button className="logout-button">{t("header.upgrade")}</button>
             </div>
           </div>
           <div className="item-center super-pt-1 last-nav-child">
@@ -55,7 +54,9 @@ const Header = ({ auth, t, signOut }) => {
                 <Link className="dropdown-item" to={FRONTEND_URL.settings}>
                   {t("header.myProfile")}
                 </Link>
-                <div className="dropdown-item">{t("header.upgrade")}</div>
+                <div className="dropdown-item" onClick={signOut}>
+                  {t("header.signOut")}
+                </div>
               </div>
             </div>
             <div>

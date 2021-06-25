@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { ReactComponent as HomeSvg } from "../../../assets/images/Home Icon.svg";
+import { ReactComponent as HomeSvg } from "../../../assets/bnw/Home Icon.svg";
 import { FRONTEND_URL } from "../../../helpers/constant";
-import { ReactComponent as HelpSvg } from "../../../assets/images/Help Icon.svg";
+import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
 
 import "./stepper.css";
 

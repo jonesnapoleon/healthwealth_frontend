@@ -34,6 +34,7 @@ const ReviewSend = ({
   const handleSubmit = async () => {
     try {
       setLoading(0);
+      handle_data_docs(true, atr, "copies", data);
       // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
       // const res = await addUserToDocument(newData, fileData?.id);
       // if (res) {
@@ -44,7 +45,7 @@ const ReviewSend = ({
       //   // setAvailableItem((a) => a + 1);
       //   // progress.set(100);
       //   setLoading(1);
-      //   setSuccess(t("sign.addSigners.addSignersSuccess"));
+      setSuccess(t("sign.reviewSend.submitSuccess"));
       //   setTimeout(() => setSuccess(false), 3000);
       // }
     } catch (err) {
@@ -90,17 +91,17 @@ const ReviewSend = ({
   return (
     <>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
+      {success && <Snackbar type="primary" text={success} />}
       <div className="row">
         <div className="col-lg-6 col-md-12">
           <div className="container left sign-review-send-container">
             <h4 className="">{t("sign.reviewSend.left.doesAnyNeedCopy")}</h4>
             <div className="add-receivers-area">
-              {data?.length > 0 && (
-                <div className="row add-receivers">
-                  <strong className="col-6">{t("form.name")}</strong>
-                  <strong className="col-6">{t("form.emailAddress")}</strong>
-                  {data.map((datum, index) => (
+              <div className="row add-receivers">
+                <strong className="col-6">{t("form.name")}</strong>
+                <strong className="col-6">{t("form.emailAddress")}</strong>
+                {data?.length > 0 &&
+                  data.map((datum, index) => (
                     <StaticPersonRow
                       handleValue={handleValue}
                       data={datum}
@@ -108,8 +109,8 @@ const ReviewSend = ({
                       key={datum?.id}
                     />
                   ))}
-                </div>
-              )}
+              </div>
+
               <button className="add-signers-button" onClick={addUser}>
                 <LockIcon />
                 <span>{t("sign.reviewSend.left.addReceiver")}</span>
@@ -133,7 +134,7 @@ const ReviewSend = ({
         </div>
         <div className="col-lg-6 col-md-12 ">
           <div className="container right sign-review-send-container">
-            <h4 className="text-uppercase">
+            <h4 className="text-uppercase mb-4">
               {t("sign.reviewSend.right.summary")}
             </h4>
             <div>
@@ -143,23 +144,49 @@ const ReviewSend = ({
               <strong className="w-100  mt-1">
                 {t("sign.reviewSend.right.signers")}
               </strong>
-              <div className="w-100  mt-1 mb-4">
-                <table>
+              <div className="w-100 mt-1 mb-4">
+                <table className="signers-table">
                   <tbody>
-                    {signers?.map((signer, i) => (
-                      <tr key={i} className="table-row">
-                        <td>{signer?.name}</td>
-                        <td>{signer?.email}</td>
-                        <td>{signer?.flowType}</td>
-                      </tr>
-                    ))}
+                    {signers &&
+                      signers?.map((signer, i) => (
+                        <tr key={i} className="table-row">
+                          <td>{signer?.name}</td>
+                          <td>{signer?.email}</td>
+                          <td>{signer?.flowtype}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
 
               <strong>{t("sign.reviewSend.right.receiveCopy")}</strong>
-              <div className="w-100  mt-1 mb-4">
-                {fileData?.filename ?? "fewr"}
+              <div className="w-100 mt-1 mb-4">
+                <table>
+                  <tbody>
+                    {data?.length > 0 ? (
+                      data?.map((signer, i) => (
+                        <tr key={i} className="table-row">
+                          <td>{signer?.name}</td>
+                          <td>{signer?.email}</td>
+                          <td>{t("sign.reviewSend.right.receiveCopy")}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <>
+                        <tr className="fallback-empty-row">
+                          <td>{t("sign.reviewSend.right.noEntry")}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small>
+                              {t("sign.reviewSend.right.allRecBlaBla")}
+                            </small>
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
             <FloatingButton

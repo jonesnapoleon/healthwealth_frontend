@@ -17,9 +17,9 @@
   outline: none;
 }
 
-.btn {
+/* .btn {
   padding: 0.5rem 2.4rem;
-}
+} */
 
 .formarea {
   position: relative;
@@ -79,14 +79,16 @@ svg {
 
 @media (min-width: 1280px) {
   .container,
-  .container.container-center,
   .container-lg,
   .container-xl {
     max-width: 92% !important;
   }
+  .container.container-center {
+    width: 60% !important;
+  }
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1278px) {
   .container.container-center {
     width: 100% !important;
   }

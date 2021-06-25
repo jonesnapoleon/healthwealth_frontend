@@ -3,22 +3,17 @@ import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
 import Stepper from "../../layout/Stepper";
 import { useTranslation } from "react-i18next";
-import { useData } from "../../../contexts/DataContext";
 
-import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as PersonAddIcon } from "../../../assets/images/document tab icon.svg";
-
-// import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
-// import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
-// import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
+import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
+import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
+import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
-  const availableLevel = activeItem;
+  const [availableLevel, setAvailableLevel] = useState(activeItem);
 
-  const { setFileUrl } = useData();
   const { t } = useTranslation();
 
   const stepperData = [
@@ -30,8 +25,11 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          setAvailableLevel={setAvailableLevel}
+          atr={DOC.all}
         />
       ),
+      pathName: FRONTEND_URL.sign_selected_document,
     },
     {
       name: t("sign.addSigners.text"),
@@ -41,7 +39,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
-          setFileUrl={setFileUrl}
+          atr={DOC.all}
         />
         // <AddSigners
         //   activeItem={activeItem}
@@ -49,14 +47,17 @@ const Me = () => {
         //   setActiveItem={setActiveItem}
         // />
       ),
+      pathName: FRONTEND_URL.sign_add_signers,
     },
     {
       name: t("sign.placeFields.text"),
       icon: <PlaceFieldIcon />,
+      pathName: FRONTEND_URL.sign_place_fields,
     },
     {
       name: t("sign.reviewSend.text"),
       icon: <ReviewSendIcon />,
+      pathName: FRONTEND_URL.sign_review_send,
     },
   ];
 

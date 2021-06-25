@@ -3,6 +3,7 @@
 .one-sidebar-item {
   padding: 0.5rem 0;
 }
+
 .one-sidebar-item > * {
   display: flex;
   align-items: center;
@@ -10,9 +11,15 @@
   justify-content: space-between;
 }
 
+.one-sidebar-item .sidebar-icon {
+  display: flex;
+  align-items: center;
+}
+
 .one-sidebar-item .sidebar-icon > svg {
   height: auto;
   width: 1rem;
+  vertical-align: middle;
 }
 
 .one-sidebar-item a {
@@ -31,8 +38,12 @@
 
 .one-sidebar-item span {
   padding-left: 1rem;
+  font-size: 0.8rem;
 }
-
+.one-sidebar-item .right-icon > svg {
+  width: 1rem;
+  height: 1rem;
+}
 /* .one-sidebar-item .coming-soon:hover {
   visibility: visible;
 } */

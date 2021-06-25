@@ -1,0 +1,42 @@
+.left.sign-review-send-container {
+  background-color: #f8f8f8;
+  padding-top: 1rem;
+}
+
+.left.sign-review-send-container .add-receivers > div {
+  padding: 0.5rem 0;
+}
+.left.sign-review-send-container .row.add-receivers {
+  margin-left: unset;
+  margin-right: unset;
+}
+
+.left.sign-review-send-container .add-signers-button {
+  margin: 0.5rem 0 3rem;
+}
+
+.left.sign-review-send-container .w-100 .form {
+  padding: 0.3rem 0;
+  width: 100%;
+}
+
+.right.sign-review-send-container {
+  padding-top: 1rem;
+}
+
+.right.sign-review-send-container table {
+  width: 100%;
+}
+.right.sign-review-send-container .table-row td {
+  padding: 0.7rem 0.5rem;
+  background-color: #f4f8ff;
+}
+.fallback-empty-row td {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-weight: bolder;
+  background: #f8f8f8;
+}
+
+.right.sign-review-send-container .signers-table {
+}

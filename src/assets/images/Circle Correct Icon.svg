@@ -1,14 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="21.917" height="21.528" viewBox="0 0 21.917 21.528">
   <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-        stroke: #2f7af7;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-width: 2px;
-      }
-    </style>
+    
   </defs>
   <g id="Icon_feather-check-circle" data-name="Icon feather-check-circle" transform="translate(-1.998 -1.979)">
     <path id="Path_79" data-name="Path 79" class="cls-1" d="M22.5,11.85v.9a9.751,9.751,0,1,1-5.782-8.912" transform="translate(0 0)"/>

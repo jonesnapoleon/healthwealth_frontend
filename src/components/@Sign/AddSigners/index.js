@@ -8,35 +8,50 @@ import PersonRow from "../commons/PersonRow";
 
 import { addUserToDocument } from "../../../api/docs";
 
-import { ReactComponent as LockIcon } from "../../../assets/images/Lock Tab Icon.svg";
+import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
 import ToggleButton from "../../commons/ToggleButton";
 import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";
+import { useData } from "../../../contexts/DataContext";
+import { ADDSIGNER } from "../../../helpers/constant";
 
-const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
+const AddSigners = ({
+  activeItem,
+  setActiveItem,
+  // availableLevel,
+  setAvailableLevel,
+  atr,
+}) => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(0); // 0: disabled, 1: active
+  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
+  const { handle_data_docs, getItemData } = useData();
   const { auth } = useAuth();
+  const fileData = getItemData(atr, "fileData");
 
   const handleSubmit = async () => {
     try {
       setLoading(0);
-      const res = await addUserToDocument(data?.file);
+      const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
+      const res = await addUserToDocument(newData, fileData?.id);
       if (res) {
         console.log(res);
+        handle_data_docs(true, atr, "signers", data);
         setActiveItem((a) => a + 1);
+        setAvailableLevel((a) => a + 1);
         // setFileUrl(newRes?.linkToPdf);
         // setAvailableItem((a) => a + 1);
         // progress.set(100);
+        setLoading(1);
+        setSuccess(t("sign.addSigners.addSignersSuccess"));
+        setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
       setError(String(err));
       setTimeout(() => setError(false), 3000);
-    } finally {
-      setLoading(1);
     }
   };
 
@@ -59,7 +74,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
       name: "",
       email: "",
       id: String(items.length),
-      access: "sign",
+      flowtype: ADDSIGNER.SIGN,
     });
     setData(items);
   };
@@ -88,6 +103,7 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
   return (
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
+      {success && <Snackbar type="primary" text={success} />}
       <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
       <div className="mt-3 mb-0">
         <strong>{t("sign.addSigners.sender")}</strong>
@@ -150,9 +166,9 @@ const AddSigners = ({ activeItem, setActiveItem, availableLevel }) => {
         </button>
       </div>
       <FloatingButton
-        loading={loading === 0}
+        disabled={loading === 0}
         activeItem={activeItem}
-        availableLevel={availableLevel}
+        // availableLevel={availableLevel}
         onClickNext={handleSubmit}
       />
     </div>

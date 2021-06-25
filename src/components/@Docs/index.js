@@ -4,18 +4,23 @@ import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
 import { getAllDocs } from "../../api/auth";
 import Snackbar from "../commons/Snackbar";
-import searchIcon from "../../assets/images/Search Icon.svg";
+import searchIcon from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.css";
+import { useHistory } from "react-router-dom";
 
 const Docs = () => {
   const { t } = useTranslation();
-  const { docs, setDocs } = useData();
+  const { handle_data_docs, docs, setDocs } = useData();
   const query = useFormInput("");
   const [error, setError] = useState(false);
+  const history = useHistory();
 
-  const displayedDocs = useRefreshedData(docs ?? []);
+  const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
+    docs ?? []
+  );
+  // const setDisplayedDocs = displayedDocs.set;
   const activeDoc = useRefreshedData(false);
 
   const fetchingDocs = useCallback(async () => {
@@ -33,22 +38,46 @@ const Docs = () => {
   }, [setDocs, docs]);
 
   useEffect(() => {
+    console.log(displayedDocs);
+  }, [displayedDocs]);
+
+  useEffect(() => {
     fetchingDocs();
   }, [fetchingDocs]);
 
-  const handleClickingComponent = useCallback((obj) => {
-    console.log(obj);
-  }, []);
+  const handleClickingComponent = useCallback(
+    (obj) => {
+      if (obj?.nextflow && obj.nextflow?.length === 0) {
+        const key = String(obj?.signType).toLowerCase();
+        handle_data_docs(true, key, "fileData", obj);
+        history.push(`${key}`);
+      }
+    },
+    [handle_data_docs, history]
+  );
+
+  const trimNow = useCallback(
+    (trimmedQuery) => {
+      let temp = docs?.filter((doc) =>
+        String(doc?.filename)?.toLowerCase()?.includes(trimmedQuery)
+      );
+
+      setDisplayedDocs(temp);
+    },
+    [setDisplayedDocs, docs]
+  );
+
+  const displayAll = useCallback(() => {
+    setDisplayedDocs(docs);
+  }, [setDisplayedDocs, docs]);
 
   useEffect(() => {
     const trimmedQuery = String(query?.value).trim();
-    const filterDocs = () => {
-      const temp = docs?.filter((doc) => doc?.name?.includes(trimmedQuery));
-      displayedDocs.set(temp);
-    };
-    if (trimmedQuery !== "") filterDocs();
-  }, [query?.value, docs, displayedDocs]);
+    if (trimmedQuery.length > 1) trimNow(trimmedQuery);
+    if (trimmedQuery.length === 0) displayAll();
+  }, [query?.value, trimNow, displayAll]);
 
+  // console.log(displayedDocs);
   return (
     <div className="docs mt-2">
       {error && <Snackbar text={error} />}
@@ -61,7 +90,7 @@ const Docs = () => {
       </div> */}
 
       <div className="row">
-        <div className="col col-lg-8 col-md-12">
+        <div className="col col-lg-8 col-12">
           <div className="formarea">
             <input className="form-input search-bar" {...query} />
             <span className="search-bar-icon">
@@ -75,8 +104,8 @@ const Docs = () => {
             t={t}
           />
         </div>
-        <div className="col col-lg-4 col-md-12">
-          <AuditTrail activeDoc={activeDoc} t={t} />
+        <div className="col col-lg-4 col-12">
+          <AuditTrail activeDoc={activeDoc} />
         </div>
       </div>
     </div>

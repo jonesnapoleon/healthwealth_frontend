@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
-// import signatureIcon from "../../../assets/images/Add Signer Icon.svg";
-// import analyticsIcon from "../../../assets/images/Analytic Tab Icon.svg";
-// import documentIcon from "../../../assets/images/document tab icon.svg";
-// import integrationIcon from "../../../assets/images/Integration Tab Icon.svg";
-// import templateIcon from "../../../assets/images/Template Tab Icon.svg";
-// import settingIcon from "../../../assets/images/setting tab icon.svg";
-// import userIcon from "../../../assets/images/User tab icon.svg";
+// import signatureIcon from "../../../assets/bnw/Add Signer Icon.svg";
+// import analyticsIcon from "../../../assets/bnw/Analytic Tab Icon.svg";
+// import documentIcon from "../../../assets/bnw/document tab icon.svg";
+// import integrationIcon from "../../../assets/bnw/Integration Tab Icon.svg";
+// import templateIcon from "../../../assets/bnw/Template Tab Icon.svg";
+// import settingIcon from "../../../assets/bnw/setting tab icon.svg";
+// import userIcon from "../../../assets/bnw/User tab icon.svg";
 
-import lockIcon from "../../assets/images/Lock Tab Icon.svg";
+import lockIcon from "../../assets/bnw/Lock Tab Icon.svg";
 import { FRONTEND_URL } from "../../helpers/constant";
 
 import EKYC from "./@EKYC";

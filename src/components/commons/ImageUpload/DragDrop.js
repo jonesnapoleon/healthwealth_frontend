@@ -1,23 +1,27 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import icon from "../../../assets/images/Upload Document Icon.svg";
+import icon from "../../../assets/bnw/Upload Document Icon.svg";
 import "./imageupload.css";
 import DragDropClass from "./DragDropClass";
 
-const DragDrop = ({ data }) => {
+const DragDrop = ({ data, disabled = false, progress }) => {
   const { setFile, filePicker } = data;
   const { t } = useTranslation();
 
   useEffect(() => {
     filePicker.current.onchange = (e) => {
       const newFile = e.target.files[0];
+      progress.set(0);
       if (newFile) setFile(newFile);
     };
-  }, [filePicker, setFile]);
+  }, [filePicker, setFile, progress]);
 
   const handleDrop = (file) => {
-    if (file) setFile(file[0]);
+    if (!disabled && file) {
+      progress.set(0);
+      setFile(file[0]);
+    }
   };
 
   return (
@@ -26,8 +30,9 @@ const DragDrop = ({ data }) => {
         <div>
           <button
             className="btn btn-light primary-color upload-button"
+            disabled={disabled}
             onClick={() => {
-              if (filePicker) {
+              if (!disabled && filePicker) {
                 filePicker.current.click();
               }
             }}
@@ -39,7 +44,12 @@ const DragDrop = ({ data }) => {
           <img src={icon} alt="" />
           <div>{t("form.dragDrop")}</div>
         </div>
-        <input type="file" ref={filePicker} style={{ display: "none" }} />
+        <input
+          type="file"
+          ref={filePicker}
+          style={{ display: "none" }}
+          disabled={disabled}
+        />
       </div>
     </DragDropClass>
   );

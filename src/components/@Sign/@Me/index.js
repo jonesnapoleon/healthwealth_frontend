@@ -1,26 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useData } from "../../../contexts/DataContext";
-import { useHistory } from "react-router-dom";
-import { getReadableWord } from "../../../helpers/transformer";
-import { FRONTEND_URL } from "../../../helpers/constant";
+// import { useHistory } from "react-router-dom";
+import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
 import SelectDocument from "../SelectDocument";
 import Stepper from "../../layout/Stepper";
 
 import PlaceField from "../PlaceField";
-import { ReactComponent as SelectIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/images/document tab icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/images/document tab icon.svg";
-// import personAddIcon from "../../../assets/images/Progress Bar - Step 1 Icon.svg";
-// import placeFieldIcon from "../../../assets/images/Progress Bar - Step 2 Icon.svg";
-// import reviewSendIcon from "../../../assets/images/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
+import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
+import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableItem] = useState(0);
-  const { setFileUrl } = useData();
-  const history = useHistory();
+  // const history = useHistory();
   const { t } = useTranslation();
 
   const stepperData = useMemo(
@@ -32,11 +26,12 @@ const Me = () => {
           <SelectDocument
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileUrl={setFileUrl}
             setActiveItem={setActiveItem}
             setAvailableItem={setAvailableItem}
+            atr={DOC.me}
           />
         ),
+        pathName: FRONTEND_URL.sign_selected_document,
       },
       {
         name: t("sign.placeFields.text"),
@@ -45,24 +40,24 @@ const Me = () => {
           <PlaceField
             activeItem={activeItem}
             availableLevel={availableLevel}
-            setFileUrl={setFileUrl}
             setActiveItem={setActiveItem}
+            atr={DOC.me}
           />
         ),
+        pathName: FRONTEND_URL.sign_place_fields,
       },
       {
         name: t("sign.reviewSend.text"),
         icon: <ReviewSendIcon />,
+        pathName: FRONTEND_URL.sign_review_send,
       },
     ],
-    [activeItem, t, availableLevel, setFileUrl]
+    [activeItem, t, availableLevel]
   );
 
-  useEffect(() => {
-    history.push(
-      `${FRONTEND_URL.me}#${getReadableWord(stepperData?.[activeItem]?.name)}`
-    );
-  }, [activeItem, history, stepperData]);
+  // useEffect(() => {
+  //   history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
+  // }, [activeItem, history, stepperData]);
 
   return (
     <div>

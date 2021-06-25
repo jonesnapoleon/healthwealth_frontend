@@ -232,6 +232,7 @@
       "takeAPictureDesc": "Allow access to your computer camera",
       "proofIdentity": "Proof of Identity",
       "proofIdentityHead": "Upload Proof of Identity",
+      "submitIdentitySuccess": "Your identity successfully submitted",
       "proofIdentityDesc": "We accept KTP / Passport"
     },
     "signature": {
@@ -244,6 +245,8 @@
   "sign": {
     "selectDocument": {
       "whatNeed": "What needs to be signed?",
+      "uploadFileSuccess": "Upload file succeed",
+      "deleteFileSuccess": "Delete file succeed",
       "text": "Select documents",
       "docsUSelected": "Documents you've selected"
     },
@@ -255,13 +258,32 @@
       "importBulkList": "Import Bulk List",
       "name": "Name",
       "emailAddress": "Email address",
-      "addSigner": "Add signer"
+      "addSigner": "Add signer",
+      "addSignersSuccess": "Add signers succeed"
     },
     "placeFields": {
       "text": "Place fields"
     },
     "reviewSend": {
-      "text": "Review and send"
+      "text": "Review and send",
+      "submitSuccess": "Submit data success",
+      "left": {
+        "doesAnyNeedCopy": "Does anyone else need a copy?",
+        "addReceiver": "Add receiver",
+        "doYouWantCustomize": "Do you want to customize?",
+        "emailSubject": "Email Subject",
+        "emailBody": "Email Body",
+        "charRemains": "Character remaining"
+      },
+      "right": {
+        "summary": "Summary",
+        "documents": "Documents",
+        "signers": "Signers",
+        "receiveCopy": "Receive Copy",
+        "needToSign": "Need to sign",
+        "noEntry": "No entry",
+        "allRecBlaBla": "All receipients will receive an email attachment of the completed documents once everyone has signed"
+      }
     }
   },
   "docs": {
@@ -270,17 +292,17 @@
       "SLA": "SLA",
       "action": {
         "text": "Action",
-        "edit": "Edit",
-        "sign": "Sign",
-        "sendReminder": "Send reminder",
-        "download": "Download"
+        "DRAFTING": "Edit",
+        "WAITING": "Sign",
+        "OUT": "Send reminder",
+        "COMPLETED": "Download"
       },
       "status": {
         "text": "Status",
-        "edit": "Drafting Document",
-        "sign": "",
-        "sendReminder": "Send reminder",
-        "download": "Download"
+        "DRAFTING": "Drafting Document",
+        "WAITING": "Waiting for your signature",
+        "OUT": "Out for signature",
+        "COMPLETED": "Signature completed"
       }
     },
     "auditTrail": {
@@ -327,15 +349,6 @@
     "upgrade": "Upgrade",
     "signOut": "Sign out",
     "myProfile": "My Profile"
-  },
-  "footer": {
-    "home": "Home",
-    "product": "Product",
-    "learning": "Learning",
-    "cart": "Cart",
-    "account": "Account",
-    "transaction": "Transaction",
-    "wishlist": "Wishlist"
   },
   "login": {
     "signUp": "Sign up",
