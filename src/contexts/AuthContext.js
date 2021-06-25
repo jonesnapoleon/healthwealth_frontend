@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
     try {
       axios.defaults.headers["Authorization"] = `Bearer ${newValue?.id_token}`;
       const res = await login(newValue?.id_token);
+      console.log(res);
       if (res) {
         const allValue = { ...newValue, ...res.data };
         localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
