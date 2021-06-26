@@ -4,7 +4,7 @@ import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
 import { getAllDocs } from "../../api/auth";
 import Snackbar from "../commons/Snackbar";
-import searchIcon from "../../assets/bnw/Search Icon.svg";
+import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.css";
@@ -94,7 +94,7 @@ const Docs = () => {
           <div className="formarea">
             <input className="form-input search-bar" {...query} />
             <span className="search-bar-icon">
-              <img src={searchIcon} alt="" />
+              <SearchIcon />
             </span>
           </div>
           <Table

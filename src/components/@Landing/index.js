@@ -9,6 +9,8 @@ import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Ic
 import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
 import { FRONTEND_URL } from "../../helpers/constant";
 
+// import { ReactComponent as Down } from "../../assets/svg/down-arrow.svg";
+
 const Welcome = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
@@ -36,12 +38,14 @@ const Welcome = () => {
       dest: FRONTEND_URL.request,
     },
   ];
-
   return (
     <>
       <strong className="hello lead">
         {t("landing.hello")}, {auth?.fullname}!
       </strong>
+      {/* <div className="row">
+        <Down className="col-1" />
+      </div> */}
 
       <div className="row">
         {signComponents?.map((component) => (

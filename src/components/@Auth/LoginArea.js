@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -12,22 +12,25 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
   const [error, setError] = useState(null);
   const { setAuth } = useAuth();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false); // 0: disabled, 1: active
+  const [loading, setLoading] = useState(false);
 
-  const responseGoogle = async (response) => {
-    setLoading(true);
-    try {
-      await setAuth({
-        id_token: response?.tokenId,
-        expires_at: response?.tokenObj?.expires_at,
-      });
-    } catch (err) {
-      setError(err);
-      setTimeout(() => setError(false), 3000);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const responseGoogle = useCallback(
+    async (response) => {
+      setLoading(true);
+      try {
+        await setAuth({
+          id_token: response?.tokenId,
+          expires_at: response?.tokenObj?.expires_at,
+        });
+      } catch (err) {
+        setError(err);
+        setTimeout(() => setError(false), 3000);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setAuth]
+  );
 
   return (
     <>

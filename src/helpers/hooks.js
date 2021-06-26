@@ -105,3 +105,26 @@ export const useProgressBar = () => {
 
   return { value, set: setValue };
 };
+
+export const usePreventPageLeave = () => {
+  useEffect(() => {
+    const give = (window.onload = () => {
+      window.onbeforeunload = (e) => {
+        var confirmationMessage = "";
+
+        let result = window.confirm(confirmationMessage);
+
+        if (result) {
+          if (window.confirm("Do you really want to leave?")) {
+            window.open("exit.html", "Thanks for Visiting!");
+          }
+        }
+
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
+      };
+    });
+    give();
+    return () => give();
+  }, []);
+};

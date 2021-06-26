@@ -39,13 +39,10 @@ const DataProvider = ({ children }) => {
     [dataDocs]
   );
 
-  const handle_data_docs = (isAdd, key, attr, data) =>
-    dispatchDataDocs({
-      type: isAdd ? "ADD_ITEM" : "REMOVE_ITEM",
-      key,
-      attr,
-      data,
-    });
+  const handle_data_docs = (isAdd, key, attr, data) => {
+    const type = isAdd ? "ADD_ITEM" : "REMOVE_ITEM";
+    dispatchDataDocs({ type, key, attr, data });
+  };
 
   return (
     <DataContext.Provider
