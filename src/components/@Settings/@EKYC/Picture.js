@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFile, useInput } from "../../../helpers/hooks";
+import { useFile, useInput, useRefreshedData } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
 import ktpSvg from "../../../assets/bnw/ID Card icon.svg";
@@ -21,7 +21,9 @@ const Picture = () => {
   const [loading, setLoading] = useState(false);
   // const [takePhoto, setTakePhoto] = useState(false);
   const { setInnerComponent, show } = useModal();
+
   const identity = useFile();
+  const isIdentityEdit = useRefreshedData(!!identity?.file);
   const takePict = useInput(null);
 
   // useEffect(() => {
@@ -39,7 +41,8 @@ const Picture = () => {
         throw new Error(t("form.error.fileNotUploadedYet"));
       const res = await uploadKTP(identity.file);
       if (res?.data) {
-        console.log(res);
+        identity.setFile(null);
+        isIdentityEdit.set(false);
         putAuth(res.data);
         setSuccess(t("settings.ekyc.submitIdentitySuccess"));
         setTimeout(() => setSuccess(false), 3000);
@@ -67,26 +70,9 @@ const Picture = () => {
     },
   ];
 
-  return (
-    <>
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
-
-      <div className="lead">{t("settings.ekyc.proofIdentity")}</div>
-      <div className="mt-1">
-        <DragDropClass
-          handleDrop={(file) => {
-            if (file) identity?.setFile(file[0]);
-          }}
-        >
-          <ImageUpload
-            meta={imagesData[0]}
-            data={identity}
-            currentFile={auth?.ktp_url}
-          />
-        </DragDropClass>
-      </div>
-      {!(!identity?.file || identity?.file === null) && (
+  const renderButtonIdentity = () => {
+    if (!(!identity?.file || identity?.file === null)) {
+      return (
         <div className="mt-3">
           <button
             className="btn btn-outline-primary"
@@ -96,7 +82,41 @@ const Picture = () => {
             {t("general.submit")}
           </button>
         </div>
-      )}
+      );
+    }
+  };
+
+  return (
+    <>
+      {error && <Snackbar text={error} />}
+      {success && <Snackbar type="primary" text={success} />}
+
+      <div className="lead">
+        {t("settings.ekyc.proofIdentity")}{" "}
+        {auth?.ktp_url && !isIdentityEdit.value ? (
+          <span onClick={() => isIdentityEdit.set(true)}>
+            {t("general.edit")}
+          </span>
+        ) : (
+          <span onClick={() => isIdentityEdit.set(false)}>
+            {t("general.cancel")}
+          </span>
+        )}
+      </div>
+      <div className="mt-1">
+        <DragDropClass
+          handleDrop={(file) => {
+            if (file) identity?.setFile(file[0]);
+          }}
+        >
+          <ImageUpload
+            meta={{ ...imagesData[0], isEdit: isIdentityEdit.value }}
+            data={identity}
+            currentFile={auth?.ktp_url}
+          />
+        </DragDropClass>
+      </div>
+      {renderButtonIdentity()}
 
       <div className="lead mt-5">{t("settings.ekyc.takeAPicture")}</div>
       <div className="mt-1">

@@ -9,12 +9,14 @@ import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Ba
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
 import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 import { DOC, FRONTEND_URL } from "../../../helpers/constant";
+import { usePreventPageLeave } from "../../../helpers/hooks";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableLevel] = useState(activeItem);
 
   const { t } = useTranslation();
+  usePreventPageLeave();
 
   const stepperData = [
     {

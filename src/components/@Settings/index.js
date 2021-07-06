@@ -64,7 +64,7 @@ const Settings = () => {
   return (
     <div className="nav-container">
       <span className="nav nav-tabs">
-        {navSettingsData?.map((datum, i) => (
+        {navSettingsData?.map((datum) => (
           <div
             key={datum?.hash}
             className={`navlink lead ${active === datum?.hash ? "active" : ""}`}
