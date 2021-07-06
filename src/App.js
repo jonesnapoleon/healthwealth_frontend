@@ -8,7 +8,7 @@ import AuthProvider from "./contexts/AuthContext";
 import DataProvider from "./contexts/DataContext";
 import ModalProvider from "./contexts/ModalContext";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import "./index.css";
 import "./overrides.css";
 import "./helpers/i18n";
