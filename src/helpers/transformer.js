@@ -23,9 +23,14 @@ export const getOnlyThePath = (pathName) => {
 };
 
 export const getImageSize = (url, callback) => {
-  var img = new Image();
+  let img = new Image();
+  console.log(url);
   img.src = url;
   img.onload = () => {
-    callback(this?.width, this?.height);
+    console.log(this);
+    console.log(this.naturalWidth);
+    console.log(this.naturalWidth);
+    // return { width: this.width, height: this.height };
+    // callback(this.width, this.height);
   };
 };

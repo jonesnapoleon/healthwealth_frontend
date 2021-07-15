@@ -37,31 +37,20 @@ const PlaceField = ({
     signersValues.length > 0 ? signersValues[0] : { value: "", label: "" };
 
   const [signer, setSigner] = useState(initialSigner);
-
   const [fields, setFields] = useState([]);
-  // field state:
-  // float x,y,w,h or x1,y1,x2,y2
-  // bool editable
-  // string signer (email)
-  // int pagenum
-  // string type
-
-  const addFieldToWorkspace = (type) => {
-    const field = {
-      type,
-    };
-    setFields([...fields, field]);
-  };
-
-  console.log(fileData);
 
   useEffect(() => {
+    console.log(fileData);
     const mainWorkspace = document.getElementById("main-workspace");
     if (typeof fileData?.linkToPdf === "string" || temp) {
       // TODO
       // load pdf using React-pdf
     }
   }, [fileData]);
+
+  useEffect(() => {
+    console.log("useeffect fields", fields);
+  }, [fields]);
 
   return (
     <div className={"place-field-area"}>
@@ -72,7 +61,11 @@ const PlaceField = ({
           signersValues={signersValues}
         />
 
-        <PDFViewer addFieldToWorkspace={addFieldToWorkspace} />
+        <PDFViewer
+          fields={fields}
+          setFields={setFields}
+          signer={signer}
+        />
 
         <RightSnippetArea />
       </DndProvider>

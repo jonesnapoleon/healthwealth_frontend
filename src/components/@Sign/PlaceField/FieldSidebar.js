@@ -1,14 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
+import Draggable from "react-draggable";
 
 const FieldBox = ({ type }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+    // collect: (monitor) => ({
+    //   isDragging: !!monitor.isDragging(),
+    // }),
   }));
 
   // field state:
@@ -20,7 +21,7 @@ const FieldBox = ({ type }) => {
 
   return (
     <div ref={drag}>
-      <p>Test field</p>
+      <p>{type}</p>
     </div>
   );
 };

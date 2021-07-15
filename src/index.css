@@ -31,7 +31,9 @@
     --standard-font-size: 12px;
   }
 }
-
+.invisible {
+  visibility: hidden;
+}
 ::-webkit-scrollbar {
   width: 4px;
   background: transparent;
