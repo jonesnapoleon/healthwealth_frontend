@@ -1,12 +1,31 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import FieldBox from "./FieldBox";
+import { useDrag } from "react-dnd";
 
-const FieldSidebar = ({
-  signer,
-  setSigner,
-  signersValues,
-}) => {
+const FieldBox = ({ type }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "field",
+    item: { type },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  // field state:
+  // float x,y,w,h or x1,y1,x2,y2
+  // bool editable
+  // string signer (email)
+  // int pagenum
+  // string type
+
+  return (
+    <div ref={drag}>
+      <p>Test field</p>
+    </div>
+  );
+};
+
+const FieldSidebar = ({ signer, setSigner, signersValues }) => {
   const { t } = useTranslation();
 
   const fieldType = {
@@ -19,7 +38,7 @@ const FieldSidebar = ({
     NAME: "name",
     COMPANY: "company",
     TITLE: "title",
-  }
+  };
 
   return (
     <div className="container">
@@ -35,28 +54,28 @@ const FieldSidebar = ({
         </select>
 
         <div className="lead">{t("sign.placeFields.left.signature")}</div>
-        {[fieldType.SIGNATURE, fieldType.INITIAL]?.map(
-          (type, i) => (
-            <FieldBox type={type} key={i} />
-          )
-        )}
+        {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
+          <FieldBox type={type} key={i} />
+        ))}
 
         <div className="lead">{t("sign.placeFields.left.autofill")}</div>
-        {[fieldType.DATE, fieldType.NAME, fieldType.EMAIL, fieldType.COMPANY, fieldType.TITLE]?.map(
-          (type, i) => (
-            <FieldBox type={type} key={i} />
-          )
-        )}
+        {[
+          fieldType.DATE,
+          fieldType.NAME,
+          fieldType.EMAIL,
+          fieldType.COMPANY,
+          fieldType.TITLE,
+        ]?.map((type, i) => (
+          <FieldBox type={type} key={i} />
+        ))}
 
         <div className="lead">{t("sign.placeFields.left.standard")}</div>
-        {[fieldType.TEXT, fieldType.CHECKBOX]?.map(
-          (type, i) => (
-            <FieldBox type={type} key={i} />
-          )
-        )}
+        {[fieldType.TEXT, fieldType.CHECKBOX]?.map((type, i) => (
+          <FieldBox type={type} key={i} />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default FieldSidebar;

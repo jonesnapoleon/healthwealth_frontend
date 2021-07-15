@@ -21,6 +21,19 @@ const Request = () => {
   const stepperData = useMemo(
     () => [
       {
+        name: t("sign.selectDocument.text"),
+        icon: <SelectIcon />,
+        component: (
+          <PlaceField
+            activeItem={activeItem}
+            availableLevel={availableLevel}
+            setActiveItem={setActiveItem}
+            atr={DOC.request}
+          />
+        ),
+        pathName: FRONTEND_URL.sign_place_fields,
+      },
+      {
         name: t("sign.reviewSend.text"),
         icon: <PlaceFieldIcon />,
         component: (
@@ -30,19 +43,6 @@ const Request = () => {
             atr={DOC.request}
             setAvailableItem={setAvailableItem}
             setActiveItem={setActiveItem}
-          />
-        ),
-        pathName: FRONTEND_URL.sign_place_fields,
-      },
-      {
-        name: t("sign.selectDocument.text"),
-        icon: <SelectIcon />,
-        component: (
-          <PlaceField
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            atr={DOC.request}
           />
         ),
         pathName: FRONTEND_URL.sign_place_fields,
