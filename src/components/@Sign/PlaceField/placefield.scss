@@ -2,6 +2,8 @@ $pad-top: 6.2rem;
 $left-width: 20%;
 $right-width: 20%;
 $center-width: 60%;
+$pad-left-from-center: 23%;
+$pad-right-from-center: 23%;
 
 .place-field-area {
   height: 100vh;
@@ -9,6 +11,7 @@ $center-width: 60%;
   .left-sidebar {
     background-color: var(--secondary-extra-color-4);
     height: 100%;
+    z-index: 8888;
     width: $left-width;
     .container {
       padding: 0.1rem;
@@ -19,6 +22,7 @@ $center-width: 60%;
   }
   .right-sidebar {
     background-color: var(--secondary-extra-color-4);
+    z-index: 8888;
     height: 100%;
     top: $pad-top;
     right: 0;
@@ -28,14 +32,23 @@ $center-width: 60%;
     }
   }
   #main-workspace {
-    width: $center-width;
-    margin-left: $left-width;
+    width: 100%;
+    padding-left: $pad-left-from-center;
+    padding-right: $pad-right-from-center;
+    padding-top: $pad-top;
+    margin-top: -$pad-top;
+    padding-bottom: $pad-top;
+    position: relative;
+
     .one-image-area {
+      padding-bottom: 1rem;
       position: relative;
       width: 100%;
-      padding: 1rem;
+      &:last-child {
+        padding-bottom: 0;
+      }
       .one-image {
-        // background: gray center no-repeat contain; // padding-top: 3.5rem;
+        border: 2px solid black;
         width: 100%;
         background-size: cover;
         background-repeat: no-repeat;
@@ -43,6 +56,12 @@ $center-width: 60%;
           width: 100%;
         }
       }
+    }
+
+    .draggable-item {
+      width: 100px;
+      z-index: 2;
+      position: absolute;
     }
   }
 }
