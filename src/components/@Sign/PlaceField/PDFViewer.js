@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDrop } from "react-dnd";
+import Draggable from "react-draggable";
 
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
@@ -16,7 +17,7 @@ const Page = ({
 
   const [, drop] = useDrop(() => ({
     accept: "field",
-    drop: (type, monitor) => addFieldToWorkspace(type, monitor.getClientOffset(), pageNum),
+    drop: (item, monitor) => addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum),
     // collect: (monitor) => ({
     //   position: monitor.getClientOffset(),
     // }),
@@ -30,28 +31,32 @@ const Page = ({
   // string type
 
   const addFieldToWorkspace = (type, position, pageNum) => {
-    console.log("dropped", type, "at", position, "on page", pageNum)
-    setFields(fields => [...fields, {
+    let curPage = document.getElementById("main-workspace-" + pageNum)
+    let pagePos = curPage.getBoundingClientRect();
+    let x = (position?.x - pagePos.x) / pagePos.width;
+    let y = (position?.y - pagePos.y) / pagePos.height;
+    let newField = {
       type,
-      x: position?.x,
-      y: position?.y,
+      x: (position?.x - pagePos.x) / pagePos.width,
+      y: (position?.y - pagePos.y) / pagePos.height,
       w: INIT_FIELD_WIDTH,
       h: INIT_FIELD_HEIGHT,
       pageNum,
       signer: signer.value,
-    }]);
-
-    // TODO spawn new node as main
+    };
+    setFields(fields => [...fields, newField]);
+    console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`)
   };
 
   return (
-    <div className="one-image-area" ref={drop} key={pageNum}>
+    <div className="one-image-area" ref={drop} key={pageNum} id={`main-workspace-${pageNum}`}>
       <img src={data} alt="" />
     </div>
   );
 }
 
 const PDFViewer = ({
+  fields,
   setFields,
   signer
 }) => {
@@ -66,6 +71,11 @@ const PDFViewer = ({
           setFields={setFields}
           signer={signer}
         />
+      ))}
+      {fields.map((field, i) => (
+        <Draggable bounds="parent">
+          <div>REACT DRAGGABLE</div>
+        </Draggable>
       ))}
     </div>
   );
