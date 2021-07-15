@@ -21,3 +21,11 @@ export const getOnlyThePath = (pathName) => {
   console.log(pathName.substring(1));
   return pathName.toUpperCase().substring(1);
 };
+
+export const getImageSize = (url, callback) => {
+  var img = new Image();
+  img.src = url;
+  img.onload = () => {
+    callback(this?.width, this?.height);
+  };
+};

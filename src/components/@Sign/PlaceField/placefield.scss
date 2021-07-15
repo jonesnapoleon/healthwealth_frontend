@@ -1,10 +1,15 @@
+$pad-top: 6.2rem;
+$left-width: 20%;
+$right-width: 20%;
+$center-width: 60%;
+
 .place-field-area {
   height: 100vh;
-  padding-top: 6.2rem;
+  padding-top: $pad-top;
   .left-sidebar {
     background-color: var(--secondary-extra-color-4);
     height: 100%;
-    width: 20%;
+    width: $left-width;
     .container {
       padding: 0.1rem;
     }
@@ -15,20 +20,21 @@
   .right-sidebar {
     background-color: var(--secondary-extra-color-4);
     height: 100%;
-    top: 6.2rem;
+    top: $pad-top;
     right: 0;
-    width: 20%;
+    width: $right-width;
     .container {
       padding: 0.1rem;
     }
   }
   #main-workspace {
-    width: 60%;
-    margin-left: 20%;
+    width: $center-width;
+    margin-left: $left-width;
     // padding-top: 3.5rem;
     .one-image-area {
       width: 100%;
       padding: 1rem;
+      height: auto;
       img {
         width: 100%;
         border: 2px solid black;
