@@ -23,12 +23,16 @@
     }
   }
   #main-workspace {
-    width: 60%;
-    margin-left: 20%;
-    // padding-top: 3.5rem;
+    width: 100%;
+    padding-left: 23%;
+    padding-right: 23%;
+    padding-top: 6.2rem;
+    margin-top: -6.2rem;
+    padding-bottom: 6.2rem;
     .one-image-area {
       width: 100%;
-      padding: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
       img {
         width: 100%;
         border: 2px solid black;

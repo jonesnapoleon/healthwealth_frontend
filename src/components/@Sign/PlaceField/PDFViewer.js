@@ -64,6 +64,17 @@ const PDFViewer = ({
 
   return (
     <div id="main-workspace">
+      {fields.map((field, i) => (
+        <Draggable bounds="parent">
+          <div
+            style={{ width: 100, position: "absolute" }}
+          >
+            <textarea className="uk-textarea" style={{ width: "100%" }}>
+              {field.type}
+            </textarea>
+          </div>
+        </Draggable>
+      ))}
       {num?.map((data, i) => (
         <Page
           data={data}
@@ -71,11 +82,6 @@ const PDFViewer = ({
           setFields={setFields}
           signer={signer}
         />
-      ))}
-      {fields.map((field, i) => (
-        <Draggable bounds="parent">
-          <div>REACT DRAGGABLE</div>
-        </Draggable>
       ))}
     </div>
   );
