@@ -4,22 +4,22 @@ import { useDrop } from "react-dnd";
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
 
-const PDFViewer = ({
-  fields,
+
+const Page = ({
+  data,
+  pageNum,
   setFields,
-  signer
+  signer,
 }) => {
-  const num = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_) => image);
   const INIT_FIELD_WIDTH = 100;
   const INIT_FIELD_HEIGHT = 50;
 
-  const [{ pageNum, position }, drop] = useDrop(() => ({
+  const [, drop] = useDrop(() => ({
     accept: "field",
-    drop: (type, monitor) => addFieldToWorkspace(type, monitor.getClientOffset(), key),
-    collect: (monitor) => ({
-      position: monitor.getClientOffset(),
-      pageNum: monitor.getDropResult(),
-    }),
+    drop: (type, monitor) => addFieldToWorkspace(type, monitor.getClientOffset(), pageNum),
+    // collect: (monitor) => ({
+    //   position: monitor.getClientOffset(),
+    // }),
   }));
 
   // field state:
@@ -29,17 +29,8 @@ const PDFViewer = ({
   // int pagenum
   // string type
 
-  useEffect(() => {
-    console.log(position);
-  }, [position]);
-
-  useEffect(() => {
-    console.log(pageNum);
-  }, [pageNum]);
-
-  const addFieldToWorkspace = (type) => {
-    // TODO get x,y, pagenum
-    console.log(position, pageNum);
+  const addFieldToWorkspace = (type, position, pageNum) => {
+    console.log("dropped", type, "at", position, "on page", pageNum)
     setFields(fields => [...fields, {
       type,
       x: position?.x,
@@ -50,16 +41,31 @@ const PDFViewer = ({
       signer: signer.value,
     }]);
 
-    // spawn new node as main
+    // TODO spawn new node as main
   };
 
   return (
+    <div className="one-image-area" ref={drop} key={pageNum}>
+      <img src={data} alt="" />
+    </div>
+  );
+}
+
+const PDFViewer = ({
+  setFields,
+  signer
+}) => {
+  const num = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_) => image);
+
+  return (
     <div id="main-workspace">
-      <div>{position?.x} {position?.y}</div>
       {num?.map((data, i) => (
-        <div className="one-image-area" ref={drop} key={i}>
-          <img src={data} alt="" />
-        </div>
+        <Page
+          data={data}
+          pageNum={i + 1}
+          setFields={setFields}
+          signer={signer}
+        />
       ))}
     </div>
   );

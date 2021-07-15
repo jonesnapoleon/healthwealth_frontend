@@ -1,6 +1,31 @@
 .place-field-area {
   height: 100vh;
+  padding-top: 6.2rem;
+  .left-sidebar {
+    background-color: var(--secondary-extra-color-4);
+    height: 100%;
+    width: 20%;
+    .container {
+      padding: 0.1rem;
+    }
+    select {
+      width: 80%;
+    }
+  }
+  .right-sidebar {
+    background-color: var(--secondary-extra-color-4);
+    height: 100%;
+    top: 6.2rem;
+    right: 0;
+    width: 20%;
+    .container {
+      padding: 0.1rem;
+    }
+  }
   #main-workspace {
+    width: 60%;
+    margin-left: 20%;
+    // padding-top: 3.5rem;
     .one-image-area {
       width: 100%;
       padding: 1rem;

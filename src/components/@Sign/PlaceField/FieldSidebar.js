@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 
 const FieldBox = ({ type }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+    // collect: (monitor) => ({
+    //   isDragging: !!monitor.isDragging(),
+    // }),
   }));
 
   // field state:
@@ -20,7 +20,7 @@ const FieldBox = ({ type }) => {
 
   return (
     <div ref={drag}>
-      <p>Test field</p>
+      <p>{type}</p>
     </div>
   );
 };
@@ -41,38 +41,40 @@ const FieldSidebar = ({ signer, setSigner, signersValues }) => {
   };
 
   return (
-    <div className="container">
-      <div className="row pt-2">
-        <div className="lead">{t("sign.placeFields.left.signers")}</div>
-        <select value={signer} onChange={(val) => setSigner(val)}>
-          {signersValues &&
-            signersValues?.map((assignee, i) => (
-              <option key={i} value={assignee} data-before={"red"}>
-                {assignee.label}
-              </option>
-            ))}
-        </select>
+    <div className="left-sidebar position-fixed">
+      <div className="container">
+        <div className="row pt-2">
+          <div className="lead">{t("sign.placeFields.left.signers")}</div>
+          <select value={signer} onChange={(val) => setSigner(val)}>
+            {signersValues &&
+              signersValues?.map((assignee, i) => (
+                <option key={i} value={assignee} data-before={"red"}>
+                  {assignee.label}
+                </option>
+              ))}
+          </select>
 
-        <div className="lead">{t("sign.placeFields.left.signature")}</div>
-        {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
-          <FieldBox type={type} key={i} />
-        ))}
+          <div className="lead">{t("sign.placeFields.left.signature")}</div>
+          {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
+            <FieldBox type={type} key={i} />
+          ))}
 
-        <div className="lead">{t("sign.placeFields.left.autofill")}</div>
-        {[
-          fieldType.DATE,
-          fieldType.NAME,
-          fieldType.EMAIL,
-          fieldType.COMPANY,
-          fieldType.TITLE,
-        ]?.map((type, i) => (
-          <FieldBox type={type} key={i} />
-        ))}
+          <div className="lead">{t("sign.placeFields.left.autofill")}</div>
+          {[
+            fieldType.DATE,
+            fieldType.NAME,
+            fieldType.EMAIL,
+            fieldType.COMPANY,
+            fieldType.TITLE,
+          ]?.map((type, i) => (
+            <FieldBox type={type} key={i} />
+          ))}
 
-        <div className="lead">{t("sign.placeFields.left.standard")}</div>
-        {[fieldType.TEXT, fieldType.CHECKBOX]?.map((type, i) => (
-          <FieldBox type={type} key={i} />
-        ))}
+          <div className="lead">{t("sign.placeFields.left.standard")}</div>
+          {[fieldType.TEXT, fieldType.CHECKBOX]?.map((type, i) => (
+            <FieldBox type={type} key={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
