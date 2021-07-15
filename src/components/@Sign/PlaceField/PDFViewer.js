@@ -16,14 +16,12 @@ const PDFViewer = ({ addFieldToWorkspace }) => {
   }));
 
   return (
-    <div ref={drop}>
-      <div id="main-workspace">
-        {num?.map((data, i) => (
-          <div className="one-image-area" key={i}>
-            <img src={data} alt="" />
-          </div>
-        ))}
-      </div>
+    <div ref={drop} id="main-workspace">
+      {num?.map((data, i) => (
+        <div className="one-image-area" key={i}>
+          <img src={data} alt="" />
+        </div>
+      ))}
     </div>
   );
 };

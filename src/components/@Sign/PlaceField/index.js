@@ -65,23 +65,17 @@ const PlaceField = ({
 
   return (
     <div className={"place-field-area"}>
-      <div className="row">
-        <DndProvider backend={HTML5Backend}>
-          <div className="col-lg-2 col-md-12 left-sidebar">
-            <FieldSidebar
-              signer={signer}
-              setSigner={setSigner}
-              signersValues={signersValues}
-            />
-          </div>
-          <div className="col-lg-8 col-md-12 pdfviewer" id="main-workspace">
-            <PDFViewer addFieldToWorkspace={addFieldToWorkspace} />
-          </div>
-          <div className="col-lg-2 col-md-12 pdfviewer">
-            <RightSnippetArea />
-          </div>
-        </DndProvider>
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <FieldSidebar
+          signer={signer}
+          setSigner={setSigner}
+          signersValues={signersValues}
+        />
+
+        <PDFViewer addFieldToWorkspace={addFieldToWorkspace} />
+
+        <RightSnippetArea />
+      </DndProvider>
     </div>
   );
 };

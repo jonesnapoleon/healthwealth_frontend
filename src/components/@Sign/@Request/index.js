@@ -86,6 +86,7 @@ const Request = () => {
           setActiveItem(activeItem + inc)
         }
         availableLevel={availableLevel}
+        isFixed={activeItem === 0}
       />
       {stepperData?.[activeItem]?.component}
     </div>

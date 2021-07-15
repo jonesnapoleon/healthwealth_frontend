@@ -7,7 +7,7 @@ import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
 
 import "./stepper.css";
 
-const Stepper = ({ items, activeItem }) => {
+const Stepper = ({ items, activeItem, isFixed }) => {
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -24,7 +24,7 @@ const Stepper = ({ items, activeItem }) => {
     ));
 
   return (
-    <div className="stepper-container">
+    <div className={`stepper-container ${isFixed ? "position-fixed" : ""}`}>
       <div className="back cursor-pointer">
         <HomeSvg onClick={() => history.push(FRONTEND_URL.sign)} />
       </div>
