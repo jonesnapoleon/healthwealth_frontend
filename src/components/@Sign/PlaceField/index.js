@@ -46,14 +46,7 @@ const PlaceField = ({
   // int pagenum
   // string type
 
-  const addFieldToWorkspace = (type) => {
-    const field = {
-      type,
-    };
-    setFields([...fields, field]);
-  };
-
-  console.log(fileData);
+  // console.log(fileData);
 
   useEffect(() => {
     const mainWorkspace = document.getElementById("main-workspace");
@@ -75,7 +68,11 @@ const PlaceField = ({
             />
           </div>
           <div className="col-lg-8 col-md-12 pdfviewer" id="main-workspace">
-            <PDFViewer addFieldToWorkspace={addFieldToWorkspace} />
+            <PDFViewer
+              fields={fields}
+              setFields={setFields}
+              signer={signer}
+            />
           </div>
           <div className="col-lg-2 col-md-12 pdfviewer">
             <RightSnippetArea />
