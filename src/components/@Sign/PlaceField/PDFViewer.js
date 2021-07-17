@@ -1,7 +1,8 @@
-import React, { useState, useLayoutEffect, useMemo } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { getImageSize } from "../../../helpers/transformer";
 import Draggable from "react-draggable";
+import { Rnd } from "react-rnd";
 
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
@@ -40,14 +41,22 @@ const Page = ({ data, pageNum, setFields, signer }) => {
     const pagePosition = curPage?.getBoundingClientRect();
     let x = (fieldPosition?.x - pagePosition.x) / pagePosition.width;
     let y = (fieldPosition?.y - pagePosition.y) / pagePosition.height;
+    let w = INIT_FIELD_WIDTH / pagePosition.width;
+    let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {
       type,
-      x: (fieldPosition?.x - pagePosition.x) / pagePosition.width,
-      y: (fieldPosition?.y - pagePosition.y) / pagePosition.height,
+      x,
+      y,
       w: INIT_FIELD_WIDTH,
       h: INIT_FIELD_HEIGHT,
       pageNum,
       signer: signer.value,
+      color: signer.color,
+      droppedPosition: {
+        x: pagePosition.x + x * pagePosition.width,
+        y: pagePosition.y + y * pagePosition.height,
+      },
+      pagePosition,
     };
     setFields((fields) => [...fields, newField]);
     console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
@@ -71,23 +80,20 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   );
 };
 
-const PDFViewer = ({ fields, setFields, signer }) => {
+const FieldHandle = ({ color, stroke }) => {
+  return (
+    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="10" stroke={stroke} stroke-width="2" fill={color} />
+    </svg>
+  )
+}
+
+const PDFViewer = ({ fields, setFields, signer, setCurrentField }) => {
   const num = [0, 0, 0].map((_) => image);
 
   // 0, 0, 0, 0, 0, 0, 0
   return (
     <div id="main-workspace">
-      {fields.map((field, i) => (
-        <Draggable bounds="parent">
-          <div className="draggable-item">
-            <textarea
-              className="uk-textarea"
-              style={{ width: "100%" }}
-              placeholder={field.type}
-            />
-          </div>
-        </Draggable>
-      ))}
       {num?.map((data, i) => (
         <Page
           data={data}
@@ -97,6 +103,34 @@ const PDFViewer = ({ fields, setFields, signer }) => {
           key={i}
         />
       ))}
+      {fields.map((field, i) => {
+        const handle = <FieldHandle color={field.color} stroke={field.color} />;
+        return (
+          <Rnd
+            bounds="parent"
+            default={{
+              x: field.droppedPosition.x,
+              y: field.droppedPosition.y,
+              width: field.w,
+              height: field.h,
+            }}
+            resizeHandleComponent={{
+              topLeft: handle,
+              topRight: handle,
+              bottomLeft: handle,
+              bottomRight: handle,
+            }}
+            className="draggable-item"
+            onClick={() => setCurrentField(field)}
+          >
+            <textarea
+              className="draggable-textarea"
+              placeholder={field.type}
+            />
+          </Rnd>
+        );
+      }
+      )}
     </div>
   );
 };

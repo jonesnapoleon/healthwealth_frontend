@@ -6,11 +6,15 @@ import { useTranslation } from "react-i18next";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import Toolbar from "./Toolbar";
 import FieldSidebar from "./FieldSidebar";
 import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
-
 import SuperFloatingButton from "../commons/SuperFloatingButton";
+
+import useClippy from 'use-clippy';
+import Ajv from "ajv"
+
 
 const temp =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
@@ -54,6 +58,7 @@ const PlaceField = ({
 
   const [signer, setSigner] = useState(listSigners[0]);
   const [fields, setFields] = useState([]);
+  const [currentField, setCurrentField] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -101,12 +106,78 @@ const PlaceField = ({
     console.log(signer);
   }, [signer]);
 
-  const ToolsArea = () => <div className="tools-area"></div>;
+  const [clipboard, setClipboard] = useClippy();
+  const copyPasteHandler = (e) => {
+    if (e.key === "c" && e.ctrlKey) {
+      try {
+        copyField()
+        e.preventDefault();
+      } catch (e) { }
+    }
+    if (e.key === "v" && e.ctrlKey) {
+      try {
+        pasteField()
+        e.preventDefault();
+      } catch (e) { }
+    }
+  }
+
+  const copyField = () => {
+    setClipboard(JSON.stringify(currentField));
+    console.log("copied!", currentField);
+  }
+
+  const pasteField = () => {
+    const schema = {
+      type: "object",
+      properties: {
+        type: { type: "string" },
+        x: { type: "number" },
+        y: { type: "number" },
+        w: { type: "number" },
+        h: { type: "number" },
+        pageNum: { type: "integer" },
+        signer: { type: "string" },
+        color: { type: "string" },
+        droppedPosition: {
+          type: "object",
+          properties: {
+            x: { type: "number" },
+            y: { type: "number" },
+          }
+        },
+        pagePosition: {
+          type: "object",
+          properties: {
+            x: { type: "number" },
+            y: { type: "number" },
+            width: { type: "number" },
+            height: { type: "number" },
+          }
+        },
+      }
+    }
+
+    const ajv = new Ajv()
+    const data = JSON.parse(clipboard)
+    const validate = ajv.compile(schema)
+    const valid = validate(data)
+    if (valid) {
+      data.droppedPosition.x = data.pagePosition.x + (data.x + 0.01) * data.pagePosition.width;
+      data.droppedPosition.y = data.pagePosition.y + (data.y + 0.01) * data.pagePosition.height;
+      setFields(fields => [...fields, data]);
+      console.log("pasted!", data);
+    }
+  }
 
   return (
     <>
-      <div className={"place-field-area"}>
-        <ToolsArea />
+      <div className={"place-field-area"} onKeyDown={copyPasteHandler}>
+        <Toolbar
+          copyField={copyField}
+          pasteField={pasteField}
+        />
+
         <DndProvider backend={HTML5Backend}>
           <FieldSidebar
             listSigners={listSigners}
@@ -114,7 +185,12 @@ const PlaceField = ({
             setCurrentSigner={setSigner}
           />
 
-          <PDFViewer fields={fields} setFields={setFields} signer={signer} />
+          <PDFViewer
+            fields={fields}
+            setFields={setFields}
+            signer={signer}
+            setCurrentField={setCurrentField}
+          />
 
           <RightSnippetArea />
         </DndProvider>

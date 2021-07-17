@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
-import Draggable from "react-draggable";
-import { Rnd } from "react-rnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
 
 const FieldBox = ({ type }) => {
