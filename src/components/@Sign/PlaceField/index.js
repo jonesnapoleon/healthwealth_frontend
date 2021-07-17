@@ -56,19 +56,24 @@ const PlaceField = ({
     },
   ];
 
-  const [signer, setSigner] = useState(listSigners[0]);
+  const [currentSigner, setCurrentSigner] = useState(listSigners[0]);
   const [fields, setFields] = useState([]);
   const [currentField, setCurrentField] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const handleNext = () => {
     try {
       setLoading(0);
-      console.log("ef");
+      console.log(fields);
+      for (let i = 0; i < fields.length; i++) {
+        // const field = fields[i]
+        let newFieldElement = document.getElementById(`field-${i}`);
+        console.log(newFieldElement.value);
+      }
       // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
       // const res = await addUserToDocument(newData, fileData?.id);
       // if (res) {
@@ -103,8 +108,8 @@ const PlaceField = ({
   }, [fields]);
 
   useEffect(() => {
-    console.log(signer);
-  }, [signer]);
+    console.log(currentSigner);
+  }, [currentSigner]);
 
   const [clipboard, setClipboard] = useClippy();
   const copyPasteHandler = (e) => {
@@ -137,7 +142,7 @@ const PlaceField = ({
         w: { type: "number" },
         h: { type: "number" },
         pageNum: { type: "integer" },
-        signer: { type: "string" },
+        currentSigner: { type: "string" },
         color: { type: "string" },
         droppedPosition: {
           type: "object",
@@ -181,14 +186,14 @@ const PlaceField = ({
         <DndProvider backend={HTML5Backend}>
           <FieldSidebar
             listSigners={listSigners}
-            currentSigner={signer}
-            setCurrentSigner={setSigner}
+            currentSigner={currentSigner}
+            setCurrentSigner={setCurrentSigner}
           />
 
           <PDFViewer
             fields={fields}
             setFields={setFields}
-            signer={signer}
+            currentSigner={currentSigner}
             setCurrentField={setCurrentField}
           />
 

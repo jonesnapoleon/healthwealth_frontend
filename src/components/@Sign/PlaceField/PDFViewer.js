@@ -10,7 +10,7 @@ const image =
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({ data, pageNum, setFields, signer }) => {
+const Page = ({ data, pageNum, setFields, currentSigner, fields }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
@@ -32,13 +32,14 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // field state:
   // float x,y,w,h or x1,y1,x2,y2
   // bool editable
-  // string signer (email)
+  // string currentSigner (email)
   // int pagenum
   // string type
 
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
-    let curPage = document.getElementById("main-workspace-" + pageNum);
+    let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
+
     let x = (fieldPosition?.x - pagePosition.x) / pagePosition.width;
     let y = (fieldPosition?.y - pagePosition.y) / pagePosition.height;
     let w = INIT_FIELD_WIDTH / pagePosition.width;
@@ -50,14 +51,15 @@ const Page = ({ data, pageNum, setFields, signer }) => {
       w: INIT_FIELD_WIDTH,
       h: INIT_FIELD_HEIGHT,
       pageNum,
-      signer: signer.value,
-      color: signer.color,
+      currentSigner: currentSigner.value,
+      color: currentSigner.color,
       droppedPosition: {
         x: pagePosition.x + x * pagePosition.width,
         y: pagePosition.y + y * pagePosition.height,
       },
       pagePosition,
     };
+
     setFields((fields) => [...fields, newField]);
     console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
   };
@@ -72,7 +74,7 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // }, [height]);
 
   return (
-    <div className="one-image-area" ref={drop} id={`main-workspace-${pageNum}`}>
+    <div className="one-image-area" ref={drop} id={`one-image-area-${pageNum}`}>
       <div style={{ backgroundImage: `url(${data})` }} className="one-image">
         <img src={data} alt="" className="invisible" />
       </div>
@@ -88,7 +90,7 @@ const FieldHandle = ({ color, stroke }) => {
   )
 }
 
-const PDFViewer = ({ fields, setFields, signer, setCurrentField }) => {
+const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField }) => {
   const num = [0, 0, 0].map((_) => image);
 
   // 0, 0, 0, 0, 0, 0, 0
@@ -99,7 +101,8 @@ const PDFViewer = ({ fields, setFields, signer, setCurrentField }) => {
           data={data}
           pageNum={i + 1}
           setFields={setFields}
-          signer={signer}
+          currentSigner={currentSigner}
+          fields={fields}
           key={i}
         />
       ))}
@@ -122,6 +125,7 @@ const PDFViewer = ({ fields, setFields, signer, setCurrentField }) => {
             }}
             className="draggable-item"
             onClick={() => setCurrentField(field)}
+            id={`field-${i + 1}`}
           >
             <textarea
               className="draggable-textarea"
