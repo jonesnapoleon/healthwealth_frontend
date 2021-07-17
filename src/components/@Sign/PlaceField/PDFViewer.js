@@ -13,10 +13,7 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
-  const pagePosition = useMemo(() => {
-    let curPage = document.getElementById("main-workspace-" + pageNum);
-    return curPage?.getBoundingClientRect();
-  }, [pageNum]);
+  // const pagePosition = useMemo(() => {}, [pageNum]);
 
   // useLayoutEffect(() => {
   //   return () => {};
@@ -39,6 +36,8 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // string type
 
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
+    let curPage = document.getElementById("main-workspace-" + pageNum);
+    const pagePosition = curPage?.getBoundingClientRect();
     let x = (fieldPosition?.x - pagePosition.x) / pagePosition.width;
     let y = (fieldPosition?.y - pagePosition.y) / pagePosition.height;
     let newField = {
@@ -81,9 +80,11 @@ const PDFViewer = ({ fields, setFields, signer }) => {
       {fields.map((field, i) => (
         <Draggable bounds="parent">
           <div className="draggable-item">
-            <textarea className="uk-textarea" style={{ width: "100%" }}>
-              {field.type}
-            </textarea>
+            <textarea
+              className="uk-textarea"
+              style={{ width: "100%" }}
+              placeholder={field.type}
+            />
           </div>
         </Draggable>
       ))}

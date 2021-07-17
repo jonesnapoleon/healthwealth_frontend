@@ -14,6 +14,7 @@ import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
 import { ADDSIGNER } from "../../../helpers/constant";
+import { addColorToArr } from "../../../helpers/transformer";
 
 const AddSigners = ({
   activeItem,
@@ -39,7 +40,7 @@ const AddSigners = ({
       const res = await addUserToDocument(newData, fileData?.id);
       if (res) {
         console.log(res);
-        handle_data_docs(true, atr, "signers", data);
+        handle_data_docs(true, atr, "signers", addColorToArr(data));
         setActiveItem((a) => a + 1);
         setAvailableLevel((a) => a + 1);
         // setFileUrl(newRes?.linkToPdf);

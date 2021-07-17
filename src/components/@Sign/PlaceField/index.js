@@ -26,20 +26,33 @@ const PlaceField = ({
   const fileData = getItemData(atr, "fileData");
   const signers = getItemData(atr, "signers");
 
-  signers.push({
-    email: "jonathanyudigun@gmail.com",
-    name: "Jojo",
-    flowtype: "SIGN",
-  });
-  const signersValues = signers.map((user) => ({
-    value: user.email,
-    label: user.name,
-  }));
+  // signers.push({
+  //   email: "jonathanyudigun@gmail.com",
+  //   name: "Jojo",
+  //   flowtype: "SIGN",
+  // });
+  // const signersValues = signers.map((user) => ({
+  //   value: user.email,
+  //   label: user.name,
+  // }));
 
-  let initialSigner =
-    signersValues.length > 0 ? signersValues[0] : { value: "", label: "" };
+  // let initialSigner =
+  //   signersValues.length > 0 ? signersValues[0] : { value: "", label: "" };
 
-  const [signer, setSigner] = useState(initialSigner);
+  let listSigners = [
+    {
+      value: "jonathanyudigun@gmail.com",
+      label: "Jojo",
+      color: "red",
+    },
+    {
+      value: "jones@gmail.com",
+      label: "Jones",
+      color: "yellow",
+    },
+  ];
+
+  const [signer, setSigner] = useState(listSigners[0]);
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -96,9 +109,9 @@ const PlaceField = ({
         <ToolsArea />
         <DndProvider backend={HTML5Backend}>
           <FieldSidebar
-            signer={signer}
-            setSigner={setSigner}
-            signersValues={signersValues}
+            listSigners={listSigners}
+            currentSigner={signer}
+            setCurrentSigner={setSigner}
           />
 
           <PDFViewer fields={fields} setFields={setFields} signer={signer} />

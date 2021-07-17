@@ -1,5 +1,6 @@
 import { formatDistance } from "date-fns";
 import { format } from "date-fns/esm";
+import { FIXED_COLORS } from "./constant";
 
 export const getReadableWord = (string) => {
   const char = String(string).replace(" ", "-");
@@ -33,4 +34,8 @@ export const getImageSize = (url, callback) => {
     // return { width: this.width, height: this.height };
     // callback(this.width, this.height);
   };
+};
+
+export const addColorToArr = (array) => {
+  return array?.map((datum, i) => ({ ...datum, color: FIXED_COLORS[i] }));
 };

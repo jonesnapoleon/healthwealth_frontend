@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 import Draggable from "react-draggable";
 import { Rnd } from "react-rnd";
+import ColorizedSelect from "../commons/ColorizedSelect";
 
 const FieldBox = ({ type }) => {
   const [, drag] = useDrag(() => ({
@@ -27,7 +28,7 @@ const FieldBox = ({ type }) => {
   );
 };
 
-const FieldSidebar = ({ signer, setSigner, signersValues }) => {
+const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
   const { t } = useTranslation();
 
   const fieldType = {
@@ -42,19 +43,29 @@ const FieldSidebar = ({ signer, setSigner, signersValues }) => {
     TITLE: "title",
   };
 
+  useEffect(() => {
+    console.log(currentSigner);
+  }, [currentSigner]);
+
   return (
     <div className="left-sidebar position-fixed">
       <div className="container">
         <div className="row pt-2">
           <div className="lead">{t("sign.placeFields.left.signers")}</div>
-          <select value={signer} onChange={(e) => setSigner(e.target.value)}>
+          <ColorizedSelect
+            options={listSigners}
+            value={currentSigner}
+            onChange={(e) => setCurrentSigner(e)}
+          />
+
+          {/* <select value={signer} onChange={(e) => setSigner(e.target.value)}>
             {signersValues &&
               signersValues?.map((assignee, i) => (
                 <option key={i} value={assignee} data-before={"red"}>
                   {assignee.label}
                 </option>
               ))}
-          </select>
+          </select> */}
 
           <div className="lead">{t("sign.placeFields.left.signature")}</div>
           {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
