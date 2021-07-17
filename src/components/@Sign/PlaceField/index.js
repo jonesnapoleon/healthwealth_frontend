@@ -63,7 +63,12 @@ const PlaceField = ({
   const handleNext = () => {
     try {
       setLoading(0);
-      console.log("ef");
+      console.log(fields);
+      for (let i = 0; i < fields.length; i++) {
+        // const field = fields[i]
+        let newFieldElement = document.getElementById(`uk-textarea-${i}`);
+        console.log(newFieldElement.value);
+      }
       // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
       // const res = await addUserToDocument(newData, fileData?.id);
       // if (res) {
@@ -114,7 +119,12 @@ const PlaceField = ({
             setCurrentSigner={setSigner}
           />
 
-          <PDFViewer fields={fields} setFields={setFields} signer={signer} />
+          <PDFViewer
+            fields={fields}
+            setFields={setFields}
+            signer={signer}
+            currentSigner={signer}
+          />
 
           <RightSnippetArea />
         </DndProvider>

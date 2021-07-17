@@ -9,7 +9,7 @@ const image =
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({ data, pageNum, setFields, signer }) => {
+const Page = ({ data, pageNum, setFields, signer, fields }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
@@ -36,10 +36,12 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // string type
 
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
-    let curPage = document.getElementById("main-workspace-" + pageNum);
+    let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
+
     let x = (fieldPosition?.x - pagePosition.x) / pagePosition.width;
     let y = (fieldPosition?.y - pagePosition.y) / pagePosition.height;
+
     let newField = {
       type,
       x: (fieldPosition?.x - pagePosition.x) / pagePosition.width,
@@ -49,6 +51,7 @@ const Page = ({ data, pageNum, setFields, signer }) => {
       pageNum,
       signer: signer.value,
     };
+
     setFields((fields) => [...fields, newField]);
     console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
   };
@@ -63,7 +66,7 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // }, [height]);
 
   return (
-    <div className="one-image-area" ref={drop} id={`main-workspace-${pageNum}`}>
+    <div className="one-image-area" ref={drop} id={`one-image-area-${pageNum}`}>
       <div style={{ backgroundImage: `url(${data})` }} className="one-image">
         <img src={data} alt="" className="invisible" />
       </div>
@@ -78,10 +81,11 @@ const PDFViewer = ({ fields, setFields, signer }) => {
   return (
     <div id="main-workspace">
       {fields.map((field, i) => (
-        <Draggable bounds="parent">
+        <Draggable bounds="parent" key={i}>
           <div className="draggable-item">
             <textarea
               className="uk-textarea"
+              id={`uk-textarea-${i}`}
               style={{ width: "100%" }}
               placeholder={field.type}
             />
@@ -94,6 +98,7 @@ const PDFViewer = ({ fields, setFields, signer }) => {
           pageNum={i + 1}
           setFields={setFields}
           signer={signer}
+          fields={fields}
           key={i}
         />
       ))}
