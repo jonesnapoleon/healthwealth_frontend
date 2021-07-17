@@ -1,6 +1,7 @@
 .stepper-container {
   background: var(--tertiary-color);
   padding: 1.5rem;
+  height: 12vh;
   display: flex;
   width: 100%;
   justify-content: space-between;

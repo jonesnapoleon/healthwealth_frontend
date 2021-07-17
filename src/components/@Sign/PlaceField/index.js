@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
 
+import { useTranslation } from "react-i18next";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import FieldSidebar from "./FieldSidebar";
 import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
+
+import SuperFloatingButton from "../commons/SuperFloatingButton";
 
 const temp =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
@@ -38,6 +41,35 @@ const PlaceField = ({
 
   const [signer, setSigner] = useState(initialSigner);
   const [fields, setFields] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  // const { t } = useTranslation();
+
+  const handleNext = () => {
+    try {
+      setLoading(0);
+      console.log("ef");
+      // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
+      // const res = await addUserToDocument(newData, fileData?.id);
+      // if (res) {
+      //   console.log(res);
+      //   handle_data_docs(true, atr, "signers", data);
+      //   setActiveItem((a) => a + 1);
+      //   setAvailableLevel((a) => a + 1);
+      //   // setFileUrl(newRes?.linkToPdf);
+      //   // setAvailableItem((a) => a + 1);
+      //   // progress.set(100);
+      //   setLoading(1);
+      //   setSuccess(t("sign.addSigners.addSignersSuccess"));
+      //   setTimeout(() => setSuccess(false), 3000);
+      // }
+    } catch (err) {
+      setError(String(err));
+      setTimeout(() => setError(false), 3000);
+    }
+  };
 
   useEffect(() => {
     console.log(fileData);
@@ -52,24 +84,30 @@ const PlaceField = ({
     console.log("useeffect fields", fields);
   }, [fields]);
 
+  useEffect(() => {
+    console.log(signer);
+  }, [signer]);
+
+  const ToolsArea = () => <div className="tools-area"></div>;
+
   return (
-    <div className={"place-field-area"}>
-      <DndProvider backend={HTML5Backend}>
-        <FieldSidebar
-          signer={signer}
-          setSigner={setSigner}
-          signersValues={signersValues}
-        />
+    <>
+      <div className={"place-field-area"}>
+        <ToolsArea />
+        <DndProvider backend={HTML5Backend}>
+          <FieldSidebar
+            signer={signer}
+            setSigner={setSigner}
+            signersValues={signersValues}
+          />
 
-        <PDFViewer
-          fields={fields}
-          setFields={setFields}
-          signer={signer}
-        />
+          <PDFViewer fields={fields} setFields={setFields} signer={signer} />
 
-        <RightSnippetArea />
-      </DndProvider>
-    </div>
+          <RightSnippetArea />
+        </DndProvider>
+      </div>
+      <SuperFloatingButton activeItem={activeItem} onClickNext={handleNext} />
+    </>
   );
 };
 

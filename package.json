@@ -30,6 +30,7 @@
     "react-i18next": "^11.10.0",
     "react-redux": "^7.2.0",
     "react-responsive-modal": "^5.2.6",
+    "react-rnd": "^10.3.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "react-webcam": "^5.2.4"

@@ -2,22 +2,23 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./commons.scss";
 
-const FloatingButton = ({
+const SuperFloatingButton = ({
   onClickNext,
   activeItem,
   // availableLevel,
   disabled,
   onClickPrev,
 }) => {
-  console.log(disabled);
   const { t } = useTranslation();
   // console.log(availableLevel);
   return (
-    <div className="floating-button-container">
+    <div className="super-floating-button-container">
+      <div />
+      <div className="item-center">
+        © 2021 STEALTHX | {t("login.termsAndCondition")}
+      </div>
       <div className="item-right">
         <div>
-          {/* {availableLevel > -20 && (
-          )} */}
           <button
             onClick={onClickPrev}
             className="btn btn-light btn-lg"
@@ -38,4 +39,4 @@ const FloatingButton = ({
   );
 };
 
-export default FloatingButton;
+export default SuperFloatingButton;

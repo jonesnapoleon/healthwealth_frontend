@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { getImageSize } from "../../../helpers/transformer";
 import Draggable from "react-draggable";
@@ -6,10 +6,21 @@ import Draggable from "react-draggable";
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
 
+const INIT_FIELD_WIDTH = 100;
+const INIT_FIELD_HEIGHT = 50;
+
 const Page = ({ data, pageNum, setFields, signer }) => {
-  const INIT_FIELD_WIDTH = 100;
-  const INIT_FIELD_HEIGHT = 50;
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
+  const [coords, setCoords] = useState(null);
+
+  const pagePosition = useMemo(() => {
+    let curPage = document.getElementById("main-workspace-" + pageNum);
+    return curPage?.getBoundingClientRect();
+  }, [pageNum]);
+
+  // useLayoutEffect(() => {
+  //   return () => {};
+  // }, [input]);
 
   const [, drop] = useDrop(() => ({
     accept: "field",
@@ -27,15 +38,13 @@ const Page = ({ data, pageNum, setFields, signer }) => {
   // int pagenum
   // string type
 
-  const addFieldToWorkspace = (type, position, pageNum) => {
-    let curPage = document.getElementById("main-workspace-" + pageNum);
-    let pagePos = curPage?.getBoundingClientRect();
-    let x = (position?.x - pagePos.x) / pagePos.width;
-    let y = (position?.y - pagePos.y) / pagePos.height;
+  const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
+    let x = (fieldPosition?.x - pagePosition.x) / pagePosition.width;
+    let y = (fieldPosition?.y - pagePosition.y) / pagePosition.height;
     let newField = {
       type,
-      x: (position?.x - pagePos.x) / pagePos.width,
-      y: (position?.y - pagePos.y) / pagePos.height,
+      x: (fieldPosition?.x - pagePosition.x) / pagePosition.width,
+      y: (fieldPosition?.y - pagePosition.y) / pagePosition.height,
       w: INIT_FIELD_WIDTH,
       h: INIT_FIELD_HEIGHT,
       pageNum,
@@ -65,6 +74,7 @@ const Page = ({ data, pageNum, setFields, signer }) => {
 
 const PDFViewer = ({ fields, setFields, signer }) => {
   const num = [0, 0, 0].map((_) => image);
+
   // 0, 0, 0, 0, 0, 0, 0
   return (
     <div id="main-workspace">

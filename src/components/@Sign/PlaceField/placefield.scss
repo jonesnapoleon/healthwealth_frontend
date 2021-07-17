@@ -1,34 +1,54 @@
-$pad-top: 6.2rem;
+$pad-top: 12vh;
 $left-width: 20%;
 $right-width: 20%;
 $center-width: 60%;
 $pad-left-from-center: 23%;
 $pad-right-from-center: 23%;
+$tools-height: 10vh;
 
 .place-field-area {
   height: 100vh;
   padding-top: $pad-top;
+
+  .tools-area {
+    position: fixed;
+    top: $pad-top;
+    height: $tools-height;
+    left: $left-width;
+    right: $left-width;
+    background-color: var(--secondary-extra-color-4);
+    z-index: 999999;
+  }
+
   .left-sidebar {
     background-color: var(--secondary-extra-color-4);
-    height: 100%;
+    height: 100vh - $pad-top - 10vh;
     z-index: 8888;
     width: $left-width;
     .container {
-      padding: 0.1rem;
+      position: relative;
+      height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      // padding: 0.1rem;
     }
     select {
-      width: 80%;
+      width: 7rem;
+      margin-left: 0.8rem;
     }
   }
   .right-sidebar {
     background-color: var(--secondary-extra-color-4);
     z-index: 8888;
-    height: 100%;
+    height: 100vh - $pad-top - 10vh;
     top: $pad-top;
     right: 0;
     width: $right-width;
     .container {
-      padding: 0.1rem;
+      position: relative;
+      height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
   #main-workspace {
@@ -36,12 +56,14 @@ $pad-right-from-center: 23%;
     padding-left: $pad-left-from-center;
     padding-right: $pad-right-from-center;
     padding-top: $pad-top;
-    margin-top: -$pad-top;
+    margin-top: $pad-top / 4;
     padding-bottom: $pad-top;
     position: relative;
 
     .one-image-area {
-      padding-bottom: 1rem;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      margin-bottom: 1rem;
       position: relative;
       width: 100%;
       &:last-child {

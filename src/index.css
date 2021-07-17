@@ -35,11 +35,11 @@
   visibility: hidden;
 }
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 0px;
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary-extra-color-3);
+  background: var(--secondary-extra-color-1);
 }
 @media only screen and (max-width: 600px) {
   ::-webkit-scrollbar {
@@ -151,10 +151,14 @@ code {
 .btn-primary {
   background: var(--tertiary-color);
   color: var(--text-color);
+  padding: 0.4rem 2rem;
   text-decoration: none;
 }
-
+.btn-light {
+  padding: 0.4rem 2rem;
+}
 .btn-secondary {
+  padding: 0.4rem 2rem;
   border-radius: var(--border-radius);
   background: var(--secondary-extra-color-2);
   color: var(--text-color);
