@@ -5,7 +5,7 @@ import { ReactComponent as HomeSvg } from "../../../assets/bnw/Home Icon.svg";
 import { FRONTEND_URL } from "../../../helpers/constant";
 import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
 
-import "./stepper.css";
+import "./stepper.scss";
 
 const Stepper = ({ items, activeItem, isFixed }) => {
   const history = useHistory();

@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
-import Draggable from "react-draggable";
-import { Rnd } from "react-rnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
 
 const FieldBox = ({ type }) => {
@@ -13,13 +11,6 @@ const FieldBox = ({ type }) => {
     //   isDragging: !!monitor.isDragging(),
     // }),
   }));
-
-  // field state:
-  // float x,y,w,h or x1,y1,x2,y2
-  // bool editable
-  // string signer (email)
-  // int pagenum
-  // string type
 
   return (
     <div ref={drag}>

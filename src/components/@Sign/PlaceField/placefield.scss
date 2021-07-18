@@ -9,7 +9,6 @@ $tools-height: 10vh;
 .place-field-area {
   height: 100vh;
   width: 100vw;
-  padding-top: $pad-top;
 
   .tools-area {
     position: fixed;
@@ -19,10 +18,18 @@ $tools-height: 10vh;
     right: $left-width;
     background-color: var(--secondary-extra-color-4);
     z-index: 999999;
+    .wrapper {
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
   }
 
   .left-sidebar {
     background-color: var(--secondary-extra-color-4);
+    padding-top: $pad-top;
     height: 100vh - $pad-top - 10vh;
     z-index: 8888;
     width: $left-width;
@@ -61,6 +68,10 @@ $tools-height: 10vh;
     padding-bottom: $pad-top;
     position: relative;
 
+    .one-image-area:first-child {
+      padding-top: $pad-top;
+    }
+
     .one-image-area {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -79,12 +90,26 @@ $tools-height: 10vh;
           width: 100%;
         }
       }
+      .rnd-content {
+        height: 100%;
+        display: grid;
+        place-items: center;
+      }
     }
 
     .draggable-item {
-      width: 100px;
-      z-index: 2;
-      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+      background: #f0f0f0;
+      .draggable-textarea {
+        width: 97%;
+        height: 97%;
+        position: absolute;
+        resize: none;
+        border: none;
+      }
     }
   }
 }
