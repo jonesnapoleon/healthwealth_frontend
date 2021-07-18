@@ -105,11 +105,15 @@ const PlaceField = ({
 
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
-  const MAX_STACK_SIZE = 10;
+  const MAX_STACK_SIZE = 30;
 
   useEffect(() => {
     console.log("useeffect fields", fields);
   }, [fields]);
+
+  useEffect(() => {
+    console.log("useeffect currentfield", currentField);
+  }, [currentField]);
 
   useEffect(() => {
     console.log("useeffect statestack", stateStack, "idx", stackIdx);
@@ -159,13 +163,6 @@ const PlaceField = ({
             label: { type: "string" },
           },
         },
-        droppedPosition: {
-          type: "object",
-          properties: {
-            x: { type: "number" },
-            y: { type: "number" },
-          }
-        },
         pagePosition: {
           type: "object",
           properties: {
@@ -175,6 +172,8 @@ const PlaceField = ({
             height: { type: "number" },
           }
         },
+        deleted: { type: "boolean" },
+        uid: { type: "string" }
       }
     }
 
@@ -184,8 +183,8 @@ const PlaceField = ({
       const validate = ajv.compile(schema)
       const valid = validate(data)
       if (valid) {
-        data.droppedPosition.x = data.pagePosition.x + (data.x + 0.01) * data.pagePosition.width;
-        data.droppedPosition.y = data.pagePosition.y + (data.y + 0.01) * data.pagePosition.height;
+        data.x += 0.01;
+        data.y += 0.01;
         setFields(fields => [...fields, data]);
         pushToStack([...fields, data]);
         console.log("pasted!", data);
@@ -211,29 +210,29 @@ const PlaceField = ({
 
   const undoField = () => {
     console.log("undo");
-    console.log(stateStack, stackIdx)
-    if (stateStack.length > 1 && stackIdx > 0) {
-      setStackIdx(i => {
+    setStackIdx(i => {
+      if (stateStack.length > 1 && i > 0) {
         setFields(stateStack[i - 1]);
         return i - 1;
-      });
-    }
+      }
+    });
   }
 
   const redoField = () => {
-    console.log("redo")
-    if (stackIdx + 1 < stateStack.length) {
-      setStackIdx(i => {
+    setStackIdx(i => {
+      console.log("redo", i, stateStack.length)
+      if (i + 1 < stateStack.length) {
         setFields(stateStack[i + 1]);
         return i + 1;
-      });
-    }
+      }
+      return i;
+    });
   }
 
   const pushToStack = (fields) => {
     // crop stack until stackIdx, push fields to stack
-    let newStack = stateStack;
-    if (stateStack.length + 1 < MAX_STACK_SIZE) newStack = [...stateStack, fields];
+    let newStack = stateStack.slice(0, stackIdx + 1);
+    if (stateStack.length + 1 < MAX_STACK_SIZE) newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
     setStateStack(newStack);
     setStackIdx(newStack.length - 1);
   }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { getImageSize } from "../../../helpers/transformer";
-import { Rnd } from "react-rnd";
+
+import FieldBox from "./FieldBox";
 
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
@@ -38,8 +39,9 @@ const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, stateStack
     let newField = {
       type, x, y, w, h, pageNum,
       signer: currentSigner,
-      droppedPosition: fieldPosition,
       pagePosition,
+      deleted: false,
+      uid: "a5bf6a9f-3656-40c8-b159-1fcb2f9d3a44", // TODO get from BE
     };
 
     setFields(fields => [...fields, newField]);
@@ -65,14 +67,6 @@ const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, stateStack
   );
 };
 
-const FieldHandle = ({ color, stroke }) => {
-  return (
-    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="10" stroke={stroke} strokeWidth="2" fill={color} />
-    </svg>
-  )
-}
-
 const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToStack, stateStack }) => {
   const num = [0, 0, 0].map((_) => image);
 
@@ -92,33 +86,17 @@ const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToSt
         />
       ))}
       {fields.map((field, i) => {
-        const handle = <FieldHandle color={field.signer.color} stroke={field.signer.color} />;
-        return (
-          <Rnd
-            bounds="parent"
-            default={{
-              x: field.droppedPosition.x,
-              y: field.droppedPosition.y,
-              width: field.w * field.pagePosition.width,
-              height: field.h * field.pagePosition.height,
-            }}
-            resizeHandleComponent={{
-              topLeft: handle,
-              topRight: handle,
-              bottomLeft: handle,
-              bottomRight: handle,
-            }}
-            className="draggable-item"
+        return field.deleted ? null : (
+          <FieldBox
+            field={field}
             onClick={() => setCurrentField(field)}
-            id={`field-${i + 1}`}
             key={i}
-          >
-            <textarea
-              className="draggable-textarea"
-              placeholder={field.type}
-            />
-          </Rnd>
-        );
+            id={`field-${i + 1}`}
+            pushToStack={pushToStack}
+            fields={fields}
+            setFields={setFields}
+          />
+        )
       }
       )}
     </div>
