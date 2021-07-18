@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
 
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -26,9 +26,9 @@ const PlaceField = ({
   setAvailableLevel,
   atr,
 }) => {
-  const { handle_data_docs, getItemData } = useData();
+  const { getItemData } = useData();
   const fileData = getItemData(atr, "fileData");
-  const signers = getItemData(atr, "signers");
+  // const signers = getItemData(atr, "signers");
 
   let listSigners = addColorToArr([
     {
@@ -45,10 +45,10 @@ const PlaceField = ({
   const [fields, setFields] = useState([]);
   const [currentField, setCurrentField] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const handleNext = () => {
     try {
@@ -81,7 +81,6 @@ const PlaceField = ({
 
   useEffect(() => {
     console.log(fileData);
-    const mainWorkspace = document.getElementById("main-workspace");
     if (typeof fileData?.linkToPdf === "string" || temp) {
       // TODO
       // load images

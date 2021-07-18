@@ -10,7 +10,7 @@ import ReviewSend from "../ReviewSend";
 import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
 import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
 import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
-import { usePreventPageLeave } from "../../../helpers/hooks";
+// import { usePreventPageLeave } from "../../../helpers/hooks";
 
 const Request = () => {
   const [activeItem, setActiveItem] = useState(0);

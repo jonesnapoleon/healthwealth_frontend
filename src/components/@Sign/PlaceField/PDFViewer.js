@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import React from "react";
 import { useDrop } from "react-dnd";
-import { getImageSize } from "../../../helpers/transformer";
+// import { getImageSize } from "../../../helpers/transformer";
 
 import FieldBox from "./FieldBox";
 
@@ -20,8 +20,8 @@ const Page = ({
   fields,
   playableFields,
 }) => {
-  const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
-  const [coords, setCoords] = useState(null);
+  // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
+  // const [coords, setCoords] = useState(null);
 
   // const pagePosition = useMemo(() => {}, [pageNum]);
 
