@@ -186,11 +186,8 @@ const PlaceField = ({
       if (valid) {
         data.droppedPosition.x = data.pagePosition.x + (data.x + 0.01) * data.pagePosition.width;
         data.droppedPosition.y = data.pagePosition.y + (data.y + 0.01) * data.pagePosition.height;
-        setFields(fields => {
-          let newFields = [...fields, data];
-          pushToStack(stateStack, newFields);
-          return newFields;
-        });
+        setFields(fields => [...fields, data]);
+        pushToStack([...fields, data]);
         console.log("pasted!", data);
       }
     } catch (e) { throw e }
@@ -233,11 +230,12 @@ const PlaceField = ({
     }
   }
 
-  const pushToStack = (stateStack, fields) => {
+  const pushToStack = (fields) => {
     // crop stack until stackIdx, push fields to stack
-    if (stateStack.length + 1 < MAX_STACK_SIZE) stateStack = [...stateStack, fields]
-    setStateStack(stateStack);
-    setStackIdx(stateStack.length - 1);
+    let newStack = stateStack;
+    if (stateStack.length + 1 < MAX_STACK_SIZE) newStack = [...stateStack, fields];
+    setStateStack(newStack);
+    setStackIdx(newStack.length - 1);
   }
 
   return (
@@ -260,8 +258,8 @@ const PlaceField = ({
           <PDFViewer
             fields={fields}
             setFields={setFields}
-            setCurrentSigner={setCurrentSigner}
-            setStateStack={setStateStack}
+            currentSigner={currentSigner}
+            stateStack={stateStack}
             setCurrentField={setCurrentField}
             pushToStack={pushToStack}
           />

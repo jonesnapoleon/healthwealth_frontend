@@ -9,7 +9,7 @@ const image =
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({ data, pageNum, setFields, setCurrentSigner, pushToStack, setStateStack }) => {
+const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, stateStack, fields }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
@@ -21,26 +21,13 @@ const Page = ({ data, pageNum, setFields, setCurrentSigner, pushToStack, setStat
 
   const [, drop] = useDrop(() => ({
     accept: "field",
-    drop: (item, monitor) => {
-      setCurrentSigner(signer => {
-        addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum, signer);
-        return signer;
-      })
-      // TODO fix: di dalem sini gabisa dapet useState yang realtime, gatau cara solvenya
-      setStateStack(stateStack => {
-        setFields(fields => {
-          pushToStack(stateStack, fields);
-          return fields;
-        })
-        return stateStack;
-      })
-    },
+    drop: (item, monitor) => addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum),
     // collect: (monitor) => ({
     //   position: monitor.getClientOffset(),
     // }),
-  }));
+  }), [currentSigner, fields, stateStack]);
 
-  const addFieldToWorkspace = (type, fieldPosition, pageNum, signer) => {
+  const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
 
@@ -49,12 +36,14 @@ const Page = ({ data, pageNum, setFields, setCurrentSigner, pushToStack, setStat
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {
-      type, x, y, w, h, pageNum, signer,
+      type, x, y, w, h, pageNum,
+      signer: currentSigner,
       droppedPosition: fieldPosition,
       pagePosition,
     };
 
     setFields(fields => [...fields, newField]);
+    pushToStack([...fields, newField]);
     console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
   };
 
@@ -84,7 +73,7 @@ const FieldHandle = ({ color, stroke }) => {
   )
 }
 
-const PDFViewer = ({ fields, setFields, setCurrentSigner, setCurrentField, pushToStack, setStateStack }) => {
+const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToStack, stateStack }) => {
   const num = [0, 0, 0].map((_) => image);
 
   // 0, 0, 0, 0, 0, 0, 0
@@ -94,11 +83,12 @@ const PDFViewer = ({ fields, setFields, setCurrentSigner, setCurrentField, pushT
         <Page
           data={data}
           pageNum={i + 1}
+          fields={fields}
           setFields={setFields}
-          setCurrentSigner={setCurrentSigner}
+          currentSigner={currentSigner}
           key={i}
           pushToStack={pushToStack}
-          setStateStack={setStateStack}
+          stateStack={stateStack}
         />
       ))}
       {fields.map((field, i) => {

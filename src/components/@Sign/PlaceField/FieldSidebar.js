@@ -12,13 +12,6 @@ const FieldBox = ({ type }) => {
     // }),
   }));
 
-  // field state:
-  // float x,y,w,h or x1,y1,x2,y2
-  // bool editable
-  // string signer (email)
-  // int pagenum
-  // string type
-
   return (
     <div ref={drag}>
       <p>{type}</p>
