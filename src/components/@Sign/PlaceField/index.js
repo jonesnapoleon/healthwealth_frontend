@@ -128,14 +128,14 @@ const PlaceField = ({
       try {
         copyField();
         e.preventDefault();
-      } catch (e) {}
+      } catch (e) { }
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
         // TODO try catch not working
         pasteField();
         e.preventDefault();
-      } catch (e) {}
+      } catch (e) { }
     }
   };
 
@@ -151,8 +151,8 @@ const PlaceField = ({
       if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
       newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
 
+      setStackIdx(stackIdx + 1);
       setStateStack(newStack);
-      setStackIdx((i) => i + 1);
     },
     [stateStack, setStateStack, setStackIdx, stackIdx]
   );
@@ -209,7 +209,7 @@ const PlaceField = ({
   const undoField = useCallback(() => {
     console.log("undo", stateStack, stackIdx);
     if (stateStack.length > 1 && stackIdx > 0) {
-      setFields(stateStack[stackIdx - 1]);
+      setFields(JSON.parse(JSON.stringify(stateStack[stackIdx - 1])));
       setStackIdx((i) => i - 1);
     }
   }, [stateStack, stackIdx, setFields, setStackIdx]);
@@ -217,7 +217,7 @@ const PlaceField = ({
   const redoField = useCallback(() => {
     console.log("redo", stackIdx, stateStack.length);
     if (stackIdx + 1 < stateStack.length) {
-      setFields(stateStack[stackIdx + 1]);
+      setFields(JSON.parse(JSON.stringify(stateStack[stackIdx + 1])));
       setStackIdx((i) => i + 1);
     }
   }, [stateStack, stackIdx, setFields, setStackIdx]);
@@ -230,13 +230,13 @@ const PlaceField = ({
         try {
           undoField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
       if (e.key === "y" && e.ctrlKey) {
         try {
           redoField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
     },
     [undoField, redoField]
@@ -248,26 +248,26 @@ const PlaceField = ({
         try {
           undoField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
       if (e.key === "y" && e.ctrlKey) {
         try {
           redoField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
       if (e.key === "c" && e.ctrlKey) {
         try {
           copyField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
       if (e.key === "v" && e.ctrlKey) {
         try {
           // TODO try catch not working
           pasteField();
           e.preventDefault();
-        } catch (e) {}
+        } catch (e) { }
       }
     };
     window.addEventListener("keydown", manipulation);

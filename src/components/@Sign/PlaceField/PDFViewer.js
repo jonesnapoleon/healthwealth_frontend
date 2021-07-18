@@ -53,12 +53,6 @@ const Page = ({
 
     console.log(fieldPosition, pageNum, pagePosition);
 
-    // let windowWidth = document.documentElement.clientWidth,
-    //   windowHeight = document.documentElement.clientHeight;
-
-    // let xWindowRatio = fieldPosition?.x / windowWidth,
-    //   yWindowRatio = fieldPosition?.y / windowHeight;
-
     let x =
       (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
       pagePosition.width;
@@ -66,8 +60,6 @@ const Page = ({
       (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
       pagePosition.height;
 
-    // let x = fieldPosition?.x;
-    // let y = fieldPosition?.y;
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {

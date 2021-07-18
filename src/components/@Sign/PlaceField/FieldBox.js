@@ -49,17 +49,6 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
   const deleteHandle = <DeleteFieldHandle />;
   const EPSILON = 0.002;
   const sampleRef = useRef(null);
-  console.log(
-    field,
-    {
-      x: field.x * field.pagePosition.width,
-      y: field.y * field.pagePosition.height,
-    },
-    {
-      width: field.w * field.pagePosition.width,
-      height: field.h * field.pagePosition.height,
-    }
-  );
   sampleRef?.current?.updatePosition({
     x: field.x * field.pagePosition.width,
     y: field.y * field.pagePosition.height,
@@ -94,18 +83,18 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
       onResizeStop={(e, handlePos, component, delta, position) => {
         if (delta.width === 0 && delta.height === 0) {
           if (handlePos === "topRight") {
-            console.log("deleted!");
             field.deleted = true;
-            setFields(fields);
+            console.log("deleted!", field);
+            // setFields(fields);
             pushToStack(fields);
           }
         } else {
-          console.log("resized!", field);
           field.x = position.x / field.pagePosition.width;
           field.y = position.y / field.pagePosition.height;
           field.w += delta.width / field.pagePosition.width;
           field.h += delta.height / field.pagePosition.height;
-          setFields(fields);
+          console.log("resized!", field);
+          // setFields(fields);
           pushToStack(fields);
         }
       }}
@@ -116,10 +105,10 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           Math.abs(newX - field.x) > EPSILON &&
           Math.abs(newY - field.y) > EPSILON
         ) {
-          console.log("moved!", field);
           field.x = newX;
           field.y = newY;
-          setFields(fields);
+          console.log("moved!", JSON.parse(JSON.stringify(field)));
+          // setFields(fields);
           pushToStack(fields);
         }
       }}
