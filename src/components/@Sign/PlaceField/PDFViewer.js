@@ -59,8 +59,12 @@ const Page = ({
     // let xWindowRatio = fieldPosition?.x / windowWidth,
     //   yWindowRatio = fieldPosition?.y / windowHeight;
 
-    let x = (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) / pagePosition.width;
-    let y = (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) / pagePosition.height;
+    let x =
+      (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
+      pagePosition.width;
+    let y =
+      (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
+      pagePosition.height;
 
     // let x = fieldPosition?.x;
     // let y = fieldPosition?.y;
@@ -155,7 +159,7 @@ const PDFViewer = ({
                 fields={fields}
                 setFields={setFields}
               />
-            )
+            );
           });
         return (
           <Page

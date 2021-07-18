@@ -128,23 +128,36 @@ const PlaceField = ({
       try {
         copyField();
         e.preventDefault();
-      } catch (e) { }
+      } catch (e) {}
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
         // TODO try catch not working
         pasteField();
         e.preventDefault();
-      } catch (e) { }
+      } catch (e) {}
     }
   };
 
-  const copyField = () => {
+  const copyField = useCallback(() => {
     setClipboard(JSON.stringify(currentField));
     console.log("copied!", currentField);
-  };
+  }, [currentField, setClipboard]);
 
-  const pasteField = () => {
+  const pushToStack = useCallback(
+    (fields) => {
+      // crop stack until stackIdx, push fields to stack
+      let newStack = stateStack.slice(0, stackIdx + 1);
+      if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
+      newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
+
+      setStateStack(newStack);
+      setStackIdx((i) => i + 1);
+    },
+    [stateStack, setStateStack, setStackIdx, stackIdx]
+  );
+
+  const pasteField = useCallback(() => {
     const schema = {
       type: "object",
       properties: {
@@ -172,9 +185,9 @@ const PlaceField = ({
           },
         },
         deleted: { type: "boolean" },
-        uid: { type: "string" }
-      }
-    }
+        uid: { type: "string" },
+      },
+    };
 
     try {
       const ajv = new Ajv();
@@ -191,56 +204,75 @@ const PlaceField = ({
     } catch (e) {
       throw e;
     }
-  };
+  }, [clipboard, fields, pushToStack]);
 
-  const undoRedoHandler = useCallback((e) => {
-    // TODO pindahin keluar, skrg cuma bisa kalo lagi click textarea
-    console.log(e);
-    if (e.key === "z" && e.ctrlKey) {
-      try {
-        undoField();
-        e.preventDefault();
-      } catch (e) { }
-    }
-    if (e.key === "y" && e.ctrlKey) {
-      try {
-        redoField();
-        e.preventDefault();
-      } catch (e) { }
-    }
-  }, []);
-
-  const undoField = () => {
+  const undoField = useCallback(() => {
     console.log("undo", stateStack, stackIdx);
     if (stateStack.length > 1 && stackIdx > 0) {
       setFields(stateStack[stackIdx - 1]);
-      setStackIdx(i => i - 1);
+      setStackIdx((i) => i - 1);
     }
-  }
+  }, [stateStack, stackIdx, setFields, setStackIdx]);
 
-  const redoField = () => {
-    console.log("redo", stackIdx, stateStack.length)
+  const redoField = useCallback(() => {
+    console.log("redo", stackIdx, stateStack.length);
     if (stackIdx + 1 < stateStack.length) {
       setFields(stateStack[stackIdx + 1]);
-      setStackIdx(i => i + 1);
+      setStackIdx((i) => i + 1);
     }
-  }
+  }, [stateStack, stackIdx, setFields, setStackIdx]);
 
-  const pushToStack = (fields) => {
-    // crop stack until stackIdx, push fields to stack
-    let newStack = stateStack.slice(0, stackIdx + 1);
-    if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
-    newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
-
-    setStateStack(newStack);
-    setStackIdx(i => i + 1);
-  };
+  const undoRedoHandler = useCallback(
+    (e) => {
+      // TODO pindahin keluar, skrg cuma bisa kalo lagi click textarea
+      console.log(e);
+      if (e.key === "z" && e.ctrlKey) {
+        try {
+          undoField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+      if (e.key === "y" && e.ctrlKey) {
+        try {
+          redoField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+    },
+    [undoField, redoField]
+  );
 
   useEffect(() => {
-    const doc = document.body;
-    doc.addEventListener("keydown", undoRedoHandler);
-    doc.removeEventListener("keydown", undoRedoHandler);
-  }, [undoRedoHandler]);
+    const manipulation = (e) => {
+      if (e.key === "z" && e.ctrlKey) {
+        try {
+          undoField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+      if (e.key === "y" && e.ctrlKey) {
+        try {
+          redoField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+      if (e.key === "c" && e.ctrlKey) {
+        try {
+          copyField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+      if (e.key === "v" && e.ctrlKey) {
+        try {
+          // TODO try catch not working
+          pasteField();
+          e.preventDefault();
+        } catch (e) {}
+      }
+    };
+    window.addEventListener("keydown", manipulation);
+    return () => window.removeEventListener("keydown", manipulation);
+  }, [undoField, redoField, copyField, pasteField]);
 
   // copy handler
   useEffect(() => {

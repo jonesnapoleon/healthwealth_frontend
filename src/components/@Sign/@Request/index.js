@@ -16,7 +16,7 @@ const Request = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [availableLevel, setAvailableItem] = useState(0);
   const { t } = useTranslation();
-  usePreventPageLeave();
+  // usePreventPageLeave();
 
   const stepperData = useMemo(
     () => [

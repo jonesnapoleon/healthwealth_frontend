@@ -18,7 +18,7 @@ const Me = () => {
   // const history = useHistory();
   const { t } = useTranslation();
 
-  usePreventPageLeave();
+  // usePreventPageLeave();
 
   const stepperData = useMemo(
     () => [

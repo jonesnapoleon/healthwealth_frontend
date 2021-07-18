@@ -16,7 +16,7 @@ const Me = () => {
   const [availableLevel, setAvailableLevel] = useState(activeItem);
 
   const { t } = useTranslation();
-  usePreventPageLeave();
+  // usePreventPageLeave();
 
   const stepperData = [
     {
