@@ -260,7 +260,7 @@ const PlaceField = ({
           <PDFViewer
             fields={fields}
             setFields={setFields}
-            currentSigner={currentSigner}
+            setCurrentSigner={setCurrentSigner}
             setStateStack={setStateStack}
             setCurrentField={setCurrentField}
             pushToStack={pushToStack}

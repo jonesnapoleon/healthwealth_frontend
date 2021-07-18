@@ -9,7 +9,7 @@ const image =
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, setStateStack }) => {
+const Page = ({ data, pageNum, setFields, setCurrentSigner, pushToStack, setStateStack }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
@@ -22,7 +22,10 @@ const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, setStateSt
   const [, drop] = useDrop(() => ({
     accept: "field",
     drop: (item, monitor) => {
-      addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum);
+      setCurrentSigner(signer => {
+        addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum, signer);
+        return signer;
+      })
       // TODO fix: di dalem sini gabisa dapet useState yang realtime, gatau cara solvenya
       setStateStack(stateStack => {
         setFields(fields => {
@@ -37,7 +40,7 @@ const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, setStateSt
     // }),
   }));
 
-  const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
+  const addFieldToWorkspace = (type, fieldPosition, pageNum, signer) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
 
@@ -46,8 +49,7 @@ const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, setStateSt
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {
-      type, x, y, w, h, pageNum,
-      signer: currentSigner,
+      type, x, y, w, h, pageNum, signer,
       droppedPosition: fieldPosition,
       pagePosition,
     };
@@ -82,7 +84,7 @@ const FieldHandle = ({ color, stroke }) => {
   )
 }
 
-const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToStack, setStateStack }) => {
+const PDFViewer = ({ fields, setFields, setCurrentSigner, setCurrentField, pushToStack, setStateStack }) => {
   const num = [0, 0, 0].map((_) => image);
 
   // 0, 0, 0, 0, 0, 0, 0
@@ -93,7 +95,7 @@ const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToSt
           data={data}
           pageNum={i + 1}
           setFields={setFields}
-          currentSigner={currentSigner}
+          setCurrentSigner={setCurrentSigner}
           key={i}
           pushToStack={pushToStack}
           setStateStack={setStateStack}
