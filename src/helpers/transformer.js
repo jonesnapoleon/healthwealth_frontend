@@ -37,5 +37,9 @@ export const getImageSize = (url, callback) => {
 };
 
 export const addColorToArr = (array) => {
-  return array?.map((datum, i) => ({ ...datum, color: FIXED_COLORS[i] }));
+  return array?.map((datum, i) => ({
+    ...datum,
+    color: FIXED_COLORS[i].color,
+    backgroundColor: FIXED_COLORS[i].backgroundColor,
+  }));
 };

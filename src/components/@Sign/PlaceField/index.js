@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
 
@@ -12,9 +12,9 @@ import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
 import SuperFloatingButton from "../commons/SuperFloatingButton";
 
-import useClippy from 'use-clippy';
-import Ajv from "ajv"
-
+import useClippy from "use-clippy";
+import Ajv from "ajv";
+import { addColorToArr } from "../../../helpers/transformer";
 
 const temp =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
@@ -43,18 +43,16 @@ const PlaceField = ({
   // let initialSigner =
   //   signersValues.length > 0 ? signersValues[0] : { value: "", label: "" };
 
-  let listSigners = [
+  let listSigners = addColorToArr([
     {
       value: "jonathanyudigun@gmail.com",
       label: "Jojo",
-      color: "red",
     },
     {
       value: "jones@gmail.com",
       label: "Jones",
-      color: "yellow",
     },
-  ];
+  ]);
 
   const [currentSigner, setCurrentSigner] = useState(listSigners[0]);
   const [fields, setFields] = useState([]);
@@ -124,26 +122,27 @@ const PlaceField = ({
   }, [currentSigner]);
 
   const [clipboard, setClipboard] = useClippy();
+
   const copyPasteHandler = (e) => {
     if (e.key === "c" && e.ctrlKey) {
       try {
-        copyField()
+        copyField();
         e.preventDefault();
       } catch (e) { }
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
         // TODO try catch not working
-        pasteField()
+        pasteField();
         e.preventDefault();
       } catch (e) { }
     }
-  }
+  };
 
   const copyField = () => {
     setClipboard(JSON.stringify(currentField));
     console.log("copied!", currentField);
-  }
+  };
 
   const pasteField = () => {
     const schema = {
@@ -170,7 +169,7 @@ const PlaceField = ({
             y: { type: "number" },
             width: { type: "number" },
             height: { type: "number" },
-          }
+          },
         },
         deleted: { type: "boolean" },
         uid: { type: "string" }
@@ -178,68 +177,95 @@ const PlaceField = ({
     }
 
     try {
-      const ajv = new Ajv()
-      const data = JSON.parse(clipboard)
-      const validate = ajv.compile(schema)
-      const valid = validate(data)
+      const ajv = new Ajv();
+      const data = JSON.parse(clipboard);
+      const validate = ajv.compile(schema);
+      const valid = validate(data);
       if (valid) {
         data.x += 0.01;
         data.y += 0.01;
-        setFields(fields => [...fields, data]);
+        setFields((fields) => [...fields, data]);
         pushToStack([...fields, data]);
         console.log("pasted!", data);
       }
-    } catch (e) { throw e }
-  }
+    } catch (e) {
+      throw e;
+    }
+  };
 
-  const undoRedoHandler = (e) => {
+  const undoRedoHandler = useCallback((e) => {
     // TODO pindahin keluar, skrg cuma bisa kalo lagi click textarea
+    console.log(e);
     if (e.key === "z" && e.ctrlKey) {
       try {
-        undoField()
+        undoField();
         e.preventDefault();
       } catch (e) { }
     }
     if (e.key === "y" && e.ctrlKey) {
       try {
-        redoField()
+        redoField();
         e.preventDefault();
       } catch (e) { }
     }
-  }
+  }, []);
 
   const undoField = () => {
-    console.log("undo");
-    setStackIdx(i => {
-      if (stateStack.length > 1 && i > 0) {
-        setFields(stateStack[i - 1]);
-        return i - 1;
-      }
-    });
+    console.log("undo", stateStack, stackIdx);
+    if (stateStack.length > 1 && stackIdx > 0) {
+      setFields(stateStack[stackIdx - 1]);
+      setStackIdx(i => i - 1);
+    }
   }
 
   const redoField = () => {
-    setStackIdx(i => {
-      console.log("redo", i, stateStack.length)
-      if (i + 1 < stateStack.length) {
-        setFields(stateStack[i + 1]);
-        return i + 1;
-      }
-      return i;
-    });
+    console.log("redo", stackIdx, stateStack.length)
+    if (stackIdx + 1 < stateStack.length) {
+      setFields(stateStack[stackIdx + 1]);
+      setStackIdx(i => i + 1);
+    }
   }
 
   const pushToStack = (fields) => {
     // crop stack until stackIdx, push fields to stack
     let newStack = stateStack.slice(0, stackIdx + 1);
-    if (stateStack.length + 1 < MAX_STACK_SIZE) newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
+    if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
+    newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
+
     setStateStack(newStack);
-    setStackIdx(newStack.length - 1);
-  }
+    setStackIdx(i => i + 1);
+  };
+
+  useEffect(() => {
+    const doc = document.body;
+    doc.addEventListener("keydown", undoRedoHandler);
+    doc.removeEventListener("keydown", undoRedoHandler);
+  }, [undoRedoHandler]);
+
+  // copy handler
+  useEffect(() => {
+    const doc = document.body;
+    doc.addEventListener("keydown", copyField);
+    doc.removeEventListener("keydown", copyField);
+  }, [copyField]);
+
+  // paste handler
+  useEffect(() => {
+    const doc = document.body;
+    // console.log(doc);
+    doc.addEventListener("keydown", pasteField);
+    doc.removeEventListener("keydown", pasteField);
+  }, [pasteField]);
 
   return (
     <>
-      <div className={"place-field-area"} onKeyDown={(e) => { copyPasteHandler(e); undoRedoHandler(e) }}>
+      <div
+        className={"place-field-area"}
+        onKeyDown={(e) => {
+          copyPasteHandler(e);
+          undoRedoHandler(e);
+        }}
+      >
         <Toolbar
           copyField={copyField}
           pasteField={pasteField}

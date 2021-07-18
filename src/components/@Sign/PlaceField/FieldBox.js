@@ -34,9 +34,16 @@ const FieldBox = ({
   const deleteHandle = <DeleteFieldHandle />;
   const EPSILON = 0.0001;
   const sampleRef = useRef(null);
+  console.log(field, {
+    x: field.x * field.pagePosition.width,
+    y: field.y * field.pagePosition.height,
+  }, {
+    width: field.w * field.pagePosition.width,
+    height: field.h * field.pagePosition.height,
+  })
   sampleRef?.current?.updatePosition({
-    x: field.x * field.pagePosition.width + field.pagePosition.x,
-    y: field.y * field.pagePosition.height + field.pagePosition.y,
+    x: field.x * field.pagePosition.width,
+    y: field.y * field.pagePosition.height,
   });
   sampleRef?.current?.updateSize({
     width: field.w * field.pagePosition.width,
@@ -52,6 +59,12 @@ const FieldBox = ({
         topRight: deleteHandle,
         bottomLeft: handle,
         bottomRight: handle,
+      }}
+      default={{
+        x: field.x * field.pagePosition.width,
+        y: field.y * field.pagePosition.height,
+        width: field.w * field.pagePosition.width,
+        height: field.h * field.pagePosition.height,
       }}
       enableResizing={{
         topLeft: true,
@@ -69,8 +82,8 @@ const FieldBox = ({
           }
         } else {
           console.log("resized!", field);
-          field.x = (position.x - field.pagePosition.x) / field.pagePosition.width;
-          field.y = (position.y - field.pagePosition.y) / field.pagePosition.height;
+          field.x = position.x / field.pagePosition.width;
+          field.y = position.y / field.pagePosition.height;
           field.w += delta.width / field.pagePosition.width;
           field.h += delta.height / field.pagePosition.height;
           setFields(fields);
@@ -78,8 +91,8 @@ const FieldBox = ({
         }
       }}
       onDragStop={(e, component) => {
-        let newX = (component.x - field.pagePosition.x) / field.pagePosition.width;
-        let newY = (component.y - field.pagePosition.y) / field.pagePosition.height;
+        let newX = component.x / field.pagePosition.width;
+        let newY = component.y / field.pagePosition.height;
         if (Math.abs(newX - field.x) > EPSILON && Math.abs(newY - field.y) > EPSILON) {
           console.log("moved!", field);
           field.x = newX;
@@ -88,12 +101,24 @@ const FieldBox = ({
           pushToStack(fields);
         }
       }}
+      style={{ border: 0, zIndex: 888 }}
       className="draggable-item"
     >
-      <textarea
-        className="draggable-textarea"
-        placeholder={field.type}
-      />
+      <span
+        className="rnd-content"
+        style={{
+          backgroundColor: field.signer.backgroundColor,
+          color: "white",
+        }}
+      >
+        <span className="text-uppercase">
+          {field.type} - {field.pageNum}
+        </span>
+      </span>
+      {/* <textarea
+          className="draggable-textarea"
+          placeholder={field.type}
+        /> */}
     </Rnd>
   );
 }

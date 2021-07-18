@@ -13,7 +13,7 @@ const AuditTrail = ({ activeDoc }) => {
           </button>
         </div>
       </div>
-      <div className="">{/* TODO JOJO */}</div>
+      <div className=""></div>
     </div>
   );
 };

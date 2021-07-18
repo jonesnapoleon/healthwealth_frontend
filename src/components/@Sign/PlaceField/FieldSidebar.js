@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
 
-const FieldBox = ({ type }) => {
+const StaticFieldBox = ({ type }) => {
   const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
@@ -13,8 +13,14 @@ const FieldBox = ({ type }) => {
   }));
 
   return (
-    <div ref={drag}>
-      <p>{type}</p>
+    <div ref={drag} className="field-box">
+      <div className="must-child">
+        <div>MM</div>
+        <div>{type}</div>
+      </div>
+      <div className="optional-child">
+        <div>MM</div>
+      </div>
     </div>
   );
 };
@@ -42,7 +48,9 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
     <div className="left-sidebar position-fixed">
       <div className="container">
         <div className="row pt-2">
-          <div className="lead">{t("sign.placeFields.left.signers")}</div>
+          <div>
+            <strong>{t("sign.placeFields.left.signers")}</strong>
+          </div>
           <ColorizedSelect
             options={listSigners}
             value={currentSigner}
@@ -60,7 +68,7 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
 
           <div className="lead">{t("sign.placeFields.left.signature")}</div>
           {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
-            <FieldBox type={type} key={i} />
+            <StaticFieldBox type={type} key={i} />
           ))}
 
           <div className="lead">{t("sign.placeFields.left.autofill")}</div>
@@ -71,12 +79,12 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
             fieldType.COMPANY,
             fieldType.TITLE,
           ]?.map((type, i) => (
-            <FieldBox type={type} key={i} />
+            <StaticFieldBox type={type} key={i} />
           ))}
 
           <div className="lead">{t("sign.placeFields.left.standard")}</div>
           {[fieldType.TEXT, fieldType.CHECKBOX]?.map((type, i) => (
-            <FieldBox type={type} key={i} />
+            <StaticFieldBox type={type} key={i} />
           ))}
 
           {[
@@ -86,7 +94,7 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
             fieldType.COMPANY,
             fieldType.TITLE,
           ]?.map((type, i) => (
-            <FieldBox type={type} key={i} />
+            <StaticFieldBox type={type} key={i} />
           ))}
         </div>
       </div>
