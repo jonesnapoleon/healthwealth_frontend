@@ -121,7 +121,7 @@ const PDFViewer = ({
     <div id="main-workspace">
       {num?.map((data, i) => {
         const playableFields = fields
-          .filter((field) => field.pageNum === i + 1)
+          ?.filter((field) => field.pageNum === i + 1)
           .map((field, j) => {
             return field.deleted ? null : (
               <FieldBox

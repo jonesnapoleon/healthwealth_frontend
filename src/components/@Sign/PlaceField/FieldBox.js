@@ -3,15 +3,33 @@ import { Rnd } from "react-rnd";
 
 const FieldHandle = ({ color, stroke }) => {
   return (
-    <svg height="10pt" width="10pt" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="5" cy="5" r="5" stroke={stroke} strokeWidth="0.1" fill={color} />
+    <svg
+      height="10pt"
+      width="10pt"
+      viewBox="0 0 10 10"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="5"
+        cy="5"
+        r="5"
+        stroke={stroke}
+        strokeWidth="0.1"
+        fill={color}
+      />
     </svg>
-  )
-}
+  );
+};
 
 const DeleteFieldHandle = () => {
   return (
-    <svg height="10pt" width="10pt" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      height="10pt"
+      width="10pt"
+      viewBox="0 0 512 512"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ cursor: "pointer" }}
+    >
       <path
         d="m256 0c-141.164062 0-256 114.835938-256 256s114.835938 256 256 256 256-114.835938 256-256-114.835938-256-256-256zm0 0"
         fill="red"
@@ -21,27 +39,27 @@ const DeleteFieldHandle = () => {
         fill="white"
       />
     </svg>
-  )
-}
+  );
+};
 
-const FieldBox = ({
-  field,
-  pushToStack,
-  fields,
-  setFields,
-  onClick,
-}) => {
-  const handle = <FieldHandle color={field.signer.color} stroke={field.signer.color} />;
+const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
+  const handle = (
+    <FieldHandle color={field.signer.color} stroke={field.signer.color} />
+  );
   const deleteHandle = <DeleteFieldHandle />;
   const EPSILON = 0.002;
   const sampleRef = useRef(null);
-  console.log(field, {
-    x: field.x * field.pagePosition.width,
-    y: field.y * field.pagePosition.height,
-  }, {
-    width: field.w * field.pagePosition.width,
-    height: field.h * field.pagePosition.height,
-  })
+  console.log(
+    field,
+    {
+      x: field.x * field.pagePosition.width,
+      y: field.y * field.pagePosition.height,
+    },
+    {
+      width: field.w * field.pagePosition.width,
+      height: field.h * field.pagePosition.height,
+    }
+  );
   sampleRef?.current?.updatePosition({
     x: field.x * field.pagePosition.width,
     y: field.y * field.pagePosition.height,
@@ -49,7 +67,7 @@ const FieldBox = ({
   sampleRef?.current?.updateSize({
     width: field.w * field.pagePosition.width,
     height: field.h * field.pagePosition.height,
-  })
+  });
 
   return (
     <Rnd
@@ -94,7 +112,10 @@ const FieldBox = ({
       onDragStop={(e, component) => {
         let newX = component.x / field.pagePosition.width;
         let newY = component.y / field.pagePosition.height;
-        if (Math.abs(newX - field.x) > EPSILON && Math.abs(newY - field.y) > EPSILON) {
+        if (
+          Math.abs(newX - field.x) > EPSILON &&
+          Math.abs(newY - field.y) > EPSILON
+        ) {
           console.log("moved!", field);
           field.x = newX;
           field.y = newY;
@@ -119,6 +140,6 @@ const FieldBox = ({
       </span>
     </Rnd>
   );
-}
+};
 
 export default FieldBox;
