@@ -115,32 +115,6 @@ const PDFViewer = ({
 
   return (
     <div id="main-workspace">
-      {/* {num?.map((data, i) => (
-        <Page
-          data={data}
-          pageNum={i + 1}
-          fields={fields}
-          setFields={setFields}
-          currentSigner={currentSigner}
-          key={i}
-          pushToStack={pushToStack}
-          stateStack={stateStack}
-        />
-      ))}
-      {fields.map((field, i) => {
-        return field.deleted ? null : (
-          <FieldBox
-            field={field}
-            onClick={() => setCurrentField(field)}
-            key={i}
-            id={`field-${i + 1}`}
-            pushToStack={pushToStack}
-            fields={fields}
-            setFields={setFields}
-          />
-        )
-      }
-      )} */}
       {num?.map((data, i) => {
         const playableFields = fields
           .filter((field) => field.pageNum === i + 1)

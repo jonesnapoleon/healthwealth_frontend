@@ -29,10 +29,11 @@ const FieldBox = ({
   pushToStack,
   fields,
   setFields,
+  onClick,
 }) => {
   const handle = <FieldHandle color={field.signer.color} stroke={field.signer.color} />;
   const deleteHandle = <DeleteFieldHandle />;
-  const EPSILON = 0.0001;
+  const EPSILON = 0.002;
   const sampleRef = useRef(null);
   console.log(field, {
     x: field.x * field.pagePosition.width,
@@ -106,6 +107,7 @@ const FieldBox = ({
     >
       <span
         className="rnd-content"
+        onClick={onClick}
         style={{
           backgroundColor: field.signer.backgroundColor,
           color: "white",
@@ -115,10 +117,6 @@ const FieldBox = ({
           {field.type} - {field.pageNum}
         </span>
       </span>
-      {/* <textarea
-          className="draggable-textarea"
-          placeholder={field.type}
-        /> */}
     </Rnd>
   );
 }
