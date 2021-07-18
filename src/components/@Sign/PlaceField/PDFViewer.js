@@ -153,7 +153,7 @@ const PDFViewer = ({
                   bottomLeft: handle,
                   bottomRight: handle,
                 }}
-                style={{ border: 0, zIndex: 99999 }}
+                style={{ border: 0, zIndex: 888 }}
                 className="draggable-item"
                 onClick={() => setCurrentField(field)}
                 id={`field-${j + 1}`}

@@ -13,8 +13,14 @@ const FieldBox = ({ type }) => {
   }));
 
   return (
-    <div ref={drag}>
-      <p>{type}</p>
+    <div ref={drag} className="field-box">
+      <div className="must-child">
+        <div>MM</div>
+        <div>{type}</div>
+      </div>
+      <div className="optional-child">
+        <div>MM</div>
+      </div>
     </div>
   );
 };
@@ -42,7 +48,9 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
     <div className="left-sidebar position-fixed">
       <div className="container">
         <div className="row pt-2">
-          <div className="lead">{t("sign.placeFields.left.signers")}</div>
+          <div>
+            <strong>{t("sign.placeFields.left.signers")}</strong>
+          </div>
           <ColorizedSelect
             options={listSigners}
             value={currentSigner}

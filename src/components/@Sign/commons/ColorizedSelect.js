@@ -29,6 +29,7 @@ const colourStyles = {
   input: (styles) => ({ ...styles, ...dot() }),
   placeholder: (styles) => ({ ...styles, ...dot() }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+  container: (styles) => ({ ...styles, width: "100%" }),
 };
 
 const ColorizedSelect = (props) => {
