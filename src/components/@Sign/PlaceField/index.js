@@ -30,19 +30,6 @@ const PlaceField = ({
   const fileData = getItemData(atr, "fileData");
   const signers = getItemData(atr, "signers");
 
-  // signers.push({
-  //   email: "jonathanyudigun@gmail.com",
-  //   name: "Jojo",
-  //   flowtype: "SIGN",
-  // });
-  // const signersValues = signers.map((user) => ({
-  //   value: user.email,
-  //   label: user.name,
-  // }));
-
-  // let initialSigner =
-  //   signersValues.length > 0 ? signersValues[0] : { value: "", label: "" };
-
   let listSigners = addColorToArr([
     {
       value: "jonathanyudigun@gmail.com",
@@ -97,7 +84,7 @@ const PlaceField = ({
     const mainWorkspace = document.getElementById("main-workspace");
     if (typeof fileData?.linkToPdf === "string" || temp) {
       // TODO
-      // load pdf using React-pdf
+      // load images
     }
   }, [fileData]);
 
@@ -132,7 +119,6 @@ const PlaceField = ({
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
-        // TODO try catch not working
         pasteField();
         e.preventDefault();
       } catch (e) { }
@@ -224,7 +210,6 @@ const PlaceField = ({
 
   const undoRedoHandler = useCallback(
     (e) => {
-      // TODO pindahin keluar, skrg cuma bisa kalo lagi click textarea
       console.log(e);
       if (e.key === "z" && e.ctrlKey) {
         try {
@@ -264,7 +249,6 @@ const PlaceField = ({
       }
       if (e.key === "v" && e.ctrlKey) {
         try {
-          // TODO try catch not working
           pasteField();
           e.preventDefault();
         } catch (e) { }
@@ -284,7 +268,6 @@ const PlaceField = ({
   // paste handler
   useEffect(() => {
     const doc = document.body;
-    // console.log(doc);
     doc.addEventListener("keydown", pasteField);
     doc.removeEventListener("keydown", pasteField);
   }, [pasteField]);
