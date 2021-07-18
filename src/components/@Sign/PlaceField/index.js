@@ -246,6 +246,8 @@ const PlaceField = ({
         <Toolbar
           copyField={copyField}
           pasteField={pasteField}
+          undoField={undoField}
+          redoField={redoField}
         />
 
         <DndProvider backend={HTML5Backend}>
