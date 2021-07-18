@@ -103,9 +103,17 @@ const PlaceField = ({
     }
   }, [fileData]);
 
+  const [stateStack, setStateStack] = useState([[]]);
+  const [stackIdx, setStackIdx] = useState(0);
+  const MAX_STACK_SIZE = 10;
+
   useEffect(() => {
     console.log("useeffect fields", fields);
   }, [fields]);
+
+  useEffect(() => {
+    console.log("useeffect statestack", stateStack, "idx", stackIdx);
+  }, [stateStack, stackIdx]);
 
   useEffect(() => {
     console.log(currentSigner);
@@ -121,6 +129,7 @@ const PlaceField = ({
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
+        // TODO try catch not working
         pasteField()
         e.preventDefault();
       } catch (e) { }
@@ -142,8 +151,14 @@ const PlaceField = ({
         w: { type: "number" },
         h: { type: "number" },
         pageNum: { type: "integer" },
-        currentSigner: { type: "string" },
-        color: { type: "string" },
+        signer: {
+          type: "object",
+          properties: {
+            value: { type: "string" },
+            color: { type: "string" },
+            label: { type: "string" },
+          },
+        },
         droppedPosition: {
           type: "object",
           properties: {
@@ -163,21 +178,71 @@ const PlaceField = ({
       }
     }
 
-    const ajv = new Ajv()
-    const data = JSON.parse(clipboard)
-    const validate = ajv.compile(schema)
-    const valid = validate(data)
-    if (valid) {
-      data.droppedPosition.x = data.pagePosition.x + (data.x + 0.01) * data.pagePosition.width;
-      data.droppedPosition.y = data.pagePosition.y + (data.y + 0.01) * data.pagePosition.height;
-      setFields(fields => [...fields, data]);
-      console.log("pasted!", data);
+    try {
+      const ajv = new Ajv()
+      const data = JSON.parse(clipboard)
+      const validate = ajv.compile(schema)
+      const valid = validate(data)
+      if (valid) {
+        data.droppedPosition.x = data.pagePosition.x + (data.x + 0.01) * data.pagePosition.width;
+        data.droppedPosition.y = data.pagePosition.y + (data.y + 0.01) * data.pagePosition.height;
+        setFields(fields => {
+          let newFields = [...fields, data];
+          pushToStack(stateStack, newFields);
+          return newFields;
+        });
+        console.log("pasted!", data);
+      }
+    } catch (e) { throw e }
+  }
+
+  const undoRedoHandler = (e) => {
+    // TODO pindahin keluar, skrg cuma bisa kalo lagi click textarea
+    if (e.key === "z" && e.ctrlKey) {
+      try {
+        undoField()
+        e.preventDefault();
+      } catch (e) { }
     }
+    if (e.key === "y" && e.ctrlKey) {
+      try {
+        redoField()
+        e.preventDefault();
+      } catch (e) { }
+    }
+  }
+
+  const undoField = () => {
+    console.log("undo");
+    console.log(stateStack, stackIdx)
+    if (stateStack.length > 1 && stackIdx > 0) {
+      setStackIdx(i => {
+        setFields(stateStack[i - 1]);
+        return i - 1;
+      });
+    }
+  }
+
+  const redoField = () => {
+    console.log("redo")
+    if (stackIdx + 1 < stateStack.length) {
+      setStackIdx(i => {
+        setFields(stateStack[i + 1]);
+        return i + 1;
+      });
+    }
+  }
+
+  const pushToStack = (stateStack, fields) => {
+    // crop stack until stackIdx, push fields to stack
+    if (stateStack.length + 1 < MAX_STACK_SIZE) stateStack = [...stateStack, fields]
+    setStateStack(stateStack);
+    setStackIdx(stateStack.length - 1);
   }
 
   return (
     <>
-      <div className={"place-field-area"} onKeyDown={copyPasteHandler}>
+      <div className={"place-field-area"} onKeyDown={(e) => { copyPasteHandler(e); undoRedoHandler(e) }}>
         <Toolbar
           copyField={copyField}
           pasteField={pasteField}
@@ -194,7 +259,9 @@ const PlaceField = ({
             fields={fields}
             setFields={setFields}
             currentSigner={currentSigner}
+            setStateStack={setStateStack}
             setCurrentField={setCurrentField}
+            pushToStack={pushToStack}
           />
 
           <RightSnippetArea />

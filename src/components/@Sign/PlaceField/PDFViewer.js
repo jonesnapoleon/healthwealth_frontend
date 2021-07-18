@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { getImageSize } from "../../../helpers/transformer";
-import Draggable from "react-draggable";
 import { Rnd } from "react-rnd";
 
 const image =
@@ -10,7 +9,7 @@ const image =
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({ data, pageNum, setFields, currentSigner, fields }) => {
+const Page = ({ data, pageNum, setFields, currentSigner, pushToStack, setStateStack }) => {
   const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   const [coords, setCoords] = useState(null);
 
@@ -22,19 +21,21 @@ const Page = ({ data, pageNum, setFields, currentSigner, fields }) => {
 
   const [, drop] = useDrop(() => ({
     accept: "field",
-    drop: (item, monitor) =>
-      addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum),
+    drop: (item, monitor) => {
+      addFieldToWorkspace(item.type, monitor.getClientOffset(), pageNum);
+      // TODO fix: di dalem sini gabisa dapet useState yang realtime, gatau cara solvenya
+      setStateStack(stateStack => {
+        setFields(fields => {
+          pushToStack(stateStack, fields);
+          return fields;
+        })
+        return stateStack;
+      })
+    },
     // collect: (monitor) => ({
     //   position: monitor.getClientOffset(),
     // }),
   }));
-
-  // field state:
-  // float x,y,w,h or x1,y1,x2,y2
-  // bool editable
-  // string currentSigner (email)
-  // int pagenum
-  // string type
 
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
@@ -45,22 +46,13 @@ const Page = ({ data, pageNum, setFields, currentSigner, fields }) => {
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {
-      type,
-      x,
-      y,
-      w: INIT_FIELD_WIDTH,
-      h: INIT_FIELD_HEIGHT,
-      pageNum,
-      currentSigner: currentSigner.value,
-      color: currentSigner.color,
-      droppedPosition: {
-        x: pagePosition.x + x * pagePosition.width,
-        y: pagePosition.y + y * pagePosition.height,
-      },
+      type, x, y, w, h, pageNum,
+      signer: currentSigner,
+      droppedPosition: fieldPosition,
       pagePosition,
     };
 
-    setFields((fields) => [...fields, newField]);
+    setFields(fields => [...fields, newField]);
     console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
   };
 
@@ -85,12 +77,12 @@ const Page = ({ data, pageNum, setFields, currentSigner, fields }) => {
 const FieldHandle = ({ color, stroke }) => {
   return (
     <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="10" stroke={stroke} stroke-width="2" fill={color} />
+      <circle cx="10" cy="10" r="10" stroke={stroke} strokeWidth="2" fill={color} />
     </svg>
   )
 }
 
-const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField }) => {
+const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField, pushToStack, setStateStack }) => {
   const num = [0, 0, 0].map((_) => image);
 
   // 0, 0, 0, 0, 0, 0, 0
@@ -102,20 +94,21 @@ const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField }) => {
           pageNum={i + 1}
           setFields={setFields}
           currentSigner={currentSigner}
-          fields={fields}
           key={i}
+          pushToStack={pushToStack}
+          setStateStack={setStateStack}
         />
       ))}
       {fields.map((field, i) => {
-        const handle = <FieldHandle color={field.color} stroke={field.color} />;
+        const handle = <FieldHandle color={field.signer.color} stroke={field.signer.color} />;
         return (
           <Rnd
             bounds="parent"
             default={{
               x: field.droppedPosition.x,
               y: field.droppedPosition.y,
-              width: field.w,
-              height: field.h,
+              width: field.w * field.pagePosition.width,
+              height: field.h * field.pagePosition.height,
             }}
             resizeHandleComponent={{
               topLeft: handle,
@@ -126,6 +119,7 @@ const PDFViewer = ({ fields, setFields, currentSigner, setCurrentField }) => {
             className="draggable-item"
             onClick={() => setCurrentField(field)}
             id={`field-${i + 1}`}
+            key={i}
           >
             <textarea
               className="draggable-textarea"
