@@ -45,8 +45,12 @@ const PlaceField = ({
   const [fields, setFields] = useState([]);
   const [currentField, setCurrentField] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [qrCodePosition, setQrCodePosition] = useState(1);
+  const [stateStack, setStateStack] = useState([[]]);
+  const [stackIdx, setStackIdx] = useState(0);
+  const MAX_STACK_SIZE = 30;
 
   // const { t } = useTranslation();
 
@@ -86,10 +90,6 @@ const PlaceField = ({
       // load images
     }
   }, [fileData]);
-
-  const [stateStack, setStateStack] = useState([[]]);
-  const [stackIdx, setStackIdx] = useState(0);
-  const MAX_STACK_SIZE = 30;
 
   useEffect(() => {
     console.log("useeffect fields", fields);
@@ -285,6 +285,7 @@ const PlaceField = ({
           pasteField={pasteField}
           undoField={undoField}
           redoField={redoField}
+          setQrCodePosition={setQrCodePosition}
         />
 
         <DndProvider backend={HTML5Backend}>
@@ -301,6 +302,7 @@ const PlaceField = ({
             stateStack={stateStack}
             setCurrentField={setCurrentField}
             pushToStack={pushToStack}
+            qrCodePosition={qrCodePosition}
           />
 
           <RightSnippetArea />

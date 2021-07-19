@@ -19,6 +19,7 @@ const Page = ({
   stateStack,
   fields,
   playableFields,
+  qrCodePosition,
 }) => {
   // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   // const [coords, setCoords] = useState(null);
@@ -89,11 +90,35 @@ const Page = ({
   //   console.log(height);
   // }, [height]);
 
+  // TODO calculate after render
+  const divPosition = document.getElementById(`one-image-area-${pageNum}`)?.getBoundingClientRect();
+  const qrCodeFromBorder = 0.02;
+  const qrCodeSize = Math.min(0.05 * divPosition.width, 0.05 * divPosition.height);
+  let qrCodeDimension;
+  if (qrCodePosition === 0) {
+    qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+  } else if (qrCodePosition === 1) {
+    qrCodeDimension.x = (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+  } else if (qrCodePosition === 2) {
+    qrCodeDimension.x = (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+  } else if (qrCodePosition === 3) {
+    qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+    qrCodeDimension.y = (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
+  }
+
   return (
     <div className="one-image-area" ref={drop} id={`one-image-area-${pageNum}`}>
       <div style={{ backgroundImage: `url(${data})` }} className="one-image">
         <img src={data} alt="" className="invisible" />
-        {playableFields?.map((field) => field)}
+        {playableFields}
+        {divPosition === undefined ? <img
+          src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
+          alt="qrcode"
+          style={{ position: "absolute", width: qrCodeSize, height: qrCodeSize, left: qrCodeDimension.x, top: qrCodeDimension.y }}
+        /> : null}
       </div>
     </div>
   );
@@ -106,6 +131,7 @@ const PDFViewer = ({
   setCurrentField,
   pushToStack,
   stateStack,
+  qrCodePosition,
 }) => {
   const num = [0, 0, 0].map((_) => image);
 
@@ -138,6 +164,7 @@ const PDFViewer = ({
             pushToStack={pushToStack}
             stateStack={stateStack}
             playableFields={playableFields}
+            qrCodePosition={qrCodePosition}
           />
         );
       })}
