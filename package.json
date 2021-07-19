@@ -34,6 +34,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "react-select": "^4.3.1",
+    "react-signature-canvas": "^1.0.3",
     "react-webcam": "^5.2.4",
     "use-clippy": "^1.0.8"
   },

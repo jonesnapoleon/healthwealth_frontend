@@ -57,6 +57,24 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     width: field.w * field.pagePosition.width,
     height: field.h * field.pagePosition.height,
   });
+  let label = "";
+  switch (field.type) {
+    case "name":
+      label = field.signer.label
+      break
+    case "email":
+      label = field.signer.value
+      break
+    case "textbox":
+      label = "TEXTBOX"
+      break
+    case "checkbox":
+      label = "CHECKBOX"
+      break
+    default:
+      label = `${field.signer.label}'s ${field.type}`
+      break
+  }
 
   return (
     <Rnd
@@ -124,7 +142,8 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
         }}
       >
         <span className="text-uppercase">
-          {field.type} - {field.pageNum}
+          {/* {field.type} - {field.pageNum} */}
+          {label}
         </span>
       </span>
     </Rnd>
