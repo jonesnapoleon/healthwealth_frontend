@@ -91,10 +91,12 @@ const Page = ({
   // }, [height]);
 
   // TODO calculate after render
-  const divPosition = document.getElementById(`one-image-area-${pageNum}`)?.getBoundingClientRect();
+  const divPosition = document.getElementById(`one-image-area-${pageNum}`)?.getBoundingClientRect() ?? {
+    width: 700, height: 300,
+  }
   const qrCodeFromBorder = 0.02;
-  const qrCodeSize = Math.min(0.05 * divPosition.width, 0.05 * divPosition.height);
-  let qrCodeDimension;
+  let qrCodeSize = Math.min(0.05 * divPosition.width, 0.05 * divPosition.height)
+  let qrCodeDimension = { x: 20, y: 20 };
   if (qrCodePosition === 0) {
     qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
     qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
@@ -103,7 +105,7 @@ const Page = ({
     qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
   } else if (qrCodePosition === 2) {
     qrCodeDimension.x = (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
-    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+    qrCodeDimension.y = (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
   } else if (qrCodePosition === 3) {
     qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
     qrCodeDimension.y = (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
@@ -114,11 +116,13 @@ const Page = ({
       <div style={{ backgroundImage: `url(${data})` }} className="one-image">
         <img src={data} alt="" className="invisible" />
         {playableFields}
-        {divPosition === undefined ? <img
+        {/* {divPosition === undefined ? */}
+        <img
           src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
           alt="qrcode"
           style={{ position: "absolute", width: qrCodeSize, height: qrCodeSize, left: qrCodeDimension.x, top: qrCodeDimension.y }}
-        /> : null}
+        />
+        {/* : null} */}
       </div>
     </div>
   );
