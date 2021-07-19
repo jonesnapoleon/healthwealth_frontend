@@ -74,16 +74,17 @@ $tools-height: 10vh;
     }
   }
   .right-sidebar {
-    background-color: var(--secondary-extra-color-4);
+    // background-color: var(--secondary-extra-color-4);
     z-index: 8888;
-    height: 100vh - $pad-top - 10vh;
-    top: $pad-top;
+    height: 100vh - $pad-top - 10vh - $tools-height;
+    top: $pad-top + $tools-height;
     right: 0;
     width: $right-width;
+    padding: 0.5rem;
     .container {
+      background-color: white;
       position: relative;
-      height: 100%;
-      padding: 0.5rem 0;
+      height: calc(100% - 2 * 0.5rem);
       overflow-y: scroll;
       overflow-x: hidden;
     }
@@ -98,8 +99,10 @@ $tools-height: 10vh;
     padding-bottom: $pad-top;
     position: relative;
 
-    .one-image-area:first-child {
-      margin-top: $pad-top;
+    .one-image-area {
+      > :first-child {
+        margin-top: $pad-top;
+      }
     }
 
     .one-image-area {

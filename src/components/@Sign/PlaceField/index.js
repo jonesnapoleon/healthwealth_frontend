@@ -114,13 +114,13 @@ const PlaceField = ({
       try {
         copyField();
         e.preventDefault();
-      } catch (e) { }
+      } catch (e) {}
     }
     if (e.key === "v" && e.ctrlKey) {
       try {
         pasteField();
         e.preventDefault();
-      } catch (e) { }
+      } catch (e) {}
     }
   };
 
@@ -214,13 +214,13 @@ const PlaceField = ({
         try {
           undoField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
       if (e.key === "y" && e.ctrlKey) {
         try {
           redoField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
     },
     [undoField, redoField]
@@ -232,25 +232,25 @@ const PlaceField = ({
         try {
           undoField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
       if (e.key === "y" && e.ctrlKey) {
         try {
           redoField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
       if (e.key === "c" && e.ctrlKey) {
         try {
           copyField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
       if (e.key === "v" && e.ctrlKey) {
         try {
           pasteField();
           e.preventDefault();
-        } catch (e) { }
+        } catch (e) {}
       }
     };
     window.addEventListener("keydown", manipulation);
@@ -303,7 +303,7 @@ const PlaceField = ({
             pushToStack={pushToStack}
           />
 
-          <RightSnippetArea />
+          <RightSnippetArea currentField={currentField} />
         </DndProvider>
       </div>
       <SuperFloatingButton activeItem={activeItem} onClickNext={handleNext} />
