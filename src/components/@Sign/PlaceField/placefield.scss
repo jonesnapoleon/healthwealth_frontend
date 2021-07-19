@@ -80,13 +80,23 @@ $tools-height: 10vh;
     top: $pad-top + $tools-height;
     right: 0;
     width: $right-width;
-    padding: 0.5rem;
-    .container {
+    padding: 0 0.5rem 0.5rem;
+    .wrapper {
+      padding: 0 15px;
       background-color: white;
       position: relative;
       height: calc(100% - 2 * 0.5rem);
       overflow-y: scroll;
       overflow-x: hidden;
+      padding-bottom: 0.3rem;
+      border-bottom: 0.4rem solid var(--secondary-extra-color-4);
+      // .weird {
+      // }
+    }
+    hr {
+      margin: 0;
+      opacity: 0.75;
+      border: 0.5px solid black;
     }
   }
   #main-workspace {
@@ -99,10 +109,8 @@ $tools-height: 10vh;
     padding-bottom: $pad-top;
     position: relative;
 
-    .one-image-area {
-      > :first-child {
-        margin-top: $pad-top;
-      }
+    > :first-child.one-image-area {
+      margin-top: $pad-top;
     }
 
     .one-image-area {

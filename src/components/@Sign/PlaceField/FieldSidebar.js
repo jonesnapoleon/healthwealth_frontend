@@ -28,16 +28,28 @@ const StaticFieldBox = ({ type }) => {
 const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
   const { t } = useTranslation();
 
+  // const fieldType = {
+  //   SIGNATURE: "signature",
+  //   INITIAL: "initial",
+  //   DATE: "date",
+  //   CHECKBOX: "checkbox",
+  //   TEXT: "text",
+  //   EMAIL: "email",
+  //   NAME: "name",
+  //   COMPANY: "company",
+  //   TITLE: "title",
+  // };
+
   const fieldType = {
-    SIGNATURE: "signature",
-    INITIAL: "initial",
-    DATE: "date",
-    CHECKBOX: "checkbox",
-    TEXT: "text",
-    EMAIL: "email",
-    NAME: "name",
-    COMPANY: "company",
-    TITLE: "title",
+    SIGNATURE: String(t("sign.placeFields.left.buttons.signature")),
+    INITIAL: String(t("sign.placeFields.left.buttons.initial")),
+    DATE: String(t("sign.placeFields.left.buttons.date")),
+    EMAIL: String(t("sign.placeFields.left.buttons.email")),
+    NAME: String(t("sign.placeFields.left.buttons.name")),
+    COMPANY: String(t("sign.placeFields.left.buttons.company")),
+    TITLE: String(t("sign.placeFields.left.buttons.title")),
+    TEXTBOX: String(t("sign.placeFields.left.buttons.textbox")),
+    CHECKBOX: String(t("sign.placeFields.left.buttons.checkbox")),
   };
 
   useEffect(() => {
@@ -83,17 +95,7 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
           ))}
 
           <div className="lead">{t("sign.placeFields.left.standard")}</div>
-          {[fieldType.TEXT, fieldType.CHECKBOX]?.map((type, i) => (
-            <StaticFieldBox type={type} key={i} />
-          ))}
-
-          {[
-            fieldType.DATE,
-            fieldType.NAME,
-            fieldType.EMAIL,
-            fieldType.COMPANY,
-            fieldType.TITLE,
-          ]?.map((type, i) => (
+          {[fieldType.TEXTBOX, fieldType.CHECKBOX]?.map((type, i) => (
             <StaticFieldBox type={type} key={i} />
           ))}
         </div>

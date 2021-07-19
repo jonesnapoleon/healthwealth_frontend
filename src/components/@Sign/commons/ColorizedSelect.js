@@ -1,5 +1,4 @@
 import React from "react";
-
 import Select from "react-select";
 
 const dot = (color = "#ccc") => ({
@@ -29,11 +28,11 @@ const colourStyles = {
   input: (styles) => ({ ...styles, ...dot() }),
   placeholder: (styles) => ({ ...styles, ...dot() }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-  container: (styles) => ({ ...styles, width: "100%" }),
+  container: (styles) => ({ ...styles, width: "100%", paddingRight: "0" }),
 };
 
 const ColorizedSelect = (props) => {
-  return <Select label="Single select" {...props} styles={colourStyles} />;
+  return <Select {...props} styles={colourStyles} />;
 };
 
 export default ColorizedSelect;

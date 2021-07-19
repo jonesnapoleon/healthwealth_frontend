@@ -273,12 +273,20 @@
           "initial": "Initial",
           "date": "Date",
           "checkbox": "Checkbox",
+          "textbox": "Textbox",
           "text": "Text",
           "email": "Email",
           "name": "Name",
           "company": "Company",
           "title": "Title"
         }
+      },
+      "right": {
+        "fieldName": "Field name",
+        "signature": "Signature",
+        "assignedTo": "Assigned to",
+        "required": "Required",
+        "requiredField": "Required field"
       }
     },
     "reviewSend": {

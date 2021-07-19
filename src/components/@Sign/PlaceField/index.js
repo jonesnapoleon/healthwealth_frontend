@@ -257,20 +257,6 @@ const PlaceField = ({
     return () => window.removeEventListener("keydown", manipulation);
   }, [undoField, redoField, copyField, pasteField]);
 
-  // copy handler
-  useEffect(() => {
-    const doc = document.body;
-    doc.addEventListener("keydown", copyField);
-    doc.removeEventListener("keydown", copyField);
-  }, [copyField]);
-
-  // paste handler
-  useEffect(() => {
-    const doc = document.body;
-    doc.addEventListener("keydown", pasteField);
-    doc.removeEventListener("keydown", pasteField);
-  }, [pasteField]);
-
   return (
     <>
       <div
@@ -305,7 +291,17 @@ const PlaceField = ({
             qrCodePosition={qrCodePosition}
           />
 
-          <RightSnippetArea currentField={currentField} />
+          <RightSnippetArea
+            currentField={currentField}
+            setCurrentField={setCurrentField}
+            setFields={setFields}
+            fields={fields}
+            onDelete={() => {
+              let temp = currentField;
+              temp.deleted = true;
+              pushToStack(temp);
+            }}
+          />
         </DndProvider>
       </div>
       <SuperFloatingButton activeItem={activeItem} onClickNext={handleNext} />

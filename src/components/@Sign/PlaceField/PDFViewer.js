@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 
@@ -9,6 +9,7 @@ const image =
 
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
+const QR_CODE_RELATIVE_SIZE = 0.15;
 
 const Page = ({
   data,
@@ -71,6 +72,7 @@ const Page = ({
       h,
       pageNum,
       signer: currentSigner,
+      required: true,
       pagePosition,
       deleted: false,
       uid: "a5bf6a9f-3656-40c8-b159-1fcb2f9d3a44", // TODO get from BE
@@ -91,25 +93,39 @@ const Page = ({
   // }, [height]);
 
   // TODO calculate after render
-  const divPosition = document.getElementById(`one-image-area-${pageNum}`)?.getBoundingClientRect() ?? {
-    width: 700, height: 300,
-  }
-  const qrCodeFromBorder = 0.02;
-  let qrCodeSize = Math.min(0.05 * divPosition.width, 0.05 * divPosition.height)
-  let qrCodeDimension = { x: 20, y: 20 };
-  if (qrCodePosition === 0) {
-    qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
-    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
-  } else if (qrCodePosition === 1) {
-    qrCodeDimension.x = (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
-    qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
-  } else if (qrCodePosition === 2) {
-    qrCodeDimension.x = (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
-    qrCodeDimension.y = (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
-  } else if (qrCodePosition === 3) {
-    qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
-    qrCodeDimension.y = (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
-  }
+  const { qrCodeDimension, qrCodeSize } = useMemo(() => {
+    const divPosition = document
+      .getElementById(`one-image-area-${pageNum}`)
+      ?.getBoundingClientRect() ?? {
+      width: 700,
+      height: 300,
+    };
+    console.log(divPosition);
+    const qrCodeFromBorder = 0.02;
+    let qrCodeSize = Math.min(
+      QR_CODE_RELATIVE_SIZE * divPosition.width,
+      QR_CODE_RELATIVE_SIZE * divPosition.height
+    );
+    let qrCodeDimension = { x: 20, y: 20 };
+    if (qrCodePosition === 0) {
+      qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+      qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+    } else if (qrCodePosition === 1) {
+      qrCodeDimension.x =
+        (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+      qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+    } else if (qrCodePosition === 2) {
+      qrCodeDimension.x =
+        (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+      qrCodeDimension.y =
+        (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
+    } else if (qrCodePosition === 3) {
+      qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+      qrCodeDimension.y =
+        (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
+    }
+    return { qrCodeDimension, qrCodeSize };
+  }, [pageNum, qrCodePosition]);
 
   return (
     <div className="one-image-area" ref={drop} id={`one-image-area-${pageNum}`}>
@@ -120,7 +136,13 @@ const Page = ({
         <img
           src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
           alt="qrcode"
-          style={{ position: "absolute", width: qrCodeSize, height: qrCodeSize, left: qrCodeDimension.x, top: qrCodeDimension.y }}
+          style={{
+            position: "absolute",
+            width: qrCodeSize,
+            height: qrCodeSize,
+            left: qrCodeDimension.x,
+            top: qrCodeDimension.y,
+          }}
         />
         {/* : null} */}
       </div>

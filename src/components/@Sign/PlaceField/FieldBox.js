@@ -1,5 +1,40 @@
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { Rnd } from "react-rnd";
+import { useTranslation } from "react-i18next";
+
+export const getReadableFieldName = (field, t) => {
+  const fieldName = t(String(field.type));
+  let label = "";
+  const fieldType = {
+    SIGNATURE: String(t("sign.placeFields.left.buttons.signature")),
+    INITIAL: String(t("sign.placeFields.left.buttons.initial")),
+    DATE: String(t("sign.placeFields.left.buttons.date")),
+    EMAIL: String(t("sign.placeFields.left.buttons.email")),
+    NAME: String(t("sign.placeFields.left.buttons.name")),
+    COMPANY: String(t("sign.placeFields.left.buttons.company")),
+    TITLE: String(t("sign.placeFields.left.buttons.title")),
+    TEXTBOX: String(t("sign.placeFields.left.buttons.textbox")),
+    CHECKBOX: String(t("sign.placeFields.left.buttons.checkbox")),
+  };
+  switch (fieldName) {
+    case fieldType.NAME:
+      label = field.signer.label;
+      break;
+    case fieldType.EMAIL:
+      label = field.signer.value;
+      break;
+    case fieldType.TEXTBOX:
+      label = "TEXTBOX";
+      break;
+    case fieldType.CHECKBOX:
+      label = "CHECKBOX";
+      break;
+    default:
+      label = `${field.signer.label}'s ${t(String(field.type))}`;
+      break;
+  }
+  return label;
+};
 
 const FieldHandle = ({ color, stroke }) => {
   return (
@@ -43,9 +78,11 @@ const DeleteFieldHandle = () => {
 };
 
 const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
+  const { t } = useTranslation();
   const handle = (
     <FieldHandle color={field.signer.color} stroke={field.signer.color} />
   );
+
   const deleteHandle = <DeleteFieldHandle />;
   const EPSILON = 0.002;
   const sampleRef = useRef(null);
@@ -57,24 +94,8 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     width: field.w * field.pagePosition.width,
     height: field.h * field.pagePosition.height,
   });
-  let label = "";
-  switch (field.type) {
-    case "name":
-      label = field.signer.label
-      break
-    case "email":
-      label = field.signer.value
-      break
-    case "textbox":
-      label = "TEXTBOX"
-      break
-    case "checkbox":
-      label = "CHECKBOX"
-      break
-    default:
-      label = `${field.signer.label}'s ${field.type}`
-      break
-  }
+
+  const fieldLabel = useMemo(() => getReadableFieldName(field, t), [field, t]);
 
   return (
     <Rnd
@@ -143,7 +164,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
       >
         <span className="text-uppercase">
           {/* {field.type} - {field.pageNum} */}
-          {label}
+          {fieldLabel}
         </span>
       </span>
     </Rnd>
