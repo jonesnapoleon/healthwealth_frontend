@@ -41,9 +41,7 @@ const ImageUpload = ({ meta, data, onClick, currentFile }) => {
           />
         )}
       </div>
-      <div>
-        <img src={icon} alt="" />
-      </div>
+      <div>{icon}</div>
     </>
   );
 

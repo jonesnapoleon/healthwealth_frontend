@@ -3,7 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import Router from "./Router";
 
-import Navbar from "./components/layout/Navbar";
 import AuthProvider from "./contexts/AuthContext";
 import DataProvider from "./contexts/DataContext";
 import ModalProvider from "./contexts/ModalContext";
@@ -22,15 +21,11 @@ const App = () => {
         <AuthProvider>
           <DataProvider>
             <ModalProvider>
-              <div className="background-general">
-                <Navbar />
-                <Router />
-              </div>
-              {/* <Footer /> */}
+              <Router />
             </ModalProvider>
           </DataProvider>
         </AuthProvider>
-      </BrowserRouter>{" "}
+      </BrowserRouter>
     </StyleProvider>
   );
 };

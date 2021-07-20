@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useFile, useInput, useRefreshedData } from "../../../helpers/hooks";
 
 import ImageUpload from "../../commons/ImageUpload";
-import ktpSvg from "../../../assets/bnw/ID Card icon.svg";
-import cameraSvg from "../../../assets/bnw/Camera icon.svg";
+import { ReactComponent as KtpSvg } from "../../../assets/bnw/ID Card icon.svg";
+import { ReactComponent as CameraSvg } from "../../../assets/bnw/Camera icon.svg";
 import TakePhoto from "../../commons/ImageUpload/TakePhoto";
 import { useModal } from "../../../contexts/ModalContext";
 import DragDropClass from "../../commons/ImageUpload/DragDropClass";
@@ -57,13 +57,13 @@ const Picture = () => {
 
   const imagesData = [
     {
-      icon: ktpSvg,
+      icon: <KtpSvg />,
       isUpload: true,
       head: t("settings.ekyc.proofIdentityHead"),
       desc: t("settings.ekyc.proofIdentityDesc"),
     },
     {
-      icon: cameraSvg,
+      icon: <CameraSvg />,
       isUpload: !true,
       head: t("settings.ekyc.takeAPictureHead"),
       desc: t("settings.ekyc.takeAPictureDesc"),

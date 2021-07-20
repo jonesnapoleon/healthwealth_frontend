@@ -37,6 +37,7 @@ export const highlightedNavs = [
   FRONTEND_URL.all,
   FRONTEND_URL.request,
 ];
+
 export const PROGRESS_BAR_INTERVAL = 30;
 
 export const FIXED_COLORS = [

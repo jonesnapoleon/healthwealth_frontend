@@ -3,6 +3,7 @@ import Sidebar from "../../layout/Sidebar";
 
 const LayoutWrapper = ({ children }) => {
   return (
+    // <div className="background-general">
     <div className="home-wrapper container-xl mt-4">
       <div className="row">
         <div className="col-xl-2 col-lg-3 col-md-3">
@@ -15,6 +16,7 @@ const LayoutWrapper = ({ children }) => {
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 
