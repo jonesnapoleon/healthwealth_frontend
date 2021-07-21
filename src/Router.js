@@ -13,6 +13,7 @@ import All from "./components/@Sign/@All";
 import Settings from "./components/@Settings";
 import Docs from "./components/@Docs";
 import { FRONTEND_URL } from "./helpers/constant";
+import UserSign from "./components/@Sign/@UserSign";
 
 const Router = () => {
   const location = useLocation();
@@ -20,7 +21,8 @@ const Router = () => {
     return !(
       location?.pathname === FRONTEND_URL.me ||
       location?.pathname === FRONTEND_URL.all ||
-      location?.pathname === FRONTEND_URL.request
+      location?.pathname === FRONTEND_URL.request ||
+      location?.pathname === FRONTEND_URL.usersign
     );
   }, [location]);
 
@@ -38,6 +40,11 @@ const Router = () => {
           <Route render={() => <Me />} path={FRONTEND_URL.me} exact />
           <Route render={() => <All />} path={FRONTEND_URL.all} exact />
           <Route render={() => <Request />} path={FRONTEND_URL.request} exact />
+          <Route
+            render={() => <UserSign />}
+            path={FRONTEND_URL.usersign}
+            exact
+          />
           <Route
             render={() => (
               <>
