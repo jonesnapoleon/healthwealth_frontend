@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const theme = createTheme({
   typography: {
+    fontFamily: "Helvetica, sans-serif",
     fontSize: 12,
     body2: {
       fontSize: 10,

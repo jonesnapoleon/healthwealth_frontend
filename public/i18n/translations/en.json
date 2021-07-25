@@ -239,6 +239,11 @@
       "text": "Signature",
       "initial": "Initials",
       "addSignature": "Add signature",
+      "draw": "Draw",
+      "upload": "Upload",
+      "textText": "Text",
+      "iUnderstand": "I understand that this signature represent my actual signature*",
+      "sign": "Sign",
       "addInitials": "Add initials"
     }
   },

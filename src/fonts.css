@@ -2,3 +2,8 @@
   font-family: Helvetiva;
   src: url("./assets/Helvetica-Neue-Font/Helvetica Neue Medium Extended.ttf");
 }
+
+@font-face {
+  font-family: PTSans;
+  src: url("./assets/PT_Sans/PTSans-Regular.ttf");
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import "./imageupload.css";
+import "./imageupload.scss";
 
 const ImageUpload = ({ meta, data, onClick, currentFile }) => {
   const { icon, head, desc, isUpload, isEdit } = meta;
-  console.log(data);
+
   const [url, setUrl] = useState("");
 
   useEffect(() => {

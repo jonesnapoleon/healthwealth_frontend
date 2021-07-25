@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import icon from "../../../assets/bnw/Upload Document Icon.svg";
-import "./imageupload.css";
+import "./imageupload.scss";
 import DragDropClass from "./DragDropClass";
 
 const DragDrop = ({ data, disabled = false, progress }) => {

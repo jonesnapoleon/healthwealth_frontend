@@ -3,7 +3,7 @@ import { useInput } from "../helpers/hooks";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { MODAL_ANIMATE_DURATION } from "../helpers/constant";
-import "../components/commons/modal.css";
+import "../components/commons/modal.scss";
 
 export const ModalContext = createContext({});
 export const useModal = () => useContext(ModalContext);
@@ -22,10 +22,11 @@ const ModalProvider = ({ children }) => {
       {show?.value && (
         <Modal
           open={show?.value}
-          focusTrapped={false}
+          focusTrapped={!false}
           onClose={() => {
             show?.set(false);
           }}
+          showCloseIcon={false}
           onAnimationEnd={() => {
             if (!show?.value) {
               show?.set(false);
@@ -36,7 +37,6 @@ const ModalProvider = ({ children }) => {
             modal: `modal-base`,
             modalAnimationIn: "fadeIn",
             modalAnimationOut: "fadeOut",
-            closeButton: "closeBtn",
           }}
           animationDuration={MODAL_ANIMATE_DURATION}
         >

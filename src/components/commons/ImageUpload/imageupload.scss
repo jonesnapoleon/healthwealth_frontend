@@ -55,3 +55,16 @@
 .open-cam-container button {
   font-size: 3rem;
 }
+
+.modal-sign-container {
+  display: flex;
+  max-width: 380px;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  background-color: var(--secondary-extra-color-1);
+  color: var(--primary-color);
+  border: 0.5px dashed var(--primary-color);
+}

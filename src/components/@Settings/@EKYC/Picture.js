@@ -93,11 +93,12 @@ const Picture = () => {
 
       <div className="lead">
         {t("settings.ekyc.proofIdentity")}{" "}
-        {auth?.ktp_url && !isIdentityEdit.value ? (
+        {auth?.ktp_url && !isIdentityEdit.value && (
           <span onClick={() => isIdentityEdit.set(true)}>
             {t("general.edit")}
           </span>
-        ) : (
+        )}
+        {auth?.ktp_url && isIdentityEdit.value && (
           <span onClick={() => isIdentityEdit.set(false)}>
             {t("general.cancel")}
           </span>

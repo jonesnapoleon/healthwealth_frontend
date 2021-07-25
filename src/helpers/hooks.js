@@ -18,6 +18,11 @@ export const useRefreshedData = (updatingValue) => {
   return { value, set: setValue };
 };
 
+export const useCheckbox = (initialValue = false) => {
+  const [checked, setChecked] = useState(initialValue);
+  return { checked, onChange: () => setChecked((a) => !a) };
+};
+
 export const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
   // const [isTouched, setIsTouched] = useState(false);

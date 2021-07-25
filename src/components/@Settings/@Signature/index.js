@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "../../../contexts/ModalContext";
-import ImageUpload from "../../commons/ImageUpload";
+import ModalSign from "../../commons/ImageUpload/ModalSign";
 import SignatureModal from "../../commons/SignatureModal";
 import "./signature.css";
 
@@ -13,18 +13,23 @@ const Signature = () => {
     <div className="signature-container">
       <div>
         <div className="lead">{t("settings.signature.text")}</div>
-        <ImageUpload
-          meta={{
-            head: t("settings.signature.addSignature")
-          }}
+        <ModalSign
+          meta={{ head: t("settings.signature.addSignature") }}
           onClick={() => {
             setInnerComponent(<SignatureModal />);
             show?.set(true);
-          }} />
+          }}
+        />
       </div>
       <div>
         <div className="lead">{t("settings.signature.initial")}</div>
-        <ImageUpload meta={{ head: t("settings.signature.addInitials") }} />
+        <ModalSign
+          meta={{ head: t("settings.signature.addInitials") }}
+          onClick={() => {
+            setInnerComponent(<SignatureModal />);
+            show?.set(true);
+          }}
+        />
       </div>
     </div>
   );
