@@ -4,9 +4,14 @@ import "./index.scss";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
 
-import { ReactComponent as OnlyMeIcon } from "../../assets/bnw/User Me Only Icon.svg";
-import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Icon.svg";
-import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
+// import { ReactComponent as OnlyMeIcon } from "../../assets/bnw/User Me Only Icon.svg";
+// import { ReactComponent as AllIcon } from "../../assets/bnw/User Me and Other Icon.svg";
+// import { ReactComponent as RequestIcon } from "../../assets/bnw/Request Sign Icon.svg";
+
+import OnlyMeIcon from "@material-ui/icons/PermIdentityOutlined";
+import AllIcon from "@material-ui/icons/PeopleAltOutlined";
+import RequestIcon from "@material-ui/icons/SendOutlined";
+
 import { FRONTEND_URL } from "../../helpers/constant";
 
 // import { ReactComponent as Down } from "../../assets/svg/down-arrow.svg";

@@ -100,7 +100,7 @@ const PersonalDetail = () => {
     <>
       <div className="lead">{t("settings.ekyc.personalDetail")}</div>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
+      {success && <Snackbar type="success" text={success} />}
 
       <table>
         <tbody>

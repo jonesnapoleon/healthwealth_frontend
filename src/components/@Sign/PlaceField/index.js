@@ -18,6 +18,7 @@ import { addColorToArr } from "../../../helpers/transformer";
 
 const temp =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
+const MAX_STACK_SIZE = 30;
 
 const PlaceField = ({
   activeItem,
@@ -50,9 +51,19 @@ const PlaceField = ({
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
-  const MAX_STACK_SIZE = 30;
+
+  const [visibility, setVisibility] = useState(1);
 
   // const { t } = useTranslation();
+
+  const getCurrentPageCenter = useCallback(() => {
+    let currentPage = document.getElementById(`one-image-area-${visibility}`);
+    console.log(currentPage);
+    const rect = currentPage?.getBoundingClientRect();
+    let x = (rect.right - rect.left) / 2 + rect.left;
+    let y = (rect.bottom - rect.top) / 2 + rect.top;
+    return { x, y };
+  }, [visibility]);
 
   const handleNext = () => {
     try {
@@ -176,20 +187,22 @@ const PlaceField = ({
 
     try {
       const ajv = new Ajv();
-      const data = JSON.parse(clipboard);
+      let data = JSON.parse(clipboard);
       const validate = ajv.compile(schema);
-      const valid = validate(data);
-      if (valid) {
-        data.x += 0.01;
-        data.y += 0.01;
-        setFields((fields) => [...fields, data]);
+      if (validate(data) && typeof data === "object") {
+        console.log("data", data);
+        const { x, y } = getCurrentPageCenter();
+        data.x = x;
+        data.y = y;
+        data.pageNum = visibility;
         pushToStack([...fields, data]);
+        setFields((fields) => [...fields, data]);
         console.log("pasted!", data);
       }
     } catch (e) {
       throw e;
     }
-  }, [clipboard, fields, pushToStack]);
+  }, [clipboard, fields, pushToStack, getCurrentPageCenter, visibility]);
 
   const undoField = useCallback(() => {
     console.log("undo", stateStack, stackIdx);
@@ -284,6 +297,7 @@ const PlaceField = ({
           <PDFViewer
             fields={fields}
             setFields={setFields}
+            setVisibility={setVisibility}
             currentSigner={currentSigner}
             stateStack={stateStack}
             setCurrentField={setCurrentField}

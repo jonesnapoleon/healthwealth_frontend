@@ -19,7 +19,9 @@ const Footer = () => {
             "header.getStarted",
             "header.faq",
           ].map((a) => (
-            <div className="footer-item">{t(a)}</div>
+            <div key={a} className="footer-item">
+              {t(a)}
+            </div>
           ))}
         </div>
         <div>
@@ -29,8 +31,10 @@ const Footer = () => {
                 [<FacebookIcon />],
                 [<InstagramIcon />],
                 [<LinkedInIcon />],
-              ].map((icon) => (
-                <div className="icon">{icon[0]}</div>
+              ].map((icon, i) => (
+                <div className="icon" key={i}>
+                  {icon[0]}
+                </div>
               ))}
             </div>
           </div>

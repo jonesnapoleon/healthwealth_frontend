@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
+import VisibilitySensor from "react-visibility-sensor";
 
 import FieldBox from "./FieldBox";
 
@@ -21,6 +22,7 @@ const Page = ({
   fields,
   playableFields,
   qrCodePosition,
+  setVisibility,
 }) => {
   // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   // const [coords, setCoords] = useState(null);
@@ -128,25 +130,36 @@ const Page = ({
   }, [pageNum, qrCodePosition]);
 
   return (
-    <div className="one-image-area" ref={drop} id={`one-image-area-${pageNum}`}>
-      <div style={{ backgroundImage: `url(${data})` }} className="one-image">
-        <img src={data} alt="" className="invisible" />
-        {playableFields}
-        {/* {divPosition === undefined ? */}
-        <img
-          src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
-          alt="qrcode"
-          style={{
-            position: "absolute",
-            width: qrCodeSize,
-            height: qrCodeSize,
-            left: qrCodeDimension.x,
-            top: qrCodeDimension.y,
-          }}
-        />
-        {/* : null} */}
+    <VisibilitySensor
+      // partialVisibility
+      onChange={(isVisible) => {
+        isVisible && setVisibility(pageNum);
+      }}
+    >
+      <div
+        className="one-image-area"
+        ref={drop}
+        id={`one-image-area-${pageNum}`}
+      >
+        <div style={{ backgroundImage: `url(${data})` }} className="one-image">
+          <img src={data} alt="" className="invisible" />
+          {playableFields}
+          {/* {divPosition === undefined ? */}
+          <img
+            src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
+            alt="qrcode"
+            style={{
+              position: "absolute",
+              width: qrCodeSize,
+              height: qrCodeSize,
+              left: qrCodeDimension.x,
+              top: qrCodeDimension.y,
+            }}
+          />
+          {/* : null} */}
+        </div>
       </div>
-    </div>
+    </VisibilitySensor>
   );
 };
 
@@ -158,8 +171,13 @@ const PDFViewer = ({
   pushToStack,
   stateStack,
   qrCodePosition,
+  setVisibility,
 }) => {
   const num = [0, 0, 0].map((_) => image);
+
+  // React.useEffect(() => {
+  //   console.log("frgt", visibility);
+  // }, [visibility]);
 
   return (
     <div id="main-workspace">
@@ -183,6 +201,7 @@ const PDFViewer = ({
           : [];
         return (
           <Page
+            setVisibility={setVisibility}
             data={data}
             pageNum={i + 1}
             fields={fields}

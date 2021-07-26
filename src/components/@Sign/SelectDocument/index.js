@@ -120,7 +120,7 @@ const SelectDocument = ({
   return (
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
+      {success && <Snackbar type="success" text={success} />}
       <div>
         <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
         <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
