@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logoUrl from "../../assets/bnw/Company Logo@2x.png";
-import "./auth.css";
+import "./auth.scss";
 import LoginArea from "./LoginArea";
 import { useTranslation } from "react-i18next";
 

@@ -22,6 +22,9 @@
   --tertiary-color: #2f7bf7;
   --danger-color: red;
 
+  --primary-font-type: PTSans;
+  --secondary-font-type: Helvetica;
+
   --border-radius: 25px;
   --form-border-radius: 5px;
   --standard-font-size: 16px;
@@ -49,7 +52,7 @@
 
 body {
   margin: 0;
-  font-family: Helvetiva;
+  font-family: PTSans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--standard-font-size);
@@ -68,7 +71,7 @@ button,
 }
 
 * {
-  font-family: Helvetica;
+  font-family: PTSans;
 }
 
 h1,

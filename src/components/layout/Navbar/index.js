@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useHistory } from "react-router-dom";
-import "./navbar.css";
+import "./navbar.scss";
 
 import { useAuth } from "../../../contexts/AuthContext";
 import { FRONTEND_URL } from "../../../helpers/constant";

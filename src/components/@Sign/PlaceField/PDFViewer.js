@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 import FieldBox from "./FieldBox";
 
 const image =
-  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
+  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/822204_jpg1627207587207";
 
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
@@ -165,20 +165,22 @@ const PDFViewer = ({
     <div id="main-workspace">
       {num?.map((data, i) => {
         const playableFields = fields
-          ?.filter((field) => field.pageNum === i + 1)
-          .map((field, j) => {
-            return field.deleted ? null : (
-              <FieldBox
-                field={field}
-                onClick={() => setCurrentField(field)}
-                key={j}
-                id={`field-${j + 1}`}
-                pushToStack={pushToStack}
-                fields={fields}
-                setFields={setFields}
-              />
-            );
-          });
+          ? fields
+              ?.filter((field) => field.pageNum === i + 1)
+              .map((field, j) => {
+                return field.deleted ? null : (
+                  <FieldBox
+                    field={field}
+                    onClick={() => setCurrentField(field)}
+                    key={j}
+                    id={`field-${j + 1}`}
+                    pushToStack={pushToStack}
+                    fields={fields}
+                    setFields={setFields}
+                  />
+                );
+              })
+          : [];
         return (
           <Page
             data={data}

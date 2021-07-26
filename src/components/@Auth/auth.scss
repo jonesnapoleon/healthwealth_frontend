@@ -13,6 +13,18 @@
     var(--secondary-extra-color-2)
   ); */
   background: var(--secondary-color);
+  h5 {
+    strong {
+      font-family: var(--secondary-font-type);
+    }
+  }
+  .exact-google-button {
+    :first-child {
+      span {
+        font-family: var(--secondary-font-type);
+      }
+    }
+  }
 }
 
 .background-sign-in .logo-container {
@@ -28,6 +40,7 @@
   padding: 3rem 0 1rem;
   margin: auto;
 }
+
 .background-sign-in .cta-container .lower-cta {
   padding: 2rem 0 2rem;
 }

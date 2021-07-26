@@ -72,7 +72,7 @@ const Docs = () => {
   }, [setDisplayedDocs, docs]);
 
   useEffect(() => {
-    const trimmedQuery = String(query?.value).trim();
+    const trimmedQuery = String(query?.value).trim().toLowerCase();
     if (trimmedQuery.length > 1) trimNow(trimmedQuery);
     if (trimmedQuery.length === 0) displayAll();
   }, [query?.value, trimNow, displayAll]);

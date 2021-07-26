@@ -13,7 +13,7 @@ import { ReactComponent as UserIcon } from "../../../assets/bnw/User tab icon.sv
 import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
 import { ReactComponent as RightIcon } from "../../../assets/bnw/Right Arrow.svg";
 
-import "./sidebar.css";
+import "./sidebar.scss";
 
 const landingData = [
   {

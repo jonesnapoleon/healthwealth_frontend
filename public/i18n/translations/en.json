@@ -378,7 +378,11 @@
     "thisMonth": "this month",
     "upgrade": "Upgrade",
     "signOut": "Sign out",
-    "myProfile": "My Profile"
+    "myProfile": "My Profile",
+    "pricing": "Pricing",
+    "products": "Products",
+    "getStarted": "Get Started",
+    "faq": "FAQ"
   },
   "login": {
     "signUp": "Sign up",
