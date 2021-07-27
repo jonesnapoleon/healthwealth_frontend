@@ -12,7 +12,7 @@ const Signature = () => {
   return (
     <div className="signature-container">
       <div>
-        <div className="lead">{t("settings.signature.text")}</div>
+        <div className="head bold">{t("settings.signature.text")}</div>
         <ModalSign
           meta={{ head: t("settings.signature.addSignature") }}
           onClick={() => {
@@ -22,7 +22,7 @@ const Signature = () => {
         />
       </div>
       <div>
-        <div className="lead">{t("settings.signature.initial")}</div>
+        <div className="head bold">{t("settings.signature.initial")}</div>
         <ModalSign
           meta={{ head: t("settings.signature.addInitials") }}
           onClick={() => {

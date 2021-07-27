@@ -98,11 +98,11 @@ const PersonalDetail = () => {
 
   return (
     <>
-      <div className="lead">{t("settings.ekyc.personalDetail")}</div>
+      <div className="head bold">{t("settings.ekyc.personalDetail")}</div>
       {error && <Snackbar text={error} />}
       {success && <Snackbar type="success" text={success} />}
 
-      <table>
+      <table className="ekyc-table">
         <tbody>
           <tr>
             <td>{t("settings.ekyc.name")}</td>

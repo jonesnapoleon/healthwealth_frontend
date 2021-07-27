@@ -4,11 +4,12 @@ import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
 import { getAllDocs } from "../../api/auth";
 import Snackbar from "../commons/Snackbar";
-import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
+// import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
-import "./docs.css";
+import "./docs.scss";
 import { useHistory } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 
 const Docs = () => {
   const { t } = useTranslation();

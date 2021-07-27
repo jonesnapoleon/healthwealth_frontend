@@ -18,7 +18,7 @@ import SuperFloatingButton from "../commons/SuperFloatingButton";
 import { addColorToArr } from "../../../helpers/transformer";
 import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 
 const temp =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";

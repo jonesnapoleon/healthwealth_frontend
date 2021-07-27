@@ -1,27 +1,28 @@
 .ekyc-container {
   margin-top: 2rem;
+  table {
+    margin-top: 1rem;
+    .head {
+      font-size: 1rem;
+    }
+    &.ekyc-table {
+      td {
+        padding-bottom: 0.6rem;
+        vertical-align: top;
+        &:first-child {
+          padding-right: 2rem;
+          font-weight: bolder;
+          font-size: 0.9rem;
+        }
+        .form-input {
+          font-weight: bolder;
+          padding: 0.35rem 0.8rem;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
 }
-
-.ekyc-container table {
-  margin-top: 1rem;
-}
-
-.ekyc-container table td {
-  padding-bottom: 0.6rem;
-  vertical-align: top;
-}
-
-.ekyc-container table td:first-child {
-  padding-right: 2rem;
-}
-
-/* .ekyc-container table td.circle-correct-icon {
-  padding-left: 2rem;
-} */
-
-/* .ekyc-container table td.phone-number-area input {
-  display: block;
-} */
 
 .ekyc-container table td .circle-correct-icon {
   padding-top: 0.7rem;

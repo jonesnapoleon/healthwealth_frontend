@@ -18,13 +18,19 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import "./sidebar.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faChartLine,
+  faSlidersH,
+} from "@fortawesome/free-solid-svg-icons";
 
 const landingData = [
   {
     isAvailable: true,
     name: "Sign",
     link: FRONTEND_URL.sign,
-    icon: <i className="fa-solid fa-file-signature" />,
+    icon: <FontAwesomeIcon icon={faFileSignature} />,
   },
   {
     isAvailable: true,
@@ -36,13 +42,15 @@ const landingData = [
     isAvailable: true,
     name: "Settings",
     link: FRONTEND_URL.settings,
-    icon: <i className="fa-solid fa-sliders" />,
+    icon: <FontAwesomeIcon icon={faSlidersH} />,
+    // icon: <i className="fa-solid fa-sliders" />,
   },
   {
     isAvailable: false,
     name: "Team",
     link: FRONTEND_URL.realBase,
-    icon: <i className="fi-rr-user-add" />,
+    // icon: <i className="fi-rr-user-add" />,
+    icon: <FontAwesomeIcon icon={"user-add"} />,
   },
   {
     isAvailable: false,
@@ -60,7 +68,7 @@ const landingData = [
     isAvailable: false,
     name: "Analytic",
     link: FRONTEND_URL.realBase,
-    icon: <i className="fa-solid fa-chart-line" />,
+    icon: <FontAwesomeIcon icon={faChartLine} />,
   },
 ];
 
@@ -87,8 +95,7 @@ const Sidebar = () => {
                   activeClassName="active primary-color"
                 >
                   <div className="sidebar-icon">
-                    {/* {datum?.icon} */}
-                    <i className="fa-solid fa-file-signature" />
+                    {datum?.icon}
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>

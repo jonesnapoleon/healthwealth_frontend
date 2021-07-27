@@ -13,8 +13,9 @@ import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
-
-import "./selectDocument.css";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import "./selectDocument.scss";
 
 const SelectDocument = ({
   activeItem,
@@ -121,26 +122,28 @@ const SelectDocument = ({
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
       {success && <Snackbar type="success" text={success} />}
-      <div>
-        <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
-        <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
+      <div className="first-child">
+        <h4 className="bold">{t("sign.selectDocument.whatNeed")}</h4>
+        <div className="mt-5 bold mb-2">{t("sign.selectDocument.text")}</div>
         <DragDrop
           data={data}
           progress={progress}
           // disabled={progress.value === 100}
         />
 
-        <div className="mt-5 lead mb-2">
+        <div className="mt-5 bold mb-2">
           {t("sign.selectDocument.docsUSelected")}
         </div>
         {fileData && !data?.file && (
           <>
             <div className="item-left">
-              {console.log(fileData)}
-              <DocumentIcon />
+              <DescriptionOutlinedIcon className="file-icon" />
               <div className="px-2">{fileData?.filename}</div>
               <div className="mx-2 cursor-pointer">
-                <DeleteDocumentIcon onClick={handleDeleteFile} />
+                <CancelOutlinedIcon
+                  onClick={handleDeleteFile}
+                  className="delete-red"
+                />
               </div>
             </div>
             <div className="mt-3">
@@ -151,10 +154,13 @@ const SelectDocument = ({
         {data?.file && (
           <>
             <div className="item-left">
-              <DocumentIcon />
+              <DescriptionOutlinedIcon className="file-icon" />
               <div className="px-2">{data?.file?.name}</div>
               <div className="mx-2 cursor-pointer">
-                <DeleteDocumentIcon onClick={handleDeleteFile} />
+                <CancelOutlinedIcon
+                  className="delete-red"
+                  onClick={handleDeleteFile}
+                />
               </div>
             </div>
             <div className="mt-3">

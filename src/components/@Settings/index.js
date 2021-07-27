@@ -67,7 +67,7 @@ const Settings = () => {
         {navSettingsData?.map((datum) => (
           <div
             key={datum?.hash}
-            className={`navlink lead ${active === datum?.hash ? "active" : ""}`}
+            className={`navlink ${active === datum?.hash ? "active" : ""}`}
             onClick={() => {
               if (datum?.isAvailable) {
                 setActive(datum?.hash);

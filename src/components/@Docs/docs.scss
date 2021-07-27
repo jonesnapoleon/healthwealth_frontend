@@ -1,0 +1,41 @@
+$orange-color: #ff7600;
+
+.docs table {
+  margin-top: 2rem;
+  width: 100%;
+  thead td {
+    border-bottom: 0.5px solid var(--primary-color);
+    padding: 0 0 0.4rem;
+  }
+  tbody {
+    tr.bg-ok {
+      background-color: var(--secondary-extra-color-4);
+    }
+    td {
+      padding: 0.7rem 0;
+      font-size: 0.8rem;
+
+      border-top: 0.5px solid var(--primary-color);
+      span {
+        font-size: 0.8rem;
+      }
+    }
+    button.btn {
+      font-size: 0.8rem;
+      max-width: 14rem;
+      padding: 0.2rem 1.2rem;
+      &.focus,
+      &.active {
+        outline: none;
+        box-shadow: 0;
+      }
+      &.btn-orange {
+        background: $orange-color;
+      }
+    }
+  }
+}
+
+.docs .audit-trail {
+  /* margin-top: 2rem; */
+}

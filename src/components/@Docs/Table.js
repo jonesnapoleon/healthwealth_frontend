@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { getMoment } from "../../helpers/transformer";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
   return (
@@ -17,20 +18,25 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
           displayedDocs?.length > 0 &&
           displayedDocs?.map((component) => (
             <tr
-              className="col col-xl-4 col-sm-12 sign-area"
+              className={`col col-xl-4 col-sm-12 sign-area ${
+                activeDoc?.value?.id === component?.id ? "bg-ok" : ""
+              }`}
               key={component?.id}
+              onClick={() => activeDoc?.set(component)}
             >
               <td>
-                <span
-                  className={`cursor-pointer ${
-                    activeDoc?.value?.id === component?.id ? "bold" : ""
-                  } `}
-                  onClick={() => activeDoc?.set(component)}
-                >
+                <span className={`cursor-pointer  `}>
                   {component?.filename ?? "Untitled 225"}
                 </span>
               </td>
-              <td>{t(`docs.table.status.${component?.status}`)}</td>
+              <td>
+                <div>
+                  <div className="dot" />
+                  <div className="dot" />
+                  <div className="dot" />
+                </div>
+                <span>{t(`docs.table.status.${component?.status}`)}</span>
+              </td>
               <td>
                 <button
                   onClick={() => handleClickingComponent(component)}
@@ -40,6 +46,9 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
                 </button>
               </td>
               <td>{getMoment(component?.createdAt)}</td>
+              <td>
+                <ChevronRightIcon />
+              </td>
             </tr>
           ))}
       </tbody>

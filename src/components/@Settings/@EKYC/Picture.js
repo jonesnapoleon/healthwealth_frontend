@@ -12,6 +12,8 @@ import { uploadKTP } from "../../../api/auth";
 // uploadSelfie
 import Snackbar from "../../commons/Snackbar";
 import { useAuth } from "../../../contexts/AuthContext";
+import Progressbar from "components/commons/Progressbar";
+import { useProgressBar } from "helpers/hooks";
 
 const Picture = () => {
   const { auth, putAuth } = useAuth();
@@ -21,6 +23,7 @@ const Picture = () => {
   const [loading, setLoading] = useState(false);
   // const [takePhoto, setTakePhoto] = useState(false);
   const { setInnerComponent, show } = useModal();
+  const progress = useProgressBar();
 
   const identity = useFile();
   const isIdentityEdit = useRefreshedData(!!identity?.file);
@@ -43,12 +46,14 @@ const Picture = () => {
       if (res?.data) {
         identity.setFile(null);
         isIdentityEdit.set(false);
+        progress.set(100);
         putAuth(res.data);
         setSuccess(t("settings.ekyc.submitIdentitySuccess"));
         setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
       setError(String(err));
+      progress.set(-1);
       setTimeout(() => setError(false), 3000);
     } finally {
       setLoading(false);
@@ -74,13 +79,18 @@ const Picture = () => {
     if (!(!identity?.file || identity?.file === null)) {
       return (
         <div className="mt-3">
-          <button
-            className="btn btn-outline-primary"
-            disabled={loading}
-            onClick={handleSubmitIdentity}
-          >
-            {t("general.submit")}
-          </button>
+          <div>
+            <Progressbar progress={progress} />
+          </div>
+          <div>
+            <button
+              className="btn btn-outline-primary"
+              disabled={loading}
+              onClick={handleSubmitIdentity}
+            >
+              {t("general.submit")}
+            </button>
+          </div>
         </div>
       );
     }
@@ -89,9 +99,9 @@ const Picture = () => {
   return (
     <>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
+      {success && <Snackbar type="success" text={success} />}
 
-      <div className="lead">
+      <div className="bold head">
         {t("settings.ekyc.proofIdentity")}{" "}
         {auth?.ktp_url && !isIdentityEdit.value && (
           <span onClick={() => isIdentityEdit.set(true)}>
@@ -119,7 +129,7 @@ const Picture = () => {
       </div>
       {renderButtonIdentity()}
 
-      <div className="lead mt-5">{t("settings.ekyc.takeAPicture")}</div>
+      <div className="bold head mt-5">{t("settings.ekyc.takeAPicture")}</div>
       <div className="mt-1">
         <ImageUpload
           meta={imagesData[1]}

@@ -1,5 +1,5 @@
 import React from "react";
-import "./ekyc.css";
+import "./ekyc.scss";
 import PersonalDetail from "./PersonalDetail";
 import Picture from "./Picture";
 

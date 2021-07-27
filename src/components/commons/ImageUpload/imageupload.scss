@@ -31,22 +31,25 @@
   /* background-color: var(--secondary-extra-color-1); */
   color: var(--primary-color);
   border: 2px dashed var(--primary-color);
+  &:hover {
+    background-color: #7070701a;
+  }
 }
 
 .drag-drop-container .drag-drop-area {
   border-left: 2px solid var(--primary-color);
-}
-
-.drag-drop-container .drag-drop-area img {
-  height: 2rem;
-  padding: 0.2rem 1rem;
+  .icon {
+    height: 2rem;
+    padding: 0.2rem 1rem;
+  }
 }
 
 .drag-drop-container .upload-button,
 .drag-drop-container .upload-button:hover,
 .drag-drop-container .upload-button:active {
-  border: 2px solid var(--primary-color) !important;
-  font-weight: bold;
+  // border: 2px solid var(--primary-color) !important;
+  // font-weight: bold;
+  border-radius: 0;
 }
 
 .open-cam-container video {

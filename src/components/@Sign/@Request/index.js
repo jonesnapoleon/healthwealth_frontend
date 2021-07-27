@@ -2,15 +2,17 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 
 import PlaceField from "../PlaceField";
 import ReviewSend from "../ReviewSend";
 
-import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 // import { usePreventPageLeave } from "../../../helpers/hooks";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Request = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -22,7 +24,7 @@ const Request = () => {
     () => [
       {
         name: t("sign.selectDocument.text"),
-        icon: <SelectIcon />,
+        icon: <DescriptionOutlinedIcon />,
         component: (
           <PlaceField
             activeItem={activeItem}
@@ -33,39 +35,39 @@ const Request = () => {
         ),
         pathName: FRONTEND_URL.sign_place_fields,
       },
-      {
-        name: t("sign.reviewSend.text"),
-        icon: <PlaceFieldIcon />,
-        component: (
-          <ReviewSend
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            atr={DOC.request}
-            setAvailableItem={setAvailableItem}
-            setActiveItem={setActiveItem}
-          />
-        ),
-        pathName: FRONTEND_URL.sign_place_fields,
-      },
-      {
-        name: t("sign.placeFields.text"),
-        icon: <PlaceFieldIcon />,
-        component: (
-          <PlaceField
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            atr={DOC.request}
-            setAvailableItem={setAvailableItem}
-            setActiveItem={setActiveItem}
-          />
-        ),
-        pathName: FRONTEND_URL.sign_place_fields,
-      },
-      {
-        name: t("sign.reviewSend.text"),
-        icon: <ReviewSendIcon />,
-        pathName: FRONTEND_URL.sign_review_send,
-      },
+      // {
+      //   name: t("sign.reviewSend.text"),
+      //   icon: <ListAltOutlinedIcon />,
+      //   component: (
+      //     <ReviewSend
+      //       activeItem={activeItem}
+      //       availableLevel={availableLevel}
+      //       atr={DOC.request}
+      //       setAvailableItem={setAvailableItem}
+      //       setActiveItem={setActiveItem}
+      //     />
+      //   ),
+      //   pathName: FRONTEND_URL.sign_place_fields,
+      // },
+      // {
+      //   name: t("sign.placeFields.text"),
+      //   icon: <PlaceFieldIcon />,
+      //   component: (
+      //     <PlaceField
+      //       activeItem={activeItem}
+      //       availableLevel={availableLevel}
+      //       atr={DOC.request}
+      //       setAvailableItem={setAvailableItem}
+      //       setActiveItem={setActiveItem}
+      //     />
+      //   ),
+      //   pathName: FRONTEND_URL.sign_place_fields,
+      // },
+      // {
+      //   name: t("sign.reviewSend.text"),
+      //   icon: <ReviewSendIcon />,
+      //   pathName: FRONTEND_URL.sign_review_send,
+      // },
     ],
     [activeItem, t, availableLevel]
   );

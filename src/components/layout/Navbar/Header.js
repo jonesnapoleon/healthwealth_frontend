@@ -2,10 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
 import logoUrl from "../../../assets/bnw/Company Logo@2x.png";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 const Header = ({ auth, t, signOut }) => {
+  // const [open, setOpen] = useState(false);
+  const dropdownSelector = document.querySelector(
+    ".dropdown-menu.nav-dropdown"
+  );
   const toggleDropdown = (bool) => {
     const dropdownSelector = document.querySelector(
       ".dropdown-menu.nav-dropdown"
@@ -44,12 +48,17 @@ const Header = ({ auth, t, signOut }) => {
               <div
                 className="dropdown-toggle"
                 type="button"
-                onMouseLeave={() => toggleDropdown(!true)}
-                onMouseOver={() => toggleDropdown(true)}
+                // onMouseLeave={() => toggleDropdown(!true)}
+                onClick={() =>
+                  toggleDropdown(dropdownSelector.style.display === "none")
+                }
+                // onMouseOver={() => toggleDropdown(true)}
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-              ></div>
+              >
+                <ChevronRightIcon />
+              </div>
               <div className="dropdown-menu nav-dropdown">
                 <Link className="dropdown-item" to={FRONTEND_URL.settings}>
                   {t("header.myProfile")}
@@ -59,9 +68,9 @@ const Header = ({ auth, t, signOut }) => {
                 </div>
               </div>
             </div>
-            <div>
+            {/* <div>
               <HelpSvg />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

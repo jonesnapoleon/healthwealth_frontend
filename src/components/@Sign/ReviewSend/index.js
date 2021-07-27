@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
-import "./reviewSend.css";
+import "./reviewSend.scss";
 
 // import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
 import Snackbar from "../../commons/Snackbar";
@@ -112,8 +112,8 @@ const ReviewSend = ({
   return (
     <>
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
-      <div className="row">
+      {success && <Snackbar type="success" text={success} />}
+      <div className="row ">
         <div className="col-lg-6 col-md-12">
           <div className="container left sign-review-send-container">
             <h4 className="">{t("sign.reviewSend.left.doesAnyNeedCopy")}</h4>
@@ -172,7 +172,7 @@ const ReviewSend = ({
         </div>
         <div className="col-lg-6 col-md-12 ">
           <div className="container right sign-review-send-container">
-            <div>
+            <div className="first-child">
               <h4 className="text-uppercase mb-4">
                 {t("sign.reviewSend.right.summary")}
               </h4>

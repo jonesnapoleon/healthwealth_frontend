@@ -11,6 +11,7 @@
 }
 :root {
   --primary-color: #000000;
+  --black-color: #707070;
   --primary-color-divide: 0, 0, 0;
 
   --secondary-color: #fafafa;
@@ -187,6 +188,16 @@ code {
   border: 0;
   text-decoration: underline;
 }
-
+.btn-black {
+  background-color: var(--black-color);
+  border: 0;
+}
+.btn-black:hover,
+.btn-black:focus,
+.btn-black:active {
+  background-color: #2f7bf7;
+  outline: none;
+  box-shadow: 0;
+}
 /* .text-only-button:hover {
 } */

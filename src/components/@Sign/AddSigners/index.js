@@ -104,7 +104,7 @@ const AddSigners = ({
   return (
     <div className="container container-center sign-select-document-container">
       {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
+      {success && <Snackbar type="success" text={success} />}
       <div>
         <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
         <div className="mt-3 mb-0">

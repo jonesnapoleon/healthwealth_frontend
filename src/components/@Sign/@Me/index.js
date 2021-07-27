@@ -4,13 +4,15 @@ import { useTranslation } from "react-i18next";
 import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 
 import SelectDocument from "../SelectDocument";
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 
 import PlaceField from "../PlaceField";
-import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 import { usePreventPageLeave } from "../../../helpers/hooks";
+
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -24,7 +26,7 @@ const Me = () => {
     () => [
       {
         name: t("sign.selectDocument.text"),
-        icon: <SelectIcon />,
+        icon: <DescriptionOutlinedIcon />,
         component: (
           <SelectDocument
             activeItem={activeItem}
@@ -38,7 +40,7 @@ const Me = () => {
       },
       {
         name: t("sign.placeFields.text"),
-        icon: <PlaceFieldIcon />,
+        icon: <ListAltOutlinedIcon />,
         component: (
           <PlaceField
             activeItem={activeItem}
@@ -51,7 +53,7 @@ const Me = () => {
       },
       {
         name: t("sign.reviewSend.text"),
-        icon: <ReviewSendIcon />,
+        icon: <SendRoundedIcon />,
         pathName: FRONTEND_URL.sign_review_send,
       },
     ],

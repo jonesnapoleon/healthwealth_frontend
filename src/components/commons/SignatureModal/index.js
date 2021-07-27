@@ -2,7 +2,9 @@ import React, { useState, useRef } from "react";
 import SignaturePad from "react-signature-canvas";
 import { useTranslation } from "react-i18next";
 import { useCheckbox } from "../../../helpers/hooks";
-
+import EditIcon from "@material-ui/icons/Edit";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import TextFieldsIcon from "@material-ui/icons/TextFields";
 import "./signaturemodal.scss";
 
 const SignatureModal = () => {
@@ -22,12 +24,13 @@ const SignatureModal = () => {
       <div className="row whole-signature-modal">
         <div className="col col-3">
           {[
-            ["settings.signature.draw"],
-            ["settings.signature.upload"],
-            ["settings.signature.textText"],
+            ["settings.signature.draw", <EditIcon />],
+            ["settings.signature.upload", <CloudUploadIcon />],
+            ["settings.signature.textText", <TextFieldsIcon />],
           ].map((text, i) => (
             <div className="tab-area" onClick={() => setTab(i)}>
-              X {t(text[0])}
+              {text[1]}
+              <span>{t(text[0])}</span>
             </div>
           ))}
         </div>

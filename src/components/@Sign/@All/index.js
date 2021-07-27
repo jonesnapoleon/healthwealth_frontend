@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 import { useTranslation } from "react-i18next";
 
-import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
+// import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
+// import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
+// import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
+// import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 import { DOC, FRONTEND_URL } from "../../../helpers/constant";
 import { usePreventPageLeave } from "../../../helpers/hooks";
+
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -21,7 +27,7 @@ const Me = () => {
   const stepperData = [
     {
       name: t("sign.selectDocument.text"),
-      icon: <SelectIcon />,
+      icon: <DescriptionOutlinedIcon />,
       component: (
         <AddSigners
           activeItem={activeItem}
@@ -35,7 +41,7 @@ const Me = () => {
     },
     {
       name: t("sign.addSigners.text"),
-      icon: <PersonAddIcon />,
+      icon: <FontAwesomeIcon icon={faUser} />,
       component: (
         <SelectDocument
           activeItem={activeItem}
@@ -53,12 +59,12 @@ const Me = () => {
     },
     {
       name: t("sign.placeFields.text"),
-      icon: <PlaceFieldIcon />,
+      icon: <ListAltOutlinedIcon />,
       pathName: FRONTEND_URL.sign_place_fields,
     },
     {
       name: t("sign.reviewSend.text"),
-      icon: <ReviewSendIcon />,
+      icon: <SendRoundedIcon />,
       pathName: FRONTEND_URL.sign_review_send,
     },
   ];

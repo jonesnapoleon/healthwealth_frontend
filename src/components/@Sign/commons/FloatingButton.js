@@ -28,7 +28,7 @@ const FloatingButton = ({
           <button
             onClick={onClickNext}
             disabled={disabled}
-            className="btn btn-primary btn-lg"
+            className="btn btn-black btn-primary btn-lg"
           >
             {t("general.next")}
           </button>
