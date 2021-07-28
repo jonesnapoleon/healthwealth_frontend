@@ -10,6 +10,10 @@ import { useData } from "../../../contexts/DataContext";
 import { useFormInput } from "../../../helpers/hooks";
 // import StaticPersonRow from "../commons/StaticPersonRow";
 
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+
 const ReviewSend = ({
   activeItem,
   setActiveItem,

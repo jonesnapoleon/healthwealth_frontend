@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import DeleteIcon from "@material-ui/icons/Delete";
+import UndoIcon from "@material-ui/icons/Undo";
+import RedoIcon from "@material-ui/icons/Redo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
 
 const Toolbar = ({
   copyField,
@@ -30,10 +35,10 @@ const Toolbar = ({
             </tr>
           </tbody>
         </table>
-        <button onClick={copyField}>Copy</button>
-        <button onClick={pasteField}>Paste</button>
-        <button onClick={undoField}>Undo</button>
-        <button onClick={redoField}>Redo</button>
+        <UndoIcon onClick={pasteField} />
+        <RedoIcon onClick={redoField} />
+        <FontAwesomeIcon icon={faClone} onClick={copyField} />
+        <FontAwesomeIcon icon={faClipboard} onClick={pasteField} />
       </div>
     </div>
   );

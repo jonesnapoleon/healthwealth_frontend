@@ -2,8 +2,19 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
 
-const StaticFieldBox = ({ type }) => {
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import PersonIcon from "@material-ui/icons/Person";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
+import BusinessIcon from "@material-ui/icons/Business";
+import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
+import TextFieldsIcon from "@material-ui/icons/TextFields";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+// import DeleteIcon from '@material-ui/icons/Delete';
+
+const StaticFieldBox = ({ type, icon }) => {
   const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
@@ -15,11 +26,11 @@ const StaticFieldBox = ({ type }) => {
   return (
     <div ref={drag} className="field-box">
       <div className="must-child">
-        <div>MM</div>
+        <div>{icon}</div>
         <div>{type}</div>
       </div>
       <div className="optional-child">
-        <div>MM</div>
+        <div>{icon} </div>
       </div>
     </div>
   );
@@ -79,24 +90,30 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
           </select> */}
 
           <div className="lead">{t("sign.placeFields.left.signature")}</div>
-          {[fieldType.SIGNATURE, fieldType.INITIAL]?.map((type, i) => (
-            <StaticFieldBox type={type} key={i} />
+          {[
+            [fieldType.SIGNATURE],
+            [fieldType.INITIAL, <FontAwesomeIcon icon={faPenSquare} />],
+          ]?.map((type, i) => (
+            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
           ))}
 
           <div className="lead">{t("sign.placeFields.left.autofill")}</div>
           {[
-            fieldType.DATE,
-            fieldType.NAME,
-            fieldType.EMAIL,
-            fieldType.COMPANY,
-            fieldType.TITLE,
+            [fieldType.DATE, <DateRangeIcon />],
+            [fieldType.NAME, <PersonIcon />],
+            [fieldType.EMAIL, <AlternateEmailIcon />],
+            [fieldType.COMPANY, <BusinessIcon />],
+            [fieldType.TITLE, <WorkOutlineIcon />],
           ]?.map((type, i) => (
-            <StaticFieldBox type={type} key={i} />
+            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
           ))}
 
           <div className="lead">{t("sign.placeFields.left.standard")}</div>
-          {[fieldType.TEXTBOX, fieldType.CHECKBOX]?.map((type, i) => (
-            <StaticFieldBox type={type} key={i} />
+          {[
+            [fieldType.TEXTBOX, <TextFieldsIcon />],
+            [fieldType.CHECKBOX, <CheckBoxIcon />],
+          ]?.map((type, i) => (
+            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
           ))}
         </div>
       </div>

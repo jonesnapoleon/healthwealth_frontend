@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import ReviewSend from "../ReviewSend";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -25,6 +26,25 @@ const Me = () => {
   // usePreventPageLeave();
 
   const stepperData = [
+    {
+      name: t("sign.reviewSend.text"),
+      icon: <ListAltOutlinedIcon />,
+      component: (
+        <ReviewSend
+          activeItem={activeItem}
+          availableLevel={availableLevel}
+          atr={DOC.request}
+          setAvailableLevel={setAvailableLevel}
+          setActiveItem={setActiveItem}
+        />
+      ),
+      pathName: FRONTEND_URL.sign_place_fields,
+    },
+    {
+      name: t("sign.reviewSend.text"),
+      icon: <SendRoundedIcon />,
+      pathName: FRONTEND_URL.sign_review_send,
+    },
     {
       name: t("sign.selectDocument.text"),
       icon: <DescriptionOutlinedIcon />,
@@ -61,11 +81,6 @@ const Me = () => {
       name: t("sign.placeFields.text"),
       icon: <ListAltOutlinedIcon />,
       pathName: FRONTEND_URL.sign_place_fields,
-    },
-    {
-      name: t("sign.reviewSend.text"),
-      icon: <SendRoundedIcon />,
-      pathName: FRONTEND_URL.sign_review_send,
     },
   ];
 

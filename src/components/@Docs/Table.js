@@ -30,10 +30,14 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
                 </span>
               </td>
               <td>
-                <div>
-                  <div className="dot" />
-                  <div className="dot" />
-                  <div className="dot" />
+                <div className="progress-bag">
+                  <div className="progression">
+                    <div className="full-bar" />
+                    <div className="partial-bar" style={{ width: "30%" }} />
+                    {[0, 1, 2].map((a, i) => (
+                      <div key={i} className={`score score-${a}`} />
+                    ))}
+                  </div>
                 </div>
                 <span>{t(`docs.table.status.${component?.status}`)}</span>
               </td>

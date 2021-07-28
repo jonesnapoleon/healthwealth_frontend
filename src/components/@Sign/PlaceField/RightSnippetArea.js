@@ -9,7 +9,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ColorizedSelect from "../commons/ColorizedSelect";
-
+import DeleteIcon from "@material-ui/icons/Delete";
 // import { getReadableFieldName } from "./FieldBox";
 
 const useStyles = makeStyles((theme) => ({
@@ -166,7 +166,11 @@ const RightSnippetArea = ({
           <div className="lead font-weight-bolder">
             {t("sign.placeFields.right.signature")}
           </div>
-          {currentField && <div onClick={onDelete}>JON</div>}
+          {currentField && (
+            <div onClick={onDelete}>
+              <DeleteIcon />
+            </div>
+          )}
         </div>
       </div>
       <ControlledAccordions

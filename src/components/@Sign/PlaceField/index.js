@@ -314,6 +314,7 @@ const PlaceField = ({
               let temp = currentField;
               temp.deleted = true;
               pushToStack(temp);
+              setCurrentField(null);
             }}
           />
         </DndProvider>
