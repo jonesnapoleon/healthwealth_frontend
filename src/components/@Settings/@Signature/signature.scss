@@ -1,0 +1,13 @@
+.signature-page-container {
+  display: flex;
+  align-items: center;
+  > * {
+    padding: 1rem 4rem 0 0;
+    .head {
+      padding-bottom: 0.4rem;
+    }
+  }
+  .lead {
+    margin-bottom: 0.75rem;
+  }
+}

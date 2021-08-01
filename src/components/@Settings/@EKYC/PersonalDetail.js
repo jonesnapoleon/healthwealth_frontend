@@ -98,6 +98,7 @@ const PersonalDetail = () => {
 
   return (
     <>
+      <div className="head">UID: {auth?.uid}</div>
       <div className="head bold">{t("settings.ekyc.personalDetail")}</div>
       {error && <Snackbar text={error} />}
       {success && <Snackbar type="success" text={success} />}

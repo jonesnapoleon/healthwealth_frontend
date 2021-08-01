@@ -15,7 +15,7 @@ import { FRONTEND_URL } from "../../helpers/constant";
 import EKYC from "./@EKYC";
 import Signature from "./@Signature";
 
-import "./settings.css";
+import "./settings.scss";
 
 const navSettingsData = [
   {

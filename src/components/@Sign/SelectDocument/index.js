@@ -8,9 +8,6 @@ import FloatingButton from "../commons/FloatingButton";
 import Snackbar from "../../commons/Snackbar";
 import Progressbar from "../../../components/commons/Progressbar";
 
-import { ReactComponent as DocumentIcon } from "../../../assets/bnw/Upload Document Icon.svg";
-import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete Upload Document Icon.svg";
-
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";

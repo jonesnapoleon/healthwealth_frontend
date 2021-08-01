@@ -1,14 +1,5 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url(./fonts.css);
 
-@font-face {
-  font-family: Helvetiva;
-  src: url("./assets/Helvetica-Neue-Font/Helvetica Neue Medium Extended/Helvetica Neue Medium Extended.ttf");
-}
-@font-face {
-  font-family: PTSans;
-  src: url("./assets/PT_Sans/PTSans-Regular.ttf");
-}
 :root {
   --primary-color: #000000;
   --black-color: #707070;
@@ -185,6 +176,7 @@ code {
 }
 .text-only-button {
   background: transparent;
+  font-size: 0.8vw;
   border: 0;
   text-decoration: underline;
 }
@@ -201,3 +193,11 @@ code {
 }
 /* .text-only-button:hover {
 } */
+
+.btn.btn-black.circled {
+  border-radius: var(--border-radius);
+  border: 0;
+  background: var(--secondary-extra-color-3);
+  color: var(--text-color);
+  padding: 0.5rem 2.2rem;
+}

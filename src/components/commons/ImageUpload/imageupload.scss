@@ -26,6 +26,7 @@
   padding: 2rem 1rem;
   justify-content: space-evenly;
   align-items: center;
+  // margin: auto;
   flex-direction: row;
   max-width: 500px;
   /* background-color: var(--secondary-extra-color-1); */
@@ -70,4 +71,16 @@
   background-color: var(--secondary-extra-color-1);
   color: var(--primary-color);
   border: 0.5px dashed var(--primary-color);
+}
+
+.drag-drop-with-progress-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.delete-red {
+  color: red;
 }

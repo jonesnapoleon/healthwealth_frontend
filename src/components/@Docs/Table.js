@@ -33,7 +33,7 @@ const Table = ({ displayedDocs, handleClickingComponent, t, activeDoc }) => {
                 <div className="progress-bag">
                   <div className="progression">
                     <div className="full-bar" />
-                    <div className="partial-bar" style={{ width: "30%" }} />
+                    <div className="partial-bar" />
                     {[0, 1, 2].map((a, i) => (
                       <div key={i} className={`score score-${a}`} />
                     ))}

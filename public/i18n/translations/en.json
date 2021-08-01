@@ -166,6 +166,8 @@
     "email": "Email",
     "emailAddress": "Email address",
     "name": "Name",
+    "preview": "Preview",
+    "font": "Font",
     "search": "Search",
     "password": "Password",
     "pleaseWait": "Please Wait...",

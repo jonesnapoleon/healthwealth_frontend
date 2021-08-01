@@ -50,3 +50,18 @@ export const FIXED_COLORS = [
   { color: "green", backgroundColor: "rgba(0, 255, 0, 0.6)" },
   { color: "pink", backgroundColor: "rgba(213, 21, 13, 0.6)" },
 ];
+
+export const FONTLIST = [
+  ["BeautifulBloom", "BeautifulBloom"],
+  ["Biancha", "Biancha"],
+  ["Dessthia", "Dessthia"],
+  ["Elaine", "Elaine"],
+  ["Hendrickson", "Hendrickson"],
+  ["Hudson", "Hudson"],
+  ["KingWaller", "KingWaller"],
+  ["SignatureMoments", "SignatureMoments"],
+  ["SignatureX", "SignatureX"],
+  ["Signeria", "Signeria"],
+  ["Singaporean", "Singaporean"],
+  ["Standlist", "Standlist"],
+];

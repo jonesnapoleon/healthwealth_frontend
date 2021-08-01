@@ -43,10 +43,10 @@ $orange-color: #ff7600;
 $bag-image-width: 3rem;
 $ugly-gray: gray;
 $ball-size: 0.7rem;
-$progress-height: 0.2rem;
+$progress-height: 0.1rem;
 
 .progress-bag {
-  height: 2rem;
+  height: 1rem;
   display: block;
   position: relative;
   width: 70%;
@@ -67,7 +67,7 @@ $progress-height: 0.2rem;
     margin-left: $ball-size / 2;
     margin-right: $bag-image-width / 2;
     position: relative;
-    width: 70%;
+    width: 50%;
     height: 100%;
     .full-bar {
       width: 100%;
