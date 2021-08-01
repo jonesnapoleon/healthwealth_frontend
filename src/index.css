@@ -15,6 +15,8 @@
   --danger-color: red;
   --orange-color: #ff8319;
 
+  --success-color: #45b336;
+
   --primary-font-type: PTSans;
   --secondary-font-type: Helvetica;
 
@@ -183,9 +185,11 @@ code {
   border: 0;
   text-decoration: underline;
 }
+
 .btn-black {
   background-color: var(--black-color);
   border: 0;
+  color: white;
 }
 .btn-black:hover,
 .btn-black:focus,
@@ -197,10 +201,28 @@ code {
 /* .text-only-button:hover {
 } */
 
+.btn.btn-black.squared {
+  border-radius: 0.1rem;
+  border: 0;
+  background: var(--secondary-extra-color-3);
+  color: var(--text-color);
+  padding: 0.3rem 2.1rem;
+  outline: none;
+  box-shadow: none;
+}
 .btn.btn-black.circled {
+  outline: none;
+  box-shadow: none;
   border-radius: var(--border-radius);
   border: 0;
   background: var(--secondary-extra-color-3);
   color: var(--text-color);
   padding: 0.5rem 2.2rem;
+}
+
+button.send-wa {
+  border: 1px solid var(--success-color);
+  color: var(--success-color);
+  font-weight: bolder;
+  padding: 0.35rem 0.75rem;
 }

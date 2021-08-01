@@ -318,6 +318,19 @@
       }
     }
   },
+  "popup": {
+    "wa": {
+      "fasterThan": "It's faster than printing, right?",
+      "docsBeenSent": "Your document has been sent!",
+      "checkTheStatus": "Check the status on Document Page",
+      "easyReq": "Easily request sign through social media",
+      "sendViaWA": "Send via Whatsapp",
+      "sendFaster": "Send whatsapp for faster response!",
+      "template1": "Hi ",
+      "template2": ", I would like to request your signature - ",
+      "template3": "Click here"
+    }
+  },
   "docs": {
     "table": {
       "clickToCreateNewDocument": "Click to create new document",

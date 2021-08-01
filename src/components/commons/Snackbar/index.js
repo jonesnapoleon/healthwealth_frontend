@@ -1,5 +1,5 @@
 import React from "react";
-import "./snackbar.css";
+import "./snackbar.scss";
 
 const Snackbar = ({ text, type = "danger" }) => {
   return text ? (

@@ -1,0 +1,44 @@
+.faster-than-printing-container {
+  text-align: center;
+  width: 100%;
+  padding: 1rem 3rem;
+  font-weight: bolder;
+  .head {
+    font-weight: bolder;
+    color: var(--tertiary-color);
+  }
+  .desc {
+    margin: 1rem 0;
+    div {
+      font-size: 0.9rem;
+    }
+  }
+  hr {
+    // width: 90%;
+    margin: auto;
+  }
+}
+
+.send-whatsapp-container {
+  font-size: 0.9rem;
+  font-weight: bolder;
+  --whatsapp-bg-color: #f4feea;
+  .input-area {
+    input {
+      border: 0;
+      padding: 0.5rem 1rem;
+      &:first-child {
+        background: var(--secondary-extra-color-1);
+        margin: 1rem 1rem 1rem 0;
+      }
+      &:last-child {
+        background: var(--whatsapp-bg-color);
+        margin: 1rem 0 1rem 1rem;
+      }
+    }
+  }
+  .bottom-text-area {
+    padding: 0.5rem 1rem;
+    background: var(--whatsapp-bg-color);
+  }
+}

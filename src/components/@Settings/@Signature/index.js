@@ -1,3 +1,4 @@
+import FasterThanPrinting from "components/@Sign/commons/FasterThanPrinting";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "../../../contexts/ModalContext";
@@ -7,7 +8,7 @@ import "./signature.scss";
 
 const Signature = () => {
   const { t } = useTranslation();
-  const { setInnerComponent, show } = useModal();
+  const { setInnerComponent, show, showIcon, size, bg } = useModal();
 
   return (
     <div className="signature-page-container">
@@ -26,8 +27,12 @@ const Signature = () => {
         <ModalSign
           meta={{ head: t("settings.signature.addInitials") }}
           onClick={() => {
-            setInnerComponent(<SignatureModal />);
+            setInnerComponent(<FasterThanPrinting />);
+            // setInnerComponent(<SignatureModal />);
+            size?.set("unset");
+            bg?.set("light");
             show?.set(true);
+            showIcon?.set(true);
           }}
         />
       </div>

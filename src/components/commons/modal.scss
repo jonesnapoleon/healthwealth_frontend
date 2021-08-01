@@ -9,6 +9,16 @@
   box-shadow: none;
   background-color: var(--secondary-extra-color-4);
   overflow: hidden;
+
+  &.modal-small {
+    height: calc(var(--modal-height) / 2);
+    width: calc(var(--modal-width) / 1.9);
+  }
+  &.modal-unset {
+    height: unset;
+    max-width: 500px;
+    width: unset;
+  }
   .modal-content {
     max-width: 100%;
     background: transparent;
