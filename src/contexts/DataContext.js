@@ -1,3 +1,4 @@
+import { getDocumentAuditTrail } from "api/docs";
 import React, {
   createContext,
   useCallback,
@@ -5,6 +6,7 @@ import React, {
   useReducer,
   useState,
 } from "react";
+import { useSnackbar } from "./SnackbarContext";
 
 export const DataContext = createContext({});
 export const useData = () => useContext(DataContext);
@@ -27,12 +29,32 @@ const reducer = (state, action) => {
 };
 
 const DataProvider = ({ children }) => {
+  const { addSnackbar } = useSnackbar();
+
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
     me: { docs: false, fileData: false, signers: [], copies: [] },
     all: { docs: false, fileData: false, signers: [], copies: [] },
     request: { docs: false, fileData: false, signers: [], copies: [] },
   });
   const [docs, setDocs] = useState(false);
+
+  const [auditTrails, setAuditTrails] = useState({});
+
+  const getAuditTrail = useCallback(
+    async (documentId) => {
+      try {
+        const res = await getDocumentAuditTrail(documentId);
+        if (res) {
+          setAuditTrails((now) => {
+            return { ...now, [documentId]: res.data };
+          });
+        }
+      } catch (e) {
+        addSnackbar(String(e));
+      }
+    },
+    [addSnackbar]
+  );
 
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],
@@ -52,6 +74,8 @@ const DataProvider = ({ children }) => {
         dataDocs,
         handle_data_docs,
         getItemData,
+        getAuditTrail,
+        auditTrails,
       }}
     >
       {children}

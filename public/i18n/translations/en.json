@@ -320,6 +320,7 @@
   },
   "docs": {
     "table": {
+      "clickToCreateNewDocument": "Click to create new document",
       "title": "Title",
       "SLA": "SLA",
       "action": {

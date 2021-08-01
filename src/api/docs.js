@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const API_ADD_DOC = "/api/doc/";
+const API_GET_USER_DOCS = "/api/docs/";
+
 // const API_ADD_USER_TO_DOC = "/api/docflow/";
 
 export const addDoc = async (file, fileName, signType) => {
@@ -70,5 +72,29 @@ export const addUserToDocument = async (data, fileId) => {
     //   const errorCode = e.response?.data?.codegit pyu;
     // }
     throw e?.response?.data?.error?.message ?? "Add docs failed";
+  }
+};
+
+export const getAllDocs = async () => {
+  try {
+    const response = await axios.get(`${API_GET_USER_DOCS}`);
+    return response.data?.data;
+  } catch (e) {
+    // if (e?.response) {
+    //   const errorCode = e.response?.data?.code;
+    // }
+    throw e?.response?.data?.errorMessage ?? "No docs";
+  }
+};
+
+export const getDocumentAuditTrail = async (documentId) => {
+  try {
+    const response = await axios.get(`${API_GET_USER_DOCS}/${documentId}`);
+    return response.data?.data;
+  } catch (e) {
+    // if (e?.response) {
+    //   const errorCode = e.response?.data?.code;
+    // }
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };

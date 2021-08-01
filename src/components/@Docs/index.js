@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
-import { getAllDocs } from "../../api/auth";
-import Snackbar from "../commons/Snackbar";
+import { getAllDocs } from "../../api/docs";
 // import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
 import "./docs.scss";
 import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import { useSnackbar } from "contexts/SnackbarContext";
 
 const Docs = () => {
   const { t } = useTranslation();
-  const { handle_data_docs, docs, setDocs } = useData();
+  const { handle_data_docs, docs, setDocs, getAuditTrail, auditTrails } =
+    useData();
+  const { addSnackbar } = useSnackbar();
   const query = useFormInput("");
-  const [error, setError] = useState(false);
   const history = useHistory();
 
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
@@ -32,11 +33,10 @@ const Docs = () => {
           setDocs(res);
         }
       } catch (err) {
-        setError(String(err));
-        setTimeout(() => setError(false), 3000);
+        addSnackbar(String(err));
       }
     }
-  }, [setDocs, docs]);
+  }, [setDocs, docs, addSnackbar]);
 
   useEffect(() => {
     console.log(displayedDocs);
@@ -81,8 +81,6 @@ const Docs = () => {
   // console.log(displayedDocs);
   return (
     <div className="docs mt-2">
-      {error && <Snackbar text={error} />}
-
       {/* <label class="formlabel">
           <span>{t("form.search")}</span>
         </label> */}
@@ -103,10 +101,11 @@ const Docs = () => {
             displayedDocs={displayedDocs}
             activeDoc={activeDoc}
             t={t}
+            getAuditTrail={getAuditTrail}
           />
         </div>
-        <div className="col col-lg-4 col-12">
-          <AuditTrail activeDoc={activeDoc} />
+        <div className="col col-lg-4 col-12 position-relative">
+          <AuditTrail activeDoc={activeDoc} auditTrails={auditTrails} />
         </div>
       </div>
     </div>

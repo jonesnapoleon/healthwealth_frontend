@@ -13,9 +13,12 @@
   --secondary-extra-color-4: #f4f8ff;
   --tertiary-color: #2f7bf7;
   --danger-color: red;
+  --orange-color: #ff8319;
 
   --primary-font-type: PTSans;
   --secondary-font-type: Helvetica;
+
+  --secondary-extra-color-11: #bdbdbd;
 
   --border-radius: 25px;
   --form-border-radius: 5px;

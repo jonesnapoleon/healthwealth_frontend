@@ -3,7 +3,6 @@ import axios from "axios";
 const API_LOGIN = "/api/login/";
 const API_GET_USER = "/api/profile/";
 const API_UPDATE_USER = "/api/profile/";
-const API_GET_USER_DOCS = "/api/docs/";
 const API_GET_USER_SIGNATURES = "/api/signatures/";
 const API_UPLOAD_KTP = "/api/user/ktp/";
 const API_UPLOAD_SELFIE = "/api/user/selfie/";
@@ -36,18 +35,6 @@ export const updateUser = async (data) => {
     // if (!userId) throw new Error("No User ID");
     const response = await axios.put(`${API_UPDATE_USER}`, data);
     return response.data;
-  } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
-    throw e?.response?.data?.errorMessage ?? "";
-  }
-};
-
-export const getAllDocs = async () => {
-  try {
-    const response = await axios.get(`${API_GET_USER_DOCS}`);
-    return response.data?.data;
   } catch (e) {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
