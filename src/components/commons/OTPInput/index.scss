@@ -1,0 +1,24 @@
+.input-otp-container {
+  display: flex;
+  justify-content: space-between;
+  // padding: 1rem;
+  .single-input-otp-container {
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    input {
+      border: 0;
+      font-size: 1.5rem;
+      max-width: 1rem;
+      outline: none;
+      background: initial;
+    }
+  }
+}

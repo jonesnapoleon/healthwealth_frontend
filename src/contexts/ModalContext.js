@@ -8,14 +8,23 @@ import "../components/commons/modal.scss";
 export const ModalContext = createContext({});
 export const useModal = () => useContext(ModalContext);
 
+const DEFAULT_BG_COLOR = "var(--secondary-extra-color-4)";
+
 const ModalProvider = ({ children }) => {
   const innerComponent = useInput(<div />);
   const show = useInput(false);
   const showIcon = useInput(false);
   const size = useInput(false);
   const bg = useInput(false);
+  const backgroundColor = useInput(DEFAULT_BG_COLOR);
 
-  // const showCloseIcon = useInput(false);
+  const onClose = () => {
+    showIcon?.set(false);
+    show?.set(false);
+    bg?.set("");
+    size?.set("");
+    backgroundColor?.set(DEFAULT_BG_COLOR);
+  };
 
   return (
     <ModalContext.Provider
@@ -25,16 +34,14 @@ const ModalProvider = ({ children }) => {
         showIcon,
         size,
         bg,
+        backgroundColor,
+        onClose,
       }}
     >
-      {console.log(showIcon)}
       {show?.value && (
         <Modal
           open={show?.value}
-          onClose={() => {
-            showIcon?.set(false);
-            show?.set(false);
-          }}
+          onClose={onClose}
           focusTrapped={showIcon?.value ? true : false}
           closeOnOverlayClick={showIcon?.value ? false : true}
           showCloseIcon={showIcon?.value ? true : false}
@@ -49,6 +56,9 @@ const ModalProvider = ({ children }) => {
             modal: `modal-base modal-${size?.value ?? "large"} `,
             modalAnimationIn: "fadeIn",
             modalAnimationOut: "fadeOut",
+          }}
+          styles={{
+            modal: { backgroundColor: backgroundColor?.value },
           }}
           animationDuration={MODAL_ANIMATE_DURATION}
         >

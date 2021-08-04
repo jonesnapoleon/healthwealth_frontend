@@ -1,5 +1,6 @@
 {
   "general": {
+    "iagree": "I agree",
     "seeAll": "Show All",
     "learnMore": "Learn More",
     "readTime": "{{count}} minute read time",
@@ -161,6 +162,8 @@
     }
   },
   "form": {
+    "send": "Send",
+    "sent": "Sent",
     "uploadFile": "Upload file",
     "dragDrop": "Drag and drop files here",
     "email": "Email",
@@ -329,6 +332,18 @@
       "template1": "Hi ",
       "template2": ", I would like to request your signature - ",
       "template3": "Click here"
+    },
+    "sign": {
+      "done": {
+        "almd": "Almost done.",
+        "long": "I agree to be legally bound by this document and the Kontrasign Terms of Service.",
+        "shorter": "Click on 'I agree' to sign this document."
+      },
+      "verify": {
+        "head": "Verify your own signature",
+        "resend": "Resend",
+        "bacod": "Input your 6 digit verification code"
+      }
     }
   },
   "docs": {

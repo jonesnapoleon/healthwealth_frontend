@@ -1,0 +1,27 @@
+.modal-structure-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  .text-above {
+    .head {
+      font-size: 1.1rem;
+    }
+    .desc {
+      > div {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  .button-below {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    button {
+      margin-left: 1rem;
+      font-size: 0.8rem;
+      padding: 0.4rem 1.2rem !important;
+      border-radius: 1px;
+    }
+  }
+}
