@@ -6,6 +6,9 @@ const theme = createTheme({
   typography: {
     fontFamily: "Helvetica, sans-serif",
     fontSize: 12,
+    body1: {
+      fontFamily: "PTSans",
+    },
     body2: {
       fontSize: 10,
     },

@@ -97,7 +97,7 @@ const UserSign = ({
   // const [clipboard, setClipboard] = useClippy();
 
   return (
-    <div>
+    <div className="user-sign">
       <Stepper items={[]} isFixed={true} />
       <div className={"place-field-area"}>
         {/* <Toolbar

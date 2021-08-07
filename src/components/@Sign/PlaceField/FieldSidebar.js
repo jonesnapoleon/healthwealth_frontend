@@ -14,7 +14,7 @@ import TextFieldsIcon from "@material-ui/icons/TextFields";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 // import DeleteIcon from '@material-ui/icons/Delete';
 
-const StaticFieldBox = ({ type, icon }) => {
+const StaticFieldBox = ({ type, icon, isYes }) => {
   const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
@@ -29,9 +29,7 @@ const StaticFieldBox = ({ type, icon }) => {
         <div>{icon}</div>
         <div>{type}</div>
       </div>
-      <div className="optional-child">
-        <div>{icon} </div>
-      </div>
+      <div className="optional-child">{isYes && <div>{icon} </div>}</div>
     </div>
   );
 };
@@ -108,12 +106,17 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
             <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
           ))}
 
-          <div className="lead">{t("sign.placeFields.left.standard")}</div>
+          <div className="lead">
+            {t("sign.placeFields.left.standard")}
+            <span className="px-2" style={{ verticalAlign: "middle" }}>
+              <TextFieldsIcon />
+            </span>
+          </div>
           {[
             [fieldType.TEXTBOX, <TextFieldsIcon />],
             [fieldType.CHECKBOX, <CheckBoxIcon />],
           ]?.map((type, i) => (
-            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
+            <StaticFieldBox type={type[0]} icon={type[1]} key={i} isYes />
           ))}
         </div>
       </div>

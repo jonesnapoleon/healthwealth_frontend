@@ -293,6 +293,7 @@
       },
       "right": {
         "fieldName": "Field name",
+        "documents": "Document",
         "signature": "Signature",
         "assignedTo": "Assigned to",
         "required": "Required",

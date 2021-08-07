@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -155,31 +155,49 @@ const RightSnippetArea = ({
 }) => {
   const { t } = useTranslation();
 
-  React.useEffect(() => {
-    console.log(currentField);
-  }, [currentField]);
+  const [inner, setInner] = useState("");
+
+  useEffect(() => {
+    const item = document.getElementById("main-workspace");
+    const doc = item.getElementsByClassName("fu-wrapper")[0];
+  }, [fields]);
 
   return (
     <div className="right-sidebar position-fixed">
-      <div className="">
-        <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
-          <div className="lead font-weight-bolder">
-            {t("sign.placeFields.right.signature")}
-          </div>
-          {currentField && (
-            <div onClick={onDelete}>
-              <DeleteIcon />
+      {currentField ? (
+        <>
+          <div className="">
+            <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
+              <div className="lead font-weight-bolder">
+                {t("sign.placeFields.right.signature")}
+              </div>
+              {currentField && (
+                <div onClick={onDelete}>
+                  <DeleteIcon />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
-      <ControlledAccordions
-        setCurrentField={setCurrentField}
-        currentField={currentField}
-        t={t}
-        setFields={setFields}
-        fields={fields}
-      />
+          </div>
+          <ControlledAccordions
+            setCurrentField={setCurrentField}
+            currentField={currentField}
+            t={t}
+            setFields={setFields}
+            fields={fields}
+          />
+        </>
+      ) : (
+        <>
+          <div className="">
+            <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
+              <div className="lead font-weight-bolder">
+                {t("sign.placeFields.right.documents")}
+              </div>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: inner }} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

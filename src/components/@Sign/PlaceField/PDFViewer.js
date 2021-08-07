@@ -238,3 +238,5 @@ const PDFViewer = ({
 };
 
 export default PDFViewer;
+
+// export const StaticPDFViewer =
