@@ -48,6 +48,7 @@ const PlaceField = ({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [scale, setScale] = useState(100);
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
@@ -95,28 +96,28 @@ const PlaceField = ({
   };
 
   useEffect(() => {
-    console.log(fileData);
+    // console.log(fileData);
     if (typeof fileData?.linkToPdf === "string" || temp) {
       // TODO
       // load images
     }
   }, [fileData]);
 
-  useEffect(() => {
-    console.log("useeffect fields", fields);
-  }, [fields]);
+  // useEffect(() => {
+  //   console.log("useeffect fields", fields);
+  // }, [fields]);
 
-  useEffect(() => {
-    console.log("useeffect currentfield", currentField);
-  }, [currentField]);
+  // useEffect(() => {
+  //   console.log("useeffect currentfield", currentField);
+  // }, [currentField]);
 
-  useEffect(() => {
-    console.log("useeffect statestack", stateStack, "idx", stackIdx);
-  }, [stateStack, stackIdx]);
+  // useEffect(() => {
+  //   console.log("useeffect statestack", stateStack, "idx", stackIdx);
+  // }, [stateStack, stackIdx]);
 
-  useEffect(() => {
-    console.log(currentSigner);
-  }, [currentSigner]);
+  // useEffect(() => {
+  //   console.log(currentSigner);
+  // }, [currentSigner]);
 
   const [clipboard, setClipboard] = useClippy();
 
@@ -285,6 +286,8 @@ const PlaceField = ({
           undoField={undoField}
           redoField={redoField}
           setQrCodePosition={setQrCodePosition}
+          scale={scale}
+          setScale={setScale}
         />
 
         <DndProvider backend={HTML5Backend}>
@@ -296,6 +299,7 @@ const PlaceField = ({
 
           <PDFViewer
             fields={fields}
+            scale={scale}
             setFields={setFields}
             setVisibility={setVisibility}
             currentSigner={currentSigner}

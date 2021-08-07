@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import { set } from "date-fns";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
@@ -37,7 +38,7 @@ const Page = ({
     () => ({
       accept: "field",
       drop: (item, monitor) => {
-        console.log(monitor);
+        // console.log("mon", monitor);
         return addFieldToWorkspace(
           item.type,
           monitor.getClientOffset(),
@@ -55,7 +56,7 @@ const Page = ({
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
 
-    console.log(fieldPosition, pageNum, pagePosition);
+    console.log("add", fieldPosition, pageNum, pagePosition);
 
     let x =
       (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
@@ -95,14 +96,13 @@ const Page = ({
   // }, [height]);
 
   // TODO calculate after render
-  const { qrCodeDimension, qrCodeSize } = useMemo(() => {
+  const [qrCodeDimension, setqrCodeDimension] = useState(0);
+  const [qrCodeSize, setqrCodeSize] = useState(0);
+  useEffect(() => {
     const divPosition = document
       .getElementById(`one-image-area-${pageNum}`)
-      ?.getBoundingClientRect() ?? {
-      width: 700,
-      height: 300,
-    };
-    console.log(divPosition);
+      ?.getBoundingClientRect();
+    if (!divPosition) return;
     const qrCodeFromBorder = 0.02;
     let qrCodeSize = Math.min(
       QR_CODE_RELATIVE_SIZE * divPosition.width,
@@ -126,8 +126,12 @@ const Page = ({
       qrCodeDimension.y =
         (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
     }
-    return { qrCodeDimension, qrCodeSize };
+    setqrCodeDimension(qrCodeDimension);
+    setqrCodeSize(qrCodeSize);
   }, [pageNum, qrCodePosition]);
+  // const { qrCodeDimension, qrCodeSize } = useMemo(() => {
+  //   return { qrCodeDimension, qrCodeSize };
+  // }, [pageNum, qrCodePosition]);
 
   return (
     <VisibilitySensor
@@ -136,12 +140,12 @@ const Page = ({
         isVisible && setVisibility(pageNum);
       }}
     >
-      <div
-        className="one-image-area"
-        ref={drop}
-        id={`one-image-area-${pageNum}`}
-      >
-        <div style={{ backgroundImage: `url(${data})` }} className="one-image">
+      <div className="one-image-area" ref={drop}>
+        <div
+          id={`one-image-area-${pageNum}`}
+          style={{ backgroundImage: `url(${data})` }}
+          className="one-image"
+        >
           <img src={data} alt="" className="invisible" />
           {playableFields}
           {/* {divPosition === undefined ? */}
@@ -172,49 +176,63 @@ const PDFViewer = ({
   stateStack,
   qrCodePosition,
   setVisibility,
+  scale,
 }) => {
   const num = [0, 0, 0].map((_) => image);
 
+  const currentRef = useRef(null);
+
+  useEffect(() => {
+    currentRef.current?.scrollIntoView();
+  }, [scale]);
   // React.useEffect(() => {
   //   console.log("frgt", visibility);
   // }, [visibility]);
 
   return (
     <div id="main-workspace">
-      {num?.map((data, i) => {
-        const playableFields = fields
-          ? fields
-              ?.filter((field) => field.pageNum === i + 1)
-              .map((field, j) => {
-                return field.deleted ? null : (
-                  <FieldBox
-                    field={field}
-                    onClick={() => setCurrentField(field)}
-                    key={j}
-                    id={`field-${j + 1}`}
-                    pushToStack={pushToStack}
-                    fields={fields}
-                    setFields={setFields}
-                  />
-                );
-              })
-          : [];
-        return (
-          <Page
-            setVisibility={setVisibility}
-            data={data}
-            pageNum={i + 1}
-            fields={fields}
-            setFields={setFields}
-            currentSigner={currentSigner}
-            key={i}
-            pushToStack={pushToStack}
-            stateStack={stateStack}
-            playableFields={playableFields}
-            qrCodePosition={qrCodePosition}
-          />
-        );
-      })}
+      <div className="fu-wrapper">
+        <div
+          className="wrap-again"
+          style={{ transform: `scale(${scale}%)` }}
+          ref={currentRef}
+        >
+          {num?.map((data, i) => {
+            const playableFields = fields
+              ? fields
+                  ?.filter((field) => field.pageNum === i + 1)
+                  .map((field, j) => {
+                    return field.deleted ? null : (
+                      <FieldBox
+                        field={field}
+                        onClick={() => setCurrentField(field)}
+                        key={j}
+                        id={`field-${j + 1}`}
+                        pushToStack={pushToStack}
+                        fields={fields}
+                        setFields={setFields}
+                      />
+                    );
+                  })
+              : [];
+            return (
+              <Page
+                setVisibility={setVisibility}
+                data={data}
+                pageNum={i + 1}
+                fields={fields}
+                setFields={setFields}
+                currentSigner={currentSigner}
+                key={i}
+                pushToStack={pushToStack}
+                stateStack={stateStack}
+                playableFields={playableFields}
+                qrCodePosition={qrCodePosition}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

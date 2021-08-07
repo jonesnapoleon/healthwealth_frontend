@@ -39,6 +39,18 @@ $tools-height: 10vh;
       overflow-y: scroll;
       overflow-x: hidden;
       // padding: 0.1rem;
+      &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--secondary-extra-color-1);
+      }
+      @media only screen and (max-width: 600px) {
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+      }
     }
 
     .lead {
@@ -107,36 +119,46 @@ $tools-height: 10vh;
     padding-top: $pad-top;
     margin-top: $pad-top / 16;
     padding-bottom: $pad-top;
+    margin-top: $pad-top;
     position: relative;
+    // transform: scale(150%);
 
-    > :first-child.one-image-area {
-      margin-top: $pad-top;
-    }
-
-    .one-image-area {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      background-color: var(--secondary-extra-color-4);
-      margin-bottom: 1rem;
-      position: relative;
+    .fu-wrapper {
+      overflow: auto;
+      height: 65vh;
       width: 100%;
-      &:last-child {
-        padding-bottom: 0;
-      }
-      .one-image {
-        position: relative;
-        border: 2px solid black;
-        width: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        img {
+      position: relative;
+      margin-top: $pad-top;
+      background-color: white;
+      .wrap-again {
+        transform-origin: top left;
+
+        .one-image-area {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          background-color: var(--secondary-extra-color-4);
+          margin-bottom: 1rem;
+          position: relative;
           width: 100%;
+          &:last-child {
+            padding-bottom: 0;
+          }
+          .one-image {
+            position: relative;
+            border: 2px solid black;
+            width: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            img {
+              width: 100%;
+            }
+          }
+          .rnd-content {
+            height: 100%;
+            display: grid;
+            place-items: center;
+          }
         }
-      }
-      .rnd-content {
-        height: 100%;
-        display: grid;
-        place-items: center;
       }
     }
 

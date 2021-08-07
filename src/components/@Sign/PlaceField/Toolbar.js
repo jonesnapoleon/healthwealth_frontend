@@ -4,6 +4,8 @@ import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
+import { Select } from "@material-ui/core";
+import { SCALE } from "helpers/constant";
 
 const Toolbar = ({
   copyField,
@@ -11,6 +13,8 @@ const Toolbar = ({
   undoField,
   redoField,
   setQrCodePosition,
+  setScale,
+  scale,
 }) => {
   return (
     <div className="tools-area">
@@ -35,6 +39,14 @@ const Toolbar = ({
             </tr>
           </tbody>
         </table>
+        <select value={scale} onChange={(e) => setScale(e.target.value)}>
+          {SCALE.map((val, i) => (
+            <option value={val} key={i}>
+              {val}%
+            </option>
+          ))}
+        </select>
+
         <UndoIcon onClick={pasteField} />
         <RedoIcon onClick={redoField} />
         <FontAwesomeIcon icon={faClone} onClick={copyField} />

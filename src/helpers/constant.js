@@ -65,3 +65,5 @@ export const FONTLIST = [
   ["Singaporean", "Singaporean"],
   ["Standlist", "Standlist"],
 ];
+
+export const SCALE = [50, 75, 100, 125];

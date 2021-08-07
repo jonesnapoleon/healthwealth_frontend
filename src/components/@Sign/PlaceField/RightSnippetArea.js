@@ -59,7 +59,7 @@ const ControlledAccordions = ({
 }) => {
   const classes = useStyles();
 
-  console.log("con", currentField);
+  // console.log("con", currentField);
 
   return (
     <div className={classes.root}>

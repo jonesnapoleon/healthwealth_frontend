@@ -34,7 +34,8 @@
 .invisible {
   visibility: hidden;
 }
-::-webkit-scrollbar {
+
+/* ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
@@ -45,7 +46,7 @@
   ::-webkit-scrollbar {
     width: 0;
   }
-}
+} */
 
 body {
   margin: 0;
