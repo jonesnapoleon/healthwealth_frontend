@@ -15,7 +15,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "workbench.colorTheme": "One Dark Pro Bold",
+  "workbench.colorTheme": "One Dark Pro",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "remote.SSH.remotePlatform": {
     "10.23.114.136": "linux"

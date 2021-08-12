@@ -5,6 +5,29 @@ const API_GET_USER_DOCS = "/api/docs/";
 
 // const API_ADD_USER_TO_DOC = "/api/docflow/";
 
+// INDEX
+export const getAllDocs = async () => {
+  try {
+    const response = await axios.get(`${API_GET_USER_DOCS}`);
+    return response.data?.data;
+  } catch (e) {
+    // if (e?.response) {
+    //   const errorCode = e.response?.data?.code;
+    // }
+    throw e?.response?.data?.errorMessage ?? "No docs";
+  }
+};
+
+export const getDocumentAuditTrail = async (documentId) => {
+  try {
+    const response = await axios.get(`${API_ADD_DOC}${documentId}/audittrails`);
+    return response.data?.data;
+  } catch (e) {
+    throw e?.response?.data?.errorMessage ?? "";
+  }
+};
+
+// SELECT DOCUMENT
 export const addDoc = async (file, fileName, signType) => {
   const data = new FormData();
   data.append("document", file);
@@ -61,6 +84,7 @@ export const replaceDoc = async (file, fileName, fileId, signType) => {
   }
 };
 
+// ADD SIGNER
 export const addUserToDocument = async (data, fileId) => {
   const body = { flow: data };
   try {
@@ -75,26 +99,56 @@ export const addUserToDocument = async (data, fileId) => {
   }
 };
 
-export const getAllDocs = async () => {
+// PLACE FIELDS
+export const getDocImages = async (fileId) => {
   try {
-    const response = await axios.get(`${API_GET_USER_DOCS}`);
+    const response = await axios.get(`${API_ADD_DOC}${fileId}/`);
     return response.data?.data;
   } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
-    throw e?.response?.data?.errorMessage ?? "No docs";
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
   }
 };
 
-export const getDocumentAuditTrail = async (documentId) => {
+export const getAllFields = async (fileId) => {
   try {
-    const response = await axios.get(`${API_GET_USER_DOCS}/${documentId}`);
+    const response = await axios.get(`${API_ADD_DOC}${fileId}/fields/`);
     return response.data?.data;
   } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
-    throw e?.response?.data?.errorMessage ?? "";
+    console.log(e?.response);
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
+  }
+};
+
+export const addFields = async (fileId, fields) => {
+  const body = { fields };
+  try {
+    const response = await axios.post(`${API_ADD_DOC}${fileId}/fields/`, body);
+    return response.data?.data;
+  } catch (e) {
+    console.log(e?.response);
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
+  }
+};
+
+export const updateFields = async (fileId, fields) => {
+  const body = { fields };
+  try {
+    const response = await axios.put(`${API_ADD_DOC}${fileId}/fields/`, body);
+    return response.data?.data;
+  } catch (e) {
+    console.log(e?.response);
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
+  }
+};
+
+// REVIEW SEND
+export const sendDoc = async (fileId, data) => {
+  const body = data;
+  try {
+    const response = await axios.post(`${API_ADD_DOC}${fileId}/send/`, body);
+    return response.data?.data;
+  } catch (e) {
+    console.log(e?.response);
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
   }
 };

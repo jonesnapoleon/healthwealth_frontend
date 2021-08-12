@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 const AuditTrail = ({ activeDoc, auditTrails }) => {
   const { t } = useTranslation();
   const auditData = useMemo(
-    () => auditTrails[activeDoc?.id],
+    () => auditTrails[activeDoc?.value?.id],
     [activeDoc, auditTrails]
   );
-  console.log(activeDoc);
+
   return (
     <div className="audit-trail">
       <div className="item-between">
@@ -16,7 +16,7 @@ const AuditTrail = ({ activeDoc, auditTrails }) => {
       </div>
       <div className="wrap-audit">
         <div className="pt-1 pb-2">{activeDoc?.value?.filename}</div>
-        <CustomizedTimeline />
+        <CustomizedTimeline data={auditData} />
         {/* <button className="btn btn-primary btn-sm">
             {t("general.view")}
           </button> */}

@@ -94,26 +94,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTimeline() {
+export default function CustomizedTimeline({ data }) {
   const classes = useStyles();
 
   return (
     <Timeline className={classes.root}>
-      {timelineElements?.map((ele, i) => (
-        <TimelineItem className={classes.item}>
-          <TimelineSeparator>
-            <TimelineDot variant="outlined">
-              <DoneIcon className={classes.dot} />
-            </TimelineDot>
-            {i !== timelineElements?.length - 1 && <TimelineConnector />}
-          </TimelineSeparator>
-          <TimelineContent className="timeline-text">
-            <div>{ele?.title}</div>
-            <div>{ele?.location}</div>
-            <div>{ele?.date}</div>
-          </TimelineContent>
-        </TimelineItem>
-      ))}
+      {data && data?.length > 0 ? (
+        data?.map((ele, i) => (
+          <TimelineItem className={classes.item}>
+            <TimelineSeparator>
+              <TimelineDot variant="outlined">
+                <DoneIcon className={classes.dot} />
+              </TimelineDot>
+              {i !== timelineElements?.length - 1 && <TimelineConnector />}
+            </TimelineSeparator>
+            <TimelineContent className="timeline-text">
+              <div>{ele?.title}</div>
+              <div>{ele?.location}</div>
+              <div>{ele?.date}</div>
+            </TimelineContent>
+          </TimelineItem>
+        ))
+      ) : (
+        <h1>-</h1>
+      )}
     </Timeline>
   );
 }

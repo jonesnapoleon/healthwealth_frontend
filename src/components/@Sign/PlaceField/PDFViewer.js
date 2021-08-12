@@ -24,6 +24,7 @@ const Page = ({
   playableFields,
   qrCodePosition,
   setVisibility,
+  scale,
 }) => {
   // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
   // const [coords, setCoords] = useState(null);
@@ -60,7 +61,8 @@ const Page = ({
 
     let x =
       (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
-      pagePosition.width;
+      pagePosition.width /
+      scale;
     let y =
       (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
       pagePosition.height;
@@ -228,6 +230,7 @@ const PDFViewer = ({
                 stateStack={stateStack}
                 playableFields={playableFields}
                 qrCodePosition={qrCodePosition}
+                scale={scale}
               />
             );
           })}

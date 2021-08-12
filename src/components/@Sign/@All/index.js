@@ -17,6 +17,7 @@ import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ReviewSend from "../ReviewSend";
+import PlaceField from "../PlaceField";
 
 const Me = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -26,6 +27,46 @@ const Me = () => {
   // usePreventPageLeave();
 
   const stepperData = [
+    {
+      name: t("sign.selectDocument.text"),
+      icon: <FontAwesomeIcon icon={faUser} />,
+      component: (
+        <SelectDocument
+          activeItem={activeItem}
+          availableLevel={availableLevel}
+          setActiveItem={setActiveItem}
+          atr={DOC.all}
+        />
+      ),
+      pathName: FRONTEND_URL.sign_selected_document,
+    },
+    {
+      name: t("sign.addSigners.text"),
+      icon: <DescriptionOutlinedIcon />,
+      component: (
+        <AddSigners
+          activeItem={activeItem}
+          availableLevel={availableLevel}
+          setActiveItem={setActiveItem}
+          setAvailableLevel={setAvailableLevel}
+          atr={DOC.all}
+        />
+      ),
+      pathName: FRONTEND_URL.sign_add_signers,
+    },
+    {
+      name: t("sign.selectDocument.text"),
+      icon: <DescriptionOutlinedIcon />,
+      component: (
+        <PlaceField
+          activeItem={activeItem}
+          availableLevel={availableLevel}
+          setActiveItem={setActiveItem}
+          atr={DOC.request}
+        />
+      ),
+      pathName: FRONTEND_URL.sign_place_fields,
+    },
     {
       name: t("sign.reviewSend.text"),
       icon: <ListAltOutlinedIcon />,
@@ -38,48 +79,6 @@ const Me = () => {
           setActiveItem={setActiveItem}
         />
       ),
-      pathName: FRONTEND_URL.sign_place_fields,
-    },
-    {
-      name: t("sign.reviewSend.text"),
-      icon: <SendRoundedIcon />,
-      pathName: FRONTEND_URL.sign_review_send,
-    },
-    {
-      name: t("sign.selectDocument.text"),
-      icon: <DescriptionOutlinedIcon />,
-      component: (
-        <AddSigners
-          activeItem={activeItem}
-          availableLevel={availableLevel}
-          setActiveItem={setActiveItem}
-          setAvailableLevel={setAvailableLevel}
-          atr={DOC.all}
-        />
-      ),
-      pathName: FRONTEND_URL.sign_selected_document,
-    },
-    {
-      name: t("sign.addSigners.text"),
-      icon: <FontAwesomeIcon icon={faUser} />,
-      component: (
-        <SelectDocument
-          activeItem={activeItem}
-          availableLevel={availableLevel}
-          setActiveItem={setActiveItem}
-          atr={DOC.all}
-        />
-        // <AddSigners
-        //   activeItem={activeItem}
-        //   availableLevel={availableLevel}
-        //   setActiveItem={setActiveItem}
-        // />
-      ),
-      pathName: FRONTEND_URL.sign_add_signers,
-    },
-    {
-      name: t("sign.placeFields.text"),
-      icon: <ListAltOutlinedIcon />,
       pathName: FRONTEND_URL.sign_place_fields,
     },
   ];

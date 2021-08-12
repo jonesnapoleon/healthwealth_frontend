@@ -55,18 +55,6 @@ $tools-height: 10vh;
       overflow-y: scroll;
       overflow-x: hidden;
       // padding: 0.1rem;
-      &::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: var(--secondary-extra-color-1);
-      }
-      @media only screen and (max-width: 600px) {
-        &::-webkit-scrollbar {
-          width: 0;
-        }
-      }
     }
 
     .lead {
@@ -147,6 +135,17 @@ $tools-height: 10vh;
       position: relative;
       // margin-top: $pad-top;
       background-color: white;
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--secondary-extra-color-2);
+      }
+      @media only screen and (max-width: 600px) {
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+      }
       .wrap-again {
         transform-origin: top left;
 
