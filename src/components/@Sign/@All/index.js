@@ -35,6 +35,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          setAvailableLevel={setAvailableLevel}
           atr={DOC.all}
         />
       ),
@@ -62,6 +63,7 @@ const Me = () => {
           activeItem={activeItem}
           availableLevel={availableLevel}
           setActiveItem={setActiveItem}
+          setAvailableLevel={setAvailableLevel}
           atr={DOC.request}
         />
       ),
@@ -74,9 +76,9 @@ const Me = () => {
         <ReviewSend
           activeItem={activeItem}
           availableLevel={availableLevel}
-          atr={DOC.request}
           setAvailableLevel={setAvailableLevel}
           setActiveItem={setActiveItem}
+          atr={DOC.request}
         />
       ),
       pathName: FRONTEND_URL.sign_place_fields,
