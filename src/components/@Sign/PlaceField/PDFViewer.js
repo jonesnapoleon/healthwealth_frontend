@@ -106,6 +106,8 @@ const Page = ({
       ?.getBoundingClientRect();
     if (!divPosition) return;
     const qrCodeFromBorder = 0.02;
+    divPosition.width /= scale / 100;
+    divPosition.height /= scale / 100;
     let qrCodeSize = Math.min(
       QR_CODE_RELATIVE_SIZE * divPosition.width,
       QR_CODE_RELATIVE_SIZE * divPosition.height
@@ -202,20 +204,21 @@ const PDFViewer = ({
           {num?.map((data, i) => {
             const playableFields = fields
               ? fields
-                  ?.filter((field) => field.pageNum === i + 1)
-                  .map((field, j) => {
-                    return field.deleted ? null : (
-                      <FieldBox
-                        field={field}
-                        onClick={() => setCurrentField(field)}
-                        key={j}
-                        id={`field-${j + 1}`}
-                        pushToStack={pushToStack}
-                        fields={fields}
-                        setFields={setFields}
-                      />
-                    );
-                  })
+                ?.filter((field) => field.pageNum === i + 1)
+                .map((field, j) => {
+                  return field.deleted ? null : (
+                    <FieldBox
+                      field={field}
+                      onClick={() => setCurrentField(field)}
+                      key={j}
+                      id={`field-${j + 1}`}
+                      pushToStack={pushToStack}
+                      fields={fields}
+                      setFields={setFields}
+                      scale={scale}
+                    />
+                  );
+                })
               : [];
             return (
               <Page
