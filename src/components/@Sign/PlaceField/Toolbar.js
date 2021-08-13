@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
+import React from "react";
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
-import { Select } from "@material-ui/core";
 import { SCALE } from "helpers/constant";
 
 const Toolbar = ({
@@ -15,6 +13,7 @@ const Toolbar = ({
   setQrCodePosition,
   setScale,
   scale,
+  canEdit,
 }) => {
   return (
     <div className="tools-area">
@@ -23,26 +22,26 @@ const Toolbar = ({
           <table>
             <tbody>
               <tr>
-                <td>
-                  <button onClick={() => setQrCodePosition(0)}>A</button>
-                </td>
-                <td>
-                  <button onClick={() => setQrCodePosition(1)}>B</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button onClick={() => setQrCodePosition(3)}>C</button>
-                </td>
-                <td>
-                  <button onClick={() => setQrCodePosition(2)}>D</button>
-                </td>
+                {[0, 1, 2, 3].map((arrow) => (
+                  <td key={arrow}>
+                    <button
+                      disabled={!canEdit}
+                      onClick={() => setQrCodePosition(arrow)}
+                    >
+                      A
+                    </button>
+                  </td>
+                ))}
               </tr>
             </tbody>
           </table>
         </div>
         <div>
-          <select value={scale} onChange={(e) => setScale(e.target.value)}>
+          <select
+            value={scale}
+            onChange={(e) => setScale(e.target.value)}
+            disabled={!canEdit}
+          >
             {SCALE.map((val, i) => (
               <option value={val} key={i}>
                 {val}%
@@ -52,12 +51,20 @@ const Toolbar = ({
         </div>
 
         <div className="need-pad">
-          <UndoIcon onClick={pasteField} />
-          <RedoIcon onClick={redoField} />
+          <UndoIcon onClick={pasteField} disabled={!canEdit} />
+          <RedoIcon onClick={redoField} disabled={!canEdit} />
         </div>
         <div className="need-pad">
-          <FontAwesomeIcon icon={faClone} onClick={copyField} />
-          <FontAwesomeIcon icon={faClipboard} onClick={pasteField} />
+          <FontAwesomeIcon
+            icon={faClone}
+            onClick={copyField}
+            disabled={!canEdit}
+          />
+          <FontAwesomeIcon
+            icon={faClipboard}
+            onClick={pasteField}
+            disabled={!canEdit}
+          />
         </div>
       </div>
     </div>

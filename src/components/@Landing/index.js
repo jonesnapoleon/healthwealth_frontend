@@ -66,7 +66,7 @@ const Welcome = () => {
               <div className="button">
                 <Link
                   className="btn-primary button-landing"
-                  to={component?.dest}
+                  to={`${component?.dest}#0`}
                 >
                   {component?.ctaText}
                 </Link>

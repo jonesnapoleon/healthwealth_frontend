@@ -1,96 +1,66 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { DOC, FRONTEND_URL } from "../../../helpers/constant";
+import {
+  DOC,
+  FRONTEND_URL,
+  SIGNING_ACTIVE_FIXED_ITEM,
+} from "../../../helpers/constant";
 
 import Stepper from "../commons/Stepper";
 
 import PlaceField from "../PlaceField";
 import ReviewSend from "../ReviewSend";
 
-// import { usePreventPageLeave } from "../../../helpers/hooks";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
-import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import SelectDocument from "../SelectDocument";
+import AddSigners from "../AddSigners";
+import { useHashString } from "helpers/hooks";
 
 const Request = () => {
-  const [activeItem, setActiveItem] = useState(0);
-  const [availableLevel, setAvailableItem] = useState(0);
   const { t } = useTranslation();
   // usePreventPageLeave();
+  const activeItemId = useHashString(0, "number");
 
-  const stepperData = useMemo(
-    () => [
-      {
-        name: t("sign.selectDocument.text"),
-        icon: <DescriptionOutlinedIcon />,
-        component: (
-          <PlaceField
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            atr={DOC.request}
-          />
-        ),
-        pathName: FRONTEND_URL.sign_place_fields,
-      },
-      // {
-      //   name: t("sign.reviewSend.text"),
-      //   icon: <ListAltOutlinedIcon />,
-      //   component: (
-      //     <ReviewSend
-      //       activeItem={activeItem}
-      //       availableLevel={availableLevel}
-      //       atr={DOC.request}
-      //       setAvailableItem={setAvailableItem}
-      //       setActiveItem={setActiveItem}
-      //     />
-      //   ),
-      //   pathName: FRONTEND_URL.sign_place_fields,
-      // },
-      // {
-      //   name: t("sign.placeFields.text"),
-      //   icon: <PlaceFieldIcon />,
-      //   component: (
-      //     <PlaceField
-      //       activeItem={activeItem}
-      //       availableLevel={availableLevel}
-      //       atr={DOC.request}
-      //       setAvailableItem={setAvailableItem}
-      //       setActiveItem={setActiveItem}
-      //     />
-      //   ),
-      //   pathName: FRONTEND_URL.sign_place_fields,
-      // },
-      // {
-      //   name: t("sign.reviewSend.text"),
-      //   icon: <ReviewSendIcon />,
-      //   pathName: FRONTEND_URL.sign_review_send,
-      // },
-    ],
-    [activeItem, t, availableLevel]
-  );
-
-  //   useEffect(() => {
-  //     history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
-  //   }, [activeItem, history, stepperData]);
+  const stepperData = [
+    {
+      name: t("sign.selectDocument.text"),
+      icon: <FontAwesomeIcon icon={faUser} />,
+      component: (
+        <SelectDocument atr={DOC.request} activeItemId={activeItemId} />
+      ),
+      pathName: FRONTEND_URL.sign_selected_document,
+    },
+    {
+      name: t("sign.addSigners.text"),
+      icon: <DescriptionOutlinedIcon />,
+      component: <AddSigners atr={DOC.request} activeItemId={activeItemId} />,
+      pathName: FRONTEND_URL.sign_add_signers,
+    },
+    {
+      name: t("sign.placeFields.text"),
+      icon: <DescriptionOutlinedIcon />,
+      component: <PlaceField atr={DOC.request} activeItemId={activeItemId} />,
+      pathName: FRONTEND_URL.sign_place_fields,
+    },
+    {
+      name: t("sign.reviewSend.text"),
+      icon: <ListAltOutlinedIcon />,
+      component: <ReviewSend atr={DOC.request} activeItemId={activeItemId} />,
+      pathName: FRONTEND_URL.sign_review_send,
+    },
+  ];
 
   return (
     <div>
       <Stepper
         items={stepperData}
-        activeItem={activeItem}
-        setActiveItem={(inc) =>
-          activeItem + inc >= 0 &&
-          activeItem + inc < stepperData?.length &&
-          activeItem + inc <= availableLevel &&
-          setActiveItem(activeItem + inc)
-        }
-        availableLevel={availableLevel}
-        isFixed={activeItem === 0}
+        isFixed={activeItemId === SIGNING_ACTIVE_FIXED_ITEM.request}
+        activeItemId={activeItemId}
       />
-      {stepperData?.[activeItem]?.component}
+      {stepperData?.[activeItemId]?.component}
     </div>
   );
 };

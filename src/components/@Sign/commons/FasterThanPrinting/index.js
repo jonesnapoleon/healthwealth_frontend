@@ -4,7 +4,7 @@ import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
 import "./index.scss";
 import { useModal } from "contexts/ModalContext";
-import { useFormInput, useInput } from "helpers/hooks";
+import { useFormInput } from "helpers/hooks";
 
 const FasterThanPrinting = () => {
   const { t } = useTranslation();

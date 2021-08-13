@@ -10,6 +10,7 @@ import "./docs.scss";
 import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
+import { DOC } from "helpers/constant";
 
 const Docs = () => {
   const { t } = useTranslation();
@@ -48,10 +49,12 @@ const Docs = () => {
 
   const handleClickingComponent = useCallback(
     (obj) => {
-      if (obj?.nextflow && obj.nextflow?.length === 0) {
-        const key = String(obj?.signType).toLowerCase();
-        handle_data_docs(true, key, "fileData", obj);
-        history.push(`${key}`);
+      const key = String(obj?.signType).toLowerCase();
+      if (key !== DOC.me) {
+        if (obj?.nextflow && obj.nextflow?.length === 0) {
+          handle_data_docs(true, key, "fileData", obj);
+          history.push(`${key}`);
+        }
       }
     },
     [handle_data_docs, history]
@@ -62,7 +65,6 @@ const Docs = () => {
       let temp = docs?.filter((doc) =>
         String(doc?.filename)?.toLowerCase()?.includes(trimmedQuery)
       );
-
       setDisplayedDocs(temp);
     },
     [setDisplayedDocs, docs]

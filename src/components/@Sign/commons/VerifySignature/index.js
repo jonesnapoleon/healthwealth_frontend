@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import "./index.scss";
-import { useModal } from "contexts/ModalContext";
+// import { useModal } from "contexts/ModalContext";
 import { useFormInput, useInput, useOTP } from "helpers/hooks";
 import OTPInput from "components/commons/OTPInput";
 

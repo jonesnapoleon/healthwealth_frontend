@@ -43,3 +43,10 @@ export const addColorToArr = (array) => {
     backgroundColor: FIXED_COLORS[i].backgroundColor,
   }));
 };
+
+export const transformFormInput = (array) =>
+  array?.map((datum, i) => ({
+    ...datum,
+    label: datum?.name ?? `Name-${i}`,
+    value: datum?.email ?? `Email-${i}`,
+  }));

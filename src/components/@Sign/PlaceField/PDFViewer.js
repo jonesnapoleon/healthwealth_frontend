@@ -1,13 +1,10 @@
-import { set } from "date-fns";
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import LoadingBackdrop from "components/commons/LoadingBackdrop";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
 
 import FieldBox from "./FieldBox";
-
-const image =
-  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/822204_jpg1627207587207";
 
 const INIT_FIELD_WIDTH = 100;
 const INIT_FIELD_HEIGHT = 50;
@@ -132,7 +129,7 @@ const Page = ({
     }
     setqrCodeDimension(qrCodeDimension);
     setqrCodeSize(qrCodeSize);
-  }, [pageNum, qrCodePosition]);
+  }, [pageNum, qrCodePosition, scale]);
   // const { qrCodeDimension, qrCodeSize } = useMemo(() => {
   //   return { qrCodeDimension, qrCodeSize };
   // }, [pageNum, qrCodePosition]);
@@ -181,9 +178,8 @@ const PDFViewer = ({
   qrCodePosition,
   setVisibility,
   scale,
+  placeFieldImages,
 }) => {
-  const num = [0, 0, 0].map((_) => image);
-
   const currentRef = useRef(null);
 
   useEffect(() => {
@@ -201,42 +197,46 @@ const PDFViewer = ({
           style={{ transform: `scale(${scale}%)` }}
           ref={currentRef}
         >
-          {num?.map((data, i) => {
-            const playableFields = fields
-              ? fields
-                ?.filter((field) => field.pageNum === i + 1)
-                .map((field, j) => {
-                  return field.deleted ? null : (
-                    <FieldBox
-                      field={field}
-                      onClick={() => setCurrentField(field)}
-                      key={j}
-                      id={`field-${j + 1}`}
-                      pushToStack={pushToStack}
-                      fields={fields}
-                      setFields={setFields}
-                      scale={scale}
-                    />
-                  );
-                })
-              : [];
-            return (
-              <Page
-                setVisibility={setVisibility}
-                data={data}
-                pageNum={i + 1}
-                fields={fields}
-                setFields={setFields}
-                currentSigner={currentSigner}
-                key={i}
-                pushToStack={pushToStack}
-                stateStack={stateStack}
-                playableFields={playableFields}
-                qrCodePosition={qrCodePosition}
-                scale={scale}
-              />
-            );
-          })}
+          {placeFieldImages && placeFieldImages?.length > 0 ? (
+            placeFieldImages?.map((data, i) => {
+              const playableFields = fields
+                ? fields
+                    ?.filter((field) => field.pageNum === i + 1)
+                    .map((field, j) => {
+                      return field.deleted ? null : (
+                        <FieldBox
+                          field={field}
+                          onClick={() => setCurrentField(field)}
+                          key={j}
+                          id={`field-${j + 1}`}
+                          pushToStack={pushToStack}
+                          fields={fields}
+                          setFields={setFields}
+                          scale={scale}
+                        />
+                      );
+                    })
+                : [];
+              return (
+                <Page
+                  setVisibility={setVisibility}
+                  data={data}
+                  pageNum={i + 1}
+                  fields={fields}
+                  setFields={setFields}
+                  currentSigner={currentSigner}
+                  key={i}
+                  pushToStack={pushToStack}
+                  stateStack={stateStack}
+                  playableFields={playableFields}
+                  qrCodePosition={qrCodePosition}
+                  scale={scale}
+                />
+              );
+            })
+          ) : (
+            <LoadingBackdrop />
+          )}
         </div>
       </div>
     </div>

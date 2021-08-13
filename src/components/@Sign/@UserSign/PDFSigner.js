@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { useDrop } from "react-dnd";
+import React from "react";
+// import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 
 // import FieldBox from "./FieldBox";
@@ -7,9 +7,9 @@ import { useDrop } from "react-dnd";
 const image =
   "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/_aov__dice_jpg1624846637827";
 
-const INIT_FIELD_WIDTH = 100;
-const INIT_FIELD_HEIGHT = 50;
-const QR_CODE_RELATIVE_SIZE = 0.15;
+// const INIT_FIELD_WIDTH = 100;
+// const INIT_FIELD_HEIGHT = 50;
+// const QR_CODE_RELATIVE_SIZE = 0.15;
 
 const Page = ({ data, pageNum, setFields, currentSigner }) => {
   // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);

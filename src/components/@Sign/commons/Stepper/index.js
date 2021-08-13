@@ -9,7 +9,7 @@ import "./stepper.scss";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 import { useAuth } from "contexts/AuthContext";
 
-const Stepper = ({ items, activeItem, isFixed }) => {
+const Stepper = ({ items, activeItemId, isFixed }) => {
   const history = useHistory();
   const { auth, signOut } = useAuth();
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ const Stepper = ({ items, activeItem, isFixed }) => {
     items?.map((datum, i) => (
       <span
         key={datum?.name}
-        className={`item-center ${i <= activeItem ? "" : "disabled"}`}
+        className={`item-center ${i <= activeItemId ? "" : "disabled"}`}
       >
         {i !== 0 && <strong className="px-2 lead">➔</strong>}
         <div className={`px-2`}>{datum?.icon}</div>
@@ -47,11 +47,11 @@ const Stepper = ({ items, activeItem, isFixed }) => {
           <div
             className="dropdown-toggle"
             type="button"
-            // onMouseLeave={() => toggleDropdown(!true)}
+            onMouseLeave={() => toggleDropdown(!true)}
             onClick={() =>
               toggleDropdown(dropdownSelector.style.display === "none")
             }
-            // onMouseOver={() => toggleDropdown(true)}
+            onMouseOver={() => toggleDropdown(true)}
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"

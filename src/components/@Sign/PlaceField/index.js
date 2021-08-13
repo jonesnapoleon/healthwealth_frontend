@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
+import { useEffectOnce } from "react-use";
 
 // import { useTranslation } from "react-i18next";
 import { DndProvider } from "react-dnd";
@@ -14,48 +15,98 @@ import SuperFloatingButton from "../commons/SuperFloatingButton";
 
 import useClippy from "use-clippy";
 import Ajv from "ajv";
-import { addColorToArr } from "../../../helpers/transformer";
 
-const temp =
-  "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { getDocImages } from "api/docs";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { addColorToArr, transformFormInput } from "helpers/transformer";
+
+const schema = {
+  type: "object",
+  properties: {
+    type: { type: "string" },
+    x: { type: "number" },
+    y: { type: "number" },
+    w: { type: "number" },
+    h: { type: "number" },
+    pageNum: { type: "integer" },
+    signer: {
+      type: "object",
+      properties: {
+        value: { type: "string" },
+        color: { type: "string" },
+        label: { type: "string" },
+      },
+    },
+    pagePosition: {
+      type: "object",
+      properties: {
+        x: { type: "number" },
+        y: { type: "number" },
+        width: { type: "number" },
+        height: { type: "number" },
+      },
+    },
+    deleted: { type: "boolean" },
+    uid: { type: "string" },
+  },
+};
+// const temp =
+//   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
 const MAX_STACK_SIZE = 30;
 
-const PlaceField = ({
-  activeItem,
-  setActiveItem,
-  // availableLevel,
-  setAvailableLevel,
-  atr,
-}) => {
-  const { getItemData } = useData();
+const PlaceField = ({ activeItemId, atr }) => {
+  const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
+
+  const listSigners = useMemo(
+    () => transformFormInput(addColorToArr(fileData?.nextflow)),
+    [fileData]
+  );
+
+  const placeFieldItems = getItemData(atr, "placeFieldItems");
   // const signers = getItemData(atr, "signers");
 
-  let listSigners = addColorToArr([
-    {
-      value: "jonathanyudigun@gmail.com",
-      label: "Jojo",
-    },
-    {
-      value: "jones@gmail.com",
-      label: "Jones",
-    },
-  ]);
-
-  const [currentSigner, setCurrentSigner] = useState(listSigners[0]);
+  const [currentSigner, setCurrentSigner] = useState(listSigners?.[0] ?? {});
   const [fields, setFields] = useState([]);
   const [currentField, setCurrentField] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [success, setSuccess] = useState(false);
+  // const [error, setError] = useState(false);
   const [scale, setScale] = useState(100);
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
 
   const [visibility, setVisibility] = useState(1);
+  const { addSnackbar } = useSnackbar();
+  const { push } = useHistory();
 
-  // const { t } = useTranslation();
+  const fetchAllImages = useCallback(async () => {
+    if (placeFieldItems && placeFieldItems?.images) return;
+    if (typeof fileData?.linkToPdf === "string") {
+      try {
+        const res = await getDocImages(fileData?.id);
+        if (res) {
+          console.log(res);
+          handle_data_docs(true, atr, "placeFieldItems", {
+            ...placeFieldItems,
+            images: res,
+          });
+        }
+      } catch (e) {
+        addSnackbar(String(e));
+      }
+    }
+  }, [fileData, addSnackbar, atr, handle_data_docs, placeFieldItems]);
+
+  useEffectOnce(() => {
+    fetchAllImages();
+  });
+
+  const placeFieldImages = useMemo(() => {
+    return placeFieldItems ? placeFieldItems?.images : [];
+  }, [placeFieldItems]);
 
   const getCurrentPageCenter = useCallback(() => {
     let currentPage = document.getElementById(`one-image-area-${visibility}`);
@@ -68,7 +119,6 @@ const PlaceField = ({
 
   const handleNext = () => {
     try {
-      setLoading(0);
       console.log(fields);
       for (let i = 0; i < fields.length; i++) {
         // const field = fields[i]
@@ -83,25 +133,16 @@ const PlaceField = ({
       //   setActiveItem((a) => a + 1);
       //   setAvailableLevel((a) => a + 1);
       //   // setFileUrl(newRes?.linkToPdf);
-      //   // setAvailableItem((a) => a + 1);
+      //   // setAvailableLevel((a) => a + 1);
       //   // progress.set(100);
       //   setLoading(1);
       //   setSuccess(t("sign.addSigners.addSignersSuccess"));
       //   setTimeout(() => setSuccess(false), 3000);
       // }
     } catch (err) {
-      setError(String(err));
-      setTimeout(() => setError(false), 3000);
+      addSnackbar(String(err));
     }
   };
-
-  useEffect(() => {
-    // console.log(fileData);
-    if (typeof fileData?.linkToPdf === "string" || temp) {
-      // TODO
-      // load images
-    }
-  }, [fileData]);
 
   // useEffect(() => {
   //   console.log("useeffect fields", fields);
@@ -138,7 +179,7 @@ const PlaceField = ({
 
   const copyField = useCallback(() => {
     setClipboard(JSON.stringify(currentField));
-    console.log("copied!", currentField);
+    // console.log("copied!", currentField);
   }, [currentField, setClipboard]);
 
   const pushToStack = useCallback(
@@ -155,50 +196,19 @@ const PlaceField = ({
   );
 
   const pasteField = useCallback(() => {
-    const schema = {
-      type: "object",
-      properties: {
-        type: { type: "string" },
-        x: { type: "number" },
-        y: { type: "number" },
-        w: { type: "number" },
-        h: { type: "number" },
-        pageNum: { type: "integer" },
-        signer: {
-          type: "object",
-          properties: {
-            value: { type: "string" },
-            color: { type: "string" },
-            label: { type: "string" },
-          },
-        },
-        pagePosition: {
-          type: "object",
-          properties: {
-            x: { type: "number" },
-            y: { type: "number" },
-            width: { type: "number" },
-            height: { type: "number" },
-          },
-        },
-        deleted: { type: "boolean" },
-        uid: { type: "string" },
-      },
-    };
-
     try {
       const ajv = new Ajv();
       let data = JSON.parse(clipboard);
       const validate = ajv.compile(schema);
       if (validate(data) && typeof data === "object") {
-        console.log("data", data);
+        // console.log("data", data);
         const { x, y } = getCurrentPageCenter();
         data.x = x;
         data.y = y;
         data.pageNum = visibility;
         pushToStack([...fields, data]);
         setFields((fields) => [...fields, data]);
-        console.log("pasted!", data);
+        // console.log("pasted!", data);
       }
     } catch (e) {
       throw e;
@@ -206,7 +216,7 @@ const PlaceField = ({
   }, [clipboard, fields, pushToStack, getCurrentPageCenter, visibility]);
 
   const undoField = useCallback(() => {
-    console.log("undo", stateStack, stackIdx);
+    // console.log("undo", stateStack, stackIdx);
     if (stateStack.length > 1 && stackIdx > 0) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx - 1])));
       setStackIdx((i) => i - 1);
@@ -214,7 +224,7 @@ const PlaceField = ({
   }, [stateStack, stackIdx, setFields, setStackIdx]);
 
   const redoField = useCallback(() => {
-    console.log("redo", stackIdx, stateStack.length);
+    // console.log("redo", stackIdx, stateStack.length);
     if (stackIdx + 1 < stateStack.length) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx + 1])));
       setStackIdx((i) => i + 1);
@@ -223,7 +233,6 @@ const PlaceField = ({
 
   const undoRedoHandler = useCallback(
     (e) => {
-      console.log(e);
       if (e.key === "z" && e.ctrlKey) {
         try {
           undoField();
@@ -287,6 +296,7 @@ const PlaceField = ({
           redoField={redoField}
           setQrCodePosition={setQrCodePosition}
           scale={scale}
+          canEdit={placeFieldImages && placeFieldImages?.length > 0}
           setScale={setScale}
         />
 
@@ -305,6 +315,7 @@ const PlaceField = ({
             currentSigner={currentSigner}
             stateStack={stateStack}
             setCurrentField={setCurrentField}
+            placeFieldImages={placeFieldImages}
             pushToStack={pushToStack}
             qrCodePosition={qrCodePosition}
           />
@@ -323,7 +334,10 @@ const PlaceField = ({
           />
         </DndProvider>
       </div>
-      <SuperFloatingButton activeItem={activeItem} onClickNext={handleNext} />
+      <SuperFloatingButton
+        onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
+        onClickNext={handleNext}
+      />
     </>
   );
 };

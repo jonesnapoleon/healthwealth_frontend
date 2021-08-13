@@ -67,3 +67,9 @@ export const FONTLIST = [
 ];
 
 export const SCALE = [50, 75, 100, 125];
+
+export const SIGNING_ACTIVE_FIXED_ITEM = {
+  me: 1,
+  all: 2,
+  request: 2,
+};

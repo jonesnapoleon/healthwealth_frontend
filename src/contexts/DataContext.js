@@ -32,9 +32,27 @@ const DataProvider = ({ children }) => {
   const { addSnackbar } = useSnackbar();
 
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
-    me: { docs: false, fileData: false, signers: [], copies: [] },
-    all: { docs: false, fileData: false, signers: [], copies: [] },
-    request: { docs: false, fileData: false, signers: [], copies: [] },
+    me: {
+      docs: false,
+      fileData: false,
+      signers: [],
+      copies: [],
+      placeFieldItems: {},
+    },
+    all: {
+      docs: false,
+      fileData: false,
+      signers: [],
+      copies: [],
+      placeFieldItems: {},
+    },
+    request: {
+      docs: false,
+      fileData: false,
+      signers: [],
+      copies: [],
+      placeFieldItems: {},
+    },
   });
   const [docs, setDocs] = useState(false);
 

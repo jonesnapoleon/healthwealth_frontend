@@ -1,5 +1,5 @@
-import FasterThanPrinting from "components/@Sign/commons/FasterThanPrinting";
-import ModalStucture from "components/@Sign/commons/ModalStructure";
+// import FasterThanPrinting from "components/@Sign/commons/FasterThanPrinting";
+// import ModalStucture from "components/@Sign/commons/ModalStructure";
 import VerifySignature from "components/@Sign/commons/VerifySignature";
 import React from "react";
 import { useTranslation } from "react-i18next";

@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useProgressBar } from "../../../helpers/hooks";
 import { useData } from "../../../contexts/DataContext";
 
 import DragDrop from "../../commons/ImageUpload/DragDrop";
 import FloatingButton from "../commons/FloatingButton";
-import Snackbar from "../../commons/Snackbar";
 import Progressbar from "../../../components/commons/Progressbar";
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
@@ -13,19 +12,15 @@ import { isFileValid } from "../../../helpers/validator";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import "./selectDocument.scss";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { useHistory } from "react-router-dom";
 
-const SelectDocument = ({
-  activeItem,
-  setActiveItem,
-  availableLevel,
-  setAvailableItem,
-  atr,
-}) => {
+const SelectDocument = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const { addSnackbar } = useSnackbar();
   const data = useFile();
-  const { dataDocs, handle_data_docs, getItemData } = useData();
+  const { handle_data_docs, getItemData } = useData();
+  const { push } = useHistory();
 
   const fileData = getItemData(atr, "fileData");
   useEffect(() => {
@@ -39,14 +34,9 @@ const SelectDocument = ({
     return progress.value !== 100;
   };
 
-  useEffect(() => {
-    console.log(dataDocs);
-  }, [dataDocs]);
-
   const handleUploadFile = useCallback(async () => {
     if (!data?.file || data?.file === null) return;
     if (progress.value !== 0) return;
-    // throw new Error(t("form.error.fileNotUploadedYet"));
     try {
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
@@ -68,26 +58,15 @@ const SelectDocument = ({
         }
         if (res?.data) {
           handle_data_docs(true, atr, "fileData", res.data);
-          setAvailableItem((a) => a + 1);
           progress.set(100);
-          setSuccess(t("sign.selectDocument.uploadFileSuccess"));
-          setTimeout(() => setSuccess(false), 3000);
+          addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
         }
       }
     } catch (err) {
-      setError(String(err));
+      addSnackbar(String(err));
       progress.set(-1);
-      setTimeout(() => setError(false), 3000);
     }
-  }, [
-    data?.file,
-    handle_data_docs,
-    setAvailableItem,
-    progress,
-    t,
-    fileData,
-    atr,
-  ]);
+  }, [data?.file, handle_data_docs, progress, t, fileData, atr, addSnackbar]);
 
   useEffect(() => {
     handleUploadFile();
@@ -105,20 +84,16 @@ const SelectDocument = ({
         data.filePicker.current.value = null;
         handle_data_docs(false, atr, "fileData");
         progress.set(0);
-        setSuccess(t("sign.selectDocument.deleteFileSuccess"));
-        setTimeout(() => setSuccess(false), 3000);
+        addSnackbar(t("sign.selectDocument.deleteFileSuccess"), "success");
       }
     } catch (err) {
       progress.set(-1);
-      setError(String(err));
-      setTimeout(() => setError(false), 3000);
+      addSnackbar(String(err));
     }
   };
 
   return (
     <div className="container container-center sign-select-document-container">
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
       <div className="first-child">
         <h4 className="bold">{t("sign.selectDocument.whatNeed")}</h4>
         <div className="mt-5 bold mb-2">{t("sign.selectDocument.text")}</div>
@@ -168,10 +143,8 @@ const SelectDocument = ({
       </div>
 
       <FloatingButton
-        activeItem={activeItem}
-        // availableLevel={availableLevel}
         onClickNext={() => {
-          setActiveItem((a) => a + 1);
+          push(`${atr}#${activeItemId + 1}`);
         }}
         disabled={shallNext()}
       />

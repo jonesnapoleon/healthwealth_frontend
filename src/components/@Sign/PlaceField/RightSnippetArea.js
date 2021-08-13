@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,7 +8,6 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ColorizedSelect from "../commons/ColorizedSelect";
 import DeleteIcon from "@material-ui/icons/Delete";
 // import { getReadableFieldName } from "./FieldBox";
 
@@ -155,11 +154,11 @@ const RightSnippetArea = ({
 }) => {
   const { t } = useTranslation();
 
-  const [inner, setInner] = useState("");
+  // const [inner, setInner] = useState("");
 
   useEffect(() => {
-    const item = document.getElementById("main-workspace");
-    const doc = item.getElementsByClassName("fu-wrapper")[0];
+    // const item = document.getElementById("main-workspace");
+    // const doc = item.getElementsByClassName("fu-wrapper")[0];
   }, [fields]);
 
   return (
@@ -194,7 +193,7 @@ const RightSnippetArea = ({
                 {t("sign.placeFields.right.documents")}
               </div>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: inner }} />
+            <div></div>
           </div>
         </>
       )}

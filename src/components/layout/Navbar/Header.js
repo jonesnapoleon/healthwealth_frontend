@@ -40,7 +40,14 @@ const Header = ({ auth, t, signOut }) => {
               <button className="logout-button">{t("header.upgrade")}</button>
             </div>
           </div>
-          <div className="item-center super-pt-1 last-nav-child">
+          <div
+            className="item-center super-pt-1 last-nav-child"
+            onMouseLeave={() => toggleDropdown(!true)}
+            onClick={() =>
+              toggleDropdown(dropdownSelector.style.display === "none")
+            }
+            onMouseOver={() => toggleDropdown(true)}
+          >
             <img className="rounded-img" src={auth?.picture} alt="" />
             <div>{auth?.fullname}</div>
 
@@ -48,11 +55,6 @@ const Header = ({ auth, t, signOut }) => {
               <div
                 className="dropdown-toggle"
                 type="button"
-                // onMouseLeave={() => toggleDropdown(!true)}
-                onClick={() =>
-                  toggleDropdown(dropdownSelector.style.display === "none")
-                }
-                // onMouseOver={() => toggleDropdown(true)}
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"

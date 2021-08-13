@@ -2,13 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./commons.scss";
 
-const SuperFloatingButton = ({
-  onClickNext,
-  activeItem,
-  // availableLevel,
-  disabled,
-  onClickPrev,
-}) => {
+const SuperFloatingButton = ({ onClickNext, disabled, onClickPrev }) => {
   const { t } = useTranslation();
   // console.log(availableLevel);
   return (

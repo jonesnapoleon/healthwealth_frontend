@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef } from "react";
 import SignaturePad from "react-signature-canvas";
 import { useTranslation } from "react-i18next";
 import {
@@ -39,11 +39,11 @@ const SignatureModal = () => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const [imageURL, setImageURL] = useState(null);
   const signCanvas = useRef({});
-  const clear = () => signCanvas.current?.clear();
+  // const clear = () => signCanvas.current?.clear();
 
   const data = useFile();
   const progress = useProgressBar();
@@ -51,17 +51,17 @@ const SignatureModal = () => {
   const formItemData = useFormInput("");
 
   const fontData = useFormInput(FONTLIST[0][0]);
-  const formItemDisplay = useMemo(
-    () => (
-      <span
-        className="form-item-display"
-        style={{ fontFamily: fontData?.value }}
-      >
-        {formItemData?.value}
-      </span>
-    ),
-    [formItemData, fontData]
-  );
+  // const formItemDisplay = useMemo(
+  //   () => (
+  //     <span
+  //       className="form-item-display"
+  //       style={{ fontFamily: fontData?.value }}
+  //     >
+  //       {formItemData?.value}
+  //     </span>
+  //   ),
+  //   [formItemData, fontData]
+  // );
 
   const save = () => {
     if (tab === 0)
@@ -77,7 +77,7 @@ const SignatureModal = () => {
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
         progress.set(1);
-        let res;
+        // let res;
         //   res = await addDoc(
         //     data?.file,
         //     data?.file?.name,
@@ -85,9 +85,9 @@ const SignatureModal = () => {
         //   );
         //   if (res?.data) {
         //     handle_data_docs(true, atr, "fileData", res.data);
-        //     setAvailableItem((a) => a + 1);
+        //     setAvailableLevel((a) => a + 1);
         //     progress.set(100);
-        //     setSuccess(t("sign.selectDocument.uploadFileSuccess"));
+        setSuccess(t("sign.selectDocument.uploadFileSuccess"));
         //     setTimeout(() => setSuccess(false), 3000);
         //   }
       }

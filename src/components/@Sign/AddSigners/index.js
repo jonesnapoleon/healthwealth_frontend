@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -10,28 +10,38 @@ import { addUserToDocument } from "../../../api/docs";
 
 import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
 import ToggleButton from "../../commons/ToggleButton";
-import Snackbar from "../../commons/Snackbar";
 import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
+import { useSnackbar } from "../../../contexts/SnackbarContext";
 import { ADDSIGNER } from "../../../helpers/constant";
 import { addColorToArr } from "../../../helpers/transformer";
+import { useHistory } from "react-router-dom";
 
-const AddSigners = ({
-  activeItem,
-  setActiveItem,
-  // availableLevel,
-  setAvailableLevel,
-  atr,
-}) => {
+const addDraggableId = (data) => {
+  return data?.map((datum, id) => {
+    return { ...datum, id };
+  });
+};
+
+const AddSigners = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(0); // 0: disabled, 1: active
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
-
   const { handle_data_docs, getItemData } = useData();
-  const { auth } = useAuth();
+
   const fileData = getItemData(atr, "fileData");
+  const [data, setData] = useState([]);
+  const { addSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = useState(0); // 0: disabled, 1: active
+
+  const { auth } = useAuth();
+  const { push } = useHistory();
+
+  const nextFlow = useMemo(() => fileData?.nextflow, [fileData]);
+  useLayoutEffect(() => {
+    if (nextFlow && nextFlow?.length > 1) {
+      setData(addDraggableId(nextFlow));
+    }
+  }, [nextFlow]);
 
   const handleSubmit = async () => {
     try {
@@ -39,20 +49,15 @@ const AddSigners = ({
       const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
       const res = await addUserToDocument(newData, fileData?.id);
       if (res) {
-        console.log(res);
-        handle_data_docs(true, atr, "signers", addColorToArr(data));
-        setActiveItem((a) => a + 1);
-        setAvailableLevel((a) => a + 1);
+        handle_data_docs(true, atr, "fileData", res);
+        push(`${atr}#${activeItemId + 1}`);
         // setFileUrl(newRes?.linkToPdf);
-        // setAvailableItem((a) => a + 1);
         // progress.set(100);
         setLoading(1);
-        setSuccess(t("sign.addSigners.addSignersSuccess"));
-        setTimeout(() => setSuccess(false), 3000);
+        addSnackbar(t("sign.addSigners.addSignersSuccess"), "success");
       }
     } catch (err) {
-      setError(String(err));
-      setTimeout(() => setError(false), 3000);
+      addSnackbar(String(err));
     }
   };
 
@@ -64,10 +69,6 @@ const AddSigners = ({
     items.splice(destination.index, 0, reorderedItem);
     setData(items);
   };
-
-  // useEffect(() => {
-  //   console.table(data);
-  // }, [data]);
 
   const addUser = () => {
     let items = Array.from(data);
@@ -82,7 +83,6 @@ const AddSigners = ({
 
   useEffect(() => {
     if (data?.length > 0) {
-      console.log(data);
       for (let { name, email } of data) {
         if (name !== "" && email !== "" && isValidEmail(email)) continue;
         else {
@@ -103,8 +103,6 @@ const AddSigners = ({
 
   return (
     <div className="container container-center sign-select-document-container">
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
       <div>
         <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
         <div className="mt-3 mb-0">
@@ -170,8 +168,8 @@ const AddSigners = ({
       </div>
       <FloatingButton
         disabled={loading === 0}
-        activeItem={activeItem}
-        // availableLevel={availableLevel}
+        onClickPrev={() => push(`${atr}/${activeItemId - 1}`)}
+        activeItemId={activeItemId}
         onClickNext={handleSubmit}
       />
     </div>

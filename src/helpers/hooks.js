@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BREAKPOINT_WIDTH, PROGRESS_BAR_INTERVAL } from "./constant";
+import { useLocation } from "react-router-dom";
 
 export const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
@@ -15,6 +16,9 @@ export const useRefreshedData = (updatingValue) => {
     )
       setValue(updatingValue);
   }, [updatingValue]);
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
   return { value, set: setValue };
 };
 
@@ -138,4 +142,16 @@ export const usePreventPageLeave = () => {
     give();
     return () => give();
   }, []);
+};
+
+export const useHashString = (defaultValue = "", type = "string") => {
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
+  if (type === "number")
+    return location?.hash
+      ? parseInt(String(location.hash).substr(1))
+      : defaultValue;
+  return location?.hash ? String(location.hash).substr(1) : defaultValue;
 };

@@ -10,9 +10,9 @@ import { useData } from "../../../contexts/DataContext";
 import { useFormInput } from "../../../helpers/hooks";
 // import StaticPersonRow from "../commons/StaticPersonRow";
 
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+// import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+// import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+// import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
 const ReviewSend = ({
   activeItem,
@@ -55,7 +55,7 @@ const ReviewSend = ({
       //   setActiveItem((a) => a + 1);
       //   setAvailableLevel((a) => a + 1);
       //   // setFileUrl(newRes?.linkToPdf);
-      //   // setAvailableItem((a) => a + 1);
+      //   // setAvailableLevel((a) => a + 1);
       //   // progress.set(100);
       //   setLoading(1);
       setSuccess(t("sign.reviewSend.submitSuccess"));
