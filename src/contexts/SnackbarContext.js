@@ -11,7 +11,7 @@ export const useSnackbar = () => useContext(SnackbarContext);
 // }
 
 const SnackbarProvider = ({ children }) => {
-  const DURATION = 300000;
+  const DURATION = 3000;
   const [snackbar, setSnackbar] = useState({
     show: false,
   });

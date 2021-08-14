@@ -32,6 +32,13 @@ export const ADDSIGNER = {
   REVIEW: "REVIEW",
 };
 
+export const DRAFT_STATUS = {
+  DRAFTING: "DRAFTING",
+  WAITING: "WAITING",
+  OUT: "OUT",
+  COMPLETED: "COMPLETED",
+};
+
 export const publicLinks = [FRONTEND_URL.privacyPolicy];
 
 export const highlightedNavs = [

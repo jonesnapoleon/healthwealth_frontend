@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -14,12 +14,11 @@ import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import { ADDSIGNER } from "../../../helpers/constant";
-import { addColorToArr } from "../../../helpers/transformer";
 import { useHistory } from "react-router-dom";
 
 const addDraggableId = (data) => {
   return data?.map((datum, id) => {
-    return { ...datum, id };
+    return { ...datum, id: String(id) };
   });
 };
 
@@ -36,12 +35,17 @@ const AddSigners = ({ atr, activeItemId }) => {
   const { auth } = useAuth();
   const { push } = useHistory();
 
-  const nextFlow = useMemo(() => fileData?.nextflow, [fileData]);
-  useLayoutEffect(() => {
-    if (nextFlow && nextFlow?.length > 1) {
-      setData(addDraggableId(nextFlow));
+  const nextFlow = useMemo(() => fileData?.nextflow ?? [], [fileData]);
+  useEffect(() => {
+    if (nextFlow && nextFlow?.length > 0) {
+      const temp = addDraggableId(nextFlow);
+      setData(temp);
     }
   }, [nextFlow]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleSubmit = async () => {
     try {

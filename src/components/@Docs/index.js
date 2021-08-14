@@ -10,7 +10,7 @@ import "./docs.scss";
 import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
-import { DOC } from "helpers/constant";
+import { DOC, DRAFT_STATUS } from "helpers/constant";
 
 const Docs = () => {
   const { t } = useTranslation();
@@ -40,20 +40,30 @@ const Docs = () => {
   }, [setDocs, docs, addSnackbar]);
 
   useEffect(() => {
-    console.log(displayedDocs);
-  }, [displayedDocs]);
-
-  useEffect(() => {
     fetchingDocs();
   }, [fetchingDocs]);
 
   const handleClickingComponent = useCallback(
     (obj) => {
+      console.log(obj);
       const key = String(obj?.signType).toLowerCase();
+      if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
       if (key !== DOC.me) {
+        handle_data_docs(true, key, "fileData", obj);
         if (obj?.nextflow && obj.nextflow?.length === 0) {
-          handle_data_docs(true, key, "fileData", obj);
-          history.push(`${key}`);
+          history.push(`${key}#${0}`);
+        }
+        if (obj?.nextflow && obj.nextflow?.length > 0) {
+          history.push(`${key}#${1}`);
+        }
+      }
+      if (key === DOC.me) {
+        handle_data_docs(true, key, "fileData", obj);
+        if (obj?.nextflow && obj.nextflow?.length === 0) {
+          history.push(`${key}#${0}`);
+        }
+        if (obj?.nextflow && obj.nextflow?.length > 0) {
+          history.push(`${key}#${1}`);
         }
       }
     },

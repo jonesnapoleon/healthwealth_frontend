@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-// import { useHistory } from "react-router-dom";
 import {
   DOC,
   FRONTEND_URL,
@@ -16,11 +15,11 @@ import PlaceField from "../PlaceField";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { useHashString } from "helpers/hooks";
+import ReviewSend from "../ReviewSend";
 
 const Me = () => {
-  const [activeItem, setActiveItem] = useState(0);
-  const [availableLevel, setAvailableLevel] = useState(0);
-  // const history = useHistory();
+  const activeItemId = useHashString(0, "number");
   const { t } = useTranslation();
 
   // usePreventPageLeave();
@@ -30,53 +29,33 @@ const Me = () => {
       {
         name: t("sign.selectDocument.text"),
         icon: <DescriptionOutlinedIcon />,
-        component: (
-          <SelectDocument
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            setAvailableLevel={setAvailableLevel}
-            atr={DOC.me}
-          />
-        ),
+        component: <SelectDocument activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_selected_document,
       },
       {
         name: t("sign.placeFields.text"),
         icon: <ListAltOutlinedIcon />,
-        component: (
-          <PlaceField
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            setAvailableLevel={setAvailableLevel}
-            atr={DOC.me}
-          />
-        ),
+        component: <PlaceField activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_place_fields,
       },
       {
         name: t("sign.reviewSend.text"),
         icon: <SendRoundedIcon />,
+        component: <ReviewSend activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_review_send,
       },
     ],
-    [activeItem, t, availableLevel]
+    [activeItemId, t]
   );
-
-  // useEffect(() => {
-  //   history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
-  // }, [activeItem, history, stepperData]);
 
   return (
     <div>
       <Stepper
         items={stepperData}
-        activeItem={activeItem}
-        availableLevel={availableLevel}
-        isFixed={activeItem === SIGNING_ACTIVE_FIXED_ITEM.me}
+        activeItemId={activeItemId}
+        isFixed={activeItemId === SIGNING_ACTIVE_FIXED_ITEM.me}
       />
-      {stepperData?.[activeItem]?.component}
+      {stepperData?.[activeItemId]?.component}
     </div>
   );
 };

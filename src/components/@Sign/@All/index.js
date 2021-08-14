@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
 import Stepper from "../commons/Stepper";
 import { useTranslation } from "react-i18next";
 
-// import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-// import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
-// import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-// import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
 import {
   DOC,
   FRONTEND_URL,
@@ -18,13 +14,13 @@ import {
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
-// import SendRoundedIcon from "@material-ui/icons/SendRounded";
+
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ReviewSend from "../ReviewSend";
 import PlaceField from "../PlaceField";
 import { useHashString } from "helpers/hooks";
 
-const Me = () => {
+const All = () => {
   const activeItemId = useHashString(0, "number");
   const { t } = useTranslation();
 
@@ -69,4 +65,4 @@ const Me = () => {
   );
 };
 
-export default Me;
+export default All;

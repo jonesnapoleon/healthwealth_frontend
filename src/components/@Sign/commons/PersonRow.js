@@ -8,6 +8,7 @@ import { ADDSIGNER } from "../../../helpers/constant";
 
 const PersonRow = ({ data, index, handleValue }) => {
   const { t } = useTranslation();
+
   return (
     <Draggable draggableId={data?.id} index={index}>
       {(provided) => (

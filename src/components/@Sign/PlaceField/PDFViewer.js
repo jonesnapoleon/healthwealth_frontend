@@ -1,5 +1,5 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
