@@ -17,7 +17,7 @@ import useClippy from "use-clippy";
 import Ajv from "ajv";
 
 import { useSnackbar } from "contexts/SnackbarContext";
-import { getDocImages } from "api/docs";
+import { getDocImages, getAllFields } from "api/docs";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { addColorToArr, transformFormInput } from "helpers/transformer";
 
@@ -68,7 +68,21 @@ const PlaceField = ({ activeItemId, atr }) => {
   // const signers = getItemData(atr, "signers");
 
   const [currentSigner, setCurrentSigner] = useState(listSigners?.[0] ?? {});
-  const [fields, setFields] = useState([]);
+
+  const updatePlaceFields = useCallback(
+    (newAtr) => handle_data_docs(true, atr, "placeFieldItems", newAtr),
+    [atr, handle_data_docs]
+  );
+
+  const fields = useMemo(
+    () => placeFieldItems?.fields ?? [],
+    [placeFieldItems]
+  );
+  const setFields = useCallback(
+    (val) => updatePlaceFields(val),
+    [updatePlaceFields]
+  );
+
   const [currentField, setCurrentField] = useState(null);
   // const [loading, setLoading] = useState(false);
   // const [success, setSuccess] = useState(false);
@@ -82,26 +96,37 @@ const PlaceField = ({ activeItemId, atr }) => {
   const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
 
+  const fetchAllFields = useCallback(async () => {
+    if (placeFieldItems && placeFieldItems?.images) return;
+    if (typeof fileData?.linkToPdf === "string") {
+      try {
+        const res = await getAllFields(fileData?.id);
+        if (res) {
+          updatePlaceFields({ fields: res });
+        }
+      } catch (e) {
+        addSnackbar(String(e));
+      }
+    }
+  }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
+
   const fetchAllImages = useCallback(async () => {
     if (placeFieldItems && placeFieldItems?.images) return;
     if (typeof fileData?.linkToPdf === "string") {
       try {
         const res = await getDocImages(fileData?.id);
         if (res) {
-          console.log(res);
-          handle_data_docs(true, atr, "placeFieldItems", {
-            ...placeFieldItems,
-            images: res,
-          });
+          updatePlaceFields({ images: res });
         }
       } catch (e) {
         addSnackbar(String(e));
       }
     }
-  }, [fileData, addSnackbar, atr, handle_data_docs, placeFieldItems]);
+  }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
   useEffectOnce(() => {
     fetchAllImages();
+    fetchAllFields();
   });
 
   const placeFieldImages = useMemo(() => {
@@ -213,7 +238,14 @@ const PlaceField = ({ activeItemId, atr }) => {
     } catch (e) {
       throw e;
     }
-  }, [clipboard, fields, pushToStack, getCurrentPageCenter, visibility]);
+  }, [
+    clipboard,
+    fields,
+    setFields,
+    pushToStack,
+    getCurrentPageCenter,
+    visibility,
+  ]);
 
   const undoField = useCallback(() => {
     // console.log("undo", stateStack, stackIdx);

@@ -54,6 +54,7 @@ const DataProvider = ({ children }) => {
       placeFieldItems: {},
     },
   });
+
   const [docs, setDocs] = useState(false);
 
   const [auditTrails, setAuditTrails] = useState({});
