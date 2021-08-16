@@ -20,6 +20,8 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { getDocImages, getAllFields } from "api/docs";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { addColorToArr, transformFormInput } from "helpers/transformer";
+import { DOC } from "helpers/constant";
+import { useAuth } from "contexts/AuthContext";
 
 const schema = {
   type: "object",
@@ -51,17 +53,24 @@ const schema = {
     uid: { type: "string" },
   },
 };
-// const temp =
-//   "https://storage.googleapis.com/legaltech-esign-develop/develop/doc/aisc_jones_napoleon_pdf1624197842048";
+
+const temp =
+  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/822204_jpg1627207587207";
+
 const MAX_STACK_SIZE = 30;
 
 const PlaceField = ({ activeItemId, atr }) => {
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
 
+  const { fullname, email } = useAuth();
+
   const listSigners = useMemo(
-    () => transformFormInput(addColorToArr(fileData?.nextflow)),
-    [fileData]
+    () =>
+      atr !== DOC.me
+        ? transformFormInput(addColorToArr(fileData?.nextflow))
+        : addColorToArr([{ name: fullname, email }]),
+    [fileData, fullname, email, atr]
   );
 
   const placeFieldItems = getItemData(atr, "placeFieldItems");
@@ -70,18 +79,34 @@ const PlaceField = ({ activeItemId, atr }) => {
   const [currentSigner, setCurrentSigner] = useState(listSigners?.[0] ?? {});
 
   const updatePlaceFields = useCallback(
-    (newAtr) => handle_data_docs(true, atr, "placeFieldItems", newAtr),
-    [atr, handle_data_docs]
+    (newAtr) =>
+      handle_data_docs(true, atr, "placeFieldItems", {
+        ...placeFieldItems,
+        ...newAtr,
+      }),
+    [atr, handle_data_docs, placeFieldItems]
   );
 
   const fields = useMemo(
     () => placeFieldItems?.fields ?? [],
     [placeFieldItems]
   );
+  const placeFieldImages = useMemo(
+    () => placeFieldItems?.images ?? [],
+    [placeFieldItems]
+  );
   const setFields = useCallback(
-    (val) => updatePlaceFields(val),
+    (val) => updatePlaceFields({ fields: val }),
     [updatePlaceFields]
   );
+
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
+
+  useEffect(() => {
+    console.log(placeFieldItems);
+  }, [placeFieldItems]);
 
   const [currentField, setCurrentField] = useState(null);
   // const [loading, setLoading] = useState(false);
@@ -110,6 +135,10 @@ const PlaceField = ({ activeItemId, atr }) => {
     }
   }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
+  useEffect(() => {
+    updatePlaceFields({ images: [temp, temp, temp] });
+  }, []);
+
   const fetchAllImages = useCallback(async () => {
     if (placeFieldItems && placeFieldItems?.images) return;
     if (typeof fileData?.linkToPdf === "string") {
@@ -128,10 +157,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     fetchAllImages();
     fetchAllFields();
   });
-
-  const placeFieldImages = useMemo(() => {
-    return placeFieldItems ? placeFieldItems?.images : [];
-  }, [placeFieldItems]);
 
   const getCurrentPageCenter = useCallback(() => {
     let currentPage = document.getElementById(`one-image-area-${visibility}`);
@@ -232,7 +257,7 @@ const PlaceField = ({ activeItemId, atr }) => {
         data.y = y;
         data.pageNum = visibility;
         pushToStack([...fields, data]);
-        setFields((fields) => [...fields, data]);
+        setFields([...fields, data]);
         // console.log("pasted!", data);
       }
     } catch (e) {
@@ -334,6 +359,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
         <DndProvider backend={HTML5Backend}>
           <FieldSidebar
+            atr={atr}
             listSigners={listSigners}
             currentSigner={currentSigner}
             setCurrentSigner={setCurrentSigner}

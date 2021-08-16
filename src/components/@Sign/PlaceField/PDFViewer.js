@@ -53,8 +53,7 @@ const Page = ({
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
-
-    console.log("add", fieldPosition, pageNum, pagePosition);
+    // console.log("add", fieldPosition, pageNum, pagePosition);
 
     let x =
       (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
@@ -80,9 +79,9 @@ const Page = ({
       uid: "a5bf6a9f-3656-40c8-b159-1fcb2f9d3a44", // TODO get from BE
     };
 
-    setFields((fields) => [...fields, newField]);
+    setFields([...fields, newField]);
     pushToStack([...fields, newField]);
-    console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
+    // console.log(`dropped ${type} at (${x}, ${y}) on page ${pageNum}`);
   };
 
   // useEffect(() => {
@@ -188,7 +187,7 @@ const PDFViewer = ({
   // React.useEffect(() => {
   //   console.log("frgt", visibility);
   // }, [visibility]);
-
+  console.log(fields);
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">

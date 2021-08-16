@@ -12,6 +12,7 @@ import BusinessIcon from "@material-ui/icons/Business";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import TextFieldsIcon from "@material-ui/icons/TextFields";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { DOC } from "helpers/constant";
 // import DeleteIcon from '@material-ui/icons/Delete';
 
 const StaticFieldBox = ({ type, icon, isYes }) => {
@@ -34,7 +35,12 @@ const StaticFieldBox = ({ type, icon, isYes }) => {
   );
 };
 
-const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
+const FieldSidebar = ({
+  atr,
+  listSigners,
+  currentSigner,
+  setCurrentSigner,
+}) => {
   const { t } = useTranslation();
 
   // const fieldType = {
@@ -69,14 +75,18 @@ const FieldSidebar = ({ listSigners, currentSigner, setCurrentSigner }) => {
     <div className="left-sidebar position-fixed">
       <div className="container">
         <div className="row pt-2">
-          <div>
-            <strong>{t("sign.placeFields.left.signers")}</strong>
-          </div>
-          <ColorizedSelect
-            options={listSigners}
-            value={currentSigner}
-            onChange={(e) => setCurrentSigner(e)}
-          />
+          {atr !== DOC.me && (
+            <>
+              <div>
+                <strong>{t("sign.placeFields.left.signers")}</strong>
+              </div>
+              <ColorizedSelect
+                options={listSigners}
+                value={currentSigner}
+                onChange={(e) => setCurrentSigner(e)}
+              />
+            </>
+          )}
 
           {/* <select value={signer} onChange={(e) => setSigner(e.target.value)}>
             {signersValues &&

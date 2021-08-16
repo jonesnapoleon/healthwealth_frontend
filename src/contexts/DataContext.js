@@ -28,31 +28,24 @@ const reducer = (state, action) => {
   }
 };
 
+let INITDATA = {
+  docs: false,
+  fileData: false,
+  signers: [],
+  copies: [],
+  placeFieldItems: {
+    images: [],
+    fields: [],
+  },
+};
+
 const DataProvider = ({ children }) => {
   const { addSnackbar } = useSnackbar();
 
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
-    me: {
-      docs: false,
-      fileData: false,
-      signers: [],
-      copies: [],
-      placeFieldItems: {},
-    },
-    all: {
-      docs: false,
-      fileData: false,
-      signers: [],
-      copies: [],
-      placeFieldItems: {},
-    },
-    request: {
-      docs: false,
-      fileData: false,
-      signers: [],
-      copies: [],
-      placeFieldItems: {},
-    },
+    me: INITDATA,
+    all: INITDATA,
+    request: INITDATA,
   });
 
   const [docs, setDocs] = useState(false);
