@@ -13,6 +13,8 @@ export const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
   const [firstTime, setFirstTime] = useState(true);
   const [auth, setAuth] = useState({});
+  const [signatures, setSignatures] = useState(false);
+
   const history = useHistory();
   const location = useLocation();
 
@@ -88,6 +90,8 @@ const AuthProvider = ({ children }) => {
     signOut,
     setAuth: setAndSaveAuth,
     putAuth,
+    signatures,
+    setSignatures,
   };
 
   return (

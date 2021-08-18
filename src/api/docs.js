@@ -152,3 +152,25 @@ export const sendDoc = async (fileId, data) => {
     throw e?.response?.data?.error?.message ?? "Add docs failed";
   }
 };
+
+export const verifyOTPDoc = async (fileId, OTP, token) => {
+  try {
+    const response = await axios.post(
+      `/api/doc/${fileId}/otp/verify?otp=${OTP}&token=${token}`
+    );
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.errorMessage ?? "";
+  }
+};
+
+export const sendOTPDoc = async (fileId, phone) => {
+  try {
+    const response = await axios.post(
+      `/api/doc/${fileId}/otp/send/phone?phone=${phone}`
+    );
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.errorMessage ?? "";
+  }
+};

@@ -1,6 +1,12 @@
 .signature-page-container {
   display: flex;
-  align-items: center;
+  // align-items: center;
+  .parent {
+    width: 100%;
+    img {
+      max-width: 130px;
+    }
+  }
   > * {
     padding: 1rem 4rem 0 0;
     .head {

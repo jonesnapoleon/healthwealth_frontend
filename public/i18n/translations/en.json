@@ -343,7 +343,9 @@
       "verify": {
         "head": "Verify your own signature",
         "resend": "Resend",
-        "bacod": "Input your 6 digit verification code"
+        "bacod": "Input your 6 digit verification code",
+        "success1": "Sent",
+        "success2": "Verified"
       }
     }
   },

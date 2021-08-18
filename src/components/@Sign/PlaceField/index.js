@@ -12,6 +12,7 @@ import FieldSidebar from "./FieldSidebar";
 import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
 import SuperFloatingButton from "../commons/SuperFloatingButton";
+import { TransformWrapper } from "react-zoom-pan-pinch";
 
 import useClippy from "use-clippy";
 import Ajv from "ajv";
@@ -137,6 +138,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   useEffect(() => {
     updatePlaceFields({ images: [temp, temp, temp] });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchAllImages = useCallback(async () => {
@@ -346,51 +348,68 @@ const PlaceField = ({ activeItemId, atr }) => {
           undoRedoHandler(e);
         }}
       >
-        <Toolbar
-          copyField={copyField}
-          pasteField={pasteField}
-          undoField={undoField}
-          redoField={redoField}
-          setQrCodePosition={setQrCodePosition}
-          scale={scale}
-          canEdit={placeFieldImages && placeFieldImages?.length > 0}
-          setScale={setScale}
-        />
+        <TransformWrapper initialScale={1} panning={{ disabled: true }}>
+          {({
+            zoomIn,
+            zoomOut,
+            resetTransform,
+            positionX,
+            positionY,
+            ...rest
+          }) => (
+            <>
+              {console.log(rest)}
+              <Toolbar
+                copyField={copyField}
+                pasteField={pasteField}
+                undoField={undoField}
+                redoField={redoField}
+                setQrCodePosition={setQrCodePosition}
+                canEdit={placeFieldImages && placeFieldImages?.length > 0}
+                // scale={scale}
+                // setScale={setScale}
+                zoomIn={zoomIn}
+                zoomOut={zoomOut}
+              />
 
-        <DndProvider backend={HTML5Backend}>
-          <FieldSidebar
-            atr={atr}
-            listSigners={listSigners}
-            currentSigner={currentSigner}
-            setCurrentSigner={setCurrentSigner}
-          />
+              <DndProvider backend={HTML5Backend}>
+                <FieldSidebar
+                  atr={atr}
+                  listSigners={listSigners}
+                  currentSigner={currentSigner}
+                  setCurrentSigner={setCurrentSigner}
+                />
 
-          <PDFViewer
-            fields={fields}
-            scale={scale}
-            setFields={setFields}
-            setVisibility={setVisibility}
-            currentSigner={currentSigner}
-            stateStack={stateStack}
-            setCurrentField={setCurrentField}
-            placeFieldImages={placeFieldImages}
-            pushToStack={pushToStack}
-            qrCodePosition={qrCodePosition}
-          />
+                <PDFViewer
+                  fields={fields}
+                  scale={scale}
+                  setScale={setScale}
+                  setFields={setFields}
+                  setVisibility={setVisibility}
+                  currentSigner={currentSigner}
+                  stateStack={stateStack}
+                  setCurrentField={setCurrentField}
+                  placeFieldImages={placeFieldImages}
+                  pushToStack={pushToStack}
+                  qrCodePosition={qrCodePosition}
+                />
 
-          <RightSnippetArea
-            currentField={currentField}
-            setCurrentField={setCurrentField}
-            setFields={setFields}
-            fields={fields}
-            onDelete={() => {
-              let temp = currentField;
-              temp.deleted = true;
-              pushToStack(temp);
-              setCurrentField(null);
-            }}
-          />
-        </DndProvider>
+                <RightSnippetArea
+                  currentField={currentField}
+                  setCurrentField={setCurrentField}
+                  setFields={setFields}
+                  fields={fields}
+                  onDelete={() => {
+                    let temp = currentField;
+                    temp.deleted = true;
+                    pushToStack(temp);
+                    setCurrentField(null);
+                  }}
+                />
+              </DndProvider>
+            </>
+          )}
+        </TransformWrapper>
       </div>
       <SuperFloatingButton
         onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}

@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDrop } from "react-dnd";
 // import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
+import { TransformComponent } from "react-zoom-pan-pinch";
 
 import FieldBox from "./FieldBox";
 
@@ -177,6 +178,7 @@ const PDFViewer = ({
   qrCodePosition,
   setVisibility,
   scale,
+  setScale,
   placeFieldImages,
 }) => {
   const currentRef = useRef(null);
@@ -191,9 +193,70 @@ const PDFViewer = ({
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">
-        <div
+        <TransformComponent>
+          <div
+            className="wrap-again"
+            // style={{ transform: `scale(${scale}%)` }}
+            ref={currentRef}
+          >
+            {placeFieldImages && placeFieldImages?.length > 0 ? (
+              placeFieldImages?.map((data, i) => {
+                const playableFields = fields
+                  ? fields
+                      ?.filter((field) => field.pageNum === i + 1)
+                      .map((field, j) => {
+                        return field.deleted ? null : (
+                          <FieldBox
+                            field={field}
+                            onClick={() => setCurrentField(field)}
+                            key={j}
+                            id={`field-${j + 1}`}
+                            pushToStack={pushToStack}
+                            fields={fields}
+                            setFields={setFields}
+                            scale={scale}
+                          />
+                        );
+                      })
+                  : [];
+                return (
+                  <Page
+                    setVisibility={setVisibility}
+                    data={data}
+                    pageNum={i + 1}
+                    fields={fields}
+                    setFields={setFields}
+                    currentSigner={currentSigner}
+                    key={i}
+                    pushToStack={pushToStack}
+                    stateStack={stateStack}
+                    playableFields={playableFields}
+                    qrCodePosition={qrCodePosition}
+                    scale={scale}
+                  />
+                );
+              })
+            ) : (
+              <LoadingBackdrop />
+            )}
+          </div>
+        </TransformComponent>
+
+        {/* {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+              <TransformComponent> */}
+        {/* )} */}
+      </div>
+    </div>
+  );
+};
+
+export default PDFViewer;
+
+// export const StaticPDFViewer =
+
+/* <div
           className="wrap-again"
-          style={{ transform: `scale(${scale}%)` }}
+          // style={{ transform: `scale(${scale}%)` }}
           ref={currentRef}
         >
           {placeFieldImages && placeFieldImages?.length > 0 ? (
@@ -237,11 +300,4 @@ const PDFViewer = ({
             <LoadingBackdrop />
           )}
         </div>
-      </div>
-    </div>
-  );
-};
-
-export default PDFViewer;
-
-// export const StaticPDFViewer =
+         */

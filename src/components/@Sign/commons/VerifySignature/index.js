@@ -1,20 +1,58 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import "./index.scss";
 // import { useModal } from "contexts/ModalContext";
 import { useFormInput, useInput, useOTP } from "helpers/hooks";
 import OTPInput from "components/commons/OTPInput";
+import { useAuth } from "contexts/AuthContext";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 
-const VerifySignature = ({ onClickCTA }) => {
+const VerifySignature = ({ onClickCTA, fileId }) => {
   const { t } = useTranslation();
-  const phone = useFormInput();
+  const { auth } = useAuth();
+  const phone = useFormInput(auth?.phone);
   const isSentPhone = useInput(false);
   const otp = useOTP(6);
+  const [loading, setLoading] = useState(false);
+  const { addSnackbar } = useSnackbar();
 
-  const resendOTP = useCallback(() => {
-    console.log("object");
-  }, []);
+  const sendOTPToPhone = async () => {
+    try {
+      setLoading(true);
+      const res = await sendOTPDoc(fileId, phone?.value);
+      if (res) {
+        addSnackbar(t("popup.verify.success1"), "success");
+        isSentPhone?.set(true);
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    } finally {
+      setLoading(!true);
+    }
+  };
+
+  useEffect(() => {
+    console.log(otp?.number);
+  }, [otp.number]);
+
+  // const verifyOTPWrap = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await verifyOTP();
+  //     if (res) {
+  //       setLoading(1);
+  //       addSnackbar(t("popup.verify.success"), "success");
+  //       isSentPhone?.set(true);
+  //       setCanSend(true)
+  //     }
+  //   } catch (err) {
+  //     addSnackbar(String(err));
+  //   } finally {
+  //     setLoading(!true);
+  //   }
+  // };
 
   return (
     <div className="verify-signature-container">
@@ -28,7 +66,7 @@ const VerifySignature = ({ onClickCTA }) => {
             className={`btn btn-${
               isSentPhone?.value ? "light" : "success"
             } squared`}
-            onClick={() => isSentPhone?.set(true)}
+            onClick={sendOTPToPhone}
             disabled={isSentPhone?.value}
           >
             {isSentPhone?.value ? t("form.sent") : t("form.send")}
@@ -41,13 +79,39 @@ const VerifySignature = ({ onClickCTA }) => {
           <OTPInput otp={otp} autoFocus={!false} />
         </div>
         <div className="resend-button-area">
-          <button className="btn btn-light squared" onClick={resendOTP}>
+          <button
+            className="btn btn-light squared"
+            disabled={!phone?.value}
+            onClick={sendOTPToPhone}
+          >
             {t("popup.sign.verify.resend")}
           </button>
         </div>
       </div>
       <div className="button-below">
-        <button className="btn btn-primary squared" onClick={onClickCTA}>
+        <button
+          className="btn btn-primary squared"
+          disabled={loading || String(otp?.number).length < 6}
+          onClick={async () => {
+            try {
+              setLoading(true);
+              const res = await verifyOTPDoc(
+                fileId,
+                otp?.number,
+                auth?.id_token
+              );
+              if (res) {
+                onClickCTA();
+                addSnackbar(t("popup.verify.success2"), "success");
+                isSentPhone?.set(true);
+              }
+            } catch (err) {
+              addSnackbar(String(err));
+            } finally {
+              setLoading(!true);
+            }
+          }}
+        >
           {t("general.submit")}
         </button>
       </div>

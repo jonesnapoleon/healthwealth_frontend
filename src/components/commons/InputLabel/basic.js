@@ -15,6 +15,7 @@ const BasicInputLabel = ({
       <input
         style={{ fontFamily }}
         className={`input ${isShow ? "is-show" : ""}`}
+        id={`${isShow ? "showed-font-input-tag" : ""}`}
         {...data}
         disabled={disabled || isShow}
       />

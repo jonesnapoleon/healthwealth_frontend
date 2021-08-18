@@ -13,9 +13,11 @@ import TextFieldsIcon from "@material-ui/icons/TextFields";
 import "./signaturemodal.scss";
 import DragDropWithProgressBar from "../ImageUpload/DragDropWithProgressBar";
 import { isFileValid } from "helpers/validator";
-import { Snackbar } from "@material-ui/core";
 import BasicInputLabel, { BasicSelect } from "../InputLabel/basic";
 import { FONTLIST } from "helpers/constant";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { addSignature } from "api/auth";
+import { convertToImg } from "helpers/utils";
 
 const TextWrite = ({ t, formItemData, fontData }) => {
   return (
@@ -32,16 +34,17 @@ const TextWrite = ({ t, formItemData, fontData }) => {
   );
 };
 
-const SignatureModal = () => {
+const SignatureModal = ({ isInitial }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState(0);
   const checkbox = useCheckbox();
 
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  // const [error, setError] = useState(null);
+  // const [success, setSuccess] = useState(null);
+  const { addSnackbar } = useSnackbar();
   // const [loading, setLoading] = useState(false);
 
-  const [imageURL, setImageURL] = useState(null);
+  // const [imageURL, setImageURL] = useState(null);
   const signCanvas = useRef({});
   // const clear = () => signCanvas.current?.clear();
 
@@ -63,38 +66,55 @@ const SignatureModal = () => {
   //   [formItemData, fontData]
   // );
 
-  const save = () => {
-    if (tab === 0)
-      setImageURL(signCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-    if (tab === 1) handleUploadFile();
+  const addingSignature = async (fileData) => {
+    try {
+      const res = await addSignature(fileData, isInitial);
+      if (res?.data) {
+        //     handle_data_docs(true, atr, "fileData", res.data);
+        //     setAvailableLevel((a) => a + 1);
+        progress.set(100);
+        addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
+        //     setTimeout(() => setSuccess(false), 3000);
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+      progress.set(-1);
+    }
+  };
+
+  const save = async () => {
+    if (![0, 1, 2].includes(tab)) return;
+    try {
+      if (tab === 0) {
+        const temp = signCanvas.current
+          .getTrimmedCanvas()
+          .toDataURL("image/png");
+        await addingSignature(temp);
+      }
+      if (tab === 1) await handleUploadFile();
+      if (tab === 2) {
+        const doc = document.getElementById("showed-font-input-tag");
+        const res = await convertToImg(doc);
+        await addingSignature(res);
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+      progress.set(-1);
+    }
   };
 
   const handleUploadFile = async () => {
     if (!data?.file || data?.file === null) return;
     if (progress.value !== 0) return;
-    // throw new Error(t("form.error.fileNotUploadedYet"));
     try {
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
         progress.set(1);
-        // let res;
-        //   res = await addDoc(
-        //     data?.file,
-        //     data?.file?.name,
-        //     String(atr).toUpperCase()
-        //   );
-        //   if (res?.data) {
-        //     handle_data_docs(true, atr, "fileData", res.data);
-        //     setAvailableLevel((a) => a + 1);
-        //     progress.set(100);
-        setSuccess(t("sign.selectDocument.uploadFileSuccess"));
-        //     setTimeout(() => setSuccess(false), 3000);
-        //   }
+        await addingSignature(data?.file);
       }
     } catch (err) {
-      setError(String(err));
+      addSnackbar(String(err));
       progress.set(-1);
-      setTimeout(() => setError(false), 3000);
     }
   };
 
@@ -121,9 +141,6 @@ const SignatureModal = () => {
 
   return (
     <>
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="success" text={success} />}
-
       <div className="row whole-signature-modal">
         <div className="col col-3">
           {[
@@ -153,7 +170,7 @@ const SignatureModal = () => {
                   </div>
                   <hr />
                 </div>
-                {imageURL && (
+                {/* {imageURL && (
                   <img
                     src={imageURL}
                     alt="my signature"
@@ -164,7 +181,7 @@ const SignatureModal = () => {
                       width: "150px",
                     }}
                   />
-                )}
+                )} */}
               </>
             )}
 
