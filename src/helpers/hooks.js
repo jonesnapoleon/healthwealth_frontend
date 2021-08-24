@@ -146,9 +146,6 @@ export const usePreventPageLeave = () => {
 
 export const useHashString = (defaultValue = "", type = "string") => {
   const location = useLocation();
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
   if (type === "number")
     return location?.hash
       ? parseInt(String(location.hash).substr(1))

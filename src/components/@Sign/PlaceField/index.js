@@ -12,7 +12,8 @@ import FieldSidebar from "./FieldSidebar";
 import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
 import SuperFloatingButton from "../commons/SuperFloatingButton";
-import { TransformWrapper } from "react-zoom-pan-pinch";
+// import { TransformWrapper } from "react-zoom-pan-pinch";
+import useForceUpdate from "use-force-update";
 
 import useClippy from "use-clippy";
 import Ajv from "ajv";
@@ -56,29 +57,31 @@ const schema = {
 };
 
 const temp =
-  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/822204_jpg1627207587207";
+  "https://thumbs.dreamstime.com/z/curriculum-vitae-resume-design-template-vector-paper-collection-152652090.jpg";
 
 const MAX_STACK_SIZE = 30;
+export const QR_CODE_RELATIVE_SIZE = 0.1;
 
 const PlaceField = ({ activeItemId, atr }) => {
+  const forceUpdate = useForceUpdate();
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
-
-  const { fullname, email } = useAuth();
+  const {
+    auth: { fullname, email },
+  } = useAuth();
 
   const listSigners = useMemo(
     () =>
       atr !== DOC.me
         ? transformFormInput(addColorToArr(fileData?.nextflow))
-        : addColorToArr([{ name: fullname, email }]),
+        : transformFormInput(addColorToArr([{ name: fullname, email }])),
     [fileData, fullname, email, atr]
   );
-
+  const [currentSigner, setCurrentSigner] = useState({});
+  useEffect(() => {
+    setCurrentSigner(listSigners.length > 0 ? listSigners[0] : {});
+  }, [listSigners]);
   const placeFieldItems = getItemData(atr, "placeFieldItems");
-  // const signers = getItemData(atr, "signers");
-
-  const [currentSigner, setCurrentSigner] = useState(listSigners?.[0] ?? {});
-
   const updatePlaceFields = useCallback(
     (newAtr) =>
       handle_data_docs(true, atr, "placeFieldItems", {
@@ -101,18 +104,15 @@ const PlaceField = ({ activeItemId, atr }) => {
     [updatePlaceFields]
   );
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
+  // useEffect(() => {
+  //   console.log(fields);
+  // }, [fields]);
 
-  useEffect(() => {
-    console.log(placeFieldItems);
-  }, [placeFieldItems]);
+  // useEffect(() => {
+  //   console.log("placef", placeFieldItems);
+  // }, [placeFieldItems]);
 
   const [currentField, setCurrentField] = useState(null);
-  // const [loading, setLoading] = useState(false);
-  // const [success, setSuccess] = useState(false);
-  // const [error, setError] = useState(false);
   const [scale, setScale] = useState(100);
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
@@ -160,14 +160,14 @@ const PlaceField = ({ activeItemId, atr }) => {
     fetchAllFields();
   });
 
-  const getCurrentPageCenter = useCallback(() => {
-    let currentPage = document.getElementById(`one-image-area-${visibility}`);
-    console.log(currentPage);
-    const rect = currentPage?.getBoundingClientRect();
-    let x = (rect.right - rect.left) / 2 + rect.left;
-    let y = (rect.bottom - rect.top) / 2 + rect.top;
-    return { x, y };
-  }, [visibility]);
+  // const getCurrentPageCenter = useCallback(() => {
+  //   let currentPage = document.getElementById(`one-image-area-${visibility}`);
+  //   // console.log(currentPage);
+  //   const rect = currentPage?.getBoundingClientRect();
+  //   let x = (rect.right - rect.left) / 2 + rect.left;
+  //   let y = (rect.bottom - rect.top) / 2 + rect.top;
+  //   return { x, y };
+  // }, [visibility]);
 
   const handleNext = () => {
     try {
@@ -195,22 +195,6 @@ const PlaceField = ({ activeItemId, atr }) => {
       addSnackbar(String(err));
     }
   };
-
-  // useEffect(() => {
-  //   console.log("useeffect fields", fields);
-  // }, [fields]);
-
-  // useEffect(() => {
-  //   console.log("useeffect currentfield", currentField);
-  // }, [currentField]);
-
-  // useEffect(() => {
-  //   console.log("useeffect statestack", stateStack, "idx", stackIdx);
-  // }, [stateStack, stackIdx]);
-
-  // useEffect(() => {
-  //   console.log(currentSigner);
-  // }, [currentSigner]);
 
   const [clipboard, setClipboard] = useClippy();
 
@@ -251,26 +235,29 @@ const PlaceField = ({ activeItemId, atr }) => {
     try {
       const ajv = new Ajv();
       let data = JSON.parse(clipboard);
+      console.log("cu", data);
       const validate = ajv.compile(schema);
       if (validate(data) && typeof data === "object") {
         // console.log("data", data);
-        const { x, y } = getCurrentPageCenter();
-        data.x = x;
-        data.y = y;
+        // const { x, y } = getCurrentPageCenter();
+        data.x = 0.5 - 0.5 * data.w;
+        data.y = 0.5 - 0.5 * data.w;
         data.pageNum = visibility;
         pushToStack([...fields, data]);
         setFields([...fields, data]);
+        forceUpdate();
         // console.log("pasted!", data);
       }
     } catch (e) {
       throw e;
     }
   }, [
+    forceUpdate,
     clipboard,
     fields,
     setFields,
     pushToStack,
-    getCurrentPageCenter,
+    // getCurrentPageCenter,
     visibility,
   ]);
 
@@ -307,7 +294,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     },
     [undoField, redoField]
   );
-
   useEffect(() => {
     const manipulation = (e) => {
       if (e.key === "z" && e.ctrlKey) {
@@ -348,7 +334,7 @@ const PlaceField = ({ activeItemId, atr }) => {
           undoRedoHandler(e);
         }}
       >
-        <TransformWrapper initialScale={1} panning={{ disabled: true }}>
+        {/* <TransformWrapper initialScale={1} panning={{ disabled: true }}>
           {({
             zoomIn,
             zoomOut,
@@ -356,60 +342,60 @@ const PlaceField = ({ activeItemId, atr }) => {
             positionX,
             positionY,
             ...rest
-          }) => (
-            <>
-              {console.log(rest)}
-              <Toolbar
-                copyField={copyField}
-                pasteField={pasteField}
-                undoField={undoField}
-                redoField={redoField}
-                setQrCodePosition={setQrCodePosition}
-                canEdit={placeFieldImages && placeFieldImages?.length > 0}
-                // scale={scale}
-                // setScale={setScale}
-                zoomIn={zoomIn}
-                zoomOut={zoomOut}
-              />
+          }) => ( */}
+        <>
+          <Toolbar
+            copyField={copyField}
+            pasteField={pasteField}
+            undoField={undoField}
+            redoField={redoField}
+            setQrCodePosition={setQrCodePosition}
+            canEdit={placeFieldImages && placeFieldImages?.length > 0}
+            // scale={scale}
+            visibility={visibility}
+            // setScale={setScale}
+            // zoomIn={zoomIn}
+            // zoomOut={zoomOut}
+          />
 
-              <DndProvider backend={HTML5Backend}>
-                <FieldSidebar
-                  atr={atr}
-                  listSigners={listSigners}
-                  currentSigner={currentSigner}
-                  setCurrentSigner={setCurrentSigner}
-                />
+          <DndProvider backend={HTML5Backend}>
+            <FieldSidebar
+              atr={atr}
+              listSigners={listSigners}
+              currentSigner={currentSigner}
+              setCurrentSigner={setCurrentSigner}
+            />
 
-                <PDFViewer
-                  fields={fields}
-                  scale={scale}
-                  setScale={setScale}
-                  setFields={setFields}
-                  setVisibility={setVisibility}
-                  currentSigner={currentSigner}
-                  stateStack={stateStack}
-                  setCurrentField={setCurrentField}
-                  placeFieldImages={placeFieldImages}
-                  pushToStack={pushToStack}
-                  qrCodePosition={qrCodePosition}
-                />
+            <PDFViewer
+              fields={fields}
+              scale={scale}
+              setScale={setScale}
+              setFields={setFields}
+              setVisibility={setVisibility}
+              currentSigner={currentSigner}
+              stateStack={stateStack}
+              setCurrentField={setCurrentField}
+              placeFieldImages={placeFieldImages}
+              pushToStack={pushToStack}
+              qrCodePosition={qrCodePosition}
+            />
 
-                <RightSnippetArea
-                  currentField={currentField}
-                  setCurrentField={setCurrentField}
-                  setFields={setFields}
-                  fields={fields}
-                  onDelete={() => {
-                    let temp = currentField;
-                    temp.deleted = true;
-                    pushToStack(temp);
-                    setCurrentField(null);
-                  }}
-                />
-              </DndProvider>
-            </>
-          )}
-        </TransformWrapper>
+            <RightSnippetArea
+              currentField={currentField}
+              setCurrentField={setCurrentField}
+              setFields={setFields}
+              fields={fields}
+              onDelete={() => {
+                let temp = currentField;
+                temp.deleted = true;
+                pushToStack(temp);
+                setCurrentField(null);
+              }}
+            />
+          </DndProvider>
+        </>
+        {/* )} */}
+        {/* </TransformWrapper> */}
       </div>
       <SuperFloatingButton
         onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}

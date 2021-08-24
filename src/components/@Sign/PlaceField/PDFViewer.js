@@ -1,15 +1,15 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { useDrop } from "react-dnd";
+import { useTranslation } from "react-i18next";
 // import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
-import { TransformComponent } from "react-zoom-pan-pinch";
+// import { TransformComponent } from "react-zoom-pan-pinch";
 
-import FieldBox from "./FieldBox";
+import FieldBox, { QRCodeBox } from "./FieldBox";
 
-const INIT_FIELD_WIDTH = 100;
-const INIT_FIELD_HEIGHT = 50;
-const QR_CODE_RELATIVE_SIZE = 0.15;
+export const INIT_FIELD_WIDTH = 100;
+export const INIT_FIELD_HEIGHT = 50;
 
 const Page = ({
   data,
@@ -24,29 +24,21 @@ const Page = ({
   setVisibility,
   scale,
 }) => {
-  // const [height, setHeight] = useState(INIT_FIELD_HEIGHT);
-  // const [coords, setCoords] = useState(null);
-
-  // const pagePosition = useMemo(() => {}, [pageNum]);
-
-  // useLayoutEffect(() => {
-  //   return () => {};
-  // }, [input]);
+  const { t } = useTranslation();
 
   const [, drop] = useDrop(
     () => ({
       accept: "field",
       drop: (item, monitor) => {
-        // console.log("mon", monitor);
         return addFieldToWorkspace(
           item.type,
           monitor.getClientOffset(),
           pageNum
         );
       },
-      // collect: (monitor) => ({
-      //   position: monitor.getClientOffset(),
-      // }),
+      collect: (monitor) => ({
+        position: monitor.getClientOffset(),
+      }),
     }),
     [currentSigner, fields, stateStack]
   );
@@ -58,8 +50,7 @@ const Page = ({
 
     let x =
       (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
-      pagePosition.width /
-      scale;
+      pagePosition.width;
     let y =
       (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
       pagePosition.height;
@@ -67,7 +58,7 @@ const Page = ({
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
     let newField = {
-      type,
+      type: t(String(type)),
       x,
       y,
       w,
@@ -95,48 +86,49 @@ const Page = ({
   // }, [height]);
 
   // TODO calculate after render
-  const [qrCodeDimension, setqrCodeDimension] = useState(0);
-  const [qrCodeSize, setqrCodeSize] = useState(0);
-  useEffect(() => {
-    const divPosition = document
-      .getElementById(`one-image-area-${pageNum}`)
-      ?.getBoundingClientRect();
-    if (!divPosition) return;
-    const qrCodeFromBorder = 0.02;
-    divPosition.width /= scale / 100;
-    divPosition.height /= scale / 100;
-    let qrCodeSize = Math.min(
-      QR_CODE_RELATIVE_SIZE * divPosition.width,
-      QR_CODE_RELATIVE_SIZE * divPosition.height
-    );
-    let qrCodeDimension = { x: 20, y: 20 };
-    if (qrCodePosition === 0) {
-      qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
-      qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
-    } else if (qrCodePosition === 1) {
-      qrCodeDimension.x =
-        (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
-      qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
-    } else if (qrCodePosition === 2) {
-      qrCodeDimension.x =
-        (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
-      qrCodeDimension.y =
-        (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
-    } else if (qrCodePosition === 3) {
-      qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
-      qrCodeDimension.y =
-        (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
-    }
-    setqrCodeDimension(qrCodeDimension);
-    setqrCodeSize(qrCodeSize);
-  }, [pageNum, qrCodePosition, scale]);
+  // const [qrCodeDimension, setqrCodeDimension] = useState(0);
+  // const [qrCodeSize, setqrCodeSize] = useState(0);
+  // useEffect(() => {
+  //   const divPosition = document
+  //     .getElementById(`one-image-area-${pageNum}`)
+  //     ?.getBoundingClientRect();
+  //   if (!divPosition) return;
+  //   const qrCodeFromBorder = 0.02;
+  //   divPosition.width /= scale / 100;
+  //   divPosition.height /= scale / 100;
+  //   let qrCodeSize = Math.min(
+  //     QR_CODE_RELATIVE_SIZE * divPosition.width,
+  //     QR_CODE_RELATIVE_SIZE * divPosition.height
+  //   );
+  //   let qrCodeDimension = { x: 20, y: 20 };
+  //   if (qrCodePosition === 0) {
+  //     qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+  //     qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+  //   } else if (qrCodePosition === 1) {
+  //     qrCodeDimension.x =
+  //       (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+  //     qrCodeDimension.y = qrCodeFromBorder * divPosition.height;
+  //   } else if (qrCodePosition === 2) {
+  //     qrCodeDimension.x =
+  //       (1 - qrCodeFromBorder) * divPosition.width - qrCodeSize;
+  //     qrCodeDimension.y =
+  //       (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
+  //   } else if (qrCodePosition === 3) {
+  //     qrCodeDimension.x = qrCodeFromBorder * divPosition.width;
+  //     qrCodeDimension.y =
+  //       (1 - qrCodeFromBorder) * divPosition.height - qrCodeSize;
+  //   }
+  //   setqrCodeDimension(qrCodeDimension);
+  //   setqrCodeSize(qrCodeSize);
+  // }, [pageNum, qrCodePosition, scale]);
   // const { qrCodeDimension, qrCodeSize } = useMemo(() => {
   //   return { qrCodeDimension, qrCodeSize };
   // }, [pageNum, qrCodePosition]);
 
   return (
     <VisibilitySensor
-      // partialVisibility
+      minTopValue={0.5 * window.innerHeight}
+      partialVisibility
       onChange={(isVisible) => {
         isVisible && setVisibility(pageNum);
       }}
@@ -150,17 +142,8 @@ const Page = ({
           <img src={data} alt="" className="invisible" />
           {playableFields}
           {/* {divPosition === undefined ? */}
-          <img
-            src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
-            alt="qrcode"
-            style={{
-              position: "absolute",
-              width: qrCodeSize,
-              height: qrCodeSize,
-              left: qrCodeDimension.x,
-              top: qrCodeDimension.y,
-            }}
-          />
+          <QRCodeBox qrPosition={qrCodePosition} pageNum={pageNum} />
+
           {/* : null} */}
         </div>
       </div>
@@ -189,58 +172,62 @@ const PDFViewer = ({
   // React.useEffect(() => {
   //   console.log("frgt", visibility);
   // }, [visibility]);
-  console.log(fields);
+
+  useEffect(() => {
+    console.log("CURRENT ALL FIELDS", fields);
+  }, [fields]);
+
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">
-        <TransformComponent>
-          <div
-            className="wrap-again"
-            // style={{ transform: `scale(${scale}%)` }}
-            ref={currentRef}
-          >
-            {placeFieldImages && placeFieldImages?.length > 0 ? (
-              placeFieldImages?.map((data, i) => {
-                const playableFields = fields
-                  ? fields
-                      ?.filter((field) => field.pageNum === i + 1)
-                      .map((field, j) => {
-                        return field.deleted ? null : (
-                          <FieldBox
-                            field={field}
-                            onClick={() => setCurrentField(field)}
-                            key={j}
-                            id={`field-${j + 1}`}
-                            pushToStack={pushToStack}
-                            fields={fields}
-                            setFields={setFields}
-                            scale={scale}
-                          />
-                        );
-                      })
-                  : [];
-                return (
-                  <Page
-                    setVisibility={setVisibility}
-                    data={data}
-                    pageNum={i + 1}
-                    fields={fields}
-                    setFields={setFields}
-                    currentSigner={currentSigner}
-                    key={i}
-                    pushToStack={pushToStack}
-                    stateStack={stateStack}
-                    playableFields={playableFields}
-                    qrCodePosition={qrCodePosition}
-                    scale={scale}
-                  />
-                );
-              })
-            ) : (
-              <LoadingBackdrop />
-            )}
-          </div>
-        </TransformComponent>
+        {/* <TransformComponent> */}
+        <div
+          className="wrap-again"
+          // style={{ transform: `scale(${scale}%)` }}
+          ref={currentRef}
+        >
+          {placeFieldImages && placeFieldImages?.length > 0 ? (
+            placeFieldImages?.map((data, i) => {
+              const playableFields = fields
+                ? fields
+                    ?.filter((field) => field.pageNum === i + 1)
+                    .map((field, j) => {
+                      return field.deleted ? null : (
+                        <FieldBox
+                          field={field}
+                          onClick={() => setCurrentField(field)}
+                          key={j}
+                          id={`field-${j + 1}`}
+                          pushToStack={pushToStack}
+                          fields={fields}
+                          setFields={setFields}
+                          scale={scale}
+                        />
+                      );
+                    })
+                : [];
+              return (
+                <Page
+                  setVisibility={setVisibility}
+                  data={data}
+                  pageNum={i + 1}
+                  fields={fields}
+                  setFields={setFields}
+                  currentSigner={currentSigner}
+                  key={i}
+                  pushToStack={pushToStack}
+                  stateStack={stateStack}
+                  playableFields={playableFields}
+                  qrCodePosition={qrCodePosition}
+                  scale={scale}
+                />
+              );
+            })
+          ) : (
+            <LoadingBackdrop />
+          )}
+        </div>
+        {/* </TransformComponent> */}
 
         {/* {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <TransformComponent> */}

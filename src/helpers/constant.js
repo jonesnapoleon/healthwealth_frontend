@@ -6,7 +6,7 @@ export const DOC = {
   me: "me",
   all: "all",
   request: "request",
-  usersign: "usersign",
+  document: "document",
 };
 
 export const FRONTEND_URL = {
@@ -17,7 +17,7 @@ export const FRONTEND_URL = {
   me: `/${DOC.me}`,
   all: `/${DOC.all}`,
   request: `/${DOC.request}`,
-  usersign: `/${DOC.usersign}`,
+  document: `/${DOC.document}`,
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",
@@ -45,7 +45,7 @@ export const highlightedNavs = [
   FRONTEND_URL.me,
   FRONTEND_URL.all,
   FRONTEND_URL.request,
-  FRONTEND_URL.usersign,
+  FRONTEND_URL.document,
 ];
 
 export const PROGRESS_BAR_INTERVAL = 30;

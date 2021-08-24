@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
@@ -66,10 +66,6 @@ const FieldSidebar = ({
     TEXTBOX: String(t("sign.placeFields.left.buttons.textbox")),
     CHECKBOX: String(t("sign.placeFields.left.buttons.checkbox")),
   };
-
-  useEffect(() => {
-    console.log(currentSigner);
-  }, [currentSigner]);
 
   return (
     <div className="left-sidebar position-fixed">

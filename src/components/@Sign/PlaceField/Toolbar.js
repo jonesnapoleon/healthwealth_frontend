@@ -15,6 +15,7 @@ const Toolbar = ({
   zoomOut,
   zoomIn,
   canEdit,
+  visibility,
 }) => {
   return (
     <div className="tools-area">
@@ -22,24 +23,29 @@ const Toolbar = ({
         <div>
           <table>
             <tbody>
-              <tr>
-                {[0, 1, 2, 3].map((arrow) => (
-                  <td key={arrow}>
-                    <button
-                      disabled={!canEdit}
-                      onClick={() => setQrCodePosition(arrow)}
-                    >
-                      A
-                    </button>
-                  </td>
-                ))}
-              </tr>
+              {[
+                [1, 2],
+                [4, 3],
+              ].map((arrow) => (
+                <tr key={arrow}>
+                  {arrow?.map((val) => (
+                    <td key={val}>
+                      <button
+                        disabled={!canEdit}
+                        onClick={() => setQrCodePosition(val)}
+                      >
+                        {visibility}
+                      </button>
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
         <div>
-          <button onClick={zoomIn}>+</button>
-          <button onClick={zoomOut}>-</button>
+          {/* <button onClick={zoomIn}>+</button>
+          <button onClick={zoomOut}>-</button> */}
           {/* <select
             value={scale}
             onChange={(e) => setScale(e.target.value)}

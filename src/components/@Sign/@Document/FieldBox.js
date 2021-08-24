@@ -1,12 +1,9 @@
 import React, { useRef, useMemo } from "react";
 import { Rnd } from "react-rnd";
 import { useTranslation } from "react-i18next";
-import { INIT_FIELD_HEIGHT, INIT_FIELD_WIDTH } from "./PDFViewer";
-import { QR_CODE_RELATIVE_SIZE } from ".";
 
 export const getReadableFieldName = (field, t) => {
   const fieldName = t(String(field.type));
-  let label = "";
   const fieldType = {
     SIGNATURE: String(t("sign.placeFields.left.buttons.signature")),
     INITIAL: String(t("sign.placeFields.left.buttons.initial")),
@@ -20,22 +17,16 @@ export const getReadableFieldName = (field, t) => {
   };
   switch (fieldName) {
     case fieldType.NAME:
-      label = field.signer.label;
-      break;
+      return field.signer.label;
     case fieldType.EMAIL:
-      label = field.signer.value;
-      break;
+      return field.signer.value;
     case fieldType.TEXTBOX:
-      label = "TEXTBOX";
-      break;
+      return "TEXTBOX";
     case fieldType.CHECKBOX:
-      label = "CHECKBOX";
-      break;
+      return "CHECKBOX";
     default:
-      label = `${field.signer.label}'s ${t(String(field.type))}`;
-      break;
+      return `${field?.signer?.label}'s ${t(String(field?.type))}`;
   }
-  return label;
 };
 
 const FieldHandle = ({ color, stroke }) => {
@@ -79,7 +70,7 @@ const DeleteFieldHandle = () => {
   );
 };
 
-const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
+const FieldBox = ({ field, pushToStack, fields, onClick }) => {
   const { t } = useTranslation();
   const handle = (
     <FieldHandle
@@ -129,7 +120,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           if (handlePos === "topRight") {
             field.deleted = true;
             console.log("deleted!", field);
-            setFields(fields);
+            // setFields(fields);
             pushToStack(fields);
           }
         } else {
@@ -138,7 +129,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           field.w += delta.width / field.pagePosition.width;
           field.h += delta.height / field.pagePosition.height;
           console.log("resized!", field);
-          setFields(fields);
+          // setFields(fields);
           pushToStack(fields);
         }
       }}
@@ -173,44 +164,6 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
         </span>
       </span>
     </Rnd>
-  );
-};
-
-export const QRCodeBox = ({ qrPosition, pageNum }) => {
-  // useEffect(() => {
-  const divPosition = document
-    .getElementById(`one-image-area-${pageNum}`)
-    ?.getBoundingClientRect();
-  const size = QR_CODE_RELATIVE_SIZE * divPosition?.width ?? INIT_FIELD_WIDTH;
-
-  const offsetLeftPercentage = [1, 4].includes(qrPosition)
-    ? 0.02
-    : 0.98 - QR_CODE_RELATIVE_SIZE;
-  const offsetTop = [1, 2].includes(qrPosition)
-    ? 0.015 * divPosition?.height ?? 0
-    : 0.985 * divPosition?.height - size;
-  //   if (!divPosition) return;
-  // const qrCodeFromBorder = 0.02;
-  // divPosition.width /= scale / 100;
-  // divPosition.height /= scale / 100;
-  //   let qrCodeSize = Math.min(
-  //     QR_CODE_RELATIVE_SIZE * divPosition.width,
-  //     QR_CODE_RELATIVE_SIZE * divPosition.height
-  //   );
-
-  console.log("div[pos", divPosition);
-  return (
-    <img
-      src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
-      alt="qrcode"
-      style={{
-        width: size,
-        height: size,
-        position: "absolute",
-        left: offsetLeftPercentage * divPosition?.width ?? 0,
-        top: offsetTop,
-      }}
-    />
   );
 };
 
