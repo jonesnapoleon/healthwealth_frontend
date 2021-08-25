@@ -22,6 +22,17 @@
 
 .person-row-container {
   padding-left: 0;
+  position: relative;
+  .delete-signer-floating-button {
+    position: absolute;
+    top: 50%;
+    left: 103%;
+    transform: translate(0%, -50%);
+    // visibility: hidden;
+    &:hover {
+      visibility: visible;
+    }
+  }
 }
 .add-signers-area {
   margin: 0 0 1rem;
@@ -32,10 +43,13 @@
   background-color: transparent;
   text-align: left;
   padding: 0.5rem 1rem 0.4rem;
+  position: relative;
+  display: grid;
+  place-items: center;
 }
-.add-signers-button span {
-  padding: 0.5rem 0.7rem 0.4rem;
-}
+// .add-signers-button span {
+//   padding: 0.5rem 0.7rem 0.4rem;
+// }
 
 .one-person-row-container .item-center {
   align-items: flex-end;

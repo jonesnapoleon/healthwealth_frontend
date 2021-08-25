@@ -9,8 +9,8 @@ import Progressbar from "../../../components/commons/Progressbar";
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import "./selectDocument.scss";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { useHistory } from "react-router-dom";
@@ -109,10 +109,10 @@ const SelectDocument = ({ atr, activeItemId }) => {
         {fileData && !data?.file && (
           <>
             <div className="item-left">
-              <DescriptionOutlinedIcon className="file-icon" />
+              <DescriptionRoundedIcon className="file-icon" />
               <div className="px-2">{fileData?.filename}</div>
               <div className="mx-2 cursor-pointer">
-                <CancelOutlinedIcon
+                <CancelRoundedIcon
                   onClick={handleDeleteFile}
                   className="delete-red"
                 />
@@ -126,10 +126,10 @@ const SelectDocument = ({ atr, activeItemId }) => {
         {data?.file && (
           <>
             <div className="item-left">
-              <DescriptionOutlinedIcon className="file-icon" />
+              <DescriptionRoundedIcon className="file-icon" />
               <div className="px-2">{data?.file?.name}</div>
               <div className="mx-2 cursor-pointer">
-                <CancelOutlinedIcon
+                <CancelRoundedIcon
                   className="delete-red"
                   onClick={handleDeleteFile}
                 />

@@ -10,13 +10,16 @@ import Stepper from "../commons/Stepper";
 
 import PlaceField from "../PlaceField";
 import ReviewSend from "../ReviewSend";
-
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
+
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 import { useHashString } from "helpers/hooks";
 
 const Request = () => {
@@ -27,7 +30,7 @@ const Request = () => {
   const stepperData = [
     {
       name: t("sign.selectDocument.text"),
-      icon: <FontAwesomeIcon icon={faUser} />,
+      icon: <DescriptionRoundedIcon />,
       component: (
         <SelectDocument atr={DOC.request} activeItemId={activeItemId} />
       ),
@@ -35,19 +38,19 @@ const Request = () => {
     },
     {
       name: t("sign.addSigners.text"),
-      icon: <DescriptionOutlinedIcon />,
+      icon: <FontAwesomeIcon icon={faUser} />,
       component: <AddSigners atr={DOC.request} activeItemId={activeItemId} />,
       pathName: FRONTEND_URL.sign_add_signers,
     },
     {
       name: t("sign.placeFields.text"),
-      icon: <DescriptionOutlinedIcon />,
+      icon: <ListAltRoundedIcon />,
       component: <PlaceField atr={DOC.request} activeItemId={activeItemId} />,
       pathName: FRONTEND_URL.sign_place_fields,
     },
     {
       name: t("sign.reviewSend.text"),
-      icon: <ListAltOutlinedIcon />,
+      icon: <SendRoundedIcon />,
       component: <ReviewSend atr={DOC.request} activeItemId={activeItemId} />,
       pathName: FRONTEND_URL.sign_review_send,
     },

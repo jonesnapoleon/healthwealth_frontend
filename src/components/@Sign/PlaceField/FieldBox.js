@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from "react";
 import { Rnd } from "react-rnd";
 import { useTranslation } from "react-i18next";
-import { INIT_FIELD_HEIGHT, INIT_FIELD_WIDTH } from "./PDFViewer";
+import { INIT_FIELD_WIDTH } from "./PDFViewer";
 import { QR_CODE_RELATIVE_SIZE } from ".";
 
 export const getReadableFieldName = (field, t) => {
@@ -198,7 +198,7 @@ export const QRCodeBox = ({ qrPosition, pageNum }) => {
   //     QR_CODE_RELATIVE_SIZE * divPosition.height
   //   );
 
-  console.log("div[pos", divPosition);
+  // console.log("div[pos", divPosition);
   return (
     <img
       src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"

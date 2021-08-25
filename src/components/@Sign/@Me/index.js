@@ -12,8 +12,8 @@ import Stepper from "../commons/Stepper";
 import PlaceField from "../PlaceField";
 // import { usePreventPageLeave } from "../../../helpers/hooks";
 
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { useHashString } from "helpers/hooks";
 import ReviewSend from "../ReviewSend";
@@ -28,13 +28,13 @@ const Me = () => {
     () => [
       {
         name: t("sign.selectDocument.text"),
-        icon: <DescriptionOutlinedIcon />,
+        icon: <DescriptionRoundedIcon />,
         component: <SelectDocument activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_selected_document,
       },
       {
         name: t("sign.placeFields.text"),
-        icon: <ListAltOutlinedIcon />,
+        icon: <ListAltRoundedIcon />,
         component: <PlaceField activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_place_fields,
       },

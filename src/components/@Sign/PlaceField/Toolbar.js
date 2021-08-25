@@ -1,6 +1,6 @@
 import React from "react";
-import UndoIcon from "@material-ui/icons/Undo";
-import RedoIcon from "@material-ui/icons/Redo";
+import UndoIcon from "@material-ui/icons/UndoRounded";
+import RedoIcon from "@material-ui/icons/RedoRounded";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
 // import { SCALE } from "helpers/constant";

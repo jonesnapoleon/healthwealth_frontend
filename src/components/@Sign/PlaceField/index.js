@@ -13,7 +13,7 @@ import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
 import SuperFloatingButton from "../commons/SuperFloatingButton";
 // import { TransformWrapper } from "react-zoom-pan-pinch";
-import useForceUpdate from "use-force-update";
+// import useForceUpdate from "use-force-update";
 
 import useClippy from "use-clippy";
 import Ajv from "ajv";
@@ -63,7 +63,7 @@ const MAX_STACK_SIZE = 30;
 export const QR_CODE_RELATIVE_SIZE = 0.1;
 
 const PlaceField = ({ activeItemId, atr }) => {
-  const forceUpdate = useForceUpdate();
+  // const forceUpdate = useForceUpdate();
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
   const {
@@ -166,8 +166,24 @@ const PlaceField = ({ activeItemId, atr }) => {
   //   const rect = currentPage?.getBoundingClientRect();
   //   let x = (rect.right - rect.left) / 2 + rect.left;
   //   let y = (rect.bottom - rect.top) / 2 + rect.top;
-  //   return { x, y };
+  //   Element.prototype.documentOffsetTop = function () {
+  //     return (
+  //       this.offsetTop +
+  //       (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0)
+  //     );
+  //   };
+  //   let top = currentPage?.documentOffsetTop() + window.innerHeight / 2;
+  //   return { x, y, top };
   // }, [visibility]);
+
+  const scrollToPageCenter = useCallback(() => {
+    let currentPage = document.getElementById(`one-image-area-${visibility}`);
+    currentPage.scrollIntoView({
+      behavior: "auto",
+      block: "center",
+      inline: "center",
+    });
+  }, [visibility]);
 
   const handleNext = () => {
     try {
@@ -235,29 +251,27 @@ const PlaceField = ({ activeItemId, atr }) => {
     try {
       const ajv = new Ajv();
       let data = JSON.parse(clipboard);
-      console.log("cu", data);
       const validate = ajv.compile(schema);
       if (validate(data) && typeof data === "object") {
-        // console.log("data", data);
-        // const { x, y } = getCurrentPageCenter();
         data.x = 0.5 - 0.5 * data.w;
         data.y = 0.5 - 0.5 * data.w;
         data.pageNum = visibility;
+        scrollToPageCenter();
         pushToStack([...fields, data]);
         setFields([...fields, data]);
-        forceUpdate();
+        // forceUpdate();
         // console.log("pasted!", data);
       }
     } catch (e) {
       throw e;
     }
   }, [
-    forceUpdate,
+    // forceUpdate,
     clipboard,
     fields,
     setFields,
     pushToStack,
-    // getCurrentPageCenter,
+    scrollToPageCenter,
     visibility,
   ]);
 

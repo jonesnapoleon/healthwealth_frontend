@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
+import CopyrightRoundedIcon from "@material-ui/icons/CopyrightRounded";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -38,7 +39,10 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          <small>© 2021 STEALTHX | {t("login.termsAndCondition")}</small>
+          <small>
+            <CopyrightRoundedIcon />
+            2021 STEALTHX | {t("login.termsAndCondition")}
+          </small>
         </div>
       </div>
     </footer>

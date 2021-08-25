@@ -8,6 +8,8 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import "./document.scss";
 
+/* <i class="fas fa-signature"></i> */
+
 import PDFSigner from "./PDFSigner";
 // import Toolbar from "./Toolbar";
 // import FieldSidebar from "./FieldSidebar";

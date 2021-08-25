@@ -16,7 +16,9 @@ import { FRONTEND_URL } from "../../../helpers/constant";
 import DocumentIcon from "@material-ui/icons/DescriptionOutlined";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LockRoundedIcon from "@material-ui/icons/LockRounded";
+import GroupAddRoundedIcon from "@material-ui/icons/GroupAddRounded";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import "./sidebar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,7 +26,6 @@ import {
   faChartLine,
   faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
-
 const landingData = [
   {
     isAvailable: true,
@@ -50,13 +51,13 @@ const landingData = [
     name: "Team",
     link: FRONTEND_URL.realBase,
     // icon: <i className="fi-rr-user-add" />,
-    icon: <FontAwesomeIcon icon={"user-add"} />,
+    icon: <GroupAddRoundedIcon />,
   },
   {
     isAvailable: false,
     name: "Templates",
     link: FRONTEND_URL.realBase,
-    icon: <i className="fi-rr-apps-add"></i>,
+    icon: <AssignmentIcon />,
   },
   {
     isAvailable: false,
@@ -110,7 +111,7 @@ const Sidebar = () => {
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
-                  <LockOutlinedIcon />
+                  <LockRoundedIcon />
                   {/* <img src={lockIcon} alt={datum?.name} /> */}
                   <small id={`coming-soon-${i}`}>Coming soon</small>
                 </div>

@@ -6,7 +6,7 @@ import { FRONTEND_URL } from "../../../../helpers/constant";
 // import { ReactComponent as HelpSvg } from "../../../assets/bnw/Help Icon.svg";
 
 import "./stepper.scss";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
 import { useAuth } from "contexts/AuthContext";
 
 const Stepper = ({ items, activeItemId, isFixed }) => {
@@ -39,7 +39,7 @@ const Stepper = ({ items, activeItemId, isFixed }) => {
   return (
     <div className={`stepper-container ${isFixed ? "position-fixed" : ""}`}>
       <div className="back cursor-pointer">
-        <ClearOutlinedIcon onClick={() => history.push(FRONTEND_URL.sign)} />
+        <ClearRoundedIcon onClick={() => history.push(FRONTEND_URL.sign)} />
       </div>
       <div className="item-center">{renderSteppers()}</div>
       <div className="item-center">

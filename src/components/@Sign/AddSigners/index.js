@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 import FloatingButton from "../commons/FloatingButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useAuth } from "../../../contexts/AuthContext";
-import "./addSigners.css";
+import "./addSigners.scss";
 import PersonRow from "../commons/PersonRow";
 
 import { addUserToDocument } from "../../../api/docs";
 
-import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
+import LockIcon from "@material-ui/icons/LockRounded";
+import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+
 import ToggleButton from "../../commons/ToggleButton";
 import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
@@ -74,14 +76,27 @@ const AddSigners = ({ atr, activeItemId }) => {
     setData(items);
   };
 
+  const lastElementId = useMemo(
+    () =>
+      data?.reduce(function (a, b) {
+        return Math.max(a, b);
+      }, 0),
+    [data]
+  );
+
   const addUser = () => {
     let items = Array.from(data);
     items.push({
       name: "",
       email: "",
-      id: String(items.length),
+      id: String(lastElementId + 1),
       flowtype: ADDSIGNER.SIGN,
     });
+    setData(items);
+  };
+
+  const deleteUser = (id) => {
+    const items = data?.filter((datum) => datum.id !== id);
     setData(items);
   };
 
@@ -149,12 +164,15 @@ const AddSigners = ({ atr, activeItemId }) => {
                   >
                     {data.map((datum, index) => {
                       return (
-                        <PersonRow
-                          handleValue={handleValue}
-                          data={datum}
-                          index={index}
-                          key={datum?.id}
-                        />
+                        <>
+                          <PersonRow
+                            handleValue={handleValue}
+                            data={datum}
+                            index={index}
+                            key={datum?.id}
+                            deleteUser={deleteUser}
+                          />
+                        </>
                       );
                     })}
                     {provided.placeholder}
@@ -165,14 +183,16 @@ const AddSigners = ({ atr, activeItemId }) => {
           )}
 
           <button className="add-signers-button" onClick={addUser}>
-            <LockIcon />
-            <span>{t("sign.addSigners.addSigner")}</span>
+            <div>
+              <AddCircleOutlineRoundedIcon />
+              <span>{t("sign.addSigners.addSigner")}</span>
+            </div>
           </button>
         </div>
       </div>
       <FloatingButton
         disabled={loading === 0}
-        onClickPrev={() => push(`${atr}/${activeItemId - 1}`)}
+        onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
         activeItemId={activeItemId}
         onClickNext={handleSubmit}
       />

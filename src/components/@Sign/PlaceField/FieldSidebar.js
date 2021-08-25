@@ -3,17 +3,19 @@ import { useTranslation } from "react-i18next";
 import { useDrag } from "react-dnd";
 import ColorizedSelect from "../commons/ColorizedSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenSquare, faSignature } from "@fortawesome/free-solid-svg-icons";
 
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import PersonIcon from "@material-ui/icons/Person";
-import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
-import BusinessIcon from "@material-ui/icons/Business";
-import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
-import TextFieldsIcon from "@material-ui/icons/TextFields";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import DateRangeIcon from "@material-ui/icons/DateRangeRounded";
+import PersonIcon from "@material-ui/icons/PersonRounded";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmailRounded";
+import BusinessIcon from "@material-ui/icons/BusinessRounded";
+import WorkOutlineIcon from "@material-ui/icons/WorkOutlineRounded";
+import TextFieldsIcon from "@material-ui/icons/TextFieldsRounded";
+import CheckBoxIcon from "@material-ui/icons/CheckBoxRounded";
+
+import LockRoundedIcon from "@material-ui/icons/LockRounded";
+
 import { DOC } from "helpers/constant";
-// import DeleteIcon from '@material-ui/icons/Delete';
 
 const StaticFieldBox = ({ type, icon, isYes }) => {
   const [, drag] = useDrag(() => ({
@@ -30,7 +32,13 @@ const StaticFieldBox = ({ type, icon, isYes }) => {
         <div>{icon}</div>
         <div>{type}</div>
       </div>
-      <div className="optional-child">{isYes && <div>{icon} </div>}</div>
+      <div className="optional-child">
+        {isYes && (
+          <div>
+            <LockRoundedIcon />{" "}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -95,7 +103,7 @@ const FieldSidebar = ({
 
           <div className="lead">{t("sign.placeFields.left.signature")}</div>
           {[
-            [fieldType.SIGNATURE],
+            [fieldType.SIGNATURE, <FontAwesomeIcon icon={faSignature} />],
             [fieldType.INITIAL, <FontAwesomeIcon icon={faPenSquare} />],
           ]?.map((type, i) => (
             <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
@@ -115,7 +123,7 @@ const FieldSidebar = ({
           <div className="lead">
             {t("sign.placeFields.left.standard")}
             <span className="px-2" style={{ verticalAlign: "middle" }}>
-              <TextFieldsIcon />
+              <LockRoundedIcon />
             </span>
           </div>
           {[

@@ -7,8 +7,9 @@ import Switch from "@material-ui/core/Switch";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import DeleteIcon from "@material-ui/icons/Delete";
+import ExpandMoreIcon from "@material-ui/icons/ArrowDropDownRounded";
+import DeleteIcon from "@material-ui/icons/DeleteRounded";
+
 // import { getReadableFieldName } from "./FieldBox";
 
 const useStyles = makeStyles((theme) => ({

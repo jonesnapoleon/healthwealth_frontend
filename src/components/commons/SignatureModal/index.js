@@ -7,9 +7,9 @@ import {
   useFormInput,
   useProgressBar,
 } from "../../../helpers/hooks";
-import EditIcon from "@material-ui/icons/Edit";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import TextFieldsIcon from "@material-ui/icons/TextFields";
+import EditIcon from "@material-ui/icons/EditRounded";
+import CloudUploadIcon from "@material-ui/icons/CloudUploadRounded";
+import TextFieldsIcon from "@material-ui/icons/TextFieldsRounded";
 import "./signaturemodal.scss";
 import DragDropWithProgressBar from "../ImageUpload/DragDropWithProgressBar";
 import { isFileValid } from "helpers/validator";
