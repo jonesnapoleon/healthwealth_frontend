@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,7 +9,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ArrowDropDownRounded";
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
-
+import SwitchCameraIcon from "@material-ui/icons/SwitchCamera";
 // import { getReadableFieldName } from "./FieldBox";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,7 @@ const ControlledAccordions = ({
 
   return (
     <div className={classes.root}>
-      <Accordion square className={classes.base}>
+      <Accordion expanded square className={classes.base}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {t("sign.placeFields.right.assignedTo")}
@@ -88,7 +88,7 @@ const ControlledAccordions = ({
         </AccordionDetails>
       </Accordion>
       <hr />
-      <Accordion square className={classes.base}>
+      <Accordion expanded square className={classes.base}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {t("sign.placeFields.right.required")}
@@ -102,13 +102,19 @@ const ControlledAccordions = ({
                 checked={currentField?.signer?.required}
                 disabled={!currentField}
                 onChange={(e) => {
-                  console.log(e.target, currentField);
                   let temp = fields;
                   let ax = temp.map((oneField) => {
                     return {
                       ...oneField,
                       required:
-                        oneField?.uid === currentField?.uid
+                        oneField?.w === currentField?.w &&
+                        oneField?.x === currentField?.x &&
+                        oneField?.y === currentField?.y &&
+                        oneField?.h === currentField?.h &&
+                        oneField?.pageNum === currentField?.pageNum &&
+                        oneField?.signer?.email ===
+                          currentField?.signer?.email &&
+                        oneField?.type === currentField?.type
                           ? e.target.checked
                           : oneField.required,
                     };
@@ -124,7 +130,7 @@ const ControlledAccordions = ({
         </AccordionDetails>
       </Accordion>
       <hr />
-      <Accordion square className={classes.base}>
+      <Accordion expanded square className={classes.base}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {t("sign.placeFields.right.fieldName")}
@@ -152,19 +158,44 @@ const RightSnippetArea = ({
   onDelete,
   setFields,
   fields,
+  placeFieldImages,
+  fileName,
+  scrollToPage,
 }) => {
   const { t } = useTranslation();
+  const [show, setShow] = useState(false);
 
-  // const [inner, setInner] = useState("");
-
-  useEffect(() => {
-    // const item = document.getElementById("main-workspace");
-    // const doc = item.getElementsByClassName("fu-wrapper")[0];
-  }, [fields]);
+  const DefaultComponent = () => (
+    <div className="">
+      <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
+        <div className="lead font-weight-bolder">
+          {t("sign.placeFields.right.documents")}
+        </div>
+        <div onClick={() => setShow((a) => !a)}>
+          <SwitchCameraIcon />
+        </div>
+      </div>
+      <div className="document-show-container">
+        <div className="mb-2">{fileName}</div>
+        {placeFieldImages?.length > 0
+          ? placeFieldImages?.map((image, i) => (
+              <div
+                key={i}
+                className="one-right-place-field-image"
+                onClick={() => scrollToPage(i + 1, "start")}
+              >
+                <img src={image} alt={`Page ${i + 1}`} />
+                <div className="bottom-page">Page {i + 1}</div>
+              </div>
+            ))
+          : []}
+      </div>
+    </div>
+  );
 
   return (
     <div className="right-sidebar position-fixed">
-      {currentField ? (
+      {currentField && !show ? (
         <>
           <div className="">
             <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
@@ -176,6 +207,9 @@ const RightSnippetArea = ({
                   <DeleteIcon />
                 </div>
               )}
+              <div onClick={() => setShow((a) => !a)}>
+                <SwitchCameraIcon />
+              </div>
             </div>
           </div>
           <ControlledAccordions
@@ -187,16 +221,7 @@ const RightSnippetArea = ({
           />
         </>
       ) : (
-        <>
-          <div className="">
-            <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
-              <div className="lead font-weight-bolder">
-                {t("sign.placeFields.right.documents")}
-              </div>
-            </div>
-            <div></div>
-          </div>
-        </>
+        <DefaultComponent />
       )}
     </div>
   );

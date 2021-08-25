@@ -22,7 +22,7 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { getDocImages, getAllFields } from "api/docs";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { addColorToArr, transformFormInput } from "helpers/transformer";
-import { DOC } from "helpers/constant";
+import { DEFAULT, DOC } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
 
 const schema = {
@@ -59,6 +59,12 @@ const schema = {
 const temp =
   "https://thumbs.dreamstime.com/z/curriculum-vitae-resume-design-template-vector-paper-collection-152652090.jpg";
 
+const temp2 =
+  "https://www.greatschoolspartnership.org/wp-content/uploads/2017/01/GSP_Exemplar_Transcript_Page_1.png";
+
+const temp3 =
+  "https://www.rmit.edu.au/content/dam/rmit/rmit-images/arg/sampleswithoutsignature/Sample%20of%20transcript%202021.jpg.transform/rendition-380x380/image.jpg";
+
 const MAX_STACK_SIZE = 30;
 export const QR_CODE_RELATIVE_SIZE = 0.1;
 
@@ -72,9 +78,11 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const listSigners = useMemo(
     () =>
-      atr !== DOC.me
-        ? transformFormInput(addColorToArr(fileData?.nextflow))
-        : transformFormInput(addColorToArr([{ name: fullname, email }])),
+      transformFormInput(
+        addColorToArr(
+          atr !== DOC.me ? fileData?.nextflow : [{ name: fullname, email }]
+        )
+      ),
     [fileData, fullname, email, atr]
   );
   const [currentSigner, setCurrentSigner] = useState({});
@@ -137,7 +145,7 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
   useEffect(() => {
-    updatePlaceFields({ images: [temp, temp, temp] });
+    updatePlaceFields({ images: [temp, temp2, temp3] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -176,14 +184,17 @@ const PlaceField = ({ activeItemId, atr }) => {
   //   return { x, y, top };
   // }, [visibility]);
 
-  const scrollToPageCenter = useCallback(() => {
-    let currentPage = document.getElementById(`one-image-area-${visibility}`);
-    currentPage.scrollIntoView({
-      behavior: "auto",
-      block: "center",
-      inline: "center",
-    });
-  }, [visibility]);
+  const scrollToPage = useCallback(
+    (pageNum = visibility, align = "center") => {
+      let currentPage = document.getElementById(`one-image-area-${pageNum}`);
+      currentPage?.scrollIntoView({
+        behavior: "smooth",
+        block: align,
+        inline: align,
+      });
+    },
+    [visibility]
+  );
 
   const handleNext = () => {
     try {
@@ -256,7 +267,7 @@ const PlaceField = ({ activeItemId, atr }) => {
         data.x = 0.5 - 0.5 * data.w;
         data.y = 0.5 - 0.5 * data.w;
         data.pageNum = visibility;
-        scrollToPageCenter();
+        scrollToPage();
         pushToStack([...fields, data]);
         setFields([...fields, data]);
         // forceUpdate();
@@ -271,7 +282,7 @@ const PlaceField = ({ activeItemId, atr }) => {
     fields,
     setFields,
     pushToStack,
-    scrollToPageCenter,
+    scrollToPage,
     visibility,
   ]);
 
@@ -280,16 +291,18 @@ const PlaceField = ({ activeItemId, atr }) => {
     if (stateStack.length > 1 && stackIdx > 0) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx - 1])));
       setStackIdx((i) => i - 1);
+      scrollToPage();
     }
-  }, [stateStack, stackIdx, setFields, setStackIdx]);
+  }, [stateStack, stackIdx, setFields, setStackIdx, scrollToPage]);
 
   const redoField = useCallback(() => {
     // console.log("redo", stackIdx, stateStack.length);
     if (stackIdx + 1 < stateStack.length) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx + 1])));
       setStackIdx((i) => i + 1);
+      scrollToPage();
     }
-  }, [stateStack, stackIdx, setFields, setStackIdx]);
+  }, [stateStack, stackIdx, setFields, setStackIdx, scrollToPage]);
 
   const undoRedoHandler = useCallback(
     (e) => {
@@ -391,6 +404,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               setCurrentField={setCurrentField}
               placeFieldImages={placeFieldImages}
               pushToStack={pushToStack}
+              fileName={placeFieldItems?.filename ?? DEFAULT.DOC_FILE_NAME}
               qrCodePosition={qrCodePosition}
             />
 
@@ -399,6 +413,9 @@ const PlaceField = ({ activeItemId, atr }) => {
               setCurrentField={setCurrentField}
               setFields={setFields}
               fields={fields}
+              placeFieldImages={placeFieldImages}
+              fileName={placeFieldItems?.filename ?? DEFAULT.DOC_FILE_NAME}
+              scrollToPage={scrollToPage}
               onDelete={() => {
                 let temp = currentField;
                 temp.deleted = true;

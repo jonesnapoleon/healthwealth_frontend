@@ -204,11 +204,13 @@ export const QRCodeBox = ({ qrPosition, pageNum }) => {
       src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
       alt="qrcode"
       style={{
-        width: size,
-        height: size,
+        width: isNaN(size) ? INIT_FIELD_WIDTH : size,
+        height: isNaN(size) ? INIT_FIELD_WIDTH : size,
         position: "absolute",
-        left: offsetLeftPercentage * divPosition?.width ?? 0,
-        top: offsetTop,
+        left: isNaN(offsetLeftPercentage * divPosition?.width)
+          ? 0
+          : offsetLeftPercentage * divPosition?.width,
+        top: isNaN(offsetTop) ? 0 : offsetTop,
       }}
     />
   );

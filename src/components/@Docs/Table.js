@@ -3,7 +3,7 @@ import { getMoment } from "../../helpers/transformer";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import { useHistory } from "react-router-dom";
-import { FRONTEND_URL } from "helpers/constant";
+import { DEFAULT, FRONTEND_URL } from "helpers/constant";
 
 const NoDocument = ({ t }) => {
   const history = useHistory();
@@ -74,7 +74,7 @@ const Table = ({
               >
                 <td>
                   <span className={`cursor-pointer  `}>
-                    {component?.filename ?? "Untitled 225"}
+                    {component?.filename ?? DEFAULT.DOC_FILE_NAME}
                   </span>
                 </td>
                 <td>

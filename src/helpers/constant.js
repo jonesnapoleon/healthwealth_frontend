@@ -80,3 +80,7 @@ export const SIGNING_ACTIVE_FIXED_ITEM = {
   all: 2,
   request: 2,
 };
+
+export const DEFAULT = {
+  DOC_FILE_NAME: "Untitled 225",
+};

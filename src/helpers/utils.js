@@ -9,3 +9,9 @@ export const convertToImg = async (htmlNode) => {
   const res = await toPng(htmlNode);
   return res;
 };
+
+export const waitForImageToLoad = (imageElement) => {
+  return new Promise((resolve) => {
+    imageElement.onload = resolve;
+  });
+};
