@@ -6,10 +6,6 @@ import React, { createContext, useState, useCallback, useContext } from "react";
 export const SnackbarContext = createContext(null);
 export const useSnackbar = () => useContext(SnackbarContext);
 
-// function Alert(props) {
-//   return <MuiAlert elevation={6} variant="filled" {...props} />;
-// }
-
 const SnackbarProvider = ({ children }) => {
   const DURATION = 3000;
   const [snackbar, setSnackbar] = useState({
@@ -20,9 +16,9 @@ const SnackbarProvider = ({ children }) => {
     setSnackbar({ show: false });
   };
 
-  const addSnackbar = (message, type = "danger") => {
+  const addSnackbar = (message, type = "danger", duration = DURATION) => {
     setSnackbar({ show: true, message, type });
-    setTimeout(() => setSnackbar({ show: false }), DURATION);
+    setTimeout(() => setSnackbar({ show: false }), duration);
   };
 
   const alertContextValue = {

@@ -10,9 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ArrowDropDownRounded";
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import SwitchCameraIcon from "@material-ui/icons/SwitchCamera";
-// import { getReadableFieldName } from "./FieldBox";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
     height: "90%",
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heading: {
-    // fontSize: theme.typography.pxToRem(15),
     flexBasis: "33.33%",
     flexShrink: 0,
   },
@@ -59,8 +57,6 @@ const ControlledAccordions = ({
 }) => {
   const classes = useStyles();
 
-  // console.log("con", currentField);
-
   return (
     <div className={classes.root}>
       <Accordion expanded square className={classes.base}>
@@ -70,20 +66,12 @@ const ControlledAccordions = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {/* <input value={t(String(currentField?.signer?.label))} disabled /> */}
           {currentField && (
             <input
               value={currentField?.signer?.label}
               disabled
               className="w-100"
             />
-            // <ColorizedSelect
-            //   // value={currentField?.signer?.label}
-            //   defaultValue={"JONE"}
-            //   options={[]}
-            //   isOptionDisabled={() => false}
-            // />
-            // {/* // disabled */}
           )}
         </AccordionDetails>
       </Accordion>
@@ -141,8 +129,29 @@ const ControlledAccordions = ({
           {/* <Typography>{getReadableFieldName(currentField, t)}</Typography> */}
           {currentField && (
             <input
-              value={t(String(currentField?.type))}
-              disabled
+              value={currentField?.fieldname}
+              onChange={(e) => {
+                let temp = fields;
+                let ax = temp.map((oneField) => {
+                  return {
+                    ...oneField,
+                    fieldname:
+                      oneField?.w === currentField?.w &&
+                      oneField?.x === currentField?.x &&
+                      oneField?.y === currentField?.y &&
+                      oneField?.h === currentField?.h &&
+                      oneField?.pageNum === currentField?.pageNum &&
+                      oneField?.signer?.email === currentField?.signer?.email &&
+                      oneField?.fieldname === currentField?.fieldname
+                        ? e.target.value
+                        : oneField.fieldname,
+                  };
+                });
+                setFields(ax);
+                setCurrentField((field) => {
+                  return { ...field, fieldname: e.target.value };
+                });
+              }}
               className="w-100"
             />
           )}

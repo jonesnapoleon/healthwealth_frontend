@@ -60,6 +60,22 @@ export const deleteDoc = async (fileId) => {
   }
 };
 
+export const addQRCode = async (fileName, fileId, signType, qrPosition) => {
+  const data = new FormData();
+  data.append("qrcode", qrPosition);
+  try {
+    const response = await axios.put(
+      `${API_ADD_DOC}${fileId}?fileName=${encodeURIComponent(
+        fileName
+      )}&signType=${encodeURIComponent(signType)}`,
+      data
+    );
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.error?.message ?? "Add docs failed";
+  }
+};
+
 export const replaceDoc = async (file, fileName, fileId, signType) => {
   const data = new FormData();
   data.append("document", file);

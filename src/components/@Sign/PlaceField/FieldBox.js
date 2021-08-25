@@ -32,7 +32,7 @@ export const getReadableFieldName = (field, t) => {
       label = "CHECKBOX";
       break;
     default:
-      label = `${field.signer.label}'s ${t(String(field.type))}`;
+      label = `${field?.signer?.label}'s ${field?.fieldname}`;
       break;
   }
   return label;
@@ -189,16 +189,7 @@ export const QRCodeBox = ({ qrPosition, pageNum }) => {
   const offsetTop = [1, 2].includes(qrPosition)
     ? 0.015 * divPosition?.height ?? 0
     : 0.985 * divPosition?.height - size;
-  //   if (!divPosition) return;
-  // const qrCodeFromBorder = 0.02;
-  // divPosition.width /= scale / 100;
-  // divPosition.height /= scale / 100;
-  //   let qrCodeSize = Math.min(
-  //     QR_CODE_RELATIVE_SIZE * divPosition.width,
-  //     QR_CODE_RELATIVE_SIZE * divPosition.height
-  //   );
 
-  // console.log("div[pos", divPosition);
   return (
     <img
       src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"

@@ -60,6 +60,7 @@ const Page = ({
       y,
       w,
       h,
+      fieldname: t(String(type)),
       pageNum,
       signer: currentSigner,
       required: true,

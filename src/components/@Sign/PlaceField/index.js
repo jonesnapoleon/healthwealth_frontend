@@ -3,7 +3,6 @@ import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
 import { useEffectOnce } from "react-use";
 
-// import { useTranslation } from "react-i18next";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -13,17 +12,17 @@ import PDFViewer from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
 import SuperFloatingButton from "../commons/SuperFloatingButton";
 // import { TransformWrapper } from "react-zoom-pan-pinch";
-// import useForceUpdate from "use-force-update";
 
 import useClippy from "use-clippy";
 import Ajv from "ajv";
 
 import { useSnackbar } from "contexts/SnackbarContext";
-import { getDocImages, getAllFields } from "api/docs";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { addFields, getDocImages, getAllFields, addQRCode } from "api/docs";
+import { useHistory } from "react-router-dom";
 import { addColorToArr, transformFormInput } from "helpers/transformer";
 import { DEFAULT, DOC } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const schema = {
   type: "object",
@@ -69,7 +68,6 @@ const MAX_STACK_SIZE = 30;
 export const QR_CODE_RELATIVE_SIZE = 0.1;
 
 const PlaceField = ({ activeItemId, atr }) => {
-  // const forceUpdate = useForceUpdate();
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
   const {
@@ -111,14 +109,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     (val) => updatePlaceFields({ fields: val }),
     [updatePlaceFields]
   );
-
-  // useEffect(() => {
-  //   console.log(fields);
-  // }, [fields]);
-
-  // useEffect(() => {
-  //   console.log("placef", placeFieldItems);
-  // }, [placeFieldItems]);
 
   const [currentField, setCurrentField] = useState(null);
   const [scale, setScale] = useState(100);
@@ -168,22 +158,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     fetchAllFields();
   });
 
-  // const getCurrentPageCenter = useCallback(() => {
-  //   let currentPage = document.getElementById(`one-image-area-${visibility}`);
-  //   // console.log(currentPage);
-  //   const rect = currentPage?.getBoundingClientRect();
-  //   let x = (rect.right - rect.left) / 2 + rect.left;
-  //   let y = (rect.bottom - rect.top) / 2 + rect.top;
-  //   Element.prototype.documentOffsetTop = function () {
-  //     return (
-  //       this.offsetTop +
-  //       (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0)
-  //     );
-  //   };
-  //   let top = currentPage?.documentOffsetTop() + window.innerHeight / 2;
-  //   return { x, y, top };
-  // }, [visibility]);
-
   const scrollToPage = useCallback(
     (pageNum = visibility, align = "center") => {
       let currentPage = document.getElementById(`one-image-area-${pageNum}`);
@@ -196,28 +170,36 @@ const PlaceField = ({ activeItemId, atr }) => {
     [visibility]
   );
 
-  const handleNext = () => {
+  const { t } = useTranslation();
+
+  const handleNext = async () => {
     try {
-      console.log(fields);
-      for (let i = 0; i < fields.length; i++) {
-        // const field = fields[i]
-        let newFieldElement = document.getElementById(`field-${i}`);
-        console.log(newFieldElement.value);
+      const finalFields = fields?.map((field) => {
+        return {
+          fieldname: field?.fieldname,
+          x: field?.x,
+          y: field?.y,
+          w: field?.w,
+          h: field?.h,
+          pageNum: field?.pageNum,
+          type: field?.type,
+          assignedTo: field?.signer?.email,
+          required: field?.required,
+        };
+      });
+      const res = await addFields(fileData?.id, finalFields);
+      if (res) {
+        const newRes = await addQRCode(
+          fileData?.filename,
+          fileData?.id,
+          String(atr).toUpperCase(),
+          qrCodePosition
+        );
+        if (newRes) {
+          push(`${atr}#${activeItemId + 1}`);
+          addSnackbar(t("sign.addSigners.addSignersSuccess"), "success");
+        }
       }
-      // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
-      // const res = await addUserToDocument(newData, fileData?.id);
-      // if (res) {
-      //   console.log(res);
-      //   handle_data_docs(true, atr, "signers", data);
-      //   setActiveItem((a) => a + 1);
-      //   setAvailableLevel((a) => a + 1);
-      //   // setFileUrl(newRes?.linkToPdf);
-      //   // setAvailableLevel((a) => a + 1);
-      //   // progress.set(100);
-      //   setLoading(1);
-      //   setSuccess(t("sign.addSigners.addSignersSuccess"));
-      //   setTimeout(() => setSuccess(false), 3000);
-      // }
     } catch (err) {
       addSnackbar(String(err));
     }
@@ -242,12 +224,10 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const copyField = useCallback(() => {
     setClipboard(JSON.stringify(currentField));
-    // console.log("copied!", currentField);
   }, [currentField, setClipboard]);
 
   const pushToStack = useCallback(
     (fields) => {
-      // crop stack until stackIdx, push fields to stack
       let newStack = stateStack.slice(0, stackIdx + 1);
       if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
       newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
@@ -270,24 +250,13 @@ const PlaceField = ({ activeItemId, atr }) => {
         scrollToPage();
         pushToStack([...fields, data]);
         setFields([...fields, data]);
-        // forceUpdate();
-        // console.log("pasted!", data);
       }
     } catch (e) {
       throw e;
     }
-  }, [
-    // forceUpdate,
-    clipboard,
-    fields,
-    setFields,
-    pushToStack,
-    scrollToPage,
-    visibility,
-  ]);
+  }, [clipboard, fields, setFields, pushToStack, scrollToPage, visibility]);
 
   const undoField = useCallback(() => {
-    // console.log("undo", stateStack, stackIdx);
     if (stateStack.length > 1 && stackIdx > 0) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx - 1])));
       setStackIdx((i) => i - 1);
@@ -296,7 +265,6 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [stateStack, stackIdx, setFields, setStackIdx, scrollToPage]);
 
   const redoField = useCallback(() => {
-    // console.log("redo", stackIdx, stateStack.length);
     if (stackIdx + 1 < stateStack.length) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx + 1])));
       setStackIdx((i) => i + 1);
@@ -431,6 +399,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       <SuperFloatingButton
         onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
         onClickNext={handleNext}
+        disabled={fields?.length === 0}
       />
     </>
   );
