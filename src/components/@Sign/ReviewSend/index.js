@@ -28,7 +28,6 @@ const ReviewSend = ({ atr, activeItemId }) => {
   const { handle_data_docs, getItemData } = useData();
   const { addSnackbar } = useSnackbar();
   const fileData = getItemData(atr, "fileData");
-  console.log("fei", fileData);
   const signers = fileData?.nextflow;
   const { setInnerComponent, show, backgroundColor, size, bg } = useModal();
   // const { auth } = useAuth();

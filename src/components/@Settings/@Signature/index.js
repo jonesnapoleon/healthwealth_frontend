@@ -41,7 +41,7 @@ const Signature = () => {
     () => (signatures ? signatures?.filter((sign) => sign?.isInitial) : []),
     [signatures]
   );
-  console.log(nonInitialSignature);
+
   return (
     <div className="signature-page-container">
       <div>

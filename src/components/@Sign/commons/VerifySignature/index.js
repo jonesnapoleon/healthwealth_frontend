@@ -33,10 +33,6 @@ const VerifySignature = ({ onClickCTA, fileUID }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(otp?.number);
-  }, [otp.number]);
-
   // const verifyOTPWrap = async () => {
   //   try {
   //     setLoading(true);

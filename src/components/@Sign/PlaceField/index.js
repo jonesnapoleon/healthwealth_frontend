@@ -131,7 +131,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const fetchAllFields = useCallback(async () => {
     if (placeFieldItems?.fields && placeFieldItems.fields.length > 0) return;
-    console.log(fileData);
+    // console.log(fileData);
     if (fileData?.fields && fileData.fields.length > 0) {
       updatePlaceFields({
         fields: addToDevFields(fileData?.fields, fileData?.nextflow),

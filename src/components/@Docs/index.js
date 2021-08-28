@@ -59,7 +59,6 @@ const Docs = () => {
       }
       if (key === DOC.me) {
         handle_data_docs(true, key, "fileData", obj);
-        console.log("ob", obj);
         if (obj?.fields && obj.fields?.length > 0) {
           history.push(`${key}#${1}`);
           return;

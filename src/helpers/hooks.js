@@ -16,9 +16,6 @@ export const useRefreshedData = (updatingValue) => {
     )
       setValue(updatingValue);
   }, [updatingValue]);
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
   return { value, set: setValue };
 };
 

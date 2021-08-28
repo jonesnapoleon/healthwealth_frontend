@@ -1,6 +1,5 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
 import React, { useState, useRef, useEffect, memo } from "react";
-// import { getImageSize } from "../../../helpers/transformer";
 import { TransformComponent } from "react-zoom-pan-pinch";
 
 import FieldBox from "./FieldBox";

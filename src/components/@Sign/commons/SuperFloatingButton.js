@@ -4,7 +4,7 @@ import "./commons.scss";
 
 const SuperFloatingButton = ({ onClickNext, disabled, onClickPrev }) => {
   const { t } = useTranslation();
-  // console.log(availableLevel);
+
   return (
     <div className="super-floating-button-container">
       <div />

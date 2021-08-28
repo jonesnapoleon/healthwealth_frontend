@@ -24,9 +24,6 @@ const SelectDocument = ({ atr, activeItemId }) => {
   const { push } = useHistory();
 
   const fileData = getItemData(atr, "fileData");
-  useEffect(() => {
-    console.log(fileData);
-  }, [fileData]);
 
   const progress = useProgressBar();
 

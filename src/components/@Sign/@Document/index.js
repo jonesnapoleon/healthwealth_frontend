@@ -107,8 +107,6 @@ const Document = ({ atr }) => {
 
   const [currentField, setCurrentField] = useState(null);
   // const [loading, setLoading] = useState(false);
-  // const [success, setSuccess] = useState(false);
-  // const [error, setError] = useState(false);
   const [scale, setScale] = useState(100);
 
   const { addSnackbar } = useSnackbar();
@@ -198,7 +196,6 @@ const Document = ({ atr }) => {
             ...rest
           }) => (
             <>
-              {console.log(currentField)}
               {/* <Toolbar
                 setQrCodePosition={setQrCodePosition}
                 canEdit={placeFieldImages && placeFieldImages?.length > 0}

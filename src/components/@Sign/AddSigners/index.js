@@ -46,10 +46,6 @@ const AddSigners = ({ atr, activeItemId }) => {
     }
   }, [nextFlow]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleSubmit = async () => {
     try {
       setLoading(0);

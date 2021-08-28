@@ -77,11 +77,6 @@ const PersonalDetail = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(birthDate?.value);
-  //   console.table(auth);
-  // }, [auth, birthDate]);
-
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
     if (V.isValidNIK(nik?.value, auth?.nik)) return false;

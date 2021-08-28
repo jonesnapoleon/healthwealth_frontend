@@ -2,7 +2,6 @@ import LoadingBackdrop from "components/commons/LoadingBackdrop";
 import React, { Fragment, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useTranslation } from "react-i18next";
-// import { getImageSize } from "../../../helpers/transformer";
 import VisibilitySensor from "react-visibility-sensor";
 // import { TransformComponent } from "react-zoom-pan-pinch";
 
