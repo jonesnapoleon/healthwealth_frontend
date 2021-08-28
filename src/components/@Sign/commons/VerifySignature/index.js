@@ -9,7 +9,7 @@ import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 
-const VerifySignature = ({ onClickCTA, fileId }) => {
+const VerifySignature = ({ onClickCTA, fileUID }) => {
   const { t } = useTranslation();
   const { auth } = useAuth();
   const phone = useFormInput(auth?.phone);
@@ -21,9 +21,9 @@ const VerifySignature = ({ onClickCTA, fileId }) => {
   const sendOTPToPhone = async () => {
     try {
       setLoading(true);
-      const res = await sendOTPDoc(fileId, phone?.value);
+      const res = await sendOTPDoc(fileUID, phone?.value);
       if (res) {
-        addSnackbar(t("popup.verify.success1"), "success");
+        addSnackbar(t("popup.sign.verify.success1"), "success");
         isSentPhone?.set(true);
       }
     } catch (err) {
@@ -96,7 +96,7 @@ const VerifySignature = ({ onClickCTA, fileId }) => {
             try {
               setLoading(true);
               const res = await verifyOTPDoc(
-                fileId,
+                fileUID,
                 otp?.number,
                 auth?.id_token
               );

@@ -273,6 +273,7 @@
     },
     "placeFields": {
       "text": "Place fields",
+      "placeFieldSuccess": "Place fields succeed",
       "left": {
         "signers": "Signers",
         "signature": "Signature fields",

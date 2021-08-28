@@ -70,7 +70,7 @@ export const addQRCode = async (fileName, fileId, signType, qrPosition) => {
       )}&signType=${encodeURIComponent(signType)}`,
       data
     );
-    return response.data;
+    return response.data?.data;
   } catch (e) {
     throw e?.response?.data?.error?.message ?? "Add docs failed";
   }
@@ -185,7 +185,7 @@ export const sendOTPDoc = async (fileId, phone) => {
     const response = await axios.post(
       `/api/doc/${fileId}/otp/send/phone?phone=${phone}`
     );
-    return response.data;
+    return response.data?.data;
   } catch (e) {
     throw e?.response?.data?.errorMessage ?? "";
   }

@@ -23,6 +23,7 @@ const Page = ({
   qrCodePosition,
   setVisibility,
   scale,
+  qrCodeImg,
 }) => {
   const { t } = useTranslation();
   const [, drop] = useDrop(
@@ -66,7 +67,6 @@ const Page = ({
       required: true,
       pagePosition,
       deleted: false,
-      uid: "a5bf6a9f-3656-40c8-b159-1fcb2f9d3a44", // TODO get from BE
     };
 
     setFields([...fields, newField]);
@@ -96,7 +96,11 @@ const Page = ({
           />
           {playableFields}
           {/* {divPosition === undefined ? */}
-          <QRCodeBox qrPosition={qrCodePosition} pageNum={pageNum} />
+          <QRCodeBox
+            qrCodeImg={qrCodeImg}
+            qrPosition={qrCodePosition}
+            pageNum={pageNum}
+          />
 
           {/* : null} */}
         </div>
@@ -118,6 +122,7 @@ const PDFViewer = ({
   setScale,
   fileName,
   placeFieldImages,
+  qrCodeImg,
 }) => {
   // const currentRef = useRef(null);
 
@@ -172,6 +177,7 @@ const PDFViewer = ({
                     playableFields={playableFields}
                     qrCodePosition={qrCodePosition}
                     scale={scale}
+                    qrCodeImg={qrCodeImg}
                   />
                   <div className="one-image-meta-info">
                     <span>{fileName}</span>

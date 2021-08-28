@@ -1,6 +1,29 @@
 .left.sign-review-send-container {
-  background-color: #f8f8f8;
   padding-top: 1rem;
+
+  .add-copy-user-container {
+    position: relative;
+    width: 100%;
+    .row {
+      position: relative;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      .clear-rounded-icon {
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 1rem;
+        transform: translate(0, -50%);
+        display: grid;
+        place-items: center;
+        svg {
+          border-radius: 50px;
+          background-color: var(--secondary-extra-color-3);
+        }
+      }
+    }
+  }
 }
 
 .left.sign-review-send-container .add-receivers > div {

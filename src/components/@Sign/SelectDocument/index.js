@@ -14,6 +14,7 @@ import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import "./selectDocument.scss";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { useHistory } from "react-router-dom";
+import Footer from "components/layout/Navbar/Footer";
 
 const SelectDocument = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
@@ -75,9 +76,9 @@ const SelectDocument = ({ atr, activeItemId }) => {
 
   const handleDeleteFile = async () => {
     try {
-      if (!fileData?.id || fileData?.id === null)
+      if (!fileData?.uid || fileData?.uid === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const res = await deleteDoc(fileData?.id);
+      const res = await deleteDoc(fileData?.uid);
       if (res?.data) {
         data?.setFile(null);
         data?.filePicker.current.focus();
@@ -93,62 +94,65 @@ const SelectDocument = ({ atr, activeItemId }) => {
   };
 
   return (
-    <div className="container container-center sign-select-document-container">
-      <div className="first-child">
-        <h4 className="bold">{t("sign.selectDocument.whatNeed")}</h4>
-        <div className="mt-5 bold mb-2">{t("sign.selectDocument.text")}</div>
-        <DragDrop
-          data={data}
-          progress={progress}
-          // disabled={progress.value === 100}
-        />
+    <>
+      <div className="container container-center sign-select-document-container">
+        <div className="first-child">
+          <h4 className="bold">{t("sign.selectDocument.whatNeed")}</h4>
+          <div className="mt-5 bold mb-2">{t("sign.selectDocument.text")}</div>
+          <DragDrop
+            data={data}
+            progress={progress}
+            // disabled={progress.value === 100}
+          />
 
-        <div className="mt-5 bold mb-2">
-          {t("sign.selectDocument.docsUSelected")}
+          <div className="mt-5 bold mb-2">
+            {t("sign.selectDocument.docsUSelected")}
+          </div>
+          {fileData && !data?.file && (
+            <>
+              <div className="item-left">
+                <DescriptionRoundedIcon className="file-icon" />
+                <div className="px-2">{fileData?.filename}</div>
+                <div className="mx-2 cursor-pointer">
+                  <CancelRoundedIcon
+                    onClick={handleDeleteFile}
+                    className="delete-red"
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <Progressbar progress={100} />
+              </div>
+            </>
+          )}
+          {data?.file && (
+            <>
+              <div className="item-left">
+                <DescriptionRoundedIcon className="file-icon" />
+                <div className="px-2">{data?.file?.name}</div>
+                <div className="mx-2 cursor-pointer">
+                  <CancelRoundedIcon
+                    className="delete-red"
+                    onClick={handleDeleteFile}
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <Progressbar progress={progress.value} />
+              </div>
+            </>
+          )}
         </div>
-        {fileData && !data?.file && (
-          <>
-            <div className="item-left">
-              <DescriptionRoundedIcon className="file-icon" />
-              <div className="px-2">{fileData?.filename}</div>
-              <div className="mx-2 cursor-pointer">
-                <CancelRoundedIcon
-                  onClick={handleDeleteFile}
-                  className="delete-red"
-                />
-              </div>
-            </div>
-            <div className="mt-3">
-              <Progressbar progress={100} />
-            </div>
-          </>
-        )}
-        {data?.file && (
-          <>
-            <div className="item-left">
-              <DescriptionRoundedIcon className="file-icon" />
-              <div className="px-2">{data?.file?.name}</div>
-              <div className="mx-2 cursor-pointer">
-                <CancelRoundedIcon
-                  className="delete-red"
-                  onClick={handleDeleteFile}
-                />
-              </div>
-            </div>
-            <div className="mt-3">
-              <Progressbar progress={progress.value} />
-            </div>
-          </>
-        )}
-      </div>
 
-      <FloatingButton
-        onClickNext={() => {
-          push(`${atr}#${activeItemId + 1}`);
-        }}
-        disabled={shallNext()}
-      />
-    </div>
+        <FloatingButton
+          onClickNext={() => {
+            push(`${atr}#${activeItemId + 1}`);
+          }}
+          disabled={shallNext()}
+        />
+      </div>
+      <Footer />
+    </>
   );
 };
 

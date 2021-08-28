@@ -19,7 +19,11 @@ import Ajv from "ajv";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { addFields, getDocImages, getAllFields, addQRCode } from "api/docs";
 import { useHistory } from "react-router-dom";
-import { addColorToArr, transformFormInput } from "helpers/transformer";
+import {
+  addColorToArr,
+  addToDevFields,
+  transformFormInput,
+} from "helpers/transformer";
 import { DEFAULT, DOC } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -70,6 +74,7 @@ export const QR_CODE_RELATIVE_SIZE = 0.1;
 const PlaceField = ({ activeItemId, atr }) => {
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
+
   const {
     auth: { fullname, email },
   } = useAuth();
@@ -78,16 +83,20 @@ const PlaceField = ({ activeItemId, atr }) => {
     () =>
       transformFormInput(
         addColorToArr(
-          atr !== DOC.me ? fileData?.nextflow : [{ name: fullname, email }]
+          atr !== DOC.me
+            ? fileData?.nextflow?.filter((a) => a.flowtype === "SIGN")
+            : [{ name: fullname, email }]
         )
       ),
     [fileData, fullname, email, atr]
   );
   const [currentSigner, setCurrentSigner] = useState({});
   useEffect(() => {
-    setCurrentSigner(listSigners.length > 0 ? listSigners[0] : {});
+    setCurrentSigner(listSigners?.length > 0 ? listSigners[0] : {});
   }, [listSigners]);
+
   const placeFieldItems = getItemData(atr, "placeFieldItems");
+
   const updatePlaceFields = useCallback(
     (newAtr) =>
       handle_data_docs(true, atr, "placeFieldItems", {
@@ -121,16 +130,22 @@ const PlaceField = ({ activeItemId, atr }) => {
   const { push } = useHistory();
 
   const fetchAllFields = useCallback(async () => {
-    if (placeFieldItems && placeFieldItems?.images) return;
-    if (typeof fileData?.linkToPdf === "string") {
-      try {
-        const res = await getAllFields(fileData?.id);
-        if (res) {
-          updatePlaceFields({ fields: res });
-        }
-      } catch (e) {
-        addSnackbar(String(e));
+    if (placeFieldItems?.fields && placeFieldItems.fields.length > 0) return;
+    console.log(fileData);
+    if (fileData?.fields && fileData.fields.length > 0) {
+      updatePlaceFields({
+        fields: addToDevFields(fileData?.fields, fileData?.nextflow),
+      });
+      setQrCodePosition(fileData?.qrcode);
+      return;
+    }
+    try {
+      const res = await getAllFields(fileData?.uid);
+      if (res) {
+        updatePlaceFields({ fields: res });
       }
+    } catch (e) {
+      addSnackbar(String(e));
     }
   }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
@@ -143,7 +158,7 @@ const PlaceField = ({ activeItemId, atr }) => {
     if (placeFieldItems && placeFieldItems?.images) return;
     if (typeof fileData?.linkToPdf === "string") {
       try {
-        const res = await getDocImages(fileData?.id);
+        const res = await getDocImages(fileData?.uid);
         if (res) {
           updatePlaceFields({ images: res });
         }
@@ -187,17 +202,18 @@ const PlaceField = ({ activeItemId, atr }) => {
           required: field?.required,
         };
       });
-      const res = await addFields(fileData?.id, finalFields);
+      const res = await addFields(fileData?.uid, finalFields);
       if (res) {
         const newRes = await addQRCode(
           fileData?.filename,
-          fileData?.id,
+          fileData?.uid,
           String(atr).toUpperCase(),
           qrCodePosition
         );
         if (newRes) {
+          handle_data_docs(true, atr, "fileData", newRes);
           push(`${atr}#${activeItemId + 1}`);
-          addSnackbar(t("sign.addSigners.addSignersSuccess"), "success");
+          addSnackbar(t("sign.placeFields.placeFieldSuccess"), "success");
         }
       }
     } catch (err) {
@@ -374,6 +390,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               pushToStack={pushToStack}
               fileName={placeFieldItems?.filename ?? DEFAULT.DOC_FILE_NAME}
               qrCodePosition={qrCodePosition}
+              qrCodeImg={fileData?.qrcodeImg}
             />
 
             <RightSnippetArea

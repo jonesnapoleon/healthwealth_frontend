@@ -31,8 +31,8 @@ const reducer = (state, action) => {
 let INITDATA = {
   docs: false,
   fileData: false,
-  signers: [],
-  copies: [],
+  // signers: [],
+  // copies: [],
   placeFieldItems: {
     images: [],
     fields: [],

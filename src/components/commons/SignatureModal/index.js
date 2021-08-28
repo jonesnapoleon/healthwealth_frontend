@@ -120,9 +120,9 @@ const SignatureModal = ({ isInitial }) => {
 
   const handleDeleteFile = async () => {
     // try {
-    //   if (!fileData?.id || fileData?.id === null)
+    //   if (!fileData?.uid || fileData?.uid === null)
     //     throw new Error(t("form.error.fileNotUploadedYet"));
-    //   const res = await deleteDoc(fileData?.id);
+    //   const res = await deleteDoc(fileData?.uid);
     //   if (res?.data) {
     //     data?.setFile(null);
     //     data?.filePicker.current.focus();

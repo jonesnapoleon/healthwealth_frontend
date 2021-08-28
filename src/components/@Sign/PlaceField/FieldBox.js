@@ -92,12 +92,12 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
   const EPSILON = 0.002;
   const sampleRef = useRef(null);
   sampleRef?.current?.updatePosition({
-    x: field.x * field.pagePosition.width,
-    y: field.y * field.pagePosition.height,
+    x: field.x * field?.pagePosition?.width,
+    y: field.y * field?.pagePosition?.height,
   });
   sampleRef?.current?.updateSize({
-    width: field.w * field.pagePosition.width,
-    height: field.h * field.pagePosition.height,
+    width: field.w * field?.pagePosition?.width,
+    height: field.h * field?.pagePosition?.height,
   });
 
   const fieldLabel = useMemo(() => getReadableFieldName(field, t), [field, t]);
@@ -113,10 +113,10 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
         bottomRight: handle,
       }}
       default={{
-        x: field.x * field.pagePosition.width,
-        y: field.y * field.pagePosition.height,
-        width: field.w * field.pagePosition.width,
-        height: field.h * field.pagePosition.height,
+        x: field.x * field?.pagePosition?.width,
+        y: field.y * field?.pagePosition?.height,
+        width: field.w * field?.pagePosition?.width,
+        height: field.h * field?.pagePosition?.height,
       }}
       enableResizing={{
         topLeft: true,
@@ -133,18 +133,18 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
             pushToStack(fields);
           }
         } else {
-          field.x = position.x / field.pagePosition.width;
-          field.y = position.y / field.pagePosition.height;
-          field.w += delta.width / field.pagePosition.width;
-          field.h += delta.height / field.pagePosition.height;
+          field.x = position.x / field?.pagePosition?.width;
+          field.y = position.y / field?.pagePosition?.height;
+          field.w += delta.width / field?.pagePosition?.width;
+          field.h += delta.height / field?.pagePosition?.height;
           console.log("resized!", field);
           setFields(fields);
           pushToStack(fields);
         }
       }}
       onDragStop={(e, component) => {
-        let newX = component.x / field.pagePosition.width;
-        let newY = component.y / field.pagePosition.height;
+        let newX = component.x / field?.pagePosition?.width;
+        let newY = component.y / field?.pagePosition?.height;
         if (
           Math.abs(newX - field.x) > EPSILON &&
           Math.abs(newY - field.y) > EPSILON
@@ -163,7 +163,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
         className="rnd-content"
         onClick={onClick}
         style={{
-          backgroundColor: field.signer.backgroundColor,
+          backgroundColor: field?.signer?.backgroundColor,
           color: "white",
         }}
       >
@@ -176,7 +176,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
   );
 };
 
-export const QRCodeBox = ({ qrPosition, pageNum }) => {
+export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
   // useEffect(() => {
   const divPosition = document
     .getElementById(`one-image-area-${pageNum}`)
@@ -192,7 +192,10 @@ export const QRCodeBox = ({ qrPosition, pageNum }) => {
 
   return (
     <img
-      src="https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
+      src={
+        qrCodeImg ??
+        "https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
+      }
       alt="qrcode"
       style={{
         width: isNaN(size) ? INIT_FIELD_WIDTH : size,

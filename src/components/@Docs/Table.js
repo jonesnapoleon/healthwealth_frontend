@@ -73,7 +73,7 @@ const Table = ({
                 }}
               >
                 <td>
-                  <span className={`cursor-pointer  `}>
+                  <span className={`cursor-pointer`}>
                     {component?.filename ?? DEFAULT.DOC_FILE_NAME}
                   </span>
                 </td>

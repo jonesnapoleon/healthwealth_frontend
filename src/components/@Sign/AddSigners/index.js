@@ -17,6 +17,7 @@ import { useData } from "../../../contexts/DataContext";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import { ADDSIGNER } from "../../../helpers/constant";
 import { useHistory } from "react-router-dom";
+import Footer from "components/layout/Navbar/Footer";
 
 const addDraggableId = (data) => {
   return data?.map((datum, id) => {
@@ -53,7 +54,7 @@ const AddSigners = ({ atr, activeItemId }) => {
     try {
       setLoading(0);
       const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
-      const res = await addUserToDocument(newData, fileData?.id);
+      const res = await addUserToDocument(newData, fileData?.uid);
       if (res) {
         handle_data_docs(true, atr, "fileData", res);
         push(`${atr}#${activeItemId + 1}`);
@@ -121,82 +122,85 @@ const AddSigners = ({ atr, activeItemId }) => {
   };
 
   return (
-    <div className="container container-center sign-select-document-container">
-      <div>
-        <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
-        <div className="mt-3 mb-0">
-          <strong>{t("sign.addSigners.sender")}</strong>
-        </div>
-        <div className="">
-          <em>{auth?.fullname}</em>
-        </div>
+    <>
+      <div className="container container-center sign-select-document-container">
+        <div>
+          <h4 className="">{t("sign.addSigners.whoNeed")}</h4>
+          <div className="mt-3 mb-0">
+            <strong>{t("sign.addSigners.sender")}</strong>
+          </div>
+          <div className="">
+            <em>{auth?.fullname}</em>
+          </div>
 
-        <div className="mt-3 mb-2">
-          <div className="item-between">
-            <strong>{t("sign.addSigners.text")}</strong>
+          <div className="mt-3 mb-2">
             <div className="item-between">
-              <div className="pt-1 px-3">
-                <ToggleButton
-                  text={t("sign.addSigners.sequenceSign")}
-                  disabled={true}
-                />
-              </div>
+              <strong>{t("sign.addSigners.text")}</strong>
+              <div className="item-between">
+                <div className="pt-1 px-3">
+                  <ToggleButton
+                    text={t("sign.addSigners.sequenceSign")}
+                    disabled={true}
+                  />
+                </div>
 
-              <div className="disabled">
-                <LockIcon />
-                <small className="px-1">
-                  {t("sign.addSigners.importBulkList")}
-                </small>
+                <div className="disabled">
+                  <LockIcon />
+                  <small className="px-1">
+                    {t("sign.addSigners.importBulkList")}
+                  </small>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="add-signers-area">
-          {data?.length > 0 && (
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="user-data">
-                {(provided) => (
-                  <ul
-                    className="user-data person-row-container"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {data.map((datum, index) => {
-                      return (
-                        <>
-                          <PersonRow
-                            handleValue={handleValue}
-                            data={datum}
-                            index={index}
-                            key={datum?.id}
-                            deleteUser={deleteUser}
-                          />
-                        </>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )}
+          <div className="add-signers-area">
+            {data?.length > 0 && (
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="user-data">
+                  {(provided) => (
+                    <ul
+                      className="user-data person-row-container"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {data.map((datum, index) => {
+                        return (
+                          <>
+                            <PersonRow
+                              handleValue={handleValue}
+                              data={datum}
+                              index={index}
+                              key={datum?.id}
+                              deleteUser={deleteUser}
+                            />
+                          </>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            )}
 
-          <button className="add-signers-button" onClick={addUser}>
-            <div>
-              <AddCircleOutlineRoundedIcon />
-              <span>{t("sign.addSigners.addSigner")}</span>
-            </div>
-          </button>
+            <button className="add-signers-button" onClick={addUser}>
+              <div>
+                <AddCircleOutlineRoundedIcon />
+                <span>{t("sign.addSigners.addSigner")}</span>
+              </div>
+            </button>
+          </div>
         </div>
+        <FloatingButton
+          disabled={loading === 0}
+          onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
+          activeItemId={activeItemId}
+          onClickNext={handleSubmit}
+        />
       </div>
-      <FloatingButton
-        disabled={loading === 0}
-        onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
-        activeItemId={activeItemId}
-        onClickNext={handleSubmit}
-      />
-    </div>
+      <Footer />
+    </>
   );
 };
 

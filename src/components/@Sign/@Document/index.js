@@ -166,7 +166,7 @@ const Document = ({ atr }) => {
   //       console.log(newFieldElement.value);
   //     }
   //     // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
-  //     // const res = await addUserToDocument(newData, fileData?.id);
+  //     // const res = await addUserToDocument(newData, fileData?.uid);
   //     // if (res) {
   //     //   console.log(res);
   //     //   handle_data_docs(true, atr, "signers", data);
