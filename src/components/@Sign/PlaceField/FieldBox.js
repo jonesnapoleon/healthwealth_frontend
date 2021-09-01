@@ -1,41 +1,31 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState } from "react";
 import { Rnd } from "react-rnd";
-import { useTranslation } from "react-i18next";
 import { INIT_FIELD_WIDTH } from "./PDFViewer";
 import { QR_CODE_RELATIVE_SIZE } from ".";
 
-export const getReadableFieldName = (field, t) => {
-  const fieldName = t(String(field.type));
-  let label = "";
-  const fieldType = {
-    SIGNATURE: String(t("sign.placeFields.left.buttons.signature")),
-    INITIAL: String(t("sign.placeFields.left.buttons.initial")),
-    DATE: String(t("sign.placeFields.left.buttons.date")),
-    EMAIL: String(t("sign.placeFields.left.buttons.email")),
-    NAME: String(t("sign.placeFields.left.buttons.name")),
-    COMPANY: String(t("sign.placeFields.left.buttons.company")),
-    TITLE: String(t("sign.placeFields.left.buttons.title")),
-    TEXTBOX: String(t("sign.placeFields.left.buttons.textbox")),
-    CHECKBOX: String(t("sign.placeFields.left.buttons.checkbox")),
-  };
-  switch (fieldName) {
-    case fieldType.NAME:
-      label = field.signer.label;
-      break;
-    case fieldType.EMAIL:
-      label = field.signer.value;
-      break;
-    case fieldType.TEXTBOX:
-      label = "TEXTBOX";
-      break;
-    case fieldType.CHECKBOX:
-      label = "CHECKBOX";
-      break;
-    default:
-      label = `${field?.signer?.label}'s ${field?.fieldname}`;
-      break;
-  }
-  return label;
+import DateRangeIcon from "@material-ui/icons/DateRangeRounded";
+import PersonIcon from "@material-ui/icons/PersonRounded";
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmailRounded";
+import BusinessIcon from "@material-ui/icons/BusinessRounded";
+import WorkOutlineIcon from "@material-ui/icons/WorkOutlineRounded";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenSquare, faSignature } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "contexts/AuthContext";
+
+const fieldIcon = {
+  SIGNATURE: <FontAwesomeIcon icon={faSignature} />,
+  INITIAL: <FontAwesomeIcon icon={faPenSquare} />,
+  DATE: <DateRangeIcon />,
+  NAME: <PersonIcon />,
+  EMAIL: <AlternateEmailIcon />,
+  COMPANY: <BusinessIcon />,
+  TITLE: <WorkOutlineIcon />,
+};
+
+export const getReadableFieldIcon = (field, t) => {
+  // const fieldName = t(String(field.type));
+  const fieldUpperCase = String(field?.type).toUpperCase();
+  return fieldIcon[fieldUpperCase] ?? <BusinessIcon />;
 };
 
 const FieldHandle = ({ color, stroke }) => {
@@ -80,7 +70,11 @@ const DeleteFieldHandle = () => {
 };
 
 const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
-  const { t } = useTranslation();
+  const {
+    auth: { email },
+  } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+
   const handle = (
     <FieldHandle
       color={field?.signer?.color ?? ""}
@@ -99,8 +93,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     width: field.w * field?.pagePosition?.width,
     height: field.h * field?.pagePosition?.height,
   });
-
-  const fieldLabel = useMemo(() => getReadableFieldName(field, t), [field, t]);
+  const fieldElement = useMemo(() => getReadableFieldIcon(field), [field]);
 
   return (
     <Rnd
@@ -155,22 +148,34 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           // setFields(fields);
           pushToStack(fields);
         }
+        setIsEditing((a) => a);
       }}
       style={{ border: 0, zIndex: 888 }}
       className="draggable-item"
     >
       <span
         className="rnd-content"
-        onClick={onClick}
+        onClick={() => {
+          if (email === field?.signer?.email) setIsEditing(true);
+          onClick();
+        }}
+        onDoubleClick={() => setIsEditing(false)}
         style={{
-          backgroundColor: field?.signer?.backgroundColor,
+          backgroundColor: isEditing
+            ? "transparent"
+            : field?.signer?.backgroundColor,
           color: "white",
         }}
       >
-        <span className="text-uppercase">
-          {/* {field.type} - {field.pageNum} */}
-          {fieldLabel}
-        </span>
+        {!isEditing ? (
+          <span className="text-uppercase">
+            {fieldElement} {field.type}
+          </span>
+        ) : (
+          <div className="full-field-box">
+            <input defaultValue={field.type} />
+          </div>
+        )}
       </span>
     </Rnd>
   );

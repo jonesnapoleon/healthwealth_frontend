@@ -174,8 +174,10 @@ const RightSnippetArea = ({
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
+  const [temp, setTemp] = useState(1);
+
   const DefaultComponent = () => (
-    <div className="">
+    <div className="position-relative">
       <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
         <div className="lead font-weight-bolder">
           {t("sign.placeFields.right.documents")}
@@ -185,7 +187,7 @@ const RightSnippetArea = ({
         </div>
       </div>
       <div className="document-show-container">
-        <div className="mb-2">{fileName}</div>
+        <div className="text-center mb-2">{fileName}</div>
         {placeFieldImages?.length > 0
           ? placeFieldImages?.map((image, i) => (
               <div
@@ -198,6 +200,31 @@ const RightSnippetArea = ({
               </div>
             ))
           : []}
+      </div>
+      <div className="fix-below-button">
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={() => scrollToPage(placeFieldImages?.length, "start")}
+        >
+          {t("sign.placeFields.right.lastPage")}
+        </button>
+        <span>
+          <select
+            onChange={(e) => {
+              setTemp(e.target.value);
+              scrollToPage(e.target.value, "start");
+            }}
+            value={temp}
+          >
+            {placeFieldImages?.length > 0 &&
+              placeFieldImages?.map((_, i) => (
+                <option value={i + 1} key={i}>
+                  {i + 1}
+                </option>
+              ))}
+          </select>
+          <span>of {placeFieldImages?.length ?? 0} pages</span>
+        </span>
       </div>
     </div>
   );

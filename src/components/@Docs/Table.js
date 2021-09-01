@@ -61,12 +61,12 @@ const Table = ({
         <tbody>
           {displayedDocs &&
             displayedDocs?.length > 0 &&
-            displayedDocs?.map((component) => (
+            displayedDocs?.map((component, i) => (
               <tr
                 className={`col col-xl-4 col-sm-12 sign-area ${
                   activeDoc?.value?.id === component?.id ? "bg-ok" : ""
                 }`}
-                key={component?.id}
+                key={i}
                 onClick={() => {
                   getAuditTrail(component?.id);
                   activeDoc?.set(component);

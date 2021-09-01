@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import SignaturePad from "react-signature-canvas";
 import { useTranslation } from "react-i18next";
 import {
@@ -95,6 +95,7 @@ const SignatureModal = ({ isInitial }) => {
       if (tab === 2) {
         const doc = document.getElementById("showed-font-input-tag");
         const res = await convertToImg(doc);
+        console.log(res);
         await addingSignature(res);
       }
     } catch (err) {
@@ -119,25 +120,14 @@ const SignatureModal = ({ isInitial }) => {
   };
 
   const handleDeleteFile = async () => {
-    // try {
-    //   if (!fileData?.uid || fileData?.uid === null)
-    //     throw new Error(t("form.error.fileNotUploadedYet"));
-    //   const res = await deleteDoc(fileData?.uid);
-    //   if (res?.data) {
-    //     data?.setFile(null);
-    //     data?.filePicker.current.focus();
-    //     data.filePicker.current.value = null;
-    //     handle_data_docs(false, atr, "fileData");
-    //     progress.set(0);
-    //     setSuccess(t("sign.selectDocument.deleteFileSuccess"));
-    //     setTimeout(() => setSuccess(false), 3000);
-    //   }
-    // } catch (err) {
-    //   progress.set(-1);
-    //   setError(String(err));
-    //   setTimeout(() => setError(false), 3000);
-    // }
+    if (progress.value > 0 && progress.value < 100) return;
+    data.setFile(null);
   };
+
+  const shallButtonDisabled = useMemo(() => {
+    if (!checkbox.checked) return true;
+    if (tab === 2) return String(formItemData.value).length === 0;
+  }, [tab, formItemData, checkbox.checked]);
 
   return (
     <>
@@ -215,7 +205,11 @@ const SignatureModal = ({ isInitial }) => {
           </span>
         </div>
         <div className="button-container">
-          <button onClick={save} className="btn btn-black circled">
+          <button
+            onClick={save}
+            className="btn btn-black circled"
+            disabled={shallButtonDisabled}
+          >
             Save
           </button>
           {/* <button onClick={clear}>Clear</button> */}

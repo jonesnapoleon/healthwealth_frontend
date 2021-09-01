@@ -95,7 +95,6 @@ const Docs = () => {
     if (trimmedQuery.length === 0) displayAll();
   }, [query?.value, trimNow, displayAll]);
 
-  // console.log(displayedDocs);
   return (
     <div className="docs mt-2">
       {/* <label class="formlabel">

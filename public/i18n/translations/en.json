@@ -298,7 +298,8 @@
         "signature": "Signature",
         "assignedTo": "Assigned to",
         "required": "Required",
-        "requiredField": "Required field"
+        "requiredField": "Required field",
+        "lastPage": "Last page"
       }
     },
     "reviewSend": {

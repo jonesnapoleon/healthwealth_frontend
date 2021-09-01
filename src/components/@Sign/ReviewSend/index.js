@@ -15,13 +15,17 @@ import { useModal } from "contexts/ModalContext";
 import VerifySignature from "../commons/VerifySignature";
 import { sendDoc } from "api/docs";
 
+const DEFAULT_EMAIL_BODY =
+  "Your kontrak is nearly complete, please help to review and sign this document";
+const DEFAULT_EMAIL_SUBJECT = "Hi Awesome! Please kontrasign this document";
+
 const ReviewSend = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(0); // 0: disabled, 1: active
   const { push } = useHistory();
 
-  const emailBody = useFormInput("");
-  const emailSubject = useFormInput("");
+  const emailBody = useFormInput(DEFAULT_EMAIL_BODY);
+  const emailSubject = useFormInput(DEFAULT_EMAIL_SUBJECT);
 
   const [data, setData] = useState([]);
 
@@ -248,7 +252,7 @@ const ReviewSend = ({ atr, activeItemId }) => {
               </div>
             </div>
             <FloatingButton
-              // disabled={loading === 0}
+              disabled={loading === 20}
               onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
               activeItemId={activeItemId}
               onClickNext={handleNext}

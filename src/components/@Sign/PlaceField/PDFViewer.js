@@ -136,6 +136,7 @@ const PDFViewer = ({
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">
+        {/* {({ zoomIn, zoomOut, resetTransform, ...rest }) => ( */}
         {/* <TransformComponent> */}
         <div
           className="wrap-again"
@@ -151,7 +152,9 @@ const PDFViewer = ({
                       return field.deleted ? null : (
                         <FieldBox
                           field={field}
-                          onClick={() => setCurrentField(field)}
+                          onClick={() => {
+                            setCurrentField(field);
+                          }}
                           key={j}
                           id={`field-${j + 1}`}
                           pushToStack={pushToStack}
@@ -192,9 +195,6 @@ const PDFViewer = ({
           )}
         </div>
         {/* </TransformComponent> */}
-
-        {/* {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <TransformComponent> */}
         {/* )} */}
       </div>
     </div>

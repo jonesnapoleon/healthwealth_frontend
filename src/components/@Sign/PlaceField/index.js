@@ -24,7 +24,7 @@ import {
   addToDevFields,
   transformFormInput,
 } from "helpers/transformer";
-import { DEFAULT, DOC } from "helpers/constant";
+import { DEFAULT, DOC, FRONTEND_URL } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 
@@ -58,15 +58,6 @@ const schema = {
     uid: { type: "string" },
   },
 };
-
-const temp =
-  "https://thumbs.dreamstime.com/z/curriculum-vitae-resume-design-template-vector-paper-collection-152652090.jpg";
-
-const temp2 =
-  "https://www.greatschoolspartnership.org/wp-content/uploads/2017/01/GSP_Exemplar_Transcript_Page_1.png";
-
-const temp3 =
-  "https://www.rmit.edu.au/content/dam/rmit/rmit-images/arg/sampleswithoutsignature/Sample%20of%20transcript%202021.jpg.transform/rendition-380x380/image.jpg";
 
 const MAX_STACK_SIZE = 30;
 export const QR_CODE_RELATIVE_SIZE = 0.1;
@@ -129,6 +120,16 @@ const PlaceField = ({ activeItemId, atr }) => {
   const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
 
+  useEffect(() => {
+    if (fileData) {
+      if (fileData?.uid === undefined) {
+        push(`${FRONTEND_URL.docs}`);
+      }
+    } else {
+      push(`${FRONTEND_URL.docs}`);
+    }
+  }, [fileData, push]);
+
   const fetchAllFields = useCallback(async () => {
     if (placeFieldItems?.fields && placeFieldItems.fields.length > 0) return;
     // console.log(fileData);
@@ -150,12 +151,12 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
   useEffect(() => {
-    updatePlaceFields({ images: [temp, temp2, temp3] });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log(placeFieldItems);
+  }, [placeFieldItems]);
 
   const fetchAllImages = useCallback(async () => {
-    if (placeFieldItems && placeFieldItems?.images) return;
+    // console.log(placeFieldItems);
+    if (placeFieldItems?.images && placeFieldItems?.images.length > 0) return;
     if (typeof fileData?.linkToPdf === "string") {
       try {
         const res = await getDocImages(fileData?.uid);
@@ -345,7 +346,7 @@ const PlaceField = ({ activeItemId, atr }) => {
           undoRedoHandler(e);
         }}
       >
-        {/* <TransformWrapper initialScale={1} panning={{ disabled: true }}>
+        {/* <TransformWrapper initialScale={1} panning={{ disabled: !true }}>
           {({
             zoomIn,
             zoomOut,
@@ -388,7 +389,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               setCurrentField={setCurrentField}
               placeFieldImages={placeFieldImages}
               pushToStack={pushToStack}
-              fileName={placeFieldItems?.filename ?? DEFAULT.DOC_FILE_NAME}
+              fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               qrCodePosition={qrCodePosition}
               qrCodeImg={fileData?.qrcodeImg}
             />
@@ -399,7 +400,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               setFields={setFields}
               fields={fields}
               placeFieldImages={placeFieldImages}
-              fileName={placeFieldItems?.filename ?? DEFAULT.DOC_FILE_NAME}
+              fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               scrollToPage={scrollToPage}
               onDelete={() => {
                 let temp = currentField;
@@ -410,8 +411,8 @@ const PlaceField = ({ activeItemId, atr }) => {
             />
           </DndProvider>
         </>
-        {/* )} */}
-        {/* </TransformWrapper> */}
+        {/* )}
+        </TransformWrapper> */}
       </div>
       <SuperFloatingButton
         onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}

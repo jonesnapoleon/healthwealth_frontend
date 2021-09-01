@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { useEffectOnce } from "react-use";
 import { TransformWrapper } from "react-zoom-pan-pinch";
 // import { useHistory } from "react-router-dom";
@@ -101,11 +101,10 @@ const Document = ({ atr }) => {
   //   updatePlaceFields({ fields: field });
   // }, []);
 
-  // useEffect(() => {
-  //   console.log(placeFieldItems);
-  // }, [placeFieldItems]);
-
   const [currentField, setCurrentField] = useState(null);
+  useEffect(() => {
+    console.log(currentField);
+  }, [currentField]);
   // const [loading, setLoading] = useState(false);
   const [scale, setScale] = useState(100);
 
