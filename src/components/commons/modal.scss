@@ -1,3 +1,7 @@
+.react-responsive-modal-overlay {
+  z-index: 999999;
+}
+
 .modal-base {
   --modal-height: 75vh;
   --modal-width: 65vw;

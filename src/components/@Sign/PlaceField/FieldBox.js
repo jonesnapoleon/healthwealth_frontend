@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import { INIT_FIELD_WIDTH } from "./PDFViewer";
 import { QR_CODE_RELATIVE_SIZE } from ".";
@@ -11,6 +11,8 @@ import WorkOutlineIcon from "@material-ui/icons/WorkOutlineRounded";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenSquare, faSignature } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "contexts/AuthContext";
+import SignatureModal from "components/commons/SignatureModal";
+import { useModal } from "contexts/ModalContext";
 
 const fieldIcon = {
   SIGNATURE: <FontAwesomeIcon icon={faSignature} />,
@@ -72,8 +74,23 @@ const DeleteFieldHandle = () => {
 const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
   const {
     auth: { email },
+    signatures,
   } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const { setInnerComponent, show } = useModal();
+
+  const defaultSelfSignImage = useMemo(() => {
+    if (signatures && signatures?.length > 0) {
+      console.log(signatures);
+      return signatures[0]?.linkToFinishedImg;
+    }
+    return false;
+  }, [signatures]);
+
+  useEffect(() => {
+    console.log(signatures);
+    console.log(defaultSelfSignImage);
+  }, [defaultSelfSignImage, signatures]);
 
   const handle = (
     <FieldHandle
@@ -156,7 +173,25 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
       <span
         className="rnd-content"
         onClick={() => {
-          if (email === field?.signer?.email) setIsEditing(true);
+          if (email === field?.signer?.email) {
+            if (String(field?.type).toLowerCase() === "signature") {
+              if (!defaultSelfSignImage) {
+                setInnerComponent(
+                  <SignatureModal
+                    isInitial={false}
+                    extraCallback={() => {
+                      show?.set(false);
+                    }}
+                  />
+                );
+                show?.set(true);
+              } else {
+                setIsEditing(true);
+              }
+            } else {
+              setIsEditing(true);
+            }
+          }
           onClick();
         }}
         onDoubleClick={() => setIsEditing(false)}
@@ -171,10 +206,14 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           <span className="text-uppercase">
             {fieldElement} {field.type}
           </span>
-        ) : (
+        ) : String(field?.type).toLowerCase() !== "signature" ? (
           <div className="full-field-box">
             <input defaultValue={field.type} />
           </div>
+        ) : (
+          <span className="img-fit-all">
+            <img src={defaultSelfSignImage} alt="" />
+          </span>
         )}
       </span>
     </Rnd>

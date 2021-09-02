@@ -66,7 +66,8 @@ const ModalProvider = ({ children }) => {
             <style>
               {`
                 .react-responsive-modal-overlay {
-                  background-color: rgba(174,174,174,0.8);
+                  background-color: rgba(174,174,174,0.8);\
+                  z-index: 999999;
                 }
               `}
             </style>

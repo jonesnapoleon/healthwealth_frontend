@@ -16,7 +16,7 @@ import { isFileValid } from "helpers/validator";
 import BasicInputLabel, { BasicSelect } from "../InputLabel/basic";
 import { FONTLIST } from "helpers/constant";
 import { useSnackbar } from "contexts/SnackbarContext";
-import { addSignature } from "api/auth";
+import { addSignature, getAllSignatures } from "api/auth";
 import { convertToImg } from "helpers/utils";
 
 const TextWrite = ({ t, formItemData, fontData }) => {
@@ -34,7 +34,7 @@ const TextWrite = ({ t, formItemData, fontData }) => {
   );
 };
 
-const SignatureModal = ({ isInitial }) => {
+const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState(0);
   const checkbox = useCheckbox();
@@ -73,7 +73,11 @@ const SignatureModal = ({ isInitial }) => {
         //     handle_data_docs(true, atr, "fileData", res.data);
         //     setAvailableLevel((a) => a + 1);
         progress.set(100);
-        addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
+        const newRes = await getAllSignatures();
+        if (newRes) {
+          addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
+        }
+        extraCallback();
         //     setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {

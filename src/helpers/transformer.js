@@ -40,8 +40,6 @@ export const addToDevFields = (fieldArray, signers) => {
   let one = -1;
   let hashmap = {};
   const finalTemp = fieldArray.map((datum, i) => {
-    let curPage = document.getElementById("one-image-area-" + datum?.pageNum);
-    const pagePosition = curPage?.getBoundingClientRect();
     let temp = signers?.filter(
       (signer) =>
         signer?.email === datum?.assignedTo && signer?.flowtype === "SIGN"
@@ -52,7 +50,7 @@ export const addToDevFields = (fieldArray, signers) => {
     }
     return {
       ...datum,
-      pagePosition,
+      pagePosition: {},
       deleted: false,
       signer: {
         ...temp,

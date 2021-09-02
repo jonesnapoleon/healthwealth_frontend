@@ -3,7 +3,9 @@
   // align-items: center;
   .parent {
     width: 100%;
-    img {
+    .non-initial-signature {
+      width: 100%;
+      display: block;
       max-width: 130px;
     }
   }

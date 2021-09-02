@@ -18,7 +18,7 @@ const Docs = () => {
     useData();
   const { addSnackbar } = useSnackbar();
   const query = useFormInput("");
-  const history = useHistory();
+  const { push } = useHistory();
 
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
     docs ?? []
@@ -48,31 +48,30 @@ const Docs = () => {
       console.log(obj);
       const key = String(obj?.signType).toLowerCase();
       if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
+      handle_data_docs(true, key, "fileData", obj);
       if (key !== DOC.me) {
-        handle_data_docs(true, key, "fileData", obj);
         if (obj?.nextflow && obj.nextflow?.length === 0) {
-          history.push(`${key}#${0}`);
+          push(`${key}#${0}`);
         }
         if (obj?.nextflow && obj.nextflow?.length > 0) {
-          history.push(`${key}#${1}`);
+          push(`${key}#${1}`);
         }
       }
       if (key === DOC.me) {
-        handle_data_docs(true, key, "fileData", obj);
         if (obj?.fields && obj.fields?.length > 0) {
-          history.push(`${key}#${1}`);
+          push(`${key}#${1}`);
           return;
         }
         if (obj?.nextflow && obj.nextflow?.length === 0) {
-          history.push(`${key}#${0}`);
+          push(`${key}#${0}`);
           return;
         }
         if (obj?.nextflow && obj.nextflow?.length > 0) {
-          history.push(`${key}#${1}`);
+          push(`${key}#${1}`);
         }
       }
     },
-    [handle_data_docs, history]
+    [handle_data_docs, push]
   );
 
   const trimNow = useCallback(

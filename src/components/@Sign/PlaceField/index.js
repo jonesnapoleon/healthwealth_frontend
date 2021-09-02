@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
-import { useEffectOnce } from "react-use";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -18,6 +17,8 @@ import Ajv from "ajv";
 
 import { useSnackbar } from "contexts/SnackbarContext";
 import { addFields, getDocImages, getAllFields, addQRCode } from "api/docs";
+import { getAllSignatures } from "api/auth";
+
 import { useHistory } from "react-router-dom";
 import {
   addColorToArr,
@@ -68,7 +69,27 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const {
     auth: { fullname, email },
+    signatures,
+    setSignatures,
   } = useAuth();
+  const { addSnackbar } = useSnackbar();
+  const { push } = useHistory();
+
+  const fetchingSignatures = useCallback(async () => {
+    if (!signatures) {
+      try {
+        const res = await getAllSignatures();
+        if (res) {
+          setSignatures(res);
+        }
+      } catch (err) {
+        addSnackbar(String(err));
+      }
+    }
+  }, [setSignatures, signatures, addSnackbar]);
+  useEffect(() => {
+    fetchingSignatures();
+  }, [fetchingSignatures]);
 
   const listSigners = useMemo(
     () =>
@@ -117,8 +138,6 @@ const PlaceField = ({ activeItemId, atr }) => {
   const [stackIdx, setStackIdx] = useState(0);
 
   const [visibility, setVisibility] = useState(1);
-  const { addSnackbar } = useSnackbar();
-  const { push } = useHistory();
 
   useEffect(() => {
     if (fileData) {
@@ -133,13 +152,14 @@ const PlaceField = ({ activeItemId, atr }) => {
   const fetchAllFields = useCallback(async () => {
     if (placeFieldItems?.fields && placeFieldItems.fields.length > 0) return;
     // console.log(fileData);
-    if (fileData?.fields && fileData.fields.length > 0) {
+    if (fileData?.fields && fileData.fields.length >= 0) {
       updatePlaceFields({
         fields: addToDevFields(fileData?.fields, fileData?.nextflow),
       });
       setQrCodePosition(fileData?.qrcode);
       return;
     }
+
     try {
       const res = await getAllFields(fileData?.uid);
       if (res) {
@@ -155,24 +175,25 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [placeFieldItems]);
 
   const fetchAllImages = useCallback(async () => {
-    // console.log(placeFieldItems);
+    console.log(placeFieldItems);
     if (placeFieldItems?.images && placeFieldItems?.images.length > 0) return;
-    if (typeof fileData?.linkToPdf === "string") {
-      try {
-        const res = await getDocImages(fileData?.uid);
-        if (res) {
-          updatePlaceFields({ images: res });
-        }
-      } catch (e) {
-        addSnackbar(String(e));
+    try {
+      const res = await getDocImages(fileData?.uid);
+      if (res) {
+        updatePlaceFields({ images: res });
       }
+    } catch (e) {
+      addSnackbar(String(e));
     }
   }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
 
-  useEffectOnce(() => {
+  useEffect(() => {
     fetchAllImages();
+  }, [fetchAllImages]);
+
+  useEffect(() => {
     fetchAllFields();
-  });
+  }, [fetchAllFields]);
 
   const scrollToPage = useCallback(
     (pageNum = visibility, align = "center") => {

@@ -91,7 +91,17 @@ const Page = ({
             src={data}
             alt=""
             className="invisible"
-            onLoad={() => setVisibility(1)}
+            onLoad={() => {
+              setVisibility(1);
+              let curPage = document.getElementById(
+                "one-image-area-" + pageNum
+              );
+              const pagePosition = curPage?.getBoundingClientRect();
+              let temp = fields.map((field) => {
+                return { ...field, pagePosition };
+              });
+              setFields(temp);
+            }}
           />
           {playableFields}
           {/* {divPosition === undefined ? */}

@@ -54,8 +54,13 @@ const Signature = () => {
           }}
         />
         <div className="parent">
-          {nonInitialSignature?.map((sign) => (
-            <img src={sign?.linkToImg} alt="" />
+          {nonInitialSignature?.map((sign, i) => (
+            <img
+              key={i}
+              src={sign?.linkToImg}
+              className="non-initial-signature"
+              alt=""
+            />
           ))}
         </div>
       </div>
