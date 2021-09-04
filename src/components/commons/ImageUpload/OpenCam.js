@@ -37,22 +37,16 @@ const OpenCam = (props) => {
     initializeMedia();
   }, []);
 
-  //   componentDidUpdate() {
-  //     this.initializeMedia();
-  //   }
-
   const capturePicture = async () => {
-    console.log("hit");
     if (player?.current && player?.current?.srcObject) {
       var canvas = document.createElement("canvas");
       canvas.width = player.current?.videoWidth;
       canvas.height = player.current?.videoHeight;
       var contex = canvas.getContext("2d");
       contex.drawImage(player.current, 0, 0, canvas.width, canvas.height);
-      player.current.srcObject.getVideoTracks().forEach((track) => {
-        track.stop();
-      });
-
+      player.current.srcObject
+        .getVideoTracks()
+        .forEach((track) => track.stop());
       await props.imageDataURL?.set(canvas?.toDataURL());
       onClose();
     }
@@ -63,18 +57,11 @@ const OpenCam = (props) => {
       <div className="open-cam-container item-centery">
         <video ref={player} autoPlay></video>
         <button
-          onClick={async () => {
-            await capturePicture();
-            // console.log(props.imageDataURL);
-
-            // console.log(dataUrl);
-            // props.setIsRecording(false);
-          }}
+          onClick={async () => await capturePicture()}
           className="btn btn-outline-light"
         >
           ⚪
         </button>
-        {/* <div className="small-icon" onClick={}></div> */}
       </div>
     </>
   );

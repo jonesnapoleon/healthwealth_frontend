@@ -52,13 +52,17 @@ export const uploadKTP = async (file) => {
     const response = await axios.post(API_UPLOAD_KTP, data);
     return response.data;
   } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
     throw e?.response?.data?.errorMessage ?? "";
   }
 };
-
+export const deleteKTP = async () => {
+  try {
+    const response = await axios.delete(API_UPLOAD_KTP);
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.errorMessage ?? "";
+  }
+};
 export const uploadSelfie = async (file) => {
   const data = new FormData();
   data.append("photo", file);
@@ -66,9 +70,14 @@ export const uploadSelfie = async (file) => {
     const response = await axios.post(API_UPLOAD_SELFIE, data);
     return response.data;
   } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
+    throw e?.response?.data?.errorMessage ?? "";
+  }
+};
+export const deleteSelfie = async () => {
+  try {
+    const response = await axios.delete(API_UPLOAD_SELFIE);
+    return response.data;
+  } catch (e) {
     throw e?.response?.data?.errorMessage ?? "";
   }
 };

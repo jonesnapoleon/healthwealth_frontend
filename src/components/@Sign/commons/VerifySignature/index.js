@@ -10,8 +10,13 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 
 const VerifySignature = (props) => {
-  console.log(props);
-  const { onClickCTA, fileUID } = props;
+  const {
+    onClickCTA,
+    fileUID,
+    isAuth = false,
+    sendOTPAuthWrapper = () => {},
+    verifyOTPAuthWrapper = () => {},
+  } = props;
   const { t } = useTranslation();
   const { auth } = useAuth();
   const phone = useFormInput(auth?.phone);
@@ -20,12 +25,28 @@ const VerifySignature = (props) => {
   const [loading, setLoading] = useState(false);
   const { addSnackbar } = useSnackbar();
 
-  const sendOTPToPhone = async () => {
+  const sendOTPDocWrapper = async () => {
     try {
       setLoading(true);
       const res = await sendOTPDoc(fileUID, phone?.value);
       if (res) {
         addSnackbar(t("popup.sign.verify.success1"), "success");
+        isSentPhone?.set(true);
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    } finally {
+      setLoading(!true);
+    }
+  };
+
+  const verifyOTPDocWrapper = async () => {
+    try {
+      setLoading(true);
+      const res = await verifyOTPDoc(fileUID, otp?.number, auth?.id_token);
+      if (res) {
+        onClickCTA();
+        addSnackbar(t("popup.verify.success2"), "success");
         isSentPhone?.set(true);
       }
     } catch (err) {
@@ -64,7 +85,7 @@ const VerifySignature = (props) => {
             className={`btn btn-${
               isSentPhone?.value ? "light" : "success"
             } squared`}
-            onClick={sendOTPToPhone}
+            onClick={isAuth ? sendOTPAuthWrapper : sendOTPDocWrapper}
             disabled={isSentPhone?.value}
           >
             {isSentPhone?.value ? t("form.sent") : t("form.send")}
@@ -80,7 +101,7 @@ const VerifySignature = (props) => {
           <button
             className="btn btn-light squared"
             disabled={!phone?.value}
-            onClick={sendOTPToPhone}
+            onClick={isAuth ? sendOTPAuthWrapper : sendOTPDocWrapper}
           >
             {t("popup.sign.verify.resend")}
           </button>
@@ -90,25 +111,11 @@ const VerifySignature = (props) => {
         <button
           className="btn btn-primary squared"
           disabled={loading || String(otp?.number).length < 6}
-          onClick={async () => {
-            try {
-              setLoading(true);
-              const res = await verifyOTPDoc(
-                fileUID,
-                otp?.number,
-                auth?.id_token
-              );
-              if (res) {
-                onClickCTA();
-                addSnackbar(t("popup.verify.success2"), "success");
-                isSentPhone?.set(true);
-              }
-            } catch (err) {
-              addSnackbar(String(err));
-            } finally {
-              setLoading(!true);
-            }
-          }}
+          onClick={
+            isAuth
+              ? () => verifyOTPAuthWrapper(otp?.number)
+              : verifyOTPDocWrapper
+          }
         >
           {t("general.submit")}
         </button>

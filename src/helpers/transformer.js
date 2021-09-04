@@ -39,7 +39,7 @@ export const transformFormInput = (array) =>
 export const addToDevFields = (fieldArray, signers) => {
   let one = -1;
   let hashmap = {};
-  const finalTemp = fieldArray.map((datum, i) => {
+  const finalTemp = fieldArray?.map((datum, i) => {
     let temp = signers?.filter(
       (signer) =>
         signer?.email === datum?.assignedTo && signer?.flowtype === "SIGN"

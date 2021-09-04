@@ -75,9 +75,12 @@ const AddSigners = ({ atr, activeItemId }) => {
 
   const lastElementId = useMemo(
     () =>
-      data?.reduce(function (a, b) {
-        return Math.max(a, b);
-      }, 0),
+      data?.reduce(
+        (a, b) => {
+          return { id: String(Math.max(parseInt(a.id), parseInt(b.id))) };
+        },
+        { id: "0" }
+      ),
     [data]
   );
 
@@ -86,7 +89,7 @@ const AddSigners = ({ atr, activeItemId }) => {
     items.push({
       name: "",
       email: "",
-      id: String(lastElementId + 1),
+      id: String(parseInt(lastElementId.id) + 1),
       flowtype: ADDSIGNER.SIGN,
     });
     setData(items);
@@ -154,8 +157,9 @@ const AddSigners = ({ atr, activeItemId }) => {
             {data?.length > 0 && (
               <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="user-data">
-                  {(provided) => (
+                  {(provided, i) => (
                     <ul
+                      key={i}
                       className="user-data person-row-container"
                       {...provided.droppableProps}
                       ref={provided.innerRef}

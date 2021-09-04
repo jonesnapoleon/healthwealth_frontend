@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import DatePicker from "react-date-picker";
 import { useTranslation } from "react-i18next";
-import { sendOTPPhone, updateUser } from "../../../api/auth";
+import { sendOTPPhone, updateUser, verifyOTPPhone } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
 import { ReactComponent as CalendarIcon } from "../../../assets/bnw/Add Field - Dates Icon.svg";
 import {
@@ -14,6 +14,7 @@ import { PersonalDetailValidator } from "../../../helpers/validator";
 import { getBackendDateFormat } from "../../../helpers/transformer";
 import { useSnackbar } from "contexts/SnackbarContext";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import { useModal } from "contexts/ModalContext";
 
 const PersonalDetail = () => {
   const { auth, putAuth } = useAuth();
@@ -32,6 +33,7 @@ const PersonalDetail = () => {
   const isLargeScreen = useIsLargeScreen();
 
   const { addSnackbar } = useSnackbar();
+  const { openVerifySignature, onClose } = useModal();
 
   const [showButton, setShowButton] = useState(false);
 
@@ -87,7 +89,20 @@ const PersonalDetail = () => {
     }
   };
 
-  // verifyOTPPhone
+  const verifyOTP = async (otp) => {
+    try {
+      setLoading(true);
+      const res = await verifyOTPPhone(otp);
+      if (res) {
+        addSnackbar(t("popup.sign.verify.success2"), "success");
+        onClose();
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    } finally {
+      setLoading(!true);
+    }
+  };
 
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
@@ -167,11 +182,22 @@ const PersonalDetail = () => {
               />
               <br />
 
-              <div className="item-right">
-                <button className="text-only-button" onClick={sendOTPToPhone}>
-                  {t("otp.sendOtp")}
-                </button>
-              </div>
+              {!auth?.verifiedPhone && (
+                <div className="item-right">
+                  <button
+                    className="text-only-button"
+                    onClick={() =>
+                      openVerifySignature({
+                        isAuth: true,
+                        sendOTPAuthWrapper: sendOTPToPhone,
+                        verifyOTPAuthWrapper: verifyOTP,
+                      })
+                    }
+                  >
+                    {t("otp.sendOtp")}
+                  </button>
+                </div>
+              )}
             </td>
           </tr>
 

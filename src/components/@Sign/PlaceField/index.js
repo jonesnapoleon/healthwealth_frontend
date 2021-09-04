@@ -28,7 +28,7 @@ import {
 import { DEFAULT, DOC, FRONTEND_URL } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import { useLocationChanged, useProgressBar } from "helpers/hooks";
+import { useProgressBar } from "helpers/hooks";
 
 const schema = {
   type: "object",
@@ -77,7 +77,7 @@ const PlaceField = ({ activeItemId, atr }) => {
   const { push } = useHistory();
 
   const imgProgress = useProgressBar();
-  const fieldProgress = useProgressBar();
+  // const fieldProgress = useProgressBar();
 
   const fetchingSignatures = useCallback(async () => {
     if (!signatures) {
@@ -140,8 +140,12 @@ const PlaceField = ({ activeItemId, atr }) => {
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
-
+  const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(1);
+
+  useEffect(() => {
+    console.log(placeFieldItems);
+  }, [placeFieldItems]);
 
   useEffect(() => {
     if (fileData) {
@@ -150,14 +154,14 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [fileData, push]);
 
   const fetchAllFields = useCallback(async () => {
-    if (fieldProgress.value !== 0) return;
+    // if (fieldProgress.value !== 0) return;
     if (fields && fields.length > 0) return;
 
     // if (fileData?.fields && fileData.fields.length > 0) {
     updatePlaceFields({
       fields: addToDevFields(fileData?.fields, fileData?.nextflow),
     });
-    fieldProgress.set(100);
+    // fieldProgress.set(100);
     setQrCodePosition(fileData?.qrcode);
     // } else {
     //   try {
@@ -171,39 +175,49 @@ const PlaceField = ({ activeItemId, atr }) => {
     //     addSnackbar(String(e));
     //   }
     // }
-  }, [fileData, updatePlaceFields, fields, fieldProgress]);
+  }, [fileData, updatePlaceFields, fields]);
 
   const fetchAllImages = useCallback(async () => {
     if (imgProgress.value !== 0) return;
     if (placeFieldImages && placeFieldImages.length > 0) return;
+    if (loading) return;
+
     try {
       imgProgress.set(1);
+      setLoading(true);
       const res = await getDocImages(fileData?.uid);
       if (res) {
+        imgProgress.set(100);
         updatePlaceFields({ images: res });
       }
     } catch (e) {
       imgProgress.set(-1);
       addSnackbar(String(e));
+    } finally {
+      setLoading(false);
     }
-  }, [fileData, addSnackbar, updatePlaceFields, placeFieldImages, imgProgress]);
+  }, [
+    fileData,
+    addSnackbar,
+    updatePlaceFields,
+    placeFieldImages,
+    imgProgress,
+    loading,
+  ]);
 
   useEffect(() => {
     console.log(placeFieldImages);
   }, [placeFieldImages]);
 
-  useLocationChanged(() => {
-    imgProgress.set(0);
-    fieldProgress.set(0);
-  });
-
   useEffect(() => {
     fetchAllImages();
-  }, [fetchAllImages]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchAllFields();
-  }, [fetchAllFields]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scrollToPage = useCallback(
     (pageNum = visibility, align = "center") => {

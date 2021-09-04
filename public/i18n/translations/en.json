@@ -237,7 +237,10 @@
       "takeAPictureDesc": "Allow access to your computer camera",
       "proofIdentity": "Proof of Identity",
       "proofIdentityHead": "Upload Proof of Identity",
+      "deleteIdentitySuccess": "Your identity successfully deleted",
       "submitIdentitySuccess": "Your identity successfully submitted",
+      "deleteSelfieSuccess": "Your picture successfully deleted",
+      "submitSelfieSuccess": "Your picture successfully submitted",
       "proofIdentityDesc": "We accept KTP / Passport"
     },
     "signature": {

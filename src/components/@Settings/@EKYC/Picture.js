@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useInput, useRefreshedData } from "../../../helpers/hooks";
 
@@ -7,7 +7,12 @@ import { ReactComponent as KtpSvg } from "../../../assets/bnw/ID Card icon.svg";
 import { ReactComponent as CameraSvg } from "../../../assets/bnw/Camera icon.svg";
 import { useModal } from "../../../contexts/ModalContext";
 import DragDropClass from "../../commons/ImageUpload/DragDropClass";
-import { uploadKTP, uploadSelfie } from "../../../api/auth";
+import {
+  deleteKTP,
+  deleteSelfie,
+  uploadKTP,
+  uploadSelfie,
+} from "../../../api/auth";
 // uploadSelfie
 import { useAuth } from "../../../contexts/AuthContext";
 import Progressbar from "components/commons/Progressbar";
@@ -54,6 +59,48 @@ const Picture = () => {
     }
   };
 
+  const handleDeleteIdentity = async () => {
+    try {
+      pictureProgress.set(1);
+      setLoading(true);
+      const res = await deleteKTP(takePict.value);
+      if (res?.data) {
+        identity.setFile(null);
+        isIdentityEdit.set(false);
+        identityProgress.set(100);
+        putAuth(res.data);
+        addSnackbar(t("settings.ekyc.deleteIdentitySuccess"), "success");
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+      pictureProgress.set(-1);
+    } finally {
+      setLoading(false);
+      pictureProgress.set(0);
+    }
+  };
+
+  const handleDeletePicture = async () => {
+    try {
+      pictureProgress.set(1);
+      setLoading(true);
+      const res = await deleteSelfie(takePict.value);
+      if (res?.data) {
+        takePict.set(null);
+        isPictureEdit.set(false);
+        pictureProgress.set(100);
+        putAuth(res.data);
+        addSnackbar(t("settings.ekyc.deleteSelfieSuccess"), "success");
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+      pictureProgress.set(-1);
+    } finally {
+      setLoading(false);
+      pictureProgress.set(0);
+    }
+  };
+
   const handleSubmitPicture = async () => {
     try {
       pictureProgress.set(1);
@@ -66,7 +113,7 @@ const Picture = () => {
         isPictureEdit.set(false);
         pictureProgress.set(100);
         putAuth(res.data);
-        addSnackbar(t("settings.ekyc.submitIdentitySuccess"), "success");
+        addSnackbar(t("settings.ekyc.submitSelfieSuccess"), "success");
       }
     } catch (err) {
       addSnackbar(String(err));
@@ -79,14 +126,12 @@ const Picture = () => {
 
   const imagesData = [
     {
-      isSelfie: false,
       icon: <KtpSvg />,
       isUpload: true,
       head: t("settings.ekyc.proofIdentityHead"),
       desc: t("settings.ekyc.proofIdentityDesc"),
     },
     {
-      isSelfie: true,
       icon: <CameraSvg />,
       isUpload: !true,
       head: t("settings.ekyc.takeAPictureHead"),
@@ -161,6 +206,7 @@ const Picture = () => {
           <ImageUpload
             meta={{ ...imagesData[0], isEdit: isIdentityEdit.value }}
             data={identity}
+            onDelete={handleDeleteIdentity}
             currentFile={auth?.ktp_url}
           />
         </DragDropClass>
@@ -184,10 +230,11 @@ const Picture = () => {
       </div>
       <div className="">
         <ImageUpload
-          meta={imagesData[1]}
+          meta={{ ...imagesData[1], isEdit: isPictureEdit.value }}
           data={takePict}
           currentFile={auth?.selfie_url}
           onClick={() => openTakePhoto({ data: takePict })}
+          onDelete={handleDeletePicture}
         />
       </div>
       {renderButtonPicture()}

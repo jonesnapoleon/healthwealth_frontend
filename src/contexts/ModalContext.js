@@ -47,6 +47,7 @@ const ModalProvider = ({ children }) => {
 
   const openTakePhoto = (bringing) => {
     innerComponent.set(<TakePhoto {...bringing} />);
+    // typeTwo();
     show.set(true);
   };
 

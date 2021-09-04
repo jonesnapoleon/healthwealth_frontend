@@ -16,9 +16,19 @@
   height: 2rem;
 }
 
-.image-upload-container img.showing-image {
-  width: 70%;
-  height: auto;
+.image-upload-container {
+  position: relative;
+  img.showing-image {
+    width: 70%;
+    height: auto;
+    transition: 0.2s;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  .ekyc-del-icon {
+    transform: translate(-0%, -50%);
+  }
 }
 
 .drag-drop-container {

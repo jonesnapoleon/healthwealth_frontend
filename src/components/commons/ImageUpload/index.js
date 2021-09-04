@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
+import CancelRounded from "@material-ui/icons/CancelRounded";
 
 import "./imageupload.scss";
 
-const ImageUpload = ({ meta, data, onClick, currentFile }) => {
-  const { icon, head, desc, isUpload, isEdit, isSelfie } = meta;
+const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
+  const { icon, head, desc, isEdit, isUpload } = meta;
 
   const [url, setUrl] = useState("");
+
+  const DeleteIcon = () => (
+    <CancelRounded
+      onClick={onDelete}
+      className="hanging-right-icon cursor-pointer ekyc-del-icon"
+    />
+  );
 
   useEffect(() => {
     if (isUpload && data?.filePicker?.current) {
       data.filePicker.current.onchange = (e) => {
         const newFile = e.target.files[0];
-        if (newFile) data?.setFile(newFile);
+        // console.log(newFile);
+        if (newFile) data.setFile(newFile);
         const reader = new FileReader();
         reader.readAsDataURL(newFile);
         reader.onloadend = () => setUrl(reader.result);
@@ -21,7 +30,7 @@ const ImageUpload = ({ meta, data, onClick, currentFile }) => {
 
   useEffect(() => {
     if (!data?.file || data?.file === null) {
-      setUrl(false);
+      setUrl("");
     }
   }, [data?.file, setUrl]);
 
@@ -46,12 +55,23 @@ const ImageUpload = ({ meta, data, onClick, currentFile }) => {
   );
 
   const getImage = () => {
-    if (isSelfie && data?.value)
+    if (
+      (!isUpload && !data?.value && !!!currentFile) ||
+      (isUpload && !data?.file && !!!currentFile)
+    )
+      return <ImageGetInput />;
+    if (!isUpload && data?.value)
       return <img src={data?.value} alt="" className="showing-image" />;
-    if (isSelfie || (isEdit && !imageToShow)) return <ImageGetInput />;
+    if (isEdit && !imageToShow) return <ImageGetInput />;
     if (!isEdit && currentFile)
       return (
         <>
+          {/* <input
+            type="file"
+            style={{ display: "none" }}
+            ref={data?.filePicker}
+            accept="image/*"
+          /> */}
           <img src={currentFile} alt="" className="showing-image" />
         </>
       );
@@ -75,6 +95,7 @@ const ImageUpload = ({ meta, data, onClick, currentFile }) => {
       className="image-upload-container"
       onClick={isUpload ? () => data?.filePicker?.current?.click() : onClick}
     >
+      {currentFile && !isEdit && <DeleteIcon />}
       {getImage()}
     </div>
   );
