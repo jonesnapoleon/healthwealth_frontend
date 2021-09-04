@@ -16,11 +16,11 @@ import { useModal } from "contexts/ModalContext";
 const fieldIcon = {
   SIGNATURE: <FontAwesomeIcon icon={faSignature} />,
   INITIAL: <FontAwesomeIcon icon={faPenSquare} />,
-  DATE: <DateRangeIcon />,
-  NAME: <PersonIcon />,
-  EMAIL: <AlternateEmailIcon />,
-  COMPANY: <BusinessIcon />,
-  TITLE: <WorkOutlineIcon />,
+  DATE: <DateRangeIcon style={{ width: "0.875em" }} />,
+  NAME: <PersonIcon style={{ width: "0.875em" }} />,
+  EMAIL: <AlternateEmailIcon style={{ width: "0.875em" }} />,
+  COMPANY: <BusinessIcon style={{ width: "0.875em" }} />,
+  TITLE: <WorkOutlineIcon style={{ width: "0.875em" }} />,
 };
 
 export const getReadableFieldIcon = (field, t) => {
@@ -70,26 +70,20 @@ const DeleteFieldHandle = () => {
   );
 };
 
-const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
-  const {
-    auth: { email },
-    signatures,
-  } = useAuth();
+const FieldBox = ({
+  field,
+  pushToStack,
+  fields,
+  setFields,
+  onClick,
+  currentField,
+  setCurrentField,
+}) => {
+  const { auth } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const { openSignatureModal, show } = useModal();
 
-  const defaultSelfSignImage = useMemo(() => {
-    if (signatures && signatures?.length > 0) {
-      console.log(signatures);
-      return signatures[0]?.linkToFinishedImg;
-    }
-    return false;
-  }, [signatures]);
-
-  useEffect(() => {
-    console.log(signatures);
-    console.log(defaultSelfSignImage);
-  }, [defaultSelfSignImage, signatures]);
+  const defaultSelfSignImage = useMemo(() => auth?.signature, [auth]);
 
   const handle = (
     <FieldHandle
@@ -110,6 +104,10 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     height: field.h * field?.pagePosition?.height,
   });
   const fieldElement = useMemo(() => getReadableFieldIcon(field), [field]);
+
+  useEffect(() => {
+    console.log(auth);
+  }, [auth]);
 
   return (
     <Rnd
@@ -171,15 +169,22 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     >
       <span
         className="rnd-content"
-        onClick={() => {
-          if (email === field?.signer?.email) {
-            if (String(field?.type).toLowerCase() === "signature") {
-              if (!defaultSelfSignImage) {
+        onDoubleClick={() => {
+          if (auth?.email === field?.signer?.email) {
+            if (
+              ["signature", "initial"].includes(
+                String(field?.type).toLowerCase()
+              )
+            ) {
+              if (
+                (!auth?.signature &&
+                  String(field?.type).toLowerCase() === "signature") ||
+                (!auth?.initial &&
+                  String(field?.type).toLowerCase() === "initial")
+              ) {
                 openSignatureModal({
-                  isInitial: false,
-                  extraCallback: () => {
-                    show.set(false);
-                  },
+                  isInitial: String(field?.type).toLowerCase() === "initial",
+                  extraCallback: () => show.set(false),
                 });
               } else {
                 setIsEditing(true);
@@ -190,7 +195,9 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           }
           onClick();
         }}
-        onDoubleClick={() => setIsEditing(false)}
+        // onDoubleClick={() =>
+        //   auth?.email === field?.signer?.email && setIsEditing((a) => !a)
+        // }
         style={{
           backgroundColor: isEditing
             ? "transparent"
@@ -204,7 +211,32 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           </span>
         ) : String(field?.type).toLowerCase() !== "signature" ? (
           <div className="full-field-box">
-            <input defaultValue={field.type} />
+            <input
+              value={field.value}
+              disabled={String(field.type).toLowerCase() === "date"}
+              onChange={(e) => {
+                let temp = fields;
+                let ax = temp.map((oneField) => {
+                  return {
+                    ...oneField,
+                    value:
+                      oneField?.w === currentField?.w &&
+                      oneField?.x === currentField?.x &&
+                      oneField?.y === currentField?.y &&
+                      oneField?.h === currentField?.h &&
+                      oneField?.pageNum === currentField?.pageNum &&
+                      oneField?.signer?.email === currentField?.signer?.email &&
+                      oneField?.value === currentField?.value
+                        ? e.target.value
+                        : oneField.value,
+                  };
+                });
+                setFields(ax);
+                setCurrentField((field) => {
+                  return { ...field, value: e.target.value };
+                });
+              }}
+            />
           </div>
         ) : (
           <span className="img-fit-all">

@@ -44,10 +44,12 @@ export const addToDevFields = (fieldArray, signers) => {
       (signer) =>
         signer?.email === datum?.assignedTo && signer?.flowtype === "SIGN"
     )?.[0] ?? { email: datum?.assignedTo, name: datum?.assignedTo };
+
     if (!(datum?.assignedTo in hashmap)) {
       one += 1;
       hashmap[datum?.assignedTo] = FIXED_COLORS[one]?.color;
     }
+
     return {
       ...datum,
       pagePosition: {},

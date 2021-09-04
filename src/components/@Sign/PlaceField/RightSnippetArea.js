@@ -125,8 +125,6 @@ const ControlledAccordions = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {/* <input disabled value={currentField}/> */}
-          {/* <Typography>{getReadableFieldName(currentField, t)}</Typography> */}
           {currentField && (
             <input
               value={currentField?.fieldname}
@@ -150,6 +148,44 @@ const ControlledAccordions = ({
                 setFields(ax);
                 setCurrentField((field) => {
                   return { ...field, fieldname: e.target.value };
+                });
+              }}
+              className="w-100"
+            />
+          )}
+        </AccordionDetails>
+      </Accordion>
+      <hr />
+      <Accordion expanded square className={classes.base}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>
+            {t("sign.placeFields.right.value")}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {currentField && (
+            <input
+              value={currentField?.value}
+              onChange={(e) => {
+                let temp = fields;
+                let ax = temp.map((oneField) => {
+                  return {
+                    ...oneField,
+                    value:
+                      oneField?.w === currentField?.w &&
+                      oneField?.x === currentField?.x &&
+                      oneField?.y === currentField?.y &&
+                      oneField?.h === currentField?.h &&
+                      oneField?.pageNum === currentField?.pageNum &&
+                      oneField?.signer?.email === currentField?.signer?.email &&
+                      oneField?.value === currentField?.value
+                        ? e.target.value
+                        : oneField.value,
+                  };
+                });
+                setFields(ax);
+                setCurrentField((field) => {
+                  return { ...field, value: e.target.value };
                 });
               }}
               className="w-100"

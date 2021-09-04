@@ -23,6 +23,7 @@ const Page = ({
   setVisibility,
   scale,
   qrCodeImg,
+  auth,
 }) => {
   const { t } = useTranslation();
   const [, drop] = useDrop(
@@ -42,6 +43,14 @@ const Page = ({
     [currentSigner, fields, stateStack]
   );
 
+  const getNewFieldValue = (type) => {
+    console.log(type);
+    if (type === "date") return String(new Date());
+    if (type === "name") return auth?.fullname;
+    if (type in auth) return auth?.[type];
+    return "";
+  };
+
   const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
@@ -54,6 +63,7 @@ const Page = ({
 
     let w = INIT_FIELD_WIDTH / pagePosition.width;
     let h = INIT_FIELD_HEIGHT / pagePosition.height;
+
     let newField = {
       type: t(String(type)),
       x,
@@ -66,6 +76,10 @@ const Page = ({
       required: true,
       pagePosition,
       deleted: false,
+      value:
+        auth?.email !== currentSigner?.email
+          ? ""
+          : getNewFieldValue(t(String(type)).toLowerCase()),
     };
 
     setFields([...fields, newField]);
@@ -123,6 +137,7 @@ const PDFViewer = ({
   setFields,
   currentSigner,
   setCurrentField,
+  currentField,
   pushToStack,
   stateStack,
   qrCodePosition,
@@ -132,6 +147,7 @@ const PDFViewer = ({
   fileName,
   placeFieldImages,
   qrCodeImg,
+  auth,
 }) => {
   // const currentRef = useRef(null);
 
@@ -165,6 +181,8 @@ const PDFViewer = ({
                           onClick={() => {
                             setCurrentField(field);
                           }}
+                          currentField={currentField}
+                          setCurrentField={setCurrentField}
                           key={j}
                           id={`field-${j + 1}`}
                           pushToStack={pushToStack}
@@ -190,6 +208,7 @@ const PDFViewer = ({
                     qrCodePosition={qrCodePosition}
                     scale={scale}
                     qrCodeImg={qrCodeImg}
+                    auth={auth}
                   />
                   <div className="one-image-meta-info">
                     <span>{fileName}</span>

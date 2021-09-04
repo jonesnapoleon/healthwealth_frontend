@@ -68,32 +68,13 @@ const PlaceField = ({ activeItemId, atr }) => {
   const { getItemData, handle_data_docs } = useData();
   const fileData = getItemData(atr, "fileData");
 
-  const {
-    auth: { fullname, email },
-    signatures,
-    setSignatures,
-  } = useAuth();
+  const { auth } = useAuth();
   const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
 
+  const { fullname, email } = auth;
   const imgProgress = useProgressBar();
   // const fieldProgress = useProgressBar();
-
-  const fetchingSignatures = useCallback(async () => {
-    if (!signatures) {
-      try {
-        const res = await getAllSignatures();
-        if (res) {
-          setSignatures(res);
-        }
-      } catch (err) {
-        addSnackbar(String(err));
-      }
-    }
-  }, [setSignatures, signatures, addSnackbar]);
-  useEffect(() => {
-    fetchingSignatures();
-  }, [fetchingSignatures]);
 
   const listSigners = useMemo(
     () =>
@@ -143,9 +124,9 @@ const PlaceField = ({ activeItemId, atr }) => {
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(1);
 
-  useEffect(() => {
-    console.log(placeFieldItems);
-  }, [placeFieldItems]);
+  // useEffect(() => {
+  //   console.log(placeFieldItems);
+  // }, [placeFieldItems]);
 
   useEffect(() => {
     if (fileData) {
@@ -205,9 +186,9 @@ const PlaceField = ({ activeItemId, atr }) => {
     loading,
   ]);
 
-  useEffect(() => {
-    console.log(placeFieldImages);
-  }, [placeFieldImages]);
+  // useEffect(() => {
+  //   console.log(placeFieldImages);
+  // }, [placeFieldImages]);
 
   useEffect(() => {
     fetchAllImages();
@@ -246,6 +227,7 @@ const PlaceField = ({ activeItemId, atr }) => {
           type: field?.type,
           assignedTo: field?.signer?.email,
           required: field?.required,
+          value: field?.value,
         };
       });
       const res = await addFields(fileData?.uid, finalFields);
@@ -431,12 +413,14 @@ const PlaceField = ({ activeItemId, atr }) => {
               setVisibility={setVisibility}
               currentSigner={currentSigner}
               stateStack={stateStack}
+              currentField={currentField}
               setCurrentField={setCurrentField}
               placeFieldImages={placeFieldImages}
               pushToStack={pushToStack}
               fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               qrCodePosition={qrCodePosition}
               qrCodeImg={fileData?.qrcodeImg}
+              auth={auth}
             />
 
             <RightSnippetArea

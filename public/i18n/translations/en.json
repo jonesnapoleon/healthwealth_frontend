@@ -302,7 +302,8 @@
         "assignedTo": "Assigned to",
         "required": "Required",
         "requiredField": "Required field",
-        "lastPage": "Last page"
+        "lastPage": "Last page",
+        "value": "Field value"
       }
     },
     "reviewSend": {

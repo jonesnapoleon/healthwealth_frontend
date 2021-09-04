@@ -18,6 +18,7 @@ import { FONTLIST } from "helpers/constant";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { addSignature, getAllSignatures } from "api/auth";
 import { convertToImg } from "helpers/utils";
+import { useAuth } from "contexts/AuthContext";
 
 const TextWrite = ({ t, formItemData, fontData }) => {
   return (
@@ -43,7 +44,7 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   // const [success, setSuccess] = useState(null);
   const { addSnackbar } = useSnackbar();
   // const [loading, setLoading] = useState(false);
-
+  const { putAuth, auth } = useAuth();
   // const [imageURL, setImageURL] = useState(null);
   const signCanvas = useRef({});
   // const clear = () => signCanvas.current?.clear();
@@ -75,6 +76,9 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
         progress.set(100);
         const newRes = await getAllSignatures();
         if (newRes) {
+          if (isInitial) putAuth({ ...auth, initial: newRes });
+          if (!isInitial) putAuth({ ...auth, signature: newRes });
+
           addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
         }
         extraCallback();

@@ -1,9 +1,5 @@
-// import FasterThanPrinting from "components/@Sign/commons/FasterThanPrinting";
-// import ModalStucture from "components/@Sign/commons/ModalStructure";
-import { getAllSignatures } from "api/auth";
+import React from "react";
 import { useAuth } from "contexts/AuthContext";
-import { useSnackbar } from "contexts/SnackbarContext";
-import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "../../../contexts/ModalContext";
 import ModalSign from "../../commons/ImageUpload/ModalSign";
@@ -12,39 +8,11 @@ import "./signature.scss";
 
 const Signature = () => {
   const { t } = useTranslation();
-  const { openSignatureModal, openVerifySignature } = useModal();
-  const { signatures, setSignatures } = useAuth();
-  const { addSnackbar } = useSnackbar();
+  const { openSignatureModal } = useModal();
+  const { auth } = useAuth();
 
-  const fetchingSignatures = useCallback(async () => {
-    if (!signatures) {
-      try {
-        const res = await getAllSignatures();
-        if (res) {
-          setSignatures(res);
-        }
-      } catch (err) {
-        addSnackbar(String(err));
-      }
-    }
-  }, [setSignatures, signatures, addSnackbar]);
-  useEffect(() => {
-    fetchingSignatures();
-  }, [fetchingSignatures]);
-
-  const nonInitialSignature = useMemo(
-    () => (signatures ? signatures?.filter((sign) => !sign?.isInitial) : []),
-    [signatures]
-  );
-  const initialSignature = useMemo(
-    () => (signatures ? signatures?.filter((sign) => sign?.isInitial) : []),
-    [signatures]
-  );
-
-  const handleInitialSignatureClick = () => {
-    openSignatureModal({ isInitial: false });
-    // setInnerComponent(<SignatureModal isInitial={false} />);
-    // show?.set(true);
+  const handleInitialSignatureClick = (isInitial) => {
+    openSignatureModal({ isInitial });
   };
 
   return (
@@ -52,40 +20,49 @@ const Signature = () => {
       <div>
         <div className="head bold">
           {t("settings.signature.text")}
-          {nonInitialSignature?.length > 0 && (
+          {auth?.signature && (
             <EditIcon
               className="cursor-pointer"
-              onClick={handleInitialSignatureClick}
+              onClick={() => handleInitialSignatureClick(false)}
             />
           )}
         </div>
-        {nonInitialSignature?.length === 0 && (
+        {(!auth?.signature || auth?.signature === null) && (
           <ModalSign
             meta={{ head: t("settings.signature.addSignature") }}
-            onClick={handleInitialSignatureClick}
+            onClick={() => handleInitialSignatureClick(false)}
           />
         )}
         <div className="parent">
-          {nonInitialSignature?.map((sign, i) => (
+          {auth?.signature && (
             <img
-              key={i}
-              src={sign?.linkToFinishedImg}
+              src={auth?.signature}
               className="non-initial-signature"
               alt=""
             />
-          ))}
+          )}
         </div>
       </div>
       <div>
-        <div className="head bold">{t("settings.signature.initial")}</div>
-        <ModalSign
-          meta={{ head: t("settings.signature.addInitials") }}
-          onClick={() => openVerifySignature()}
-        />
+        <div className="head bold">
+          {t("settings.signature.initial")}
+          {auth?.initial && (
+            <EditIcon
+              className="cursor-pointer"
+              onClick={() => handleInitialSignatureClick(true)}
+            />
+          )}
+        </div>
+        {(!auth?.initial || auth?.initial === null) && (
+          <ModalSign
+            meta={{ head: t("settings.signature.addInitials") }}
+            onClick={() => handleInitialSignatureClick(true)}
+          />
+        )}
         <div className="parent">
-          {initialSignature?.map((sign) => (
-            <img src={sign?.linkToImg} alt="" />
-          ))}
+          {auth?.initial && (
+            <img className="non-initial-signature" src={auth?.initial} alt="" />
+          )}
         </div>
       </div>
     </div>
