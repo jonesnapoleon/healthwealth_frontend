@@ -1,7 +1,9 @@
+import { useModal } from "contexts/ModalContext";
 import React, { useEffect, useRef } from "react";
 
 const OpenCam = (props) => {
   const player = useRef(null);
+  const { onClose } = useModal();
 
   useEffect(() => {
     const initializeMedia = () => {
@@ -40,6 +42,7 @@ const OpenCam = (props) => {
   //   }
 
   const capturePicture = async () => {
+    console.log("hit");
     if (player?.current && player?.current?.srcObject) {
       var canvas = document.createElement("canvas");
       canvas.width = player.current?.videoWidth;
@@ -51,6 +54,7 @@ const OpenCam = (props) => {
       });
 
       await props.imageDataURL?.set(canvas?.toDataURL());
+      onClose();
     }
   };
 
@@ -61,7 +65,7 @@ const OpenCam = (props) => {
         <button
           onClick={async () => {
             await capturePicture();
-            console.log(props.imageDataURL);
+            // console.log(props.imageDataURL);
 
             // console.log(dataUrl);
             // props.setIsRecording(false);

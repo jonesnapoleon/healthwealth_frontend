@@ -71,8 +71,9 @@ const SelectDocument = ({ atr, activeItemId }) => {
       }
     } catch (err) {
       addSnackbar(String(err));
-      setLoading(false);
       progress.set(-1);
+    } finally {
+      setLoading(false);
     }
   }, [
     data?.file,

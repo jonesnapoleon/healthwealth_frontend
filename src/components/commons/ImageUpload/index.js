@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./imageupload.scss";
 
 const ImageUpload = ({ meta, data, onClick, currentFile }) => {
-  const { icon, head, desc, isUpload, isEdit } = meta;
+  const { icon, head, desc, isUpload, isEdit, isSelfie } = meta;
 
   const [url, setUrl] = useState("");
 
@@ -46,10 +46,28 @@ const ImageUpload = ({ meta, data, onClick, currentFile }) => {
   );
 
   const getImage = () => {
-    if (isEdit && !imageToShow) return <ImageGetInput />;
+    if (isSelfie && data?.value)
+      return <img src={data?.value} alt="" className="showing-image" />;
+    if (isSelfie || (isEdit && !imageToShow)) return <ImageGetInput />;
     if (!isEdit && currentFile)
-      return <img src={currentFile} alt="" className="showing-image" />;
-    return <img src={imageToShow} alt="" className="showing-image" />;
+      return (
+        <>
+          <img src={currentFile} alt="" className="showing-image" />
+        </>
+      );
+    return (
+      <>
+        {isUpload && (
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={data?.filePicker}
+            accept="image/*"
+          />
+        )}
+        <img src={imageToShow} alt="" className="showing-image" />
+      </>
+    );
   };
 
   return (

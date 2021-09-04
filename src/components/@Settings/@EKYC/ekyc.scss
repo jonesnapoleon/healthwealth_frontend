@@ -1,5 +1,5 @@
 .ekyc-container {
-  // margin-top: 1rem;
+  margin-bottom: 2rem;
   .head {
     margin: 1rem 0;
   }
@@ -9,18 +9,25 @@
       font-size: 1rem;
     }
     &.ekyc-table {
-      td {
-        padding-bottom: 0.6rem;
-        vertical-align: top;
-        &:first-child {
-          padding-right: 2rem;
-          font-weight: bolder;
-          font-size: 0.9rem;
+      tr {
+        height: 100%;
+        td {
+          padding-bottom: 0.6rem;
+          vertical-align: top;
+          &:first-child {
+            padding-right: 2rem;
+            font-weight: bolder;
+            font-size: 0.9rem;
+          }
+          .form-input {
+            font-weight: bolder;
+            padding: 0.35rem 0.8rem;
+            font-size: 0.9rem;
+          }
         }
-        .form-input {
-          font-weight: bolder;
-          padding: 0.35rem 0.8rem;
-          font-size: 0.9rem;
+        .verified-icon {
+          transform: translate(-40%, -70%);
+          color: var(--tertiary-color);
         }
       }
     }

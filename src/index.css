@@ -32,6 +32,14 @@
     --standard-font-size: 12px;
   }
 }
+
+.hanging-right-icon {
+  position: absolute;
+  top: 50%;
+  left: 103%;
+  transform: translate(0%, -50%);
+}
+
 .invisible {
   visibility: hidden;
 }
