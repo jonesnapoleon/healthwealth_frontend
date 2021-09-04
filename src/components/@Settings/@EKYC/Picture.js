@@ -5,7 +5,6 @@ import { useFile, useInput, useRefreshedData } from "../../../helpers/hooks";
 import ImageUpload from "../../commons/ImageUpload";
 import { ReactComponent as KtpSvg } from "../../../assets/bnw/ID Card icon.svg";
 import { ReactComponent as CameraSvg } from "../../../assets/bnw/Camera icon.svg";
-import TakePhoto from "../../commons/ImageUpload/TakePhoto";
 import { useModal } from "../../../contexts/ModalContext";
 import DragDropClass from "../../commons/ImageUpload/DragDropClass";
 import { uploadKTP } from "../../../api/auth";
@@ -22,7 +21,7 @@ const Picture = () => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   // const [takePhoto, setTakePhoto] = useState(false);
-  const { setInnerComponent, show } = useModal();
+  const { openTakePhoto } = useModal();
   const progress = useProgressBar();
 
   const identity = useFile();
@@ -135,10 +134,7 @@ const Picture = () => {
           meta={imagesData[1]}
           // data={takePict}
           currentFile={auth?.selfie_url}
-          onClick={() => {
-            setInnerComponent(<TakePhoto data={takePict} />);
-            show?.set(true);
-          }}
+          onClick={() => openTakePhoto({ data: takePict })}
         />
       </div>
       {takePict?.value && (

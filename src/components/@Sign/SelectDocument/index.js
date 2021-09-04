@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFile, useProgressBar } from "../../../helpers/hooks";
 import { useData } from "../../../contexts/DataContext";
@@ -20,8 +20,9 @@ const SelectDocument = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
   const { addSnackbar } = useSnackbar();
   const data = useFile();
-  const { handle_data_docs, getItemData } = useData();
+  const { handle_data_docs, getItemData, setDocs } = useData();
   const { push } = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const fileData = getItemData(atr, "fileData");
 
@@ -33,14 +34,17 @@ const SelectDocument = ({ atr, activeItemId }) => {
   };
 
   const handleUploadFile = useCallback(async () => {
-    if (!data?.file || data?.file === null) return;
+    if (!data.file || data.file === undefined || data.file === null) return;
     if (progress.value !== 0) return;
+    if (loading) return;
+
     try {
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
+        setLoading(true);
         progress.set(1);
         let res;
-        if (fileData) {
+        if (fileData?.uid) {
           res = await replaceDoc(
             data?.file,
             data?.file?.name,
@@ -56,32 +60,54 @@ const SelectDocument = ({ atr, activeItemId }) => {
         }
         if (res?.data) {
           handle_data_docs(true, atr, "fileData", res.data);
+          setDocs((docs) => {
+            if (docs) {
+              return [res.data, ...docs];
+            } else return docs;
+          });
           progress.set(100);
           addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
         }
       }
     } catch (err) {
       addSnackbar(String(err));
+      setLoading(false);
       progress.set(-1);
     }
-  }, [data?.file, handle_data_docs, progress, t, fileData, atr, addSnackbar]);
+  }, [
+    data?.file,
+    handle_data_docs,
+    progress,
+    t,
+    setDocs,
+    fileData,
+    atr,
+    addSnackbar,
+    loading,
+    setLoading,
+  ]);
 
   useEffect(() => {
     handleUploadFile();
-    return () => handleUploadFile();
   }, [handleUploadFile]);
 
   const handleDeleteFile = async () => {
     try {
       if (!fileData?.uid || fileData?.uid === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const res = await deleteDoc(fileData?.uid);
+      const fileUid = fileData?.uid;
+      const res = await deleteDoc(fileUid);
       if (res?.data) {
         data?.setFile(null);
         data?.filePicker.current.focus();
         data.filePicker.current.value = null;
         handle_data_docs(false, atr, "fileData");
         progress.set(0);
+        setDocs((docs) => {
+          if (docs) {
+            return docs.filter((doc) => doc?.uid === fileUid);
+          } else return docs;
+        });
         addSnackbar(t("sign.selectDocument.deleteFileSuccess"), "success");
       }
     } catch (err) {

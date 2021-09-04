@@ -4,6 +4,10 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { MODAL_ANIMATE_DURATION } from "../helpers/constant";
 import "../components/commons/modal.scss";
+import SignatureModal from "components/commons/SignatureModal";
+import VerifySignature from "components/@Sign/commons/VerifySignature";
+import TakePhoto from "components/commons/ImageUpload/TakePhoto";
+import { SendWhatsapp } from "components/@Sign/commons/FasterThanPrinting";
 
 export const ModalContext = createContext({});
 export const useModal = () => useContext(ModalContext);
@@ -18,11 +22,39 @@ const ModalProvider = ({ children }) => {
   const bg = useInput(false);
   const backgroundColor = useInput(DEFAULT_BG_COLOR);
 
+  const typeTwo = () => {
+    size.set("unset");
+    backgroundColor.set("white");
+    bg.set("light");
+  };
+
+  const openSignatureModal = (bringing) => {
+    innerComponent.set(<SignatureModal {...bringing} />);
+    show.set(true);
+  };
+
+  const openVerifySignature = (bringing) => {
+    innerComponent.set(<VerifySignature {...bringing} />);
+    typeTwo();
+    show.set(true);
+  };
+
+  const openSendWhatsapp = (bringing) => {
+    innerComponent.set(<SendWhatsapp {...bringing} />);
+    typeTwo();
+    showIcon.set(true);
+  };
+
+  const openTakePhoto = (bringing) => {
+    innerComponent.set(<TakePhoto {...bringing} />);
+    show.set(true);
+  };
+
   const onClose = () => {
-    showIcon?.set(false);
-    show?.set(false);
-    bg?.set("");
-    size?.set("");
+    showIcon.set(false);
+    show.set(false);
+    bg.set("");
+    size.set("");
     backgroundColor?.set(DEFAULT_BG_COLOR);
   };
 
@@ -30,11 +62,11 @@ const ModalProvider = ({ children }) => {
     <ModalContext.Provider
       value={{
         setInnerComponent: innerComponent.set,
+        openSignatureModal,
+        openVerifySignature,
+        openTakePhoto,
+        openSendWhatsapp,
         show,
-        showIcon,
-        size,
-        bg,
-        backgroundColor,
         onClose,
       }}
     >
@@ -66,7 +98,7 @@ const ModalProvider = ({ children }) => {
             <style>
               {`
                 .react-responsive-modal-overlay {
-                  background-color: rgba(174,174,174,0.8);\
+                  background-color: rgba(174,174,174,0.8);
                   z-index: 999999;
                 }
               `}

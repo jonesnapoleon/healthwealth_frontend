@@ -12,7 +12,6 @@ import { useHistory } from "react-router";
 import Footer from "components/layout/Navbar/Footer";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { useModal } from "contexts/ModalContext";
-import VerifySignature from "../commons/VerifySignature";
 import { sendDoc } from "api/docs";
 
 const DEFAULT_EMAIL_BODY =
@@ -33,18 +32,11 @@ const ReviewSend = ({ atr, activeItemId }) => {
   const { addSnackbar } = useSnackbar();
   const fileData = getItemData(atr, "fileData");
   const signers = fileData?.nextflow;
-  const { setInnerComponent, show, backgroundColor, size, bg } = useModal();
+  const { openVerifySignature } = useModal();
   // const { auth } = useAuth();
 
-  const handleNext = () => {
-    setInnerComponent(
-      <VerifySignature onClickCTA={handleSubmit} fileUID={fileData?.uid} />
-    );
-    size?.set("unset");
-    backgroundColor?.set("white");
-    bg?.set("light");
-    show?.set(true);
-  };
+  const handleNext = () =>
+    openVerifySignature({ onClickCTA: handleSubmit, fileUID: fileData?.uid });
 
   const handleSubmit = async () => {
     try {

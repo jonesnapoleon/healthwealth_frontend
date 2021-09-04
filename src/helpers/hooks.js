@@ -118,6 +118,13 @@ export const useProgressBar = () => {
   return { value, set: setValue };
 };
 
+export const useLocationChanged = (callback) => {
+  const location = useLocation();
+  useEffect(() => {
+    callback();
+  }, [location, callback]);
+};
+
 export const usePreventPageLeave = () => {
   useEffect(() => {
     const give = (window.onload = () => {

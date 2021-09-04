@@ -1,19 +1,18 @@
 // import FasterThanPrinting from "components/@Sign/commons/FasterThanPrinting";
 // import ModalStucture from "components/@Sign/commons/ModalStructure";
 import { getAllSignatures } from "api/auth";
-import VerifySignature from "components/@Sign/commons/VerifySignature";
 import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "../../../contexts/ModalContext";
 import ModalSign from "../../commons/ImageUpload/ModalSign";
-import SignatureModal from "../../commons/SignatureModal";
+import EditIcon from "@material-ui/icons/EditRounded";
 import "./signature.scss";
 
 const Signature = () => {
   const { t } = useTranslation();
-  const { setInnerComponent, show, backgroundColor, size, bg } = useModal();
+  const { openSignatureModal, openVerifySignature } = useModal();
   const { signatures, setSignatures } = useAuth();
   const { addSnackbar } = useSnackbar();
 
@@ -42,22 +41,35 @@ const Signature = () => {
     [signatures]
   );
 
+  const handleInitialSignatureClick = () => {
+    openSignatureModal({ isInitial: false });
+    // setInnerComponent(<SignatureModal isInitial={false} />);
+    // show?.set(true);
+  };
+
   return (
     <div className="signature-page-container">
       <div>
-        <div className="head bold">{t("settings.signature.text")}</div>
-        <ModalSign
-          meta={{ head: t("settings.signature.addSignature") }}
-          onClick={() => {
-            setInnerComponent(<SignatureModal isInitial={false} />);
-            show?.set(true);
-          }}
-        />
+        <div className="head bold">
+          {t("settings.signature.text")}
+          {nonInitialSignature?.length > 0 && (
+            <EditIcon
+              className="cursor-pointer"
+              onClick={handleInitialSignatureClick}
+            />
+          )}
+        </div>
+        {nonInitialSignature?.length === 0 && (
+          <ModalSign
+            meta={{ head: t("settings.signature.addSignature") }}
+            onClick={handleInitialSignatureClick}
+          />
+        )}
         <div className="parent">
           {nonInitialSignature?.map((sign, i) => (
             <img
               key={i}
-              src={sign?.linkToImg}
+              src={sign?.linkToFinishedImg}
               className="non-initial-signature"
               alt=""
             />
@@ -68,13 +80,7 @@ const Signature = () => {
         <div className="head bold">{t("settings.signature.initial")}</div>
         <ModalSign
           meta={{ head: t("settings.signature.addInitials") }}
-          onClick={() => {
-            setInnerComponent(<VerifySignature />);
-            size?.set("unset");
-            backgroundColor?.set("white");
-            bg?.set("light");
-            show?.set(true);
-          }}
+          onClick={() => openVerifySignature()}
         />
         <div className="parent">
           {initialSignature?.map((sign) => (

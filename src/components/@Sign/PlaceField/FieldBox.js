@@ -11,7 +11,6 @@ import WorkOutlineIcon from "@material-ui/icons/WorkOutlineRounded";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenSquare, faSignature } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "contexts/AuthContext";
-import SignatureModal from "components/commons/SignatureModal";
 import { useModal } from "contexts/ModalContext";
 
 const fieldIcon = {
@@ -77,7 +76,7 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
     signatures,
   } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const { setInnerComponent, show } = useModal();
+  const { openSignatureModal, show } = useModal();
 
   const defaultSelfSignImage = useMemo(() => {
     if (signatures && signatures?.length > 0) {
@@ -176,15 +175,12 @@ const FieldBox = ({ field, pushToStack, fields, setFields, onClick }) => {
           if (email === field?.signer?.email) {
             if (String(field?.type).toLowerCase() === "signature") {
               if (!defaultSelfSignImage) {
-                setInnerComponent(
-                  <SignatureModal
-                    isInitial={false}
-                    extraCallback={() => {
-                      show?.set(false);
-                    }}
-                  />
-                );
-                show?.set(true);
+                openSignatureModal({
+                  isInitial: false,
+                  extraCallback: () => {
+                    show.set(false);
+                  },
+                });
               } else {
                 setIsEditing(true);
               }

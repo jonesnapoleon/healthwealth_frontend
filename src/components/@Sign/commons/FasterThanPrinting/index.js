@@ -8,7 +8,7 @@ import { useFormInput } from "helpers/hooks";
 
 const FasterThanPrinting = () => {
   const { t } = useTranslation();
-  const { setInnerComponent, show, showIcon, size, bg } = useModal();
+  const { openSendWhatsapp } = useModal();
 
   return (
     <div className="faster-than-printing-container">
@@ -22,17 +22,7 @@ const FasterThanPrinting = () => {
         <div>{t("popup.wa.easyReq")}</div>
       </div>
       <div>
-        <button
-          className="send-wa"
-          onClick={() => {
-            setInnerComponent(<SendWhatsapp />);
-            // setInnerComponent(<SignatureModal />);
-            size?.set("unset");
-            bg?.set("light");
-            show?.set(true);
-            showIcon?.set(true);
-          }}
-        >
+        <button className="send-wa" onClick={() => openSendWhatsapp()}>
           <WhatsAppIcon className="success-color" />
 
           <span>{t("popup.wa.sendViaWA")}</span>

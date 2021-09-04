@@ -16,7 +16,7 @@ import useClippy from "use-clippy";
 import Ajv from "ajv";
 
 import { useSnackbar } from "contexts/SnackbarContext";
-import { addFields, getDocImages, getAllFields, addQRCode } from "api/docs";
+import { addFields, getDocImages, addQRCode } from "api/docs";
 import { getAllSignatures } from "api/auth";
 
 import { useHistory } from "react-router-dom";
@@ -28,6 +28,7 @@ import {
 import { DEFAULT, DOC, FRONTEND_URL } from "helpers/constant";
 import { useAuth } from "contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import { useLocationChanged, useProgressBar } from "helpers/hooks";
 
 const schema = {
   type: "object",
@@ -74,6 +75,9 @@ const PlaceField = ({ activeItemId, atr }) => {
   } = useAuth();
   const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
+
+  const imgProgress = useProgressBar();
+  const fieldProgress = useProgressBar();
 
   const fetchingSignatures = useCallback(async () => {
     if (!signatures) {
@@ -141,51 +145,57 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   useEffect(() => {
     if (fileData) {
-      if (fileData?.uid === undefined) {
-        push(`${FRONTEND_URL.docs}`);
-      }
-    } else {
-      push(`${FRONTEND_URL.docs}`);
-    }
+      if (fileData?.uid === undefined) push(`${FRONTEND_URL.docs}`);
+    } else push(`${FRONTEND_URL.docs}`);
   }, [fileData, push]);
 
   const fetchAllFields = useCallback(async () => {
-    if (placeFieldItems?.fields && placeFieldItems.fields.length > 0) return;
-    // console.log(fileData);
-    if (fileData?.fields && fileData.fields.length >= 0) {
-      updatePlaceFields({
-        fields: addToDevFields(fileData?.fields, fileData?.nextflow),
-      });
-      setQrCodePosition(fileData?.qrcode);
-      return;
-    }
+    if (fieldProgress.value !== 0) return;
+    if (fields && fields.length > 0) return;
 
-    try {
-      const res = await getAllFields(fileData?.uid);
-      if (res) {
-        updatePlaceFields({ fields: res });
-      }
-    } catch (e) {
-      addSnackbar(String(e));
-    }
-  }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
-
-  useEffect(() => {
-    console.log(placeFieldItems);
-  }, [placeFieldItems]);
+    // if (fileData?.fields && fileData.fields.length > 0) {
+    updatePlaceFields({
+      fields: addToDevFields(fileData?.fields, fileData?.nextflow),
+    });
+    fieldProgress.set(100);
+    setQrCodePosition(fileData?.qrcode);
+    // } else {
+    //   try {
+    //     const res = await getAllFields(fileData?.uid);
+    //     if (res) {
+    //       fieldProgress.set(100);
+    //       updatePlaceFields({ fields: res });
+    //     }
+    //   } catch (e) {
+    //     fieldProgress.set(-1);
+    //     addSnackbar(String(e));
+    //   }
+    // }
+  }, [fileData, updatePlaceFields, fields, fieldProgress]);
 
   const fetchAllImages = useCallback(async () => {
-    console.log(placeFieldItems);
-    if (placeFieldItems?.images && placeFieldItems?.images.length > 0) return;
+    if (imgProgress.value !== 0) return;
+    if (placeFieldImages && placeFieldImages.length > 0) return;
     try {
+      imgProgress.set(1);
       const res = await getDocImages(fileData?.uid);
       if (res) {
         updatePlaceFields({ images: res });
       }
     } catch (e) {
+      imgProgress.set(-1);
       addSnackbar(String(e));
     }
-  }, [fileData, addSnackbar, updatePlaceFields, placeFieldItems]);
+  }, [fileData, addSnackbar, updatePlaceFields, placeFieldImages, imgProgress]);
+
+  useEffect(() => {
+    console.log(placeFieldImages);
+  }, [placeFieldImages]);
+
+  useLocationChanged(() => {
+    imgProgress.set(0);
+    fieldProgress.set(0);
+  });
 
   useEffect(() => {
     fetchAllImages();

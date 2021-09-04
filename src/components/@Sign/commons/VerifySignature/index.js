@@ -9,7 +9,9 @@ import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 
-const VerifySignature = ({ onClickCTA, fileUID }) => {
+const VerifySignature = (props) => {
+  console.log(props);
+  const { onClickCTA, fileUID } = props;
   const { t } = useTranslation();
   const { auth } = useAuth();
   const phone = useFormInput(auth?.phone);
