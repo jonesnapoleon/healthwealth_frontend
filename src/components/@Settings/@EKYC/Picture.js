@@ -67,7 +67,7 @@ const Picture = () => {
       if (res?.data) {
         identity.setFile(null);
         isIdentityEdit.set(false);
-        identityProgress.set(100);
+        identityProgress.set(0);
         putAuth(res.data);
         addSnackbar(t("settings.ekyc.deleteIdentitySuccess"), "success");
       }
@@ -88,7 +88,7 @@ const Picture = () => {
       if (res?.data) {
         takePict.set(null);
         isPictureEdit.set(false);
-        pictureProgress.set(100);
+        pictureProgress.set(0);
         putAuth(res.data);
         addSnackbar(t("settings.ekyc.deleteSelfieSuccess"), "success");
       }

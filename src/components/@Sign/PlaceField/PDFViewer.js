@@ -24,6 +24,7 @@ const Page = ({
   scale,
   qrCodeImg,
   auth,
+  isTheSelectedFieldSameAsThisField,
 }) => {
   const { t } = useTranslation();
   const [, drop] = useDrop(
@@ -148,6 +149,7 @@ const PDFViewer = ({
   placeFieldImages,
   qrCodeImg,
   auth,
+  isTheSelectedFieldSameAsThisField,
 }) => {
   // const currentRef = useRef(null);
 
@@ -156,8 +158,13 @@ const PDFViewer = ({
   // }, [scale]);
 
   useEffect(() => {
-    console.log("CURRENT ALL FIELDS", fields);
-  }, [fields]);
+    console.log("ACTIVE FIELED", currentField);
+    console.log(
+      "CURRENT ALL FIELDS",
+      fields,
+      fields.map((a) => isTheSelectedFieldSameAsThisField(a))
+    );
+  }, [fields, currentField, isTheSelectedFieldSameAsThisField]);
 
   return (
     <div id="main-workspace">
@@ -185,6 +192,9 @@ const PDFViewer = ({
                           setCurrentField={setCurrentField}
                           key={j}
                           id={`field-${j + 1}`}
+                          isTheSelectedFieldSameAsThisField={
+                            isTheSelectedFieldSameAsThisField
+                          }
                           pushToStack={pushToStack}
                           fields={fields}
                           setFields={setFields}

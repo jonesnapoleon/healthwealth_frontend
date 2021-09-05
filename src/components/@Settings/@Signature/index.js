@@ -8,11 +8,11 @@ import "./signature.scss";
 
 const Signature = () => {
   const { t } = useTranslation();
-  const { openSignatureModal } = useModal();
+  const { openSignatureModal, onClose } = useModal();
   const { auth } = useAuth();
 
   const handleInitialSignatureClick = (isInitial) => {
-    openSignatureModal({ isInitial });
+    openSignatureModal({ isInitial, extraCallback: onClose });
   };
 
   return (

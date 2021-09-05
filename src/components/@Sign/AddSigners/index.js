@@ -84,6 +84,15 @@ const AddSigners = ({ atr, activeItemId }) => {
     [data]
   );
 
+  const isUserSame = useMemo(() => {
+    if (data?.length <= 1) return false;
+    for (let i = 0; i < data.length - 1; i++) {
+      if (String(data[i]?.email).trim() === String(data[i + 1]?.email).trim())
+        return true;
+    }
+    return false;
+  }, [data]);
+
   const addUser = () => {
     let items = Array.from(data);
     items.push({
@@ -103,7 +112,8 @@ const AddSigners = ({ atr, activeItemId }) => {
   useEffect(() => {
     if (data?.length > 0) {
       for (let { name, email } of data) {
-        if (name !== "" && email !== "" && isValidEmail(email)) continue;
+        if (name !== "" && email !== "" && isValidEmail(email) && !isUserSame)
+          continue;
         else {
           setLoading(0);
           return;
@@ -112,7 +122,7 @@ const AddSigners = ({ atr, activeItemId }) => {
       setLoading(1);
       return;
     }
-  }, [data]);
+  }, [data, isUserSame]);
 
   const handleValue = (type, value, index) => {
     let items = Array.from(data);

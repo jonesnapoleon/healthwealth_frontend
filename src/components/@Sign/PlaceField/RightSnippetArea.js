@@ -53,6 +53,7 @@ const ControlledAccordions = ({
   t,
   setFields,
   fields,
+  isTheSelectedFieldSameAsThisField,
   setCurrentField,
 }) => {
   const classes = useStyles();
@@ -94,17 +95,9 @@ const ControlledAccordions = ({
                   let ax = temp.map((oneField) => {
                     return {
                       ...oneField,
-                      required:
-                        oneField?.w === currentField?.w &&
-                        oneField?.x === currentField?.x &&
-                        oneField?.y === currentField?.y &&
-                        oneField?.h === currentField?.h &&
-                        oneField?.pageNum === currentField?.pageNum &&
-                        oneField?.signer?.email ===
-                          currentField?.signer?.email &&
-                        oneField?.type === currentField?.type
-                          ? e.target.checked
-                          : oneField.required,
+                      required: isTheSelectedFieldSameAsThisField(oneField)
+                        ? e.target.checked
+                        : oneField.required,
                     };
                   });
                   setFields(ax);
@@ -125,7 +118,7 @@ const ControlledAccordions = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {currentField && (
+          {currentField && currentField !== null && (
             <input
               value={currentField?.fieldname}
               onChange={(e) => {
@@ -133,16 +126,9 @@ const ControlledAccordions = ({
                 let ax = temp.map((oneField) => {
                   return {
                     ...oneField,
-                    fieldname:
-                      oneField?.w === currentField?.w &&
-                      oneField?.x === currentField?.x &&
-                      oneField?.y === currentField?.y &&
-                      oneField?.h === currentField?.h &&
-                      oneField?.pageNum === currentField?.pageNum &&
-                      oneField?.signer?.email === currentField?.signer?.email &&
-                      oneField?.fieldname === currentField?.fieldname
-                        ? e.target.value
-                        : oneField.fieldname,
+                    fieldname: isTheSelectedFieldSameAsThisField(oneField)
+                      ? e.target.value
+                      : oneField.fieldname,
                   };
                 });
                 setFields(ax);
@@ -171,16 +157,9 @@ const ControlledAccordions = ({
                 let ax = temp.map((oneField) => {
                   return {
                     ...oneField,
-                    value:
-                      oneField?.w === currentField?.w &&
-                      oneField?.x === currentField?.x &&
-                      oneField?.y === currentField?.y &&
-                      oneField?.h === currentField?.h &&
-                      oneField?.pageNum === currentField?.pageNum &&
-                      oneField?.signer?.email === currentField?.signer?.email &&
-                      oneField?.value === currentField?.value
-                        ? e.target.value
-                        : oneField.value,
+                    value: isTheSelectedFieldSameAsThisField(oneField)
+                      ? e.target.value
+                      : oneField?.value,
                   };
                 });
                 setFields(ax);
@@ -206,6 +185,7 @@ const RightSnippetArea = ({
   placeFieldImages,
   fileName,
   scrollToPage,
+  isTheSelectedFieldSameAsThisField,
 }) => {
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
@@ -287,6 +267,9 @@ const RightSnippetArea = ({
           <ControlledAccordions
             setCurrentField={setCurrentField}
             currentField={currentField}
+            isTheSelectedFieldSameAsThisField={
+              isTheSelectedFieldSameAsThisField
+            }
             t={t}
             setFields={setFields}
             fields={fields}

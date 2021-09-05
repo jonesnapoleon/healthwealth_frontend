@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef } from "react";
 import SignaturePad from "react-signature-canvas";
 import { useTranslation } from "react-i18next";
 import {
@@ -103,7 +103,6 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
       if (tab === 2) {
         const doc = document.getElementById("showed-font-input-tag");
         const res = await convertToImg(doc);
-        console.log(res);
         await addingSignature(res);
       }
     } catch (err) {
@@ -132,10 +131,10 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
     data.setFile(null);
   };
 
-  const shallButtonDisabled = useMemo(() => {
-    if (!checkbox.checked) return true;
-    if (tab === 2) return String(formItemData.value).length === 0;
-  }, [tab, formItemData, checkbox.checked]);
+  // const shallButtonDisabled = useMemo(() => {
+  //   if (!checkbox.checked) return true;
+  //   if (tab === 2) return String(formItemData.value).length === 0;
+  // }, [tab, formItemData, checkbox.checked]);
 
   return (
     <>
@@ -205,24 +204,30 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-between align-items-center signature-below">
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          save();
+        }}
+        className="d-flex justify-content-between align-items-center signature-below"
+      >
         <div className="left-saying">
           <span>
-            <input type="checkbox" {...checkbox} />
+            <input type="checkbox" {...checkbox} required />
             <label>{t("settings.signature.iUnderstand")}</label>
           </span>
         </div>
         <div className="button-container">
           <button
-            onClick={save}
             className="btn btn-black circled"
-            disabled={shallButtonDisabled}
+            // disabled={shallButtonDisabled}
           >
             Save
           </button>
           {/* <button onClick={clear}>Clear</button> */}
         </div>
-      </div>
+      </form>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CancelRounded from "@material-ui/icons/CancelRounded";
 
 import "./imageupload.scss";
@@ -15,18 +15,36 @@ const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
     />
   );
 
-  useEffect(() => {
-    if (isUpload && data?.filePicker?.current) {
+  const changingFilePicker = useCallback(() => {
+    if (data?.filePicker?.current) {
       data.filePicker.current.onchange = (e) => {
         const newFile = e.target.files[0];
-        // console.log(newFile);
         if (newFile) data.setFile(newFile);
         const reader = new FileReader();
         reader.readAsDataURL(newFile);
         reader.onloadend = () => setUrl(reader.result);
       };
     }
-  }, [data, isUpload]);
+  }, [data]);
+
+  useEffect(() => {
+    if (!isUpload) return;
+    changingFilePicker();
+  }, [isUpload, changingFilePicker]);
+
+  // useEffect(() => {
+  //   console.log(data);
+  //   if (isUpload && data?.filePicker?.current) {
+  //     data.filePicker.current.onchange = (e) => {
+  //       const newFile = e.target.files[0];
+  //       console.log(newFile);
+  //       if (newFile) data.setFile(newFile);
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(newFile);
+  //       reader.onloadend = () => setUrl(reader.result);
+  //     };
+  //   }
+  // }, [data, isUpload]);
 
   useEffect(() => {
     if (!data?.file || data?.file === null) {

@@ -17,7 +17,6 @@ import Ajv from "ajv";
 
 import { useSnackbar } from "contexts/SnackbarContext";
 import { addFields, getDocImages, addQRCode } from "api/docs";
-import { getAllSignatures } from "api/auth";
 
 import { useHistory } from "react-router-dom";
 import {
@@ -160,6 +159,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const fetchAllImages = useCallback(async () => {
     if (imgProgress.value !== 0) return;
+    if (!fileData?.uid || fileData?.uid === undefined) return;
     if (placeFieldImages && placeFieldImages.length > 0) return;
     if (loading) return;
 
@@ -179,6 +179,7 @@ const PlaceField = ({ activeItemId, atr }) => {
     }
   }, [
     fileData,
+
     addSnackbar,
     updatePlaceFields,
     placeFieldImages,
@@ -213,6 +214,19 @@ const PlaceField = ({ activeItemId, atr }) => {
   );
 
   const { t } = useTranslation();
+
+  const isTheSelectedFieldSameAsThisField = useCallback(
+    (oneField) =>
+      parseFloat(oneField?.w) === parseFloat(currentField?.w) &&
+      Math.abs(parseFloat(oneField?.x) - parseFloat(currentField?.x)) < 0.05 &&
+      Math.abs(parseFloat(oneField?.y) - parseFloat(currentField?.y)) < 0.05 &&
+      parseFloat(oneField?.h) === parseFloat(currentField?.h) &&
+      oneField.pageNum === currentField.pageNum &&
+      oneField.signer?.email === currentField.signer?.email &&
+      oneField?.value === currentField.value &&
+      !oneField?.deleted,
+    [currentField]
+  );
 
   const handleNext = async () => {
     try {
@@ -421,6 +435,9 @@ const PlaceField = ({ activeItemId, atr }) => {
               qrCodePosition={qrCodePosition}
               qrCodeImg={fileData?.qrcodeImg}
               auth={auth}
+              isTheSelectedFieldSameAsThisField={
+                isTheSelectedFieldSameAsThisField
+              }
             />
 
             <RightSnippetArea
@@ -431,6 +448,9 @@ const PlaceField = ({ activeItemId, atr }) => {
               placeFieldImages={placeFieldImages}
               fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               scrollToPage={scrollToPage}
+              isTheSelectedFieldSameAsThisField={
+                isTheSelectedFieldSameAsThisField
+              }
               onDelete={() => {
                 let temp = currentField;
                 temp.deleted = true;

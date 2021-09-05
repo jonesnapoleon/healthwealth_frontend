@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useEffect } from "react";
+import React, { useRef, useMemo, useState } from "react";
 import { Rnd } from "react-rnd";
 import { INIT_FIELD_WIDTH } from "./PDFViewer";
 import { QR_CODE_RELATIVE_SIZE } from ".";
@@ -78,6 +78,7 @@ const FieldBox = ({
   onClick,
   currentField,
   setCurrentField,
+  isTheSelectedFieldSameAsThisField,
 }) => {
   const { auth } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -104,10 +105,6 @@ const FieldBox = ({
     height: field.h * field?.pagePosition?.height,
   });
   const fieldElement = useMemo(() => getReadableFieldIcon(field), [field]);
-
-  useEffect(() => {
-    console.log(auth);
-  }, [auth]);
 
   return (
     <Rnd
@@ -190,7 +187,7 @@ const FieldBox = ({
                 setIsEditing(true);
               }
             } else {
-              setIsEditing(true);
+              setIsEditing((a) => !a);
             }
           }
           onClick();
@@ -212,23 +209,17 @@ const FieldBox = ({
         ) : String(field?.type).toLowerCase() !== "signature" ? (
           <div className="full-field-box">
             <input
-              value={field.value}
-              disabled={String(field.type).toLowerCase() === "date"}
+              value={field?.value}
+              disabled={String(field?.type).toLowerCase() === "date"}
+              onClick={() => setCurrentField(field)}
               onChange={(e) => {
                 let temp = fields;
                 let ax = temp.map((oneField) => {
                   return {
                     ...oneField,
-                    value:
-                      oneField?.w === currentField?.w &&
-                      oneField?.x === currentField?.x &&
-                      oneField?.y === currentField?.y &&
-                      oneField?.h === currentField?.h &&
-                      oneField?.pageNum === currentField?.pageNum &&
-                      oneField?.signer?.email === currentField?.signer?.email &&
-                      oneField?.value === currentField?.value
-                        ? e.target.value
-                        : oneField.value,
+                    value: isTheSelectedFieldSameAsThisField(oneField)
+                      ? e.target.value
+                      : oneField?.value,
                   };
                 });
                 setFields(ax);
