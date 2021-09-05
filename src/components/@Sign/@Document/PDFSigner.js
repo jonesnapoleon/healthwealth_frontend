@@ -98,7 +98,7 @@ const PDFSigner = ({
                   ? fields
                       ?.filter((field) => field.pageNum === i + 1)
                       .map((field, j) => {
-                        return field.deleted ? null : (
+                        return (
                           <FieldBox
                             field={field}
                             onClick={() => setCurrentField(field)}

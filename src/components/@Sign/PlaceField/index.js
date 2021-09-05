@@ -42,7 +42,11 @@ const schema = {
       type: "object",
       properties: {
         value: { type: "string" },
+        name: { type: "string" },
+        email: { type: "string" },
         color: { type: "string" },
+        backgroundColor: { type: "string" },
+        flowtype: { type: "string" },
         label: { type: "string" },
       },
     },
@@ -51,12 +55,13 @@ const schema = {
       properties: {
         x: { type: "number" },
         y: { type: "number" },
-        width: { type: "number" },
+        w: { type: "number" },
         height: { type: "number" },
       },
     },
-    deleted: { type: "boolean" },
-    uid: { type: "string" },
+    value: { type: "string" },
+    fieldname: { type: "string" },
+    required: { type: "boolean" },
   },
 };
 
@@ -179,7 +184,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     }
   }, [
     fileData,
-
     addSnackbar,
     updatePlaceFields,
     placeFieldImages,
@@ -215,6 +219,19 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const { t } = useTranslation();
 
+  const isTheseFieldsSame = useCallback(
+    (oneField, twoField) =>
+      parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
+      Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
+      Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
+      parseFloat(oneField?.h) === parseFloat(twoField?.h) &&
+      oneField.pageNum === twoField.pageNum &&
+      oneField.signer?.email === twoField.signer?.email &&
+      oneField?.value === twoField?.value &&
+      oneField?.type === twoField?.type,
+    []
+  );
+
   const isTheSelectedFieldSameAsThisField = useCallback(
     (oneField) =>
       parseFloat(oneField?.w) === parseFloat(currentField?.w) &&
@@ -224,7 +241,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       oneField.pageNum === currentField.pageNum &&
       oneField.signer?.email === currentField.signer?.email &&
       oneField?.value === currentField.value &&
-      !oneField?.deleted,
+      oneField?.type === currentField?.type,
     [currentField]
   );
 
@@ -289,12 +306,15 @@ const PlaceField = ({ activeItemId, atr }) => {
       let newStack = stateStack.slice(0, stackIdx + 1);
       if (newStack.length + 1 >= MAX_STACK_SIZE) newStack.shift();
       newStack = [...newStack, JSON.parse(JSON.stringify(fields))];
-
       setStackIdx(stackIdx + 1);
       setStateStack(newStack);
     },
     [stateStack, setStateStack, setStackIdx, stackIdx]
   );
+
+  // useEffect(() => {
+  //   console.log("CURRENT STATESTACK",stackIdx, stateStack, stateStack[stackIdx]);
+  // }, [stateStack, stackIdx]);
 
   const pasteField = useCallback(() => {
     try {
@@ -323,9 +343,11 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [stateStack, stackIdx, setFields, setStackIdx, scrollToPage]);
 
   const redoField = useCallback(() => {
+    console.log("redo");
     if (stackIdx + 1 < stateStack.length) {
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx + 1])));
       setStackIdx((i) => i + 1);
+      console.log("redoed");
       scrollToPage();
     }
   }, [stateStack, stackIdx, setFields, setStackIdx, scrollToPage]);
@@ -434,6 +456,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               qrCodePosition={qrCodePosition}
               qrCodeImg={fileData?.qrcodeImg}
+              isTheseFieldsSame={isTheseFieldsSame}
               auth={auth}
               isTheSelectedFieldSameAsThisField={
                 isTheSelectedFieldSameAsThisField
@@ -452,8 +475,9 @@ const PlaceField = ({ activeItemId, atr }) => {
                 isTheSelectedFieldSameAsThisField
               }
               onDelete={() => {
-                let temp = currentField;
-                temp.deleted = true;
+                let temp = fields.filter(
+                  (t) => !isTheseFieldsSame(t, currentField)
+                );
                 pushToStack(temp);
                 setCurrentField(null);
               }}

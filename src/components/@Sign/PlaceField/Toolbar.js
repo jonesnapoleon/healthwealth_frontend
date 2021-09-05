@@ -60,17 +60,27 @@ const Toolbar = ({
         </div>
 
         <div className="need-pad">
-          <UndoIcon onClick={pasteField} disabled={!canEdit} />
-          <RedoIcon onClick={redoField} disabled={!canEdit} />
+          <UndoIcon
+            onClick={undoField}
+            disabled={!canEdit}
+            className="cursor-pointer"
+          />
+          <RedoIcon
+            onClick={redoField}
+            disabled={!canEdit}
+            className="cursor-pointer"
+          />
         </div>
         <div className="need-pad">
           <FontAwesomeIcon
             icon={faClone}
             onClick={copyField}
+            className="cursor-pointer"
             disabled={!canEdit}
           />
           <FontAwesomeIcon
             icon={faClipboard}
+            className="cursor-pointer"
             onClick={pasteField}
             disabled={!canEdit}
           />

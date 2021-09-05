@@ -53,7 +53,6 @@ export const addToDevFields = (fieldArray, signers) => {
     return {
       ...datum,
       pagePosition: {},
-      deleted: false,
       signer: {
         ...temp,
         label: temp?.name,

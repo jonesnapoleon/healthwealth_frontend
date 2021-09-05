@@ -70,7 +70,14 @@ const DeleteFieldHandle = () => {
   );
 };
 
-const FieldBox = ({ field, pushToStack, fields, onClick }) => {
+const FieldBox = ({
+  field,
+  pushToStack,
+  fields,
+  onClick,
+  isTheseFieldsSame,
+  setFields,
+}) => {
   const { t } = useTranslation();
   const handle = (
     <FieldHandle
@@ -118,19 +125,38 @@ const FieldBox = ({ field, pushToStack, fields, onClick }) => {
       onResizeStop={(e, handlePos, component, delta, position) => {
         if (delta.width === 0 && delta.height === 0) {
           if (handlePos === "topRight") {
-            field.deleted = true;
-            console.log("deleted!", field);
-            // setFields(fields);
-            pushToStack(fields);
+            let temp = fields.filter((t) => !isTheseFieldsSame(t, field));
+            setFields(temp);
+            pushToStack(temp);
           }
         } else {
-          field.x = position.x / field.pagePosition.width;
-          field.y = position.y / field.pagePosition.height;
-          field.w += delta.width / field.pagePosition.width;
-          field.h += delta.height / field.pagePosition.height;
-          console.log("resized!", field);
-          // setFields(fields);
-          pushToStack(fields);
+          let temp = fields.filter((t) => {
+            return {
+              ...t,
+              x: !isTheseFieldsSame(t, field)
+                ? t.x
+                : position.x / field.pagePosition.width,
+              ...t,
+              y: !isTheseFieldsSame(t, field)
+                ? t.y
+                : position.y / field.pagePosition.height,
+              ...t,
+              w: !isTheseFieldsSame(t, field)
+                ? t.w
+                : t.w + delta.width / field.pagePosition.width,
+              ...t,
+              h: !isTheseFieldsSame(t, field)
+                ? t.h
+                : t.h + delta.height / field.pagePosition.width,
+            };
+          });
+          // field.x = position.x / field.pagePosition.width;
+          // field.y = position.y / field.pagePosition.height;
+          // field.w += delta.width / field.pagePosition.width;
+          // field.h += delta.height / field.pagePosition.height;
+          console.log("resized!", temp);
+          setFields(temp);
+          // pushToStack(temp);
         }
       }}
       onDragStop={(e, component) => {
@@ -140,11 +166,18 @@ const FieldBox = ({ field, pushToStack, fields, onClick }) => {
           Math.abs(newX - field.x) > EPSILON &&
           Math.abs(newY - field.y) > EPSILON
         ) {
-          field.x = newX;
-          field.y = newY;
+          let temp = fields.filter((t) => {
+            return {
+              ...t,
+              x: !isTheseFieldsSame(t, field) ? t.x : newX,
+              y: !isTheseFieldsSame(t, field) ? t.y : newY,
+            };
+          });
+          // field.x = newX;
+          // field.y = newY;
           console.log("moved!", JSON.parse(JSON.stringify(field)));
-          // setFields(fields);
-          pushToStack(fields);
+          setFields(temp);
+          // pushToStack(temp);
         }
       }}
       style={{ border: 0, zIndex: 888 }}

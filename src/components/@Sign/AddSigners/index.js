@@ -46,7 +46,33 @@ const AddSigners = ({ atr, activeItemId }) => {
     }
   }, [nextFlow]);
 
+  const isSameAsData = useMemo(() => {
+    if (nextFlow && nextFlow?.length > 0) {
+      if (nextFlow.length !== data?.length) return false;
+      for (let i = 0; i < nextFlow.length; i++) {
+        if (String(nextFlow[i].email).trim() !== String(data[i].email).trim())
+          return false;
+        if (String(nextFlow[i].name).trim() !== String(data[i].name).trim())
+          return false;
+        if (
+          String(nextFlow[i].flowtype).trim() !==
+          String(data[i].flowtype).trim()
+        )
+          return false;
+      }
+      return true;
+    }
+    return false;
+  }, [nextFlow, data]);
+
+  console.log(isSameAsData);
+
   const handleSubmit = async () => {
+    if (isSameAsData) {
+      push(`${atr}#${activeItemId + 1}`);
+      addSnackbar(t("sign.addSigners.addSignersSuccess"), "success");
+      return;
+    }
     try {
       setLoading(0);
       const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);

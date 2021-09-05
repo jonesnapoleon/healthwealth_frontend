@@ -45,7 +45,6 @@ const Page = ({
   );
 
   const getNewFieldValue = (type) => {
-    console.log(type);
     if (type === "date") return String(new Date());
     if (type === "name") return auth?.fullname;
     if (type in auth) return auth?.[type];
@@ -76,7 +75,6 @@ const Page = ({
       signer: currentSigner,
       required: true,
       pagePosition,
-      deleted: false,
       value:
         auth?.email !== currentSigner?.email
           ? ""
@@ -150,6 +148,7 @@ const PDFViewer = ({
   qrCodeImg,
   auth,
   isTheSelectedFieldSameAsThisField,
+  isTheseFieldsSame,
 }) => {
   // const currentRef = useRef(null);
 
@@ -182,13 +181,14 @@ const PDFViewer = ({
                 ? fields
                     ?.filter((field) => field.pageNum === i + 1)
                     .map((field, j) => {
-                      return field.deleted ? null : (
+                      return (
                         <FieldBox
                           field={field}
                           onClick={() => {
                             setCurrentField(field);
                           }}
                           currentField={currentField}
+                          isTheseFieldsSame={isTheseFieldsSame}
                           setCurrentField={setCurrentField}
                           key={j}
                           id={`field-${j + 1}`}
@@ -255,7 +255,7 @@ export default PDFViewer;
                 ? fields
                     ?.filter((field) => field.pageNum === i + 1)
                     .map((field, j) => {
-                      return field.deleted ? null : (
+                      return (
                         <FieldBox
                           field={field}
                           onClick={() => setCurrentField(field)}

@@ -79,6 +79,7 @@ const FieldBox = ({
   currentField,
   setCurrentField,
   isTheSelectedFieldSameAsThisField,
+  isTheseFieldsSame,
 }) => {
   const { auth } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -131,12 +132,33 @@ const FieldBox = ({
       onResizeStop={(e, handlePos, component, delta, position) => {
         if (delta.width === 0 && delta.height === 0) {
           if (handlePos === "topRight") {
-            field.deleted = true;
-            console.log("deleted!", field);
-            setFields(fields);
+            // field.deleted = true;
+            let temp = fields.filter((t) => !isTheseFieldsSame(t, field));
+            // console.log("deleted!", field);
+            setFields(temp);
             pushToStack(fields);
           }
         } else {
+          // let temp = fields.filter((t) => {
+          //   return {
+          //     ...t,
+          //     x: !isTheseFieldsSame(t, field)
+          //       ? t.x
+          //       : position.x / field.pagePosition.width,
+          //     ...t,
+          //     y: !isTheseFieldsSame(t, field)
+          //       ? t.y
+          //       : position.y / field.pagePosition.height,
+          //     ...t,
+          //     w: !isTheseFieldsSame(t, field)
+          //       ? t.w
+          //       : t.w + delta.width / field.pagePosition.width,
+          //     ...t,
+          //     h: !isTheseFieldsSame(t, field)
+          //       ? t.h
+          //       : t.h + delta.height / field.pagePosition.width,
+          //   };
+          // });
           field.x = position.x / field?.pagePosition?.width;
           field.y = position.y / field?.pagePosition?.height;
           field.w += delta.width / field?.pagePosition?.width;
@@ -153,10 +175,17 @@ const FieldBox = ({
           Math.abs(newX - field.x) > EPSILON &&
           Math.abs(newY - field.y) > EPSILON
         ) {
+          // let temp = fields.filter((t) => {
+          //   return {
+          //     ...t,
+          //     x: !isTheseFieldsSame(t, field) ? t.x : newX,
+          //     y: !isTheseFieldsSame(t, field) ? t.y : newY,
+          //   };
+          // });
           field.x = newX;
           field.y = newY;
-          console.log("moved!", JSON.parse(JSON.stringify(field)));
-          // setFields(fields);
+          console.log("moved!", field);
+          // setFields(temp);
           pushToStack(fields);
         }
         setIsEditing((a) => a);
@@ -166,6 +195,7 @@ const FieldBox = ({
     >
       <span
         className="rnd-content"
+        onClick={() => setCurrentField(field)}
         onDoubleClick={() => {
           if (auth?.email === field?.signer?.email) {
             if (
