@@ -16,7 +16,7 @@ import { isFileValid } from "helpers/validator";
 import BasicInputLabel, { BasicSelect } from "../InputLabel/basic";
 import { FONTLIST } from "helpers/constant";
 import { useSnackbar } from "contexts/SnackbarContext";
-import { addSignature, getAllSignatures } from "api/auth";
+import { addSignature } from "api/auth";
 import { convertToImg } from "helpers/utils";
 import { useAuth } from "contexts/AuthContext";
 
@@ -44,7 +44,8 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   // const [success, setSuccess] = useState(null);
   const { addSnackbar } = useSnackbar();
   // const [loading, setLoading] = useState(false);
-  const { putAuth, auth } = useAuth();
+  const { putAuth } = useAuth();
+  const [loading, setLoading] = useState(0);
   // const [imageURL, setImageURL] = useState(null);
   const signCanvas = useRef({});
   // const clear = () => signCanvas.current?.clear();
@@ -69,24 +70,25 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
 
   const addingSignature = async (fileData) => {
     try {
+      setLoading(1);
       const res = await addSignature(fileData, isInitial);
       if (res?.data) {
         //     handle_data_docs(true, atr, "fileData", res.data);
         //     setAvailableLevel((a) => a + 1);
         progress.set(100);
-        const newRes = await getAllSignatures();
-        if (newRes) {
-          if (isInitial) putAuth({ ...auth, initial: newRes });
-          if (!isInitial) putAuth({ ...auth, signature: newRes });
 
-          addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
-        }
+        putAuth(res?.data);
+        // if (isInitial) putAuth({ ...auth, initial_finished_img: newRes });
+        // if (!isInitial) putAuth({ ...auth, signature_finished_img: newRes });
+        addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
         extraCallback();
         //     setTimeout(() => setSuccess(false), 3000);
       }
     } catch (err) {
       addSnackbar(String(err));
       progress.set(-1);
+    } finally {
+      setLoading(0);
     }
   };
 
@@ -135,6 +137,7 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   //   if (!checkbox.checked) return true;
   //   if (tab === 2) return String(formItemData.value).length === 0;
   // }, [tab, formItemData, checkbox.checked]);
+  const shallButtonDisabled = loading;
 
   return (
     <>
@@ -221,7 +224,7 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
         <div className="button-container">
           <button
             className="btn btn-black circled"
-            // disabled={shallButtonDisabled}
+            disabled={shallButtonDisabled}
           >
             Save
           </button>

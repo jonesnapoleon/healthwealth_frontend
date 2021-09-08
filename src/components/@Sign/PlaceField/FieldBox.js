@@ -85,7 +85,14 @@ const FieldBox = ({
   const [isEditing, setIsEditing] = useState(false);
   const { openSignatureModal, show } = useModal();
 
-  const defaultSelfSignImage = useMemo(() => auth?.signature, [auth]);
+  const initial_image_url = useMemo(
+    () => auth?.initial_finished_url ?? "",
+    [auth]
+  );
+  const signature_image_url = useMemo(
+    () => auth?.signature_finished_url ?? "",
+    [auth]
+  );
 
   const handle = (
     <FieldHandle
@@ -232,11 +239,12 @@ const FieldBox = ({
           color: "white",
         }}
       >
-        {!isEditing ? (
+        {!isEditing && (
           <span className="text-uppercase">
             {fieldElement} {field.type}
           </span>
-        ) : String(field?.type).toLowerCase() !== "signature" ? (
+        )}
+        {isEditing && String(field?.type).toLowerCase() !== "signature" && (
           <div className="full-field-box">
             <input
               value={field?.value}
@@ -259,9 +267,15 @@ const FieldBox = ({
               }}
             />
           </div>
-        ) : (
+        )}
+        {isEditing && String(field?.type).toLowerCase() === "signature" && (
           <span className="img-fit-all">
-            <img src={defaultSelfSignImage} alt="" />
+            <img src={signature_image_url} alt="" />
+          </span>
+        )}
+        {isEditing && String(field?.type).toLowerCase() === "initial" && (
+          <span className="img-fit-all">
+            <img src={initial_image_url} alt="" />
           </span>
         )}
       </span>

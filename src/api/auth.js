@@ -3,7 +3,6 @@ import axios from "axios";
 const API_LOGIN = "/api/login/";
 const API_GET_USER = "/api/profile/";
 const API_UPDATE_USER = "/api/profile/";
-const API_GET_USER_SIGNATURES = "/api/signatures/";
 const API_UPLOAD_KTP = "/api/user/ktp/";
 const API_UPLOAD_SELFIE = "/api/user/selfie/";
 const API_VERIFY_OTP = "/api/user/phone/verify?code=";
@@ -82,28 +81,25 @@ export const deleteSelfie = async () => {
   }
 };
 
-export const getAllSignatures = async () => {
-  try {
-    const response = await axios.get(`${API_GET_USER_SIGNATURES}`);
-    return response.data?.data;
-  } catch (e) {
-    throw e?.response?.data?.errorMessage ?? "";
-  }
-};
+// export const getAllSignatures = async () => {
+//   try {
+//     const response = await axios.get(`${API_GET_USER_SIGNATURES}`);
+//     return response.data?.data;
+//   } catch (e) {
+//     throw e?.response?.data?.errorMessage ?? "";
+//   }
+// };
 
 export const addSignature = async (file, isInitial = false) => {
   const data = new FormData();
-  data.append("signature", file);
+  data.append("photo", file);
   try {
     const response = await axios.post(
-      `/api/signature?isInitial=${isInitial}`,
+      `/api/user/${!isInitial ? "signature" : "initial"}`,
       data
     );
     return response.data;
   } catch (e) {
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
     throw e?.response?.data?.errorMessage ?? "";
   }
 };

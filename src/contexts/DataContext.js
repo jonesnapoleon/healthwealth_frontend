@@ -52,31 +52,24 @@ const DataProvider = ({ children }) => {
 
   const [auditTrails, setAuditTrails] = useState({});
 
-  const fetchAuditTrail = useCallback(
-    async (documentId) => {
-      try {
-        const res = await getDocumentAuditTrail(documentId);
-        if (res) {
-          setAuditTrails((now) => {
-            return { ...now, [documentId]: res };
-          });
-        }
-      } catch (e) {
-        addSnackbar(String(e));
+  const fetchAuditTrail = async (documentId) => {
+    try {
+      const res = await getDocumentAuditTrail(documentId);
+      if (res) {
+        setAuditTrails((now) => {
+          return { ...now, [documentId]: res };
+        });
       }
-    },
-    [addSnackbar]
-  );
+    } catch (e) {
+      addSnackbar(String(e));
+    }
+  };
 
-  const getAuditTrail = useCallback(
-    async (documentId) => {
-      if (documentId in auditTrails) {
-        // return auditTrails[documentId];
-        return;
-      } else await fetchAuditTrail(documentId);
-    },
-    [fetchAuditTrail, auditTrails]
-  );
+  const getAuditTrail = async (documentId) => {
+    if (documentId in auditTrails) {
+      return;
+    } else await fetchAuditTrail(documentId);
+  };
 
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],

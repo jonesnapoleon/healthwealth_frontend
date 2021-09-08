@@ -68,7 +68,7 @@ const Table = ({
                 }`}
                 key={i}
                 onClick={() => {
-                  getAuditTrail(component?.id);
+                  getAuditTrail(component?.uid);
                   activeDoc?.set(component);
                 }}
               >

@@ -56,7 +56,7 @@ export const deleteDoc = async (fileId) => {
     // if (e?.response) {
     //   const errorCode = e.response?.data?.code;
     // }
-    throw e?.response?.data?.error?.message ?? "Fail to upload file";
+    throw e?.response?.data?.errorMessage ?? "Fail to delete file";
   }
 };
 
@@ -72,7 +72,7 @@ export const addQRCode = async (fileName, fileId, signType, qrPosition) => {
     );
     return response.data?.data;
   } catch (e) {
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -92,11 +92,7 @@ export const replaceDoc = async (file, fileName, fileId, signType) => {
     );
     return response.data;
   } catch (e) {
-    console.log(e?.response);
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.code;
-    // }
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -108,10 +104,7 @@ export const addUserToDocument = async (data, fileId) => {
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);
-    // if (e?.response) {
-    //   const errorCode = e.response?.data?.codegit pyu;
-    // }
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -121,7 +114,7 @@ export const getDocImages = async (fileId) => {
     const response = await axios.get(`${API_ADD_DOC}${fileId}/`);
     return response.data?.data;
   } catch (e) {
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -131,7 +124,7 @@ export const getAllFields = async (fileId) => {
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -141,8 +134,7 @@ export const addFields = async (fileId, fields) => {
     const response = await axios.post(`${API_ADD_DOC}${fileId}/fields/`, body);
     return response.data?.data;
   } catch (e) {
-    console.log(e?.response);
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -153,7 +145,7 @@ export const updateFields = async (fileId, fields) => {
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 
@@ -165,7 +157,7 @@ export const sendDoc = async (fileId, data) => {
     return response.data?.data;
   } catch (e) {
     console.log(e?.response);
-    throw e?.response?.data?.error?.message ?? "Add docs failed";
+    throw e?.response?.data?.errorMessage ?? "";
   }
 };
 

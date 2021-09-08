@@ -20,23 +20,24 @@ const Signature = () => {
       <div>
         <div className="head bold">
           {t("settings.signature.text")}
-          {auth?.signature && (
+          {auth?.signature_finished_url && (
             <EditIcon
               className="cursor-pointer"
               onClick={() => handleInitialSignatureClick(false)}
             />
           )}
         </div>
-        {(!auth?.signature || auth?.signature === null) && (
+        {(!auth?.signature_finished_url ||
+          auth?.signature_finished_url === null) && (
           <ModalSign
             meta={{ head: t("settings.signature.addSignature") }}
             onClick={() => handleInitialSignatureClick(false)}
           />
         )}
         <div className="parent">
-          {auth?.signature && (
+          {auth?.signature_finished_url && (
             <img
-              src={auth?.signature}
+              src={auth?.signature_finished_url}
               className="non-initial-signature"
               alt=""
             />
@@ -46,22 +47,27 @@ const Signature = () => {
       <div>
         <div className="head bold">
           {t("settings.signature.initial")}
-          {auth?.initial && (
+          {auth?.initial_finished_url && (
             <EditIcon
               className="cursor-pointer"
               onClick={() => handleInitialSignatureClick(true)}
             />
           )}
         </div>
-        {(!auth?.initial || auth?.initial === null) && (
+        {(!auth?.initial_finished_url ||
+          auth?.initial_finished_url === null) && (
           <ModalSign
             meta={{ head: t("settings.signature.addInitials") }}
             onClick={() => handleInitialSignatureClick(true)}
           />
         )}
         <div className="parent">
-          {auth?.initial && (
-            <img className="non-initial-signature" src={auth?.initial} alt="" />
+          {auth?.initial_finished_url && (
+            <img
+              className="non-initial-signature"
+              src={auth?.initial_finished_url}
+              alt=""
+            />
           )}
         </div>
       </div>

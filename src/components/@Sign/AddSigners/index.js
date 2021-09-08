@@ -65,8 +65,6 @@ const AddSigners = ({ atr, activeItemId }) => {
     return false;
   }, [nextFlow, data]);
 
-  console.log(isSameAsData);
-
   const handleSubmit = async () => {
     if (isSameAsData) {
       push(`${atr}#${activeItemId + 1}`);
