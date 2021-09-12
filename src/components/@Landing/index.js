@@ -13,12 +13,14 @@ import AllIcon from "@material-ui/icons/PeopleAltOutlined";
 import RequestIcon from "@material-ui/icons/SendOutlined";
 
 import { FRONTEND_URL } from "../../helpers/constant";
+import { useData } from "contexts/DataContext";
 
 // import { ReactComponent as Down } from "../../assets/svg/down-arrow.svg";
 
 const Welcome = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
+  const { handle_data_docs, placeFieldItems } = useData();
 
   const signComponents = [
     {
@@ -66,7 +68,13 @@ const Welcome = () => {
               <div className="button">
                 <Link
                   className="btn-primary button-landing"
-                  to={`${component?.dest}#0`}
+                  to={`${component.dest}#0`}
+                  onClick={() =>
+                    handle_data_docs(true, component.dest, "placeFieldItems", {
+                      ...placeFieldItems,
+                      fileData: false,
+                    })
+                  }
                 >
                   {component?.ctaText}
                 </Link>

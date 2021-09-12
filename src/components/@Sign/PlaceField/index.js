@@ -62,6 +62,10 @@ const schema = {
     value: { type: "string" },
     fieldname: { type: "string" },
     required: { type: "boolean" },
+    formatting: {
+      type: "object",
+      properties: { font: { type: "string" }, size: { type: "number" } },
+    },
   },
 };
 
@@ -73,6 +77,16 @@ const PlaceField = ({ activeItemId, atr }) => {
   const fileData = getItemData(atr, "fileData");
 
   const { auth } = useAuth();
+
+  const initial_image_url = useMemo(
+    () => auth?.initial_finished_url ?? "",
+    [auth]
+  );
+  const signature_image_url = useMemo(
+    () => auth?.signature_finished_url ?? "",
+    [auth]
+  );
+
   const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
 
@@ -248,6 +262,17 @@ const PlaceField = ({ activeItemId, atr }) => {
   const handleNext = async () => {
     try {
       const finalFields = fields?.map((field) => {
+        const special =
+          ["signature", "initial"].includes(
+            String(field?.type).toLowerCase()
+          ) && auth?.email === field?.signer?.email;
+
+        if (special) {
+          if (initial_image_url === "")
+            throw new Error("You have initial that you need to fill first!");
+          if (signature_image_url === "")
+            throw new Error("You have signature that you need to fill first!");
+        }
         return {
           fieldname: field?.fieldname,
           x: field?.x,
@@ -258,7 +283,11 @@ const PlaceField = ({ activeItemId, atr }) => {
           type: field?.type,
           assignedTo: field?.signer?.email,
           required: field?.required,
-          value: field?.value,
+          value: !special
+            ? field?.value
+            : String(field?.type).toLowerCase() === "initial"
+            ? initial_image_url
+            : signature_image_url,
         };
       });
       const res = await addFields(fileData?.uid, finalFields);

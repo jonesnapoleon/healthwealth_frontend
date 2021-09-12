@@ -53,6 +53,7 @@ export const addToDevFields = (fieldArray, signers) => {
     return {
       ...datum,
       pagePosition: {},
+      formatting: { font: "Arial", size: 12 },
       signer: {
         ...temp,
         label: temp?.name,

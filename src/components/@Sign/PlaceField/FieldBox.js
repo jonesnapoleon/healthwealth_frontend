@@ -94,6 +94,41 @@ const FieldBox = ({
     [auth]
   );
 
+  React.useEffect(() => {
+    console.log(initial_image_url);
+    console.log(signature_image_url);
+  }, [initial_image_url, signature_image_url]);
+
+  // useEffect(() => {
+  //   let temp = fields;
+  //   let ax = temp.map((oneField) => {
+  //     return {
+  //       ...oneField,
+  //       value: !isTheSelectedFieldSameAsThisField(oneField)
+  //         ? oneField?.value
+  //         : String(field?.type).toLowerCase() === "initial"
+  //         ? initial_image_url
+  //         : signature_image_url,
+  //     };
+  //   });
+  //   setFields(ax);
+  //   setCurrentField((field) => {
+  //     return {
+  //       ...field,
+  //       value: !isTheSelectedFieldSameAsThisField(field)
+  //         ? field?.value
+  //         : String(field?.type).toLowerCase() === "initial"
+  //         ? initial_image_url
+  //         : signature_image_url,
+  //     };
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   initial_image_url,
+  //   signature_image_url,
+  //   isTheSelectedFieldSameAsThisField,
+  // ]);
+
   const handle = (
     <FieldHandle
       color={field?.signer?.color ?? ""}
@@ -211,14 +246,38 @@ const FieldBox = ({
               )
             ) {
               if (
-                (!auth?.signature &&
+                (!signature_image_url &&
                   String(field?.type).toLowerCase() === "signature") ||
-                (!auth?.initial &&
+                (!initial_image_url &&
                   String(field?.type).toLowerCase() === "initial")
               ) {
                 openSignatureModal({
                   isInitial: String(field?.type).toLowerCase() === "initial",
-                  extraCallback: () => show.set(false),
+                  extraCallback: () => {
+                    show.set(false);
+                    let temp = fields;
+                    let ax = temp.map((oneField) => {
+                      return {
+                        ...oneField,
+                        value: !isTheSelectedFieldSameAsThisField(oneField)
+                          ? oneField?.value
+                          : String(field?.type).toLowerCase() === "initial"
+                          ? initial_image_url
+                          : signature_image_url,
+                      };
+                    });
+                    setFields(ax);
+                    setCurrentField((field) => {
+                      return {
+                        ...field,
+                        value: !isTheSelectedFieldSameAsThisField(field)
+                          ? field?.value
+                          : String(field?.type).toLowerCase() === "initial"
+                          ? initial_image_url
+                          : signature_image_url,
+                      };
+                    });
+                  },
                 });
               } else {
                 setIsEditing(true);
@@ -244,30 +303,37 @@ const FieldBox = ({
             {fieldElement} {field.type}
           </span>
         )}
-        {isEditing && String(field?.type).toLowerCase() !== "signature" && (
-          <div className="full-field-box">
-            <input
-              value={field?.value}
-              disabled={String(field?.type).toLowerCase() === "date"}
-              onClick={() => setCurrentField(field)}
-              onChange={(e) => {
-                let temp = fields;
-                let ax = temp.map((oneField) => {
-                  return {
-                    ...oneField,
-                    value: isTheSelectedFieldSameAsThisField(oneField)
-                      ? e.target.value
-                      : oneField?.value,
-                  };
-                });
-                setFields(ax);
-                setCurrentField((field) => {
-                  return { ...field, value: e.target.value };
-                });
-              }}
-            />
-          </div>
-        )}
+        {isEditing &&
+          !["initial", "signature"].includes(
+            String(field?.type).toLowerCase()
+          ) && (
+            <div className="full-field-box">
+              <input
+                value={field?.value}
+                disabled={String(field?.type).toLowerCase() === "date"}
+                onClick={() => setCurrentField(field)}
+                style={{
+                  fontSize: field?.formatting?.size,
+                  fontFamily: field?.formatting?.font,
+                }}
+                onChange={(e) => {
+                  let temp = fields;
+                  let ax = temp.map((oneField) => {
+                    return {
+                      ...oneField,
+                      value: isTheSelectedFieldSameAsThisField(oneField)
+                        ? e.target.value
+                        : oneField?.value,
+                    };
+                  });
+                  setFields(ax);
+                  setCurrentField((field) => {
+                    return { ...field, value: e.target.value };
+                  });
+                }}
+              />
+            </div>
+          )}
         {isEditing && String(field?.type).toLowerCase() === "signature" && (
           <span className="img-fit-all">
             <img src={signature_image_url} alt="" />

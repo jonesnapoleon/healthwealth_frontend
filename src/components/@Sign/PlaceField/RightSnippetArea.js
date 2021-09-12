@@ -90,6 +90,7 @@ const ControlledAccordions = ({
               <Switch
                 checked={currentField?.signer?.required}
                 disabled={!currentField}
+                color="primary"
                 onChange={(e) => {
                   let temp = fields;
                   let ax = temp.map((oneField) => {
@@ -111,6 +112,94 @@ const ControlledAccordions = ({
         </AccordionDetails>
       </Accordion>
       <hr />
+      {["date", "name", "email", "company", "title"].includes(
+        String(currentField.type).toLowerCase()
+      ) && (
+        <>
+          <Accordion expanded square className={classes.base}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>
+                {t("sign.placeFields.right.formatting")}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {currentField && (
+                <>
+                  <select
+                    value={currentField?.formatting?.size}
+                    onChange={(e) => {
+                      let temp = fields;
+                      let ax = temp.map((oneField) => {
+                        return {
+                          ...oneField,
+                          formatting: {
+                            ...oneField.formatting,
+                            size: isTheSelectedFieldSameAsThisField(oneField)
+                              ? parseInt(e.target.value)
+                              : oneField?.formatting?.size,
+                          },
+                        };
+                      });
+                      setFields(ax);
+                      setCurrentField((field) => {
+                        return {
+                          ...field,
+                          formatting: {
+                            font: field.formatting.font,
+                            size: parseInt(e.target.value),
+                          },
+                        };
+                      });
+                    }}
+                    className="w-100"
+                  >
+                    {[7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((a) => (
+                      <option value={a} key={a}>
+                        {a}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={currentField?.formatting?.font}
+                    onChange={(e) => {
+                      let temp = fields;
+                      let ax = temp.map((oneField) => {
+                        return {
+                          ...oneField,
+                          formatting: {
+                            ...oneField.formatting,
+                            font: isTheSelectedFieldSameAsThisField(oneField)
+                              ? e.target.value
+                              : oneField?.formatting?.font,
+                          },
+                        };
+                      });
+                      setFields(ax);
+                      setCurrentField((field) => {
+                        return {
+                          ...field,
+                          formatting: {
+                            font: e.target.value,
+                            size: field.formatting.size,
+                          },
+                        };
+                      });
+                    }}
+                    className="w-100"
+                  >
+                    {["Arial", "Times New Roman"].map((a) => (
+                      <option value={a} key={a}>
+                        {a}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
+            </AccordionDetails>
+          </Accordion>
+          <hr />
+        </>
+      )}
       <Accordion expanded square className={classes.base}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
@@ -142,7 +231,7 @@ const ControlledAccordions = ({
         </AccordionDetails>
       </Accordion>
       <hr />
-      <Accordion expanded square className={classes.base}>
+      {/* <Accordion expanded square className={classes.base}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {t("sign.placeFields.right.value")}
@@ -171,7 +260,7 @@ const ControlledAccordions = ({
             />
           )}
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 };

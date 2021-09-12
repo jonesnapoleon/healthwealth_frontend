@@ -303,7 +303,8 @@
         "required": "Required",
         "requiredField": "Required field",
         "lastPage": "Last page",
-        "value": "Field value"
+        "value": "Field value",
+        "formatting": "Formatting"
       }
     },
     "reviewSend": {

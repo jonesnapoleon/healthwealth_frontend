@@ -79,6 +79,7 @@ const Page = ({
         auth?.email !== currentSigner?.email
           ? ""
           : getNewFieldValue(t(String(type)).toLowerCase()),
+      formatting: { font: "Arial", size: 12 },
     };
 
     setFields([...fields, newField]);

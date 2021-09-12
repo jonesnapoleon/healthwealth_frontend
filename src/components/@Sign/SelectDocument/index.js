@@ -48,7 +48,7 @@ const SelectDocument = ({ atr, activeItemId }) => {
           res = await replaceDoc(
             data?.file,
             data?.file?.name,
-            fileData.id,
+            fileData.uid,
             String(atr).toUpperCase()
           );
         } else {
