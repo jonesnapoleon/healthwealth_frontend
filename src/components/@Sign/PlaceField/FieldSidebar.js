@@ -17,7 +17,7 @@ import LockRoundedIcon from "@material-ui/icons/LockRounded";
 
 import { DOC } from "helpers/constant";
 
-const StaticFieldBox = ({ type, icon, isYes }) => {
+const StaticFieldBox = ({ type, icon, isYes, addFieldToWorkspace }) => {
   const [, drag] = useDrag(() => ({
     type: "field",
     item: { type },
@@ -27,7 +27,11 @@ const StaticFieldBox = ({ type, icon, isYes }) => {
   }));
 
   return (
-    <div ref={drag} className="field-box">
+    <div
+      ref={drag}
+      className="field-box cursor-pointer"
+      onClick={() => addFieldToWorkspace(type)}
+    >
       <div className="must-child">
         <div>{icon}</div>
         <div>{type}</div>
@@ -48,6 +52,7 @@ const FieldSidebar = ({
   listSigners,
   currentSigner,
   setCurrentSigner,
+  addFieldToWorkspace,
 }) => {
   const { t } = useTranslation();
 
@@ -106,7 +111,12 @@ const FieldSidebar = ({
             [fieldType.SIGNATURE, <FontAwesomeIcon icon={faSignature} />],
             [fieldType.INITIAL, <FontAwesomeIcon icon={faPenSquare} />],
           ]?.map((type, i) => (
-            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
+            <StaticFieldBox
+              type={type[0]}
+              icon={type[1]}
+              key={i}
+              addFieldToWorkspace={addFieldToWorkspace}
+            />
           ))}
 
           <div className="lead">{t("sign.placeFields.left.autofill")}</div>
@@ -117,7 +127,12 @@ const FieldSidebar = ({
             [fieldType.COMPANY, <BusinessIcon />],
             [fieldType.TITLE, <WorkOutlineIcon />],
           ]?.map((type, i) => (
-            <StaticFieldBox type={type[0]} icon={type[1]} key={i} />
+            <StaticFieldBox
+              type={type[0]}
+              icon={type[1]}
+              key={i}
+              addFieldToWorkspace={addFieldToWorkspace}
+            />
           ))}
 
           <div className="lead">
@@ -130,7 +145,13 @@ const FieldSidebar = ({
             [fieldType.TEXTBOX, <TextFieldsIcon />],
             [fieldType.CHECKBOX, <CheckBoxIcon />],
           ]?.map((type, i) => (
-            <StaticFieldBox type={type[0]} icon={type[1]} key={i} isYes />
+            <StaticFieldBox
+              type={type[0]}
+              icon={type[1]}
+              key={i}
+              isYes
+              addFieldToWorkspace={addFieldToWorkspace}
+            />
           ))}
         </div>
       </div>

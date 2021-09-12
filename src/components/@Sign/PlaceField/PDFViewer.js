@@ -24,9 +24,9 @@ const Page = ({
   scale,
   qrCodeImg,
   auth,
+  addFieldToWorkspace,
   isTheSelectedFieldSameAsThisField,
 }) => {
-  const { t } = useTranslation();
   const [, drop] = useDrop(
     () => ({
       accept: "field",
@@ -43,48 +43,6 @@ const Page = ({
     }),
     [currentSigner, fields, stateStack]
   );
-
-  const getNewFieldValue = (type) => {
-    if (type === "date") return String(new Date());
-    if (type === "name") return auth?.fullname;
-    if (type in auth) return auth?.[type];
-    return "";
-  };
-
-  const addFieldToWorkspace = (type, fieldPosition, pageNum) => {
-    let curPage = document.getElementById("one-image-area-" + pageNum);
-    const pagePosition = curPage?.getBoundingClientRect();
-    let x =
-      (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
-      pagePosition.width;
-    let y =
-      (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
-      pagePosition.height;
-
-    let w = INIT_FIELD_WIDTH / pagePosition.width;
-    let h = INIT_FIELD_HEIGHT / pagePosition.height;
-
-    let newField = {
-      type: t(String(type)),
-      x,
-      y,
-      w,
-      h,
-      fieldname: t(String(type)),
-      pageNum,
-      signer: currentSigner,
-      required: true,
-      pagePosition,
-      value:
-        auth?.email !== currentSigner?.email
-          ? ""
-          : getNewFieldValue(t(String(type)).toLowerCase()),
-      formatting: { font: "Arial", size: 12 },
-    };
-
-    setFields([...fields, newField]);
-    pushToStack([...fields, newField]);
-  };
 
   return (
     <VisibilitySensor
@@ -150,6 +108,7 @@ const PDFViewer = ({
   auth,
   isTheSelectedFieldSameAsThisField,
   isTheseFieldsSame,
+  addFieldToWorkspace,
 }) => {
   // const currentRef = useRef(null);
 
@@ -211,6 +170,7 @@ const PDFViewer = ({
                     data={data}
                     pageNum={i + 1}
                     fields={fields}
+                    addFieldToWorkspace={addFieldToWorkspace}
                     setFields={setFields}
                     currentSigner={currentSigner}
                     pushToStack={pushToStack}

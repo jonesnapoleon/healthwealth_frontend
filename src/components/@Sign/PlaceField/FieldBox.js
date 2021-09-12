@@ -94,11 +94,6 @@ const FieldBox = ({
     [auth]
   );
 
-  React.useEffect(() => {
-    console.log(initial_image_url);
-    console.log(signature_image_url);
-  }, [initial_image_url, signature_image_url]);
-
   // useEffect(() => {
   //   let temp = fields;
   //   let ax = temp.map((oneField) => {

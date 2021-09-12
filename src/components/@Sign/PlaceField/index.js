@@ -7,8 +7,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import Toolbar from "./Toolbar";
 import FieldSidebar from "./FieldSidebar";
-import PDFViewer from "./PDFViewer";
+import PDFViewer, { INIT_FIELD_HEIGHT, INIT_FIELD_WIDTH } from "./PDFViewer";
 import RightSnippetArea from "./RightSnippetArea";
+import { isValidEmail } from "../../../helpers/validator";
+
 import SuperFloatingButton from "../commons/SuperFloatingButton";
 // import { TransformWrapper } from "react-zoom-pan-pinch";
 
@@ -22,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import {
   addColorToArr,
   addToDevFields,
+  getFrontendDateFormat,
   transformFormInput,
 } from "helpers/transformer";
 import { DEFAULT, DOC, FRONTEND_URL } from "helpers/constant";
@@ -273,6 +276,13 @@ const PlaceField = ({ activeItemId, atr }) => {
           if (signature_image_url === "")
             throw new Error("You have signature that you need to fill first!");
         }
+        if (
+          String(field?.type).toLowerCase() === "email" &&
+          auth?.email === field?.signer?.email &&
+          !isValidEmail(field?.value)
+        )
+          throw new Error("Fix your email!");
+
         return {
           fieldname: field?.fieldname,
           x: field?.x,
@@ -429,6 +439,51 @@ const PlaceField = ({ activeItemId, atr }) => {
     return () => window.removeEventListener("keydown", manipulation);
   }, [undoField, redoField, copyField, pasteField]);
 
+  const getNewFieldValue = (type) => {
+    if (type === "date") return String(getFrontendDateFormat());
+    if (type === "name") return auth?.fullname;
+    if (type in auth) return auth?.[type];
+    return "";
+  };
+
+  const addFieldToWorkspace = (type, fieldPosition, pageNum = visibility) => {
+    let curPage = document.getElementById("one-image-area-" + pageNum);
+    const pagePosition = curPage?.getBoundingClientRect();
+    console.log(fieldPosition);
+    let x = fieldPosition
+      ? (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
+        pagePosition.width
+      : 0.45;
+    let y = fieldPosition
+      ? (fieldPosition?.y - pagePosition.top - INIT_FIELD_HEIGHT / 2) /
+        pagePosition.height
+      : 0.45;
+
+    let w = INIT_FIELD_WIDTH / pagePosition.width;
+    let h = INIT_FIELD_HEIGHT / pagePosition.height;
+
+    let newField = {
+      type: t(String(type)),
+      x,
+      y,
+      w,
+      h,
+      fieldname: t(String(type)),
+      pageNum,
+      signer: currentSigner,
+      required: true,
+      pagePosition,
+      value:
+        auth?.email !== currentSigner?.email
+          ? ""
+          : getNewFieldValue(t(String(type)).toLowerCase()),
+      formatting: { font: "Arial", size: 12 },
+    };
+
+    setFields([...fields, newField]);
+    pushToStack([...fields, newField]);
+  };
+
   return (
     <>
       <div
@@ -467,6 +522,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               atr={atr}
               listSigners={listSigners}
               currentSigner={currentSigner}
+              addFieldToWorkspace={addFieldToWorkspace}
               setCurrentSigner={setCurrentSigner}
             />
 
@@ -475,6 +531,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               scale={scale}
               setScale={setScale}
               setFields={setFields}
+              addFieldToWorkspace={addFieldToWorkspace}
               setVisibility={setVisibility}
               currentSigner={currentSigner}
               stateStack={stateStack}
