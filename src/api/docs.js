@@ -172,10 +172,11 @@ export const verifyOTPDoc = async (fileId, OTP, token) => {
   }
 };
 
-export const sendOTPDoc = async (fileId, phone) => {
+export const sendOTPDoc = async (fileId, phone, body) => {
   try {
     const response = await axios.post(
-      `/api/doc/${fileId}/send/phone?phone=${phone}`
+      `/api/doc/${fileId}/send/phone?phone=${phone}`,
+      body
     );
     return response.data?.data;
   } catch (e) {

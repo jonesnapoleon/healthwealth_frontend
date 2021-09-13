@@ -5,10 +5,11 @@ import { useTranslation } from "react-i18next";
 const AuditTrail = ({ activeDoc, auditTrails }) => {
   const { t } = useTranslation();
   const auditData = useMemo(
-    () => auditTrails[activeDoc?.value?.id],
+    () => auditTrails[activeDoc?.value?.uid],
     [activeDoc, auditTrails]
   );
 
+  console.log(auditData);
   return (
     <div className="audit-trail">
       <div className="item-between">

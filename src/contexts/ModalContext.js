@@ -7,7 +7,9 @@ import "../components/commons/modal.scss";
 import SignatureModal from "components/commons/SignatureModal";
 import VerifySignature from "components/@Sign/commons/VerifySignature";
 import TakePhoto from "components/commons/ImageUpload/TakePhoto";
-import { SendWhatsapp } from "components/@Sign/commons/FasterThanPrinting";
+import FasterThanPrinting, {
+  SendWhatsapp,
+} from "components/@Sign/commons/FasterThanPrinting";
 
 export const ModalContext = createContext({});
 export const useModal = () => useContext(ModalContext);
@@ -30,6 +32,11 @@ const ModalProvider = ({ children }) => {
 
   const openSignatureModal = (bringing) => {
     innerComponent.set(<SignatureModal {...bringing} />);
+    show.set(true);
+  };
+
+  const openFasterThanPrinting = (bringing) => {
+    innerComponent.set(<FasterThanPrinting {...bringing} />);
     show.set(true);
   };
 
@@ -67,6 +74,7 @@ const ModalProvider = ({ children }) => {
         openVerifySignature,
         openTakePhoto,
         openSendWhatsapp,
+        openFasterThanPrinting,
         show,
         onClose,
       }}

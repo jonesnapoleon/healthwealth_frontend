@@ -95,7 +95,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const { fullname, email } = auth;
   const imgProgress = useProgressBar();
-  // const fieldProgress = useProgressBar();
+  const fieldProgress = useProgressBar();
 
   const listSigners = useMemo(
     () =>
@@ -156,13 +156,20 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [fileData, push]);
 
   const fetchAllFields = useCallback(async () => {
-    // if (fieldProgress.value !== 0) return;
+    if (fieldProgress.value !== 0) return;
     if (fields && fields.length > 0) return;
 
-    // if (fileData?.fields && fileData.fields.length > 0) {
-    updatePlaceFields({
-      fields: addToDevFields(fileData?.fields, fileData?.nextflow),
+    let finalField = fileData?.fields?.map((field) => {
+      let curPage = document.getElementById("one-image-area-" + field?.pageNum);
+      let pagePosition = curPage?.getBoundingClientRect();
+      return { ...field, pagePosition };
     });
+
+    setFields(addToDevFields(finalField, fileData?.nextflow));
+    fieldProgress.set(1);
+    // updatePlaceFields({
+    //   fields: addToDevFields(fileData?.fields, fileData?.nextflow),
+    // });
     // fieldProgress.set(100);
     setQrCodePosition(fileData?.qrcode);
     // } else {
@@ -177,7 +184,7 @@ const PlaceField = ({ activeItemId, atr }) => {
     //     addSnackbar(String(e));
     //   }
     // }
-  }, [fileData, updatePlaceFields, fields]);
+  }, [fileData, setFields, fields, fieldProgress]);
 
   const fetchAllImages = useCallback(async () => {
     if (imgProgress.value !== 0) return;
@@ -264,6 +271,9 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const handleNext = async () => {
     try {
+      const myFields = document.getElementsByClassName("my placeholder");
+      if (myFields.length > 0) throw new Error("Open all your fields!");
+
       const finalFields = fields?.map((field) => {
         const special =
           ["signature", "initial"].includes(
@@ -293,13 +303,24 @@ const PlaceField = ({ activeItemId, atr }) => {
           type: field?.type,
           assignedTo: field?.signer?.email,
           required: field?.required,
+          formatting: field?.formatting,
           value: !special
             ? field?.value
             : String(field?.type).toLowerCase() === "initial"
             ? initial_image_url
             : signature_image_url,
+          // value: !special
+          //   ? field?.value
+          //   : !["initial", "signature"].includes(
+          //       String(field?.type).toLowerCase()
+          //     )
+          //   ? convertToImg(field)
+          //   : String(field?.type).toLowerCase() === "initial"
+          //   ? initial_image_url
+          //   : signature_image_url,
         };
       });
+
       const res = await addFields(fileData?.uid, finalFields);
       if (res) {
         const newRes = await addQRCode(
@@ -449,7 +470,7 @@ const PlaceField = ({ activeItemId, atr }) => {
   const addFieldToWorkspace = (type, fieldPosition, pageNum = visibility) => {
     let curPage = document.getElementById("one-image-area-" + pageNum);
     const pagePosition = curPage?.getBoundingClientRect();
-    console.log(fieldPosition);
+
     let x = fieldPosition
       ? (fieldPosition?.x - pagePosition.left - INIT_FIELD_WIDTH / 2) /
         pagePosition.width
@@ -530,6 +551,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               fields={fields}
               scale={scale}
               setScale={setScale}
+              fetchAllFields={fetchAllFields}
               setFields={setFields}
               addFieldToWorkspace={addFieldToWorkspace}
               setVisibility={setVisibility}

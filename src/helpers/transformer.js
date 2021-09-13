@@ -55,7 +55,6 @@ export const addToDevFields = (fieldArray, signers) => {
 
     return {
       ...datum,
-      pagePosition: {},
       formatting: { font: "Arial", size: 12 },
       signer: {
         ...temp,
@@ -67,4 +66,33 @@ export const addToDevFields = (fieldArray, signers) => {
     };
   });
   return finalTemp;
+};
+
+export const downloadFile = (fileURL, fileName) => {
+  if (!window.ActiveXObject) {
+    let save = document.createElement("a");
+    save.href = fileURL;
+    save.target = "_blank";
+    let filename = fileURL.substring(fileURL.lastIndexOf("/") + 1);
+    save.download = fileName || filename;
+    if (
+      navigator.userAgent.toLowerCase().match(/(ipad|iphone|safari)/) &&
+      navigator.userAgent.search("Chrome") < 0
+    ) {
+      document.location = save.href;
+    } else {
+      var evt = new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: false,
+      });
+      save.dispatchEvent(evt);
+      (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    }
+  } else if (!!window.ActiveXObject && document.execCommand) {
+    var _window = window.open(fileURL, "_blank");
+    _window.document.close();
+    _window.document.execCommand("SaveAs", true, fileName || fileURL);
+    _window.close();
+  }
 };

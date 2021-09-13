@@ -10,9 +10,7 @@ import ClearRounded from "@material-ui/icons/ClearRounded";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import { useHistory } from "react-router";
 import Footer from "components/layout/Navbar/Footer";
-import { useSnackbar } from "contexts/SnackbarContext";
 import { useModal } from "contexts/ModalContext";
-import { sendDoc } from "api/docs";
 
 const DEFAULT_EMAIL_BODY =
   "Your kontrak is nearly complete, please help to review and sign this document";
@@ -28,35 +26,36 @@ const ReviewSend = ({ atr, activeItemId }) => {
 
   const [data, setData] = useState([]);
 
-  const { handle_data_docs, getItemData } = useData();
-  const { addSnackbar } = useSnackbar();
+  const { getItemData } = useData();
+  // const { addSnackbar } = useSnackbar();
   const fileData = getItemData(atr, "fileData");
   const signers = fileData?.nextflow;
   const { openVerifySignature } = useModal();
   // const { auth } = useAuth();
 
-  const handleNext = () =>
-    openVerifySignature({ onClickCTA: handleSubmit, fileUID: fileData?.uid });
-
-  const handleSubmit = async () => {
-    try {
-      setLoading(0);
-      const body = {
-        subject: emailSubject.value,
-        body: emailBody.value,
-        cc: data?.filter((datum) => {
-          return { ...datum.name, ...datum.email };
-        }),
-      };
-      const res = await sendDoc(fileData?.id, body);
-      if (res) {
-        handle_data_docs(true, atr, "fileData", res);
-        addSnackbar(t("sign.reviewSend.submitSuccess"), "success");
-      }
-    } catch (err) {
-      addSnackbar(String(err));
-    }
+  const handleNext = () => {
+    const body = {
+      subject: emailSubject.value,
+      body: emailBody.value,
+      cc: data?.map((datum) => {
+        return { ...datum.name, ...datum.email };
+      }),
+    };
+    openVerifySignature({ body, fileUID: fileData?.uid });
   };
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     setLoading(0);
+  //     const res = await sendDoc(fileData?.uid, body);
+  //     if (res) {
+  //       handle_data_docs(true, atr, "fileData", res);
+  //       addSnackbar(t("sign.reviewSend.submitSuccess"), "success");
+  //     }
+  //   } catch (err) {
+  //     addSnackbar(String(err));
+  //   }
+  // };
   const lastElementId = useMemo(
     () =>
       data?.reduce(function (a, b) {

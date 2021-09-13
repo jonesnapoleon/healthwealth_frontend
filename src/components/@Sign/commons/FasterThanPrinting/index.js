@@ -5,6 +5,8 @@ import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import "./index.scss";
 import { useModal } from "contexts/ModalContext";
 import { useFormInput } from "helpers/hooks";
+import { useHistory } from "react-router";
+import { FRONTEND_URL } from "helpers/constant";
 
 const FasterThanPrinting = () => {
   const { t } = useTranslation();
@@ -39,6 +41,8 @@ export const SendWhatsapp = () => {
   const name = useFormInput("");
   const wa = useFormInput("");
 
+  const { push } = useHistory();
+
   return (
     <div className="send-whatsapp-container">
       <div className="top">{t("popup.wa.sendFaster")}</div>
@@ -56,7 +60,21 @@ export const SendWhatsapp = () => {
         </span>
       </div>
       <div className="mt-5 item-right">
-        <button className="btn btn-black squared">{t("general.send")}</button>
+        <button
+          className="btn btn-black squared"
+          onClick={() => {
+            if (name?.value !== "" && wa.value !== "") {
+              window.open(
+                `https://api.whatsapp.com/send?phone=${decodeURIComponent(
+                  wa.value
+                )}&text=${decodeURIComponent(name.value)}`
+              );
+              setTimeout(() => push(FRONTEND_URL.docs), 3000);
+            }
+          }}
+        >
+          {t("general.send")}
+        </button>
       </div>
     </div>
   );

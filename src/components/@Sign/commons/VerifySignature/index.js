@@ -8,28 +8,33 @@ import OTPInput from "components/commons/OTPInput";
 import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
+import { useModal } from "contexts/ModalContext";
 
 const VerifySignature = (props) => {
   const {
-    onClickCTA,
+    // onClickCTA,
+    body,
     fileUID,
     isAuth = false,
     sendOTPAuthWrapper = () => {},
     verifyOTPAuthWrapper = () => {},
   } = props;
   const { t } = useTranslation();
+  const { openFasterThanPrinting } = useModal();
   const { auth } = useAuth();
   const phone = useFormInput(auth?.phone);
   const isSentPhone = useInput(false);
   const otp = useOTP(6);
   const [loading, setLoading] = useState(false);
   const { addSnackbar } = useSnackbar();
+  const [token, setToken] = useState("");
 
   const sendOTPDocWrapper = async () => {
     try {
       setLoading(true);
-      const res = await sendOTPDoc(fileUID, phone?.value);
+      const res = await sendOTPDoc(fileUID, phone?.value, body);
       if (res) {
+        setToken(res.token);
         addSnackbar(t("popup.sign.verify.success1"), "success");
         isSentPhone?.set(true);
       }
@@ -42,12 +47,14 @@ const VerifySignature = (props) => {
 
   const verifyOTPDocWrapper = async () => {
     try {
+      console.log(token);
       setLoading(true);
-      const res = await verifyOTPDoc(fileUID, otp?.number, auth?.id_token);
+      const res = await verifyOTPDoc(fileUID, otp?.number, token);
       if (res) {
-        onClickCTA();
-        addSnackbar(t("popup.verify.success2"), "success");
+        // onClickCTA();
+        addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
+        openFasterThanPrinting();
       }
     } catch (err) {
       addSnackbar(String(err));

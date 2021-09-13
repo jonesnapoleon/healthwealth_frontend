@@ -10,6 +10,7 @@ import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 
 import "./timeline.scss";
+import { getFrontendDateFormat } from "helpers/transformer";
 
 let timelineElements = [
   {
@@ -109,9 +110,11 @@ export default function CustomizedTimeline({ data }) {
               {i !== timelineElements?.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent className="timeline-text">
-              <div>{ele?.title}</div>
-              <div>{ele?.location}</div>
-              <div>{ele?.date}</div>
+              <div>
+                {ele?.fullname} {ele?.action}
+              </div>
+              <div>{getFrontendDateFormat(ele?.updatedAt)}</div>
+              <div>IP: {ele?.ip}</div>
             </TimelineContent>
           </TimelineItem>
         ))

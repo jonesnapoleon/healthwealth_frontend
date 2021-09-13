@@ -126,8 +126,10 @@ const FieldBox = ({
 
   const handle = (
     <FieldHandle
-      color={field?.signer?.color ?? ""}
-      stroke={field?.signer?.color ?? ""}
+      color={!isEditing ? field?.signer?.color ?? "transparent" : "transparent"}
+      stroke={
+        !isEditing ? field?.signer?.color ?? "transparent" : "transparent"
+      }
     />
   );
 
@@ -232,6 +234,13 @@ const FieldBox = ({
     >
       <span
         className="rnd-content"
+        // className={`rnd-content ${
+        //   auth?.email !== field?.signer?.email ? "people" : "my"
+        // } ${
+        //   ["signature", "initial"].includes(String(field?.type).toLowerCase())
+        //     ? "img"
+        //     : "txt"
+        // } ${isEditing ? "editing" : "placeholder"}`}
         onClick={() => setCurrentField(field)}
         onDoubleClick={() => {
           if (auth?.email === field?.signer?.email) {
@@ -278,7 +287,8 @@ const FieldBox = ({
                 setIsEditing(true);
               }
             } else {
-              setIsEditing((a) => !a);
+              setIsEditing(true);
+              // setIsEditing((a) => !a);
             }
           }
           onClick();
@@ -305,11 +315,14 @@ const FieldBox = ({
             <div className="full-field-box">
               <input
                 value={field?.value}
-                disabled={String(field?.type).toLowerCase() === "date"}
+                disabled={["email", "date"].includes(
+                  String(field?.type).toLowerCase()
+                )}
                 onClick={() => setCurrentField(field)}
                 style={{
                   fontSize: field?.formatting?.size,
                   fontFamily: field?.formatting?.font,
+                  border: 0,
                 }}
                 onChange={(e) => {
                   let temp = fields;
@@ -360,10 +373,7 @@ export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
 
   return (
     <img
-      src={
-        qrCodeImg ??
-        "https://www.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market_full/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
-      }
+      src={qrCodeImg}
       alt="qrcode"
       style={{
         width: isNaN(size) ? INIT_FIELD_WIDTH : size,

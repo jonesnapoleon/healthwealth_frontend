@@ -1,7 +1,6 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
-import { useTranslation } from "react-i18next";
 import VisibilitySensor from "react-visibility-sensor";
 // import { TransformComponent } from "react-zoom-pan-pinch";
 
@@ -17,12 +16,14 @@ const Page = ({
   currentSigner,
   pushToStack,
   stateStack,
+  setPageCount,
   fields,
   playableFields,
   qrCodePosition,
   setVisibility,
   scale,
   qrCodeImg,
+  // fetchAllFields,
   auth,
   addFieldToWorkspace,
   isTheSelectedFieldSameAsThisField,
@@ -65,14 +66,16 @@ const Page = ({
             className="invisible"
             onLoad={() => {
               setVisibility(1);
-              let curPage = document.getElementById(
-                "one-image-area-" + pageNum
-              );
-              const pagePosition = curPage?.getBoundingClientRect();
-              let temp = fields.map((field) => {
-                return { ...field, pagePosition };
-              });
-              setFields(temp);
+              // fetchAllFields();
+              setPageCount((a) => a + 1);
+              // let curPage = document.getElementById(
+              //   "one-image-area-" + pageNum
+              // );
+              // const pagePosition = curPage?.getBoundingClientRect();
+              // let temp = fields.map((field) => {
+              //   return { ...field, pagePosition };
+              // });
+              // setFields(temp);
             }}
           />
           {playableFields}
@@ -92,6 +95,7 @@ const Page = ({
 
 const PDFViewer = ({
   fields,
+  fetchAllFields,
   setFields,
   currentSigner,
   setCurrentField,
@@ -111,6 +115,12 @@ const PDFViewer = ({
   addFieldToWorkspace,
 }) => {
   // const currentRef = useRef(null);
+  const [pageCount, setPageCount] = useState(0);
+
+  useEffect(() => {
+    if (pageCount === placeFieldImages.length && pageCount !== 0)
+      fetchAllFields();
+  }, [pageCount, placeFieldImages, fetchAllFields]);
 
   // useEffect(() => {
   //   currentRef.current?.scrollIntoView();
@@ -120,8 +130,8 @@ const PDFViewer = ({
     console.log("ACTIVE FIELED", currentField);
     console.log(
       "CURRENT ALL FIELDS",
-      fields,
-      fields.map((a) => isTheSelectedFieldSameAsThisField(a))
+      fields
+      // fields.map((a) => isTheSelectedFieldSameAsThisField(a))
     );
   }, [fields, currentField, isTheSelectedFieldSameAsThisField]);
 
@@ -173,7 +183,9 @@ const PDFViewer = ({
                     addFieldToWorkspace={addFieldToWorkspace}
                     setFields={setFields}
                     currentSigner={currentSigner}
+                    setPageCount={setPageCount}
                     pushToStack={pushToStack}
+                    // fetchAllFields={fetchAllFields}
                     stateStack={stateStack}
                     playableFields={playableFields}
                     qrCodePosition={qrCodePosition}
