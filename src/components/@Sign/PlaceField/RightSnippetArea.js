@@ -88,7 +88,7 @@ const ControlledAccordions = ({
             <div>{t("sign.placeFields.right.requiredField")}</div>
             <div>
               <Switch
-                checked={currentField?.signer?.required}
+                checked={currentField?.required}
                 disabled={!currentField}
                 color="primary"
                 onChange={(e) => {

@@ -222,19 +222,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     loading,
   ]);
 
-  const isTheseBasicFieldsSame = useCallback(
-    (oneField, twoField) =>
-      parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
-      Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
-      Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
-      parseFloat(oneField?.h) === parseFloat(twoField?.h) &&
-      oneField.pageNum === twoField.pageNum &&
-      oneField?.assignedTo === twoField.assignedTo &&
-      oneField?.value === twoField?.value &&
-      oneField?.type === twoField?.type,
-    []
-  );
-
   const isTheseFieldsSame = useCallback(
     (oneField, twoField) =>
       parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
@@ -305,8 +292,8 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const handleNext = async () => {
     try {
-      const myFields = document.getElementsByClassName("my placeholder");
-      if (myFields.length > 0) throw new Error("Open all your fields!");
+      // const myFields = document.getElementsByClassName("my placeholder");
+      // if (myFields.length > 0) throw new Error("Open all your fields!");
 
       const finalFields = fields?.map((field) => {
         const special =
@@ -315,9 +302,15 @@ const PlaceField = ({ activeItemId, atr }) => {
           ) && auth?.email === field?.signer?.email;
 
         if (special) {
-          if (initial_image_url === "")
+          if (
+            initial_image_url === "" &&
+            String(field?.type).toLowerCase() === "initial"
+          )
             throw new Error("You have initial that you need to fill first!");
-          if (signature_image_url === "")
+          if (
+            signature_image_url === "" &&
+            String(field?.type).toLowerCase() === "signature"
+          )
             throw new Error("You have signature that you need to fill first!");
         }
         if (
@@ -528,7 +521,9 @@ const PlaceField = ({ activeItemId, atr }) => {
       fieldname: t(String(type)),
       pageNum,
       signer: currentSigner,
-      required: true,
+      required: ["signature", "initial"].includes(
+        String(t(String(type))).toLowerCase()
+      ),
       pagePosition,
       value:
         auth?.email !== currentSigner?.email

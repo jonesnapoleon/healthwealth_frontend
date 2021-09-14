@@ -2,7 +2,7 @@ import CustomizedTimeline from "components/commons/Timeline";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-const AuditTrail = ({ activeDoc, auditTrails }) => {
+const SignAuditTrail = ({ activeDoc, auditTrails }) => {
   const { t } = useTranslation();
   const auditData = useMemo(
     () => auditTrails[activeDoc?.value?.id],
@@ -25,4 +25,4 @@ const AuditTrail = ({ activeDoc, auditTrails }) => {
   );
 };
 
-export default AuditTrail;
+export default SignAuditTrail;

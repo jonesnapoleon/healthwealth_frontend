@@ -156,3 +156,9 @@ export const useHashString = (defaultValue = "", type = "string") => {
       : defaultValue;
   return location?.hash ? String(location.hash).substr(1) : defaultValue;
 };
+
+export const useQuery = (atr) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  return searchParams.get(atr);
+};

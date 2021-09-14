@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { useEffectOnce } from "react-use";
 import { TransformWrapper } from "react-zoom-pan-pinch";
 // import { useHistory } from "react-router-dom";
-import { useData } from "../../../contexts/DataContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -26,90 +24,93 @@ import { getDocImages, getAllFields } from "api/docs";
 import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
 // import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import { useHashString } from "helpers/hooks";
-import { useLocation } from "react-router";
+import { useHashString, useProgressBar, useQuery } from "helpers/hooks";
+import { useHistory } from "react-router";
+import { FRONTEND_URL } from "helpers/constant";
+import SignAuditTrail from "./SignAuditTrail";
+import { useAuth } from "contexts/AuthContext";
 
-const Document = ({ atr }) => {
+const Document = () => {
   const fileUId = useHashString("", "string");
-  const { getItemData, handle_data_docs } = useData();
+  const atr = useQuery("type");
+  const { push } = useHistory();
 
-  // const { fullname, email } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  const placeFieldItems = getItemData(atr, "placeFieldItems");
+  const [fields, setFields] = useState([]);
+  const [placeFieldImages, setPlaceFieldImages] = useState([]);
 
-  const updatePlaceFields = useCallback(
-    (newAtr) => {
-      handle_data_docs(true, atr, "placeFieldItems", {
-        ...placeFieldItems,
-        ...newAtr,
-      });
-    },
-    [atr, handle_data_docs, placeFieldItems]
-  );
-
-  // const fields = useMemo(
-  //   () => placeFieldItems?.fields ?? [],
-  //   [placeFieldItems]
-  // );
-  // const placeFieldImages = useMemo(
-  //   () => placeFieldItems?.images ?? [],
-  //   [placeFieldItems]
-  // );
-
-  const qrCodePosition = useMemo(
-    () => () => placeFieldItems?.qrCode ?? [],
-    [placeFieldItems]
-  );
-
-  // useEffect(() => {
-  //   updatePlaceFields({ images: [temp, temp, temp] });
-  //   updatePlaceFields({ fields: field });
-  // }, []);
-
-  const [currentField, setCurrentField] = useState(null);
-  useEffect(() => {
-    console.log(currentField);
-  }, [currentField]);
-  // const [loading, setLoading] = useState(false);
-  const [scale, setScale] = useState(100);
+  const { fullname, email } = useAuth();
 
   const { addSnackbar } = useSnackbar();
-  // const { push } = useHistory();
+  const imgProgress = useProgressBar();
+  const fieldProgress = useProgressBar();
 
-  // const fetchAllFields = useCallback(
-  //   async (images) => {
-  //     if (fields.length > 0) return;
-  //     try {
-  //       const res = await getAllFields(fileId);
-  //       if (res) {
-  //         updatePlaceFields({ fields: field, images });
-  //       }
-  //     } catch (e) {
-  //       updatePlaceFields({ fields: field, images });
-  //       addSnackbar(String(e));
-  //     }
-  //   },
-  //   [fileId, addSnackbar, updatePlaceFields, fields]
-  // );
+  const fetchAllFields = useCallback(async () => {
+    if (fieldProgress.value !== 0) return;
+    if (!fileUId || fileUId === undefined) {
+      push(`${FRONTEND_URL.docs}`);
+      return;
+    }
+    if (fields && fields.length > 0) return;
+    if (loading) return;
 
-  // const fetchAllImages = useCallback(async () => {
-  //   if (placeFieldImages.length > 0) return;
-  //   try {
-  //     const res = await getDocImages(fileId);
-  //     if (res) {
-  //       updatePlaceFields({ images: res });
-  //       fetchAllFields([temp, temp, temp]);
-  //     }
-  //   } catch (e) {
-  //     addSnackbar(String(e));
-  //   }
-  // }, [
-  //   fileId,
-  //   addSnackbar,
-  //   fetchAllFields,
-  //   updatePlaceFields,
-  //   placeFieldImages,
-  // ]);
+    try {
+      fieldProgress.set(1);
+      setLoading(true);
+      const res = await getAllFields(fileUId);
+      if (res) {
+        fieldProgress.set(100);
+        setFields(res);
+      }
+    } catch (e) {
+      fieldProgress.set(-1);
+      addSnackbar(String(e));
+      setTimeout(() => push(`${FRONTEND_URL.docs}`), 3000);
+    } finally {
+      setLoading(false);
+    }
+  }, [fileUId, loading, addSnackbar, push, setFields, fields, fieldProgress]);
+
+  const fetchAllImages = useCallback(async () => {
+    if (imgProgress.value !== 0) return;
+    if (!fileUId || fileUId === undefined) {
+      push(`${FRONTEND_URL.docs}`);
+      return;
+    }
+    if (placeFieldImages && placeFieldImages.length > 0) return;
+    if (loading) return;
+
+    try {
+      imgProgress.set(1);
+      setLoading(true);
+      const res = await getDocImages(fileUId);
+      if (res) {
+        imgProgress.set(100);
+        setPlaceFieldImages(res);
+        setLoading(false);
+        fetchAllFields();
+      }
+    } catch (e) {
+      imgProgress.set(-1);
+      addSnackbar(String(e));
+      setLoading(false);
+      // setTimeout(() => push(`${FRONTEND_URL.docs}`), 3000);
+    }
+  }, [
+    addSnackbar,
+    fileUId,
+    placeFieldImages,
+    push,
+    imgProgress,
+    loading,
+    fetchAllFields,
+  ]);
+
+  useEffect(() => {
+    fetchAllImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // const handleNext = () => {
   //   try {
@@ -177,6 +178,7 @@ const Document = ({ atr }) => {
                   placeFieldImages={placeFieldImages}
                   qrCodePosition={qrCodePosition}
                 /> */}
+        {/* <SignAuditTrail /> */}
         {/* 
                 <RightSnippetArea
                   currentField={currentField}

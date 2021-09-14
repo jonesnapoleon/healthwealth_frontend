@@ -55,14 +55,22 @@ const Docs = () => {
         return;
       }
       if (obj?.status === DRAFT_STATUS.OUT) {
-        openWA("0834883", "Jones", "dfe", "ewf");
+        if (obj?.nextflow.length > 1) {
+          const people = obj?.nextflow[obj?.currentflow];
+          openWA(
+            people.email,
+            people.name,
+            t("popup.wa.template1"),
+            t("popup.wa.template2")
+          );
+        }
         return;
       }
       handle_data_docs(true, key, "fileData", obj);
       handle_data_docs(true, key, "placeFieldImages", []);
       handle_data_docs(true, key, "placeFieldFields", []);
       if (obj?.status === DRAFT_STATUS.WAITING) {
-        push(`${FRONTEND_URL.document}#${obj?.uid}`);
+        push(`${FRONTEND_URL.document}?type=${key}#${obj?.uid}`);
         return;
       }
       // if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
