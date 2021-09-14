@@ -9,14 +9,15 @@ const AuditTrail = ({ activeDoc, auditTrails }) => {
     [activeDoc, auditTrails]
   );
 
-  console.log(auditData);
   return (
     <div className="audit-trail">
       <div className="item-between">
         <strong className="">{t("docs.auditTrail.title")}</strong>
       </div>
       <div className="wrap-audit">
-        <div className="pt-1 pb-2">{activeDoc?.value?.filename}</div>
+        <div className="pt-1 pb-2" style={{ fontSize: "0.8rem" }}>
+          {activeDoc?.value?.filename}
+        </div>
         <CustomizedTimeline data={auditData} />
         {/* <button className="btn btn-primary btn-sm">
             {t("general.view")}

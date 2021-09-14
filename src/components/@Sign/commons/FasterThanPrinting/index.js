@@ -8,6 +8,9 @@ import { useFormInput } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 
+// const BACOT = (name) =>
+//   `Hi%20${encodeURIComponent(name)}%2C%0A%20I%20am%20interested%20in%20`;
+
 const FasterThanPrinting = () => {
   const { t } = useTranslation();
   const { openSendWhatsapp } = useModal();
@@ -26,7 +29,6 @@ const FasterThanPrinting = () => {
       <div>
         <button className="send-wa" onClick={() => openSendWhatsapp()}>
           <WhatsAppIcon className="success-color" />
-
           <span>{t("popup.wa.sendViaWA")}</span>
         </button>
       </div>
@@ -47,8 +49,8 @@ export const SendWhatsapp = () => {
     <div className="send-whatsapp-container">
       <div className="top">{t("popup.wa.sendFaster")}</div>
       <div className="input-area d-flex justify-content-between align-items-center">
-        <input {...name} />
-        <input {...wa} />
+        <input {...name} placeholder="Receiver name" />
+        <input {...wa} placeholder="Phone number" />
       </div>
       <div className="bottom-text-area">
         <span className="">
@@ -56,7 +58,7 @@ export const SendWhatsapp = () => {
         </span>
         <span className="mx-2">
           {t("popup.wa.template1")} {name?.value}
-          {t("popup.wa.template2")} {wa?.value}
+          {t("popup.wa.template2")}
         </span>
       </div>
       <div className="mt-5 item-right">
@@ -64,12 +66,16 @@ export const SendWhatsapp = () => {
           className="btn btn-black squared"
           onClick={() => {
             if (name?.value !== "" && wa.value !== "") {
+              push(FRONTEND_URL.docs);
               window.open(
-                `https://api.whatsapp.com/send?phone=${decodeURIComponent(
+                `https://api.whatsapp.com/send?phone=${encodeURIComponent(
                   wa.value
-                )}&text=${decodeURIComponent(name.value)}`
+                )}&text=${encodeURIComponent(
+                  t("popup.wa.template1")
+                )}%20${encodeURIComponent(name.value)}%20${encodeURIComponent(
+                  t("popup.wa.template2")
+                )}`
               );
-              setTimeout(() => push(FRONTEND_URL.docs), 3000);
             }
           }}
         >

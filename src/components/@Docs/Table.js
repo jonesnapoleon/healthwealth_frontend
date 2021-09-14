@@ -73,7 +73,12 @@ const Table = ({
                 }}
               >
                 <td>
-                  <span className={`cursor-pointer`}>
+                  <span
+                    className={`cursor-pointer`}
+                    style={{
+                      fontSize: "0.75rem",
+                    }}
+                  >
                     {component?.filename ?? DEFAULT.DOC_FILE_NAME}
                   </span>
                 </td>
@@ -96,20 +101,36 @@ const Table = ({
                       ))}
                     </div>
                   </div>
-                  <span>{t(`docs.table.status.${component?.status}`)}</span>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {t(`docs.table.status.${component?.status}`)}
+                  </span>
                 </td>
                 <td>
                   <button
                     onClick={() => handleClickingComponent(component)}
                     className="btn btn-sm"
                     style={{
+                      width: "5rem",
+                      fontSize: "0.7rem",
+                      paddingLeft: "0",
+                      paddingRight: "0",
                       backgroundColor: getColorScore(component?.status),
                     }}
                   >
                     {t(`docs.table.action.${component?.status}`)}
                   </button>
                 </td>
-                <td>{getMoment(component?.createdAt)}</td>
+                <td
+                  style={{
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  {getMoment(component?.createdAt)}
+                </td>
                 <td>
                   <ChevronRightIcon />
                 </td>

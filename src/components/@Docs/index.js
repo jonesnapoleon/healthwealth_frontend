@@ -10,7 +10,7 @@ import "./docs.scss";
 import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
-import { DOC, DRAFT_STATUS } from "helpers/constant";
+import { DOC, DRAFT_STATUS, FRONTEND_URL } from "helpers/constant";
 import { downloadFile } from "helpers/transformer";
 
 const Docs = () => {
@@ -53,8 +53,14 @@ const Docs = () => {
         downloadFile(obj?.linkToPdf, obj?.filename);
         return;
       }
-      if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
       handle_data_docs(true, key, "fileData", obj);
+      handle_data_docs(true, key, "placeFieldImages", []);
+      handle_data_docs(true, key, "placeFieldFields", []);
+      if (obj?.status === DRAFT_STATUS.WAITING) {
+        push(`${FRONTEND_URL.document}#${obj?.uid}`);
+        return;
+      }
+      // if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
       if (key !== DOC.me) {
         if (obj?.nextflow && obj.nextflow?.length === 0) {
           push(`${key}#${0}`);
@@ -110,7 +116,7 @@ const Docs = () => {
       </div> */}
 
       <div className="row">
-        <div className="col col-lg-8 col-12">
+        <div className="col col-lg-9 col-12">
           <div className="formarea">
             <input className="form-input search-bar" {...query} />
             <span className="search-bar-icon">
@@ -125,7 +131,7 @@ const Docs = () => {
             getAuditTrail={getAuditTrail}
           />
         </div>
-        <div className="col col-lg-4 col-12 position-relative">
+        <div className="col col-lg-3 col-12 position-relative">
           <AuditTrail activeDoc={activeDoc} auditTrails={auditTrails} />
         </div>
       </div>

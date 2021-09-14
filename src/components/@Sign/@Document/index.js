@@ -27,45 +27,10 @@ import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
 // import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { useHashString } from "helpers/hooks";
-
-const field = [
-  {
-    id: 1,
-    docid: 1,
-    assignedTo: "13518084@std.stei.itb.ac.id",
-    fieldname: "other",
-    x1: 20,
-    x2: 30,
-    y1: 4,
-    y2: 5,
-    pageNum: 2,
-    value: null,
-    editable: true,
-    createdAt: "2021-06-14T02:31:57.000Z",
-    updatedAt: "2021-06-14T02:31:57.000Z",
-  },
-  {
-    id: 2,
-    docid: 1,
-    assignedTo: "13518084@std.stei.itb.ac.id",
-    fieldname: "other",
-    x1: 20,
-    x2: 30,
-    y1: 4,
-    y2: 5,
-    pageNum: 2,
-    value: null,
-    editable: true,
-    createdAt: "2021-06-14T02:31:57.000Z",
-    updatedAt: "2021-06-14T02:31:57.000Z",
-  },
-];
-
-const temp =
-  "https://storage.googleapis.com/legaltech-esign-develop/develop/ktp/822204_jpg1627207587207";
+import { useLocation } from "react-router";
 
 const Document = ({ atr }) => {
-  const fileId = useHashString(-1, "number");
+  const fileUId = useHashString("", "string");
   const { getItemData, handle_data_docs } = useData();
 
   // const { fullname, email } = useAuth();
@@ -82,14 +47,14 @@ const Document = ({ atr }) => {
     [atr, handle_data_docs, placeFieldItems]
   );
 
-  const fields = useMemo(
-    () => placeFieldItems?.fields ?? [],
-    [placeFieldItems]
-  );
-  const placeFieldImages = useMemo(
-    () => placeFieldItems?.images ?? [],
-    [placeFieldItems]
-  );
+  // const fields = useMemo(
+  //   () => placeFieldItems?.fields ?? [],
+  //   [placeFieldItems]
+  // );
+  // const placeFieldImages = useMemo(
+  //   () => placeFieldItems?.images ?? [],
+  //   [placeFieldItems]
+  // );
 
   const qrCodePosition = useMemo(
     () => () => placeFieldItems?.qrCode ?? [],
@@ -111,48 +76,40 @@ const Document = ({ atr }) => {
   const { addSnackbar } = useSnackbar();
   // const { push } = useHistory();
 
-  const fetchAllFields = useCallback(
-    async (images) => {
-      if (fields.length > 0) return;
-      try {
-        const res = await getAllFields(fileId);
-        if (res) {
-          updatePlaceFields({ fields: field, images });
-        }
-      } catch (e) {
-        updatePlaceFields({ fields: field, images });
-        addSnackbar(String(e));
-      }
-    },
-    [fileId, addSnackbar, updatePlaceFields, fields]
-  );
+  // const fetchAllFields = useCallback(
+  //   async (images) => {
+  //     if (fields.length > 0) return;
+  //     try {
+  //       const res = await getAllFields(fileId);
+  //       if (res) {
+  //         updatePlaceFields({ fields: field, images });
+  //       }
+  //     } catch (e) {
+  //       updatePlaceFields({ fields: field, images });
+  //       addSnackbar(String(e));
+  //     }
+  //   },
+  //   [fileId, addSnackbar, updatePlaceFields, fields]
+  // );
 
-  const fetchAllImages = useCallback(async () => {
-    if (placeFieldImages.length > 0) return;
-    try {
-      const res = await getDocImages(fileId);
-      if (res) {
-        updatePlaceFields({ images: res });
-        fetchAllFields([temp, temp, temp]);
-      }
-    } catch (e) {
-      addSnackbar(String(e));
-    }
-  }, [
-    fileId,
-    addSnackbar,
-    fetchAllFields,
-    updatePlaceFields,
-    placeFieldImages,
-  ]);
-
-  useEffectOnce(() => {
-    // fetchAllFields([temp, temp, temp]);
-    fetchAllImages();
-    // fetchAllFields();
-  });
-
-  useEffectOnce(() => {});
+  // const fetchAllImages = useCallback(async () => {
+  //   if (placeFieldImages.length > 0) return;
+  //   try {
+  //     const res = await getDocImages(fileId);
+  //     if (res) {
+  //       updatePlaceFields({ images: res });
+  //       fetchAllFields([temp, temp, temp]);
+  //     }
+  //   } catch (e) {
+  //     addSnackbar(String(e));
+  //   }
+  // }, [
+  //   fileId,
+  //   addSnackbar,
+  //   fetchAllFields,
+  //   updatePlaceFields,
+  //   placeFieldImages,
+  // ]);
 
   // const handleNext = () => {
   //   try {
@@ -185,7 +142,7 @@ const Document = ({ atr }) => {
     <>
       <SignNav />
       <div className={"place-field-area"}>
-        <TransformWrapper initialScale={1} panning={{ disabled: true }}>
+        {/* <TransformWrapper initialScale={1} panning={{ disabled: true }}>
           {({
             zoomIn,
             zoomOut,
@@ -194,8 +151,8 @@ const Document = ({ atr }) => {
             positionY,
             ...rest
           }) => (
-            <>
-              {/* <Toolbar
+            <> */}
+        {/* <Toolbar
                 setQrCodePosition={setQrCodePosition}
                 canEdit={placeFieldImages && placeFieldImages?.length > 0}
                 // scale={scale}
@@ -204,14 +161,14 @@ const Document = ({ atr }) => {
                 zoomOut={zoomOut}
               /> */}
 
-              <DndProvider backend={HTML5Backend}>
-                {/* <FieldSidebar
+        {/* <DndProvider backend={HTML5Backend}> */}
+        {/* <FieldSidebar
                   atr={atr}
                   listSigners={listSigners}
                   currentSigner={currentSigner}
                   setCurrentSigner={setCurrentSigner}
                 /> */}
-
+        {/* 
                 <PDFSigner
                   fields={fields}
                   scale={scale}
@@ -219,17 +176,17 @@ const Document = ({ atr }) => {
                   setCurrentField={setCurrentField}
                   placeFieldImages={placeFieldImages}
                   qrCodePosition={qrCodePosition}
-                />
-                {/* 
+                /> */}
+        {/* 
                 <RightSnippetArea
                   currentField={currentField}
                   setCurrentField={setCurrentField}
                   fields={fields}
                 /> */}
-              </DndProvider>
-            </>
+        {/* </DndProvider> */}
+        {/* </>
           )}
-        </TransformWrapper>
+        </TransformWrapper> */}
         <SignFoot />
       </div>
     </>

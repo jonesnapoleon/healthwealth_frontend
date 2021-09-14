@@ -15,7 +15,7 @@ import ToggleButton from "../../commons/ToggleButton";
 import { isValidEmail } from "../../../helpers/validator";
 import { useData } from "../../../contexts/DataContext";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
-import { ADDSIGNER } from "../../../helpers/constant";
+import { ADDSIGNER, FRONTEND_URL } from "../../../helpers/constant";
 import { useHistory } from "react-router-dom";
 import Footer from "components/layout/Navbar/Footer";
 
@@ -37,6 +37,12 @@ const AddSigners = ({ atr, activeItemId }) => {
 
   const { auth } = useAuth();
   const { push } = useHistory();
+
+  useEffect(() => {
+    if (fileData) {
+      if (fileData?.uid === undefined) push(`${FRONTEND_URL.docs}`);
+    } else push(`${FRONTEND_URL.docs}`);
+  }, [fileData, push]);
 
   const nextFlow = useMemo(() => fileData?.nextflow ?? [], [fileData]);
   useEffect(() => {

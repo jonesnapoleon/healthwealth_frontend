@@ -113,28 +113,31 @@ const PlaceField = ({ activeItemId, atr }) => {
     setCurrentSigner(listSigners?.length > 0 ? listSigners[0] : {});
   }, [listSigners]);
 
-  const placeFieldItems = getItemData(atr, "placeFieldItems");
+  // const placeFieldItems = getItemData(atr, "placeFieldItems");
 
-  const updatePlaceFields = useCallback(
-    (newAtr) =>
-      handle_data_docs(true, atr, "placeFieldItems", {
-        ...placeFieldItems,
-        ...newAtr,
-      }),
-    [atr, handle_data_docs, placeFieldItems]
-  );
+  // const updatePlaceFields = useCallback(
+  //   (newAtr) => {
+  //     console.log(placeFieldItems);
+  //     handle_data_docs(true, atr, "placeFieldItems", {
+  //       ...placeFieldItems,
+  //       ...newAtr,
+  //     });
+  //   },
+  //   [atr, handle_data_docs, placeFieldItems]
+  // );
 
   const fields = useMemo(
-    () => placeFieldItems?.fields ?? [],
-    [placeFieldItems]
+    () => getItemData(atr, "placeFieldFields") ?? [],
+    [getItemData, atr]
   );
+
   const placeFieldImages = useMemo(
-    () => placeFieldItems?.images ?? [],
-    [placeFieldItems]
+    () => getItemData(atr, "placeFieldImages") ?? [],
+    [getItemData, atr]
   );
   const setFields = useCallback(
-    (val) => updatePlaceFields({ fields: val }),
-    [updatePlaceFields]
+    (val) => handle_data_docs(true, atr, "placeFieldFields", val),
+    [handle_data_docs, atr]
   );
 
   const [currentField, setCurrentField] = useState(null);
@@ -162,10 +165,13 @@ const PlaceField = ({ activeItemId, atr }) => {
     let finalField = fileData?.fields?.map((field) => {
       let curPage = document.getElementById("one-image-area-" + field?.pageNum);
       let pagePosition = curPage?.getBoundingClientRect();
+      console.log(pagePosition);
       return { ...field, pagePosition };
     });
-
-    setFields(addToDevFields(finalField, fileData?.nextflow));
+    console.log("finalF", finalField);
+    let temp = addToDevFields(finalField, fileData?.nextflow);
+    console.log("temo", temp);
+    setFields(temp);
     fieldProgress.set(1);
     // updatePlaceFields({
     //   fields: addToDevFields(fileData?.fields, fileData?.nextflow),
@@ -198,7 +204,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       const res = await getDocImages(fileData?.uid);
       if (res) {
         imgProgress.set(100);
-        updatePlaceFields({ images: res });
+        handle_data_docs(true, atr, "placeFieldImages", res);
       }
     } catch (e) {
       imgProgress.set(-1);
@@ -209,39 +215,25 @@ const PlaceField = ({ activeItemId, atr }) => {
   }, [
     fileData,
     addSnackbar,
-    updatePlaceFields,
+    handle_data_docs,
+    atr,
     placeFieldImages,
     imgProgress,
     loading,
   ]);
 
-  // useEffect(() => {
-  //   console.log(placeFieldImages);
-  // }, [placeFieldImages]);
-
-  useEffect(() => {
-    fetchAllImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    fetchAllFields();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const scrollToPage = useCallback(
-    (pageNum = visibility, align = "center") => {
-      let currentPage = document.getElementById(`one-image-area-${pageNum}`);
-      currentPage?.scrollIntoView({
-        behavior: "smooth",
-        block: align,
-        inline: align,
-      });
-    },
-    [visibility]
+  const isTheseBasicFieldsSame = useCallback(
+    (oneField, twoField) =>
+      parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
+      Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
+      Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
+      parseFloat(oneField?.h) === parseFloat(twoField?.h) &&
+      oneField.pageNum === twoField.pageNum &&
+      oneField?.assignedTo === twoField.assignedTo &&
+      oneField?.value === twoField?.value &&
+      oneField?.type === twoField?.type,
+    []
   );
-
-  const { t } = useTranslation();
 
   const isTheseFieldsSame = useCallback(
     (oneField, twoField) =>
@@ -268,6 +260,48 @@ const PlaceField = ({ activeItemId, atr }) => {
       oneField?.type === currentField?.type,
     [currentField]
   );
+
+  // useEffect(() => {
+  //   if (fields.length > 0)
+  //     if (fields.length === fileData?.fields.length) {
+  //       console.log(fields);
+  //       console.log(fileData?.fields);
+  //       for (let i = 0; i < fields.length; i++) {
+  //         if (!isTheseBasicFieldsSame(fields[i], fileData.fields[i])) {
+  //           console.log("ho");
+  //           setFields([]);
+  //         }
+  //       }
+  //     }
+  // }, [fields, fileData.fields, setFields, isTheseBasicFieldsSame]);
+
+  // useEffect(() => {
+  //   console.log(placeFieldImages);
+  // }, [placeFieldImages]);
+
+  useEffect(() => {
+    fetchAllImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // useEffect(() => {
+  //   fetchAllFields();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  const scrollToPage = useCallback(
+    (pageNum = visibility, align = "center") => {
+      let currentPage = document.getElementById(`one-image-area-${pageNum}`);
+      currentPage?.scrollIntoView({
+        behavior: "smooth",
+        block: align,
+        inline: align,
+      });
+    },
+    [visibility]
+  );
+
+  const { t } = useTranslation();
 
   const handleNext = async () => {
     try {
@@ -387,6 +421,7 @@ const PlaceField = ({ activeItemId, atr }) => {
         data.pageNum = visibility;
         scrollToPage();
         pushToStack([...fields, data]);
+        console.log("pas");
         setFields([...fields, data]);
       }
     } catch (e) {
@@ -396,6 +431,7 @@ const PlaceField = ({ activeItemId, atr }) => {
 
   const undoField = useCallback(() => {
     if (stateStack.length > 1 && stackIdx > 0) {
+      console.log("undo");
       setFields(JSON.parse(JSON.stringify(stateStack[stackIdx - 1])));
       setStackIdx((i) => i - 1);
       scrollToPage();
@@ -500,7 +536,7 @@ const PlaceField = ({ activeItemId, atr }) => {
           : getNewFieldValue(t(String(type)).toLowerCase()),
       formatting: { font: "Arial", size: 12 },
     };
-
+    console.log("invo");
     setFields([...fields, newField]);
     pushToStack([...fields, newField]);
   };

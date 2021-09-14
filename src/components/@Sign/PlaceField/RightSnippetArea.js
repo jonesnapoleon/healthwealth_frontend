@@ -189,11 +189,13 @@ const ControlledAccordions = ({
                     }}
                     className="w-100"
                   >
-                    {["Arial", "Times New Roman"].map((a) => (
-                      <option value={a} key={a}>
-                        {a}
-                      </option>
-                    ))}
+                    {["Arial", "Times New Roman", "Helvetica", "PTSans"].map(
+                      (a) => (
+                        <option value={a} key={a}>
+                          {a}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               )}

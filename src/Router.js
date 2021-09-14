@@ -42,7 +42,7 @@ const Router = () => {
           <Route render={() => <Request />} path={FRONTEND_URL.request} exact />
           <Route
             render={() => <Document />}
-            path={FRONTEND_URL.document}
+            path={`${FRONTEND_URL.document}`}
             exact
           />
           <Route

@@ -11,6 +11,7 @@ import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRoun
 import { useHistory } from "react-router";
 import Footer from "components/layout/Navbar/Footer";
 import { useModal } from "contexts/ModalContext";
+import { FRONTEND_URL } from "helpers/constant";
 
 const DEFAULT_EMAIL_BODY =
   "Your kontrak is nearly complete, please help to review and sign this document";
@@ -32,6 +33,12 @@ const ReviewSend = ({ atr, activeItemId }) => {
   const signers = fileData?.nextflow;
   const { openVerifySignature } = useModal();
   // const { auth } = useAuth();
+
+  useEffect(() => {
+    if (fileData) {
+      if (fileData?.uid === undefined) push(`${FRONTEND_URL.docs}`);
+    } else push(`${FRONTEND_URL.docs}`);
+  }, [fileData, push]);
 
   const handleNext = () => {
     const body = {

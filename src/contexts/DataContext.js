@@ -33,10 +33,8 @@ let INITDATA = {
   fileData: false,
   // signers: [],
   // copies: [],
-  placeFieldItems: {
-    images: [],
-    fields: [],
-  },
+  placeFieldImages: [],
+  placeFieldFields: [],
 };
 
 const DataProvider = ({ children }) => {
