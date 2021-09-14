@@ -12,6 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { DOC, DRAFT_STATUS, FRONTEND_URL } from "helpers/constant";
 import { downloadFile } from "helpers/transformer";
+import { openWA } from "helpers/action";
 
 const Docs = () => {
   const { t } = useTranslation();
@@ -51,6 +52,10 @@ const Docs = () => {
       const key = String(obj?.signType).toLowerCase();
       if (obj?.status === DRAFT_STATUS.COMPLETED) {
         downloadFile(obj?.linkToPdf, obj?.filename);
+        return;
+      }
+      if (obj?.status === DRAFT_STATUS.OUT) {
+        openWA("0834883", "Jones", "dfe", "ewf");
         return;
       }
       handle_data_docs(true, key, "fileData", obj);

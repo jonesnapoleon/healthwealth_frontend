@@ -7,9 +7,10 @@ import { useModal } from "contexts/ModalContext";
 import { useFormInput } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
-
-// const BACOT = (name) =>
-//   `Hi%20${encodeURIComponent(name)}%2C%0A%20I%20am%20interested%20in%20`;
+import { openWA } from "helpers/action";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { getAllDocs } from "api/docs";
+import { useData } from "contexts/DataContext";
 
 const FasterThanPrinting = () => {
   const { t } = useTranslation();
@@ -43,7 +44,10 @@ export const SendWhatsapp = () => {
   const name = useFormInput("");
   const wa = useFormInput("");
 
+  const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
+  const { onClose } = useModal();
+  const { setDocs } = useData();
 
   return (
     <div className="send-whatsapp-container">
@@ -64,18 +68,24 @@ export const SendWhatsapp = () => {
       <div className="mt-5 item-right">
         <button
           className="btn btn-black squared"
-          onClick={() => {
+          onClick={async () => {
             if (name?.value !== "" && wa.value !== "") {
-              push(FRONTEND_URL.docs);
-              window.open(
-                `https://api.whatsapp.com/send?phone=${encodeURIComponent(
-                  wa.value
-                )}&text=${encodeURIComponent(
-                  t("popup.wa.template1")
-                )}%20${encodeURIComponent(name.value)}%20${encodeURIComponent(
-                  t("popup.wa.template2")
-                )}`
+              openWA(
+                wa.value,
+                name.value,
+                t("popup.wa.template1"),
+                t("popup.wa.template2")
               );
+              onClose();
+              try {
+                const res = await getAllDocs();
+                if (res) {
+                  setDocs(res);
+                }
+                push(FRONTEND_URL.docs);
+              } catch (err) {
+                addSnackbar(String(err));
+              }
             }
           }}
         >
