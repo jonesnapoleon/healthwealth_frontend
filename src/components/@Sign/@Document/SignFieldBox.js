@@ -70,7 +70,7 @@ const DeleteFieldHandle = () => {
   );
 };
 
-const FieldBox = ({
+const SignFieldBox = ({
   field,
   pushToStack,
   fields,
@@ -200,4 +200,4 @@ const FieldBox = ({
   );
 };
 
-export default FieldBox;
+export default SignFieldBox;

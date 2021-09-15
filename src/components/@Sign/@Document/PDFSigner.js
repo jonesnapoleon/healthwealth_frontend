@@ -2,7 +2,7 @@ import LoadingBackdrop from "components/commons/LoadingBackdrop";
 import React, { useState, useRef, useEffect, memo } from "react";
 import { TransformComponent } from "react-zoom-pan-pinch";
 
-import FieldBox from "./FieldBox";
+import SignFieldBox from "./SignFieldBox";
 
 // const INIT_FIELD_WIDTH = 100;
 // const INIT_FIELD_HEIGHT = 50;
@@ -99,7 +99,7 @@ const PDFSigner = ({
                       ?.filter((field) => field.pageNum === i + 1)
                       .map((field, j) => {
                         return (
-                          <FieldBox
+                          <SignFieldBox
                             field={field}
                             onClick={() => setCurrentField(field)}
                             key={j}

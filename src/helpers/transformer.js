@@ -50,8 +50,14 @@ export const addToDevFields = (fieldArray, signers) => {
 
     if (!(datum?.assignedTo in hashmap)) {
       one += 1;
-      hashmap[datum?.assignedTo] = FIXED_COLORS[one]?.color;
+      hashmap[datum?.assignedTo] = {
+        val: {
+          color: FIXED_COLORS[one]?.color,
+          backgroundColor: FIXED_COLORS[one]?.backgroundColor,
+        },
+      };
     }
+    console.log(hashmap);
 
     return {
       ...datum,
@@ -60,8 +66,8 @@ export const addToDevFields = (fieldArray, signers) => {
         ...temp,
         label: temp?.name,
         value: temp?.email,
-        color: hashmap[datum?.assignedTo],
-        backgroundColor: hashmap[datum?.assignedTo],
+        color: hashmap[datum?.assignedTo]?.val?.color,
+        backgroundColor: hashmap[datum?.assignedTo]?.val?.backgroundColor,
       },
     };
   });

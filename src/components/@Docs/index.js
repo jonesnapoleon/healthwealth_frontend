@@ -96,7 +96,7 @@ const Docs = () => {
         }
       }
     },
-    [handle_data_docs, push]
+    [handle_data_docs, push, t]
   );
 
   const trimNow = useCallback(

@@ -225,8 +225,8 @@ const PlaceField = ({ activeItemId, atr }) => {
   const isTheseFieldsSame = useCallback(
     (oneField, twoField) =>
       parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
-      Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
-      Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
+      // Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
+      // Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
       parseFloat(oneField?.h) === parseFloat(twoField?.h) &&
       oneField.pageNum === twoField.pageNum &&
       oneField.signer?.email === twoField.signer?.email &&
@@ -366,7 +366,6 @@ const PlaceField = ({ activeItemId, atr }) => {
       addSnackbar(String(err));
     }
   };
-
   const [clipboard, setClipboard] = useClippy();
 
   const copyPasteHandler = (e) => {

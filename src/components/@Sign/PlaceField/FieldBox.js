@@ -178,7 +178,7 @@ const FieldBox = ({
             pushToStack(fields);
           }
         } else {
-          // let temp = fields.filter((t) => {
+          // let temp = fields.map((t) => {
           //   return {
           //     ...t,
           //     x: !isTheseFieldsSame(t, field)
@@ -203,6 +203,7 @@ const FieldBox = ({
           field.w += delta.width / field?.pagePosition?.width;
           field.h += delta.height / field?.pagePosition?.height;
           console.log("resized!", field);
+          // setFields(temp);
           setFields(fields);
           pushToStack(fields);
         }
@@ -214,7 +215,7 @@ const FieldBox = ({
           Math.abs(newX - field.x) > EPSILON &&
           Math.abs(newY - field.y) > EPSILON
         ) {
-          // let temp = fields.filter((t) => {
+          // let temp = fields.map((t) => {
           //   return {
           //     ...t,
           //     x: !isTheseFieldsSame(t, field) ? t.x : newX,
