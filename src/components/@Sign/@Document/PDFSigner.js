@@ -1,5 +1,9 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
-import React, { Fragment, useState, useEffect } from "react";
+import { useModal } from "contexts/ModalContext";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { getFrontendDateFormat } from "helpers/transformer";
+import React, { Fragment, useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import SignFieldBox, { QRCodeBox } from "./SignFieldBox";
 
@@ -33,7 +37,88 @@ const Page = ({
   );
 };
 
-export const LeftArea = () => {
+export const LeftArea = ({
+  setFields,
+  currentSigner,
+  fields,
+  isTheseFieldsSame,
+}) => {
+  const { t } = useTranslation();
+  const initial_image_url = useMemo(
+    () => currentSigner?.initial_finished_url ?? "",
+    [currentSigner]
+  );
+  const signature_image_url = useMemo(
+    () => currentSigner?.signature_finished_url ?? "",
+    [currentSigner]
+  );
+  const { openSignatureModal, show } = useModal();
+  const { addSnackbar } = useSnackbar();
+
+  const getValue = (type) => {
+    if (type === "name") return currentSigner?.fullname;
+    if (type === "date") return getFrontendDateFormat();
+    if (type === "initial") return initial_image_url;
+    if (type === "signature") return signature_image_url;
+    return currentSigner?.[type];
+  };
+
+  const handleClick = () => {
+    let temp = fields;
+    try {
+      let val = [];
+      for (let field of temp) {
+        if (field.isEditing) {
+          val.push(field);
+        } else if (
+          !["signature", "initial"].includes(String(field?.type).toLowerCase())
+        ) {
+          val.push({
+            ...field,
+            isEditing: true,
+            value: getValue(String(field?.type).toLowerCase()),
+          });
+        } else {
+          if (
+            (!signature_image_url &&
+              String(field?.type).toLowerCase() === "signature") ||
+            (!initial_image_url &&
+              String(field?.type).toLowerCase() === "initial")
+          ) {
+            openSignatureModal({
+              isInitial: String(field?.type).toLowerCase() === "initial",
+              extraCallback: () => {
+                show.set(false);
+                let temp = fields;
+                let ax = temp.map((oneField) => {
+                  return {
+                    ...oneField,
+                    value: !isTheseFieldsSame(oneField, field)
+                      ? oneField?.value
+                      : String(field?.type).toLowerCase() === "initial"
+                      ? initial_image_url
+                      : signature_image_url,
+                  };
+                });
+                setFields(ax);
+              },
+            });
+            throw new Error("");
+          } else {
+            return {
+              ...field,
+              isEditing: true,
+              value: getValue(String(field?.type).toLowerCase()),
+            };
+          }
+        }
+      }
+      console.log(val);
+      setFields(val);
+    } catch (e) {
+      addSnackbar(String(e));
+    }
+  };
   return (
     <div className="left-sidebar position-fixed">
       <div className="container">
@@ -41,13 +126,13 @@ export const LeftArea = () => {
           <div style={{ display: "grid", placeItems: "center" }}>
             <div className="button">
               <button
-                onClick={() => {}}
+                onClick={handleClick}
                 className="btn-primary button-landing"
                 style={{
                   borderRadius: "var(--border-radius)",
                 }}
               >
-                One click sign
+                {t("sign.document.oneClickSign")}
               </button>
             </div>
           </div>
@@ -77,10 +162,6 @@ const PDFSigner = ({
     qrcode: qrCodePosition = 2,
     qrcodeImg: qrCodeImg,
   } = fileData;
-
-  useEffect(() => {
-    console.table(fields);
-  }, [fields]);
 
   return (
     <div id="main-workspace">

@@ -3,27 +3,18 @@ import React, { useCallback, useState, useEffect } from "react";
 import "./document.scss";
 
 import PDFSigner, { LeftArea } from "./PDFSigner";
-// import Toolbar from "./Toolbar";
-// import FieldSidebar from "./FieldSidebar";
-// import RightSnippetArea from "./RightSnippetArea";
-
-// import SuperFloatingButton from "../commons/SuperFloatingButton";
 
 import { useSnackbar } from "contexts/SnackbarContext";
-// import { useAuth } from "contexts/AuthContext";
 import { getDocImages, getAllFields } from "api/docs";
-// import { addColorToArr, transformFormInput } from "helpers/transformer";
-// import { DOC } from "helpers/constant";
-// import { Stepper } from "@material-ui/core";
 import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
-// import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { useHashString, useProgressBar } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
 import { addToDevFields } from "helpers/transformer";
 import SignToolbar from "./SignToolbar";
+import { useAuth } from "contexts/AuthContext";
 
 const Document = () => {
   const fileUId = useHashString("", "string");
@@ -36,7 +27,7 @@ const Document = () => {
   const [placeFieldImages, setPlaceFieldImages] = useState([]);
   const [fileData, setFileData] = useState(false);
 
-  // const  } = useAuth();
+  const { auth: currentSigner } = useAuth();
 
   const { addSnackbar } = useSnackbar();
   const imgProgress = useProgressBar();
@@ -64,10 +55,8 @@ const Document = () => {
           return { ...field, pagePosition, isEditing: false };
         });
         let temp = addToDevFields(finalField, res?.doc?.nextflow);
-        console.log("t", temp);
         setFields(temp);
         fieldProgress.set(100);
-        // setFields(res?.fields);
         setFileData(res?.doc);
       }
     } catch (e) {
@@ -114,13 +103,27 @@ const Document = () => {
     return oneField?.uuid === twoField?.uuid;
   }, []);
 
+  const scrollToPage = useCallback((pageNum = 1, align = "center") => {
+    let currentPage = document.getElementById(`one-sign-image-area-${pageNum}`);
+    currentPage?.scrollIntoView({
+      behavior: "smooth",
+      block: align,
+      inline: align,
+    });
+  }, []);
+
   return (
     <>
       <SignNav />
       <div className={"sign-place-field-area"}>
         <SignToolbar />
 
-        <LeftArea />
+        <LeftArea
+          setFields={setFields}
+          fields={fields}
+          isTheseFieldsSame={isTheseFieldsSame}
+          currentSigner={currentSigner}
+        />
 
         <PDFSigner
           setFields={setFields}
@@ -130,7 +133,11 @@ const Document = () => {
           placeFieldImages={placeFieldImages}
           isTheseFieldsSame={isTheseFieldsSame}
         />
-        <SignAuditTrail fileData={fileData} />
+        <SignAuditTrail
+          fileData={fileData}
+          placeFieldImages={placeFieldImages}
+          scrollToPage={scrollToPage}
+        />
         {/* 
                 <RightSnippetArea
                   currentField={currentField}

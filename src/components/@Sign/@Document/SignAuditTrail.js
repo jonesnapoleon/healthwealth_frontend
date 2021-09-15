@@ -3,7 +3,7 @@ import { useData } from "contexts/DataContext";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-const SignAuditTrail = ({ fileData }) => {
+const SignAuditTrail = ({ fileData, placeFieldImages, scrollToPage }) => {
   const { getAuditTrail, auditTrails } = useData();
   const { t } = useTranslation();
 
@@ -27,10 +27,30 @@ const SignAuditTrail = ({ fileData }) => {
             {fileData?.filename}
           </div>
           <CustomizedTimeline data={auditData} />
-          {/* <button className="btn btn-primary btn-sm">
-            {t("general.view")}
-          </button> */}
         </div>
+      </div>
+      <div className="fix-below-button">
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={() => scrollToPage(placeFieldImages?.length, "start")}
+        >
+          {t("sign.placeFields.right.lastPage")}
+        </button>
+        <span>
+          <select
+            onChange={(e) => {
+              scrollToPage(e.target.value, "start");
+            }}
+          >
+            {placeFieldImages?.length > 0 &&
+              placeFieldImages?.map((_, i) => (
+                <option value={i + 1} key={i}>
+                  {i + 1}
+                </option>
+              ))}
+          </select>
+          <span>of {placeFieldImages?.length ?? 0} pages</span>
+        </span>
       </div>
     </div>
   );

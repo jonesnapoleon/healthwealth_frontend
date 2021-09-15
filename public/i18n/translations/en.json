@@ -327,6 +327,9 @@
         "noEntry": "No entry",
         "allRecBlaBla": "All receipients will receive an email attachment of the completed documents once everyone has signed"
       }
+    },
+    "document": {
+      "oneClickSign": "One click sign"
     }
   },
   "popup": {
