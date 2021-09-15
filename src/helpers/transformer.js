@@ -2,6 +2,8 @@ import { formatDistance } from "date-fns";
 import { format } from "date-fns/esm";
 import { FIXED_COLORS } from "./constant";
 
+import { v4 as uuid } from "uuid";
+
 export const getReadableWord = (string) => {
   const char = String(string).replace(" ", "-");
   return char;
@@ -57,8 +59,6 @@ export const addToDevFields = (fieldArray, signers) => {
         },
       };
     }
-    console.log(hashmap);
-
     return {
       ...datum,
       formatting: { font: "Arial", size: 12 },
@@ -69,6 +69,7 @@ export const addToDevFields = (fieldArray, signers) => {
         color: hashmap[datum?.assignedTo]?.val?.color,
         backgroundColor: hashmap[datum?.assignedTo]?.val?.backgroundColor,
       },
+      uuid: uuid(),
     };
   });
   return finalTemp;

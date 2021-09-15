@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import "./placefield.scss";
+import { v4 as uuid } from "uuid";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -165,12 +166,9 @@ const PlaceField = ({ activeItemId, atr }) => {
     let finalField = fileData?.fields?.map((field) => {
       let curPage = document.getElementById("one-image-area-" + field?.pageNum);
       let pagePosition = curPage?.getBoundingClientRect();
-      console.log(pagePosition);
       return { ...field, pagePosition };
     });
-    console.log("finalF", finalField);
     let temp = addToDevFields(finalField, fileData?.nextflow);
-    console.log("temo", temp);
     setFields(temp);
     fieldProgress.set(1);
     // updatePlaceFields({
@@ -222,59 +220,21 @@ const PlaceField = ({ activeItemId, atr }) => {
     loading,
   ]);
 
-  const isTheseFieldsSame = useCallback(
-    (oneField, twoField) =>
-      parseFloat(oneField?.w) === parseFloat(twoField?.w) &&
-      // Math.abs(parseFloat(oneField?.x) - parseFloat(twoField?.x)) < 0.05 &&
-      // Math.abs(parseFloat(oneField?.y) - parseFloat(twoField?.y)) < 0.05 &&
-      parseFloat(oneField?.h) === parseFloat(twoField?.h) &&
-      oneField.pageNum === twoField.pageNum &&
-      oneField.signer?.email === twoField.signer?.email &&
-      oneField?.value === twoField?.value &&
-      oneField?.type === twoField?.type,
-    []
-  );
+  const isTheseFieldsSame = useCallback((oneField, twoField) => {
+    return oneField?.uuid === twoField?.uuid;
+  }, []);
 
   const isTheSelectedFieldSameAsThisField = useCallback(
-    (oneField) =>
-      parseFloat(oneField?.w) === parseFloat(currentField?.w) &&
-      Math.abs(parseFloat(oneField?.x) - parseFloat(currentField?.x)) < 0.05 &&
-      Math.abs(parseFloat(oneField?.y) - parseFloat(currentField?.y)) < 0.05 &&
-      parseFloat(oneField?.h) === parseFloat(currentField?.h) &&
-      oneField.pageNum === currentField.pageNum &&
-      oneField.signer?.email === currentField.signer?.email &&
-      oneField?.value === currentField.value &&
-      oneField?.type === currentField?.type,
+    (oneField) => {
+      return oneField?.uuid === currentField?.uuid;
+    },
     [currentField]
   );
-
-  // useEffect(() => {
-  //   if (fields.length > 0)
-  //     if (fields.length === fileData?.fields.length) {
-  //       console.log(fields);
-  //       console.log(fileData?.fields);
-  //       for (let i = 0; i < fields.length; i++) {
-  //         if (!isTheseBasicFieldsSame(fields[i], fileData.fields[i])) {
-  //           console.log("ho");
-  //           setFields([]);
-  //         }
-  //       }
-  //     }
-  // }, [fields, fileData.fields, setFields, isTheseBasicFieldsSame]);
-
-  // useEffect(() => {
-  //   console.log(placeFieldImages);
-  // }, [placeFieldImages]);
 
   useEffect(() => {
     fetchAllImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   fetchAllFields();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   const scrollToPage = useCallback(
     (pageNum = visibility, align = "center") => {
@@ -529,6 +489,7 @@ const PlaceField = ({ activeItemId, atr }) => {
           ? ""
           : getNewFieldValue(t(String(type)).toLowerCase()),
       formatting: { font: "Arial", size: 12 },
+      uuid: uuid(),
     };
     console.log("invo");
     setFields([...fields, newField]);
