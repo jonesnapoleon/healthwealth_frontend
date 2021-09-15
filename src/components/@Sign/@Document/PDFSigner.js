@@ -1,8 +1,5 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
 import React, { Fragment, useState, useEffect } from "react";
-import { useDrop } from "react-dnd";
-import VisibilitySensor from "react-visibility-sensor";
-// import { TransformComponent } from "react-zoom-pan-pinch";
 
 import SignFieldBox, { QRCodeBox } from "./SignFieldBox";
 
@@ -12,21 +9,9 @@ export const INIT_FIELD_HEIGHT = 50;
 const Page = ({
   data,
   pageNum,
-  setFields,
-  currentSigner,
-  pushToStack,
-  stateStack,
-  setPageCount,
-  fields,
   playableFields,
-  qrCodePosition,
-  setVisibility,
-  scale,
-  qrCodeImg,
-  // fetchAllFields,
-  auth,
-  addFieldToWorkspace,
-  isTheSelectedFieldSameAsThisField,
+  qrCodeComponent,
+  setPageCount,
 }) => {
   return (
     <div className="one-image-area">
@@ -42,12 +27,31 @@ const Page = ({
           onLoad={() => setPageCount((a) => a + 1)}
         />
         {playableFields}
+        {qrCodeComponent}
+      </div>
+    </div>
+  );
+};
 
-        <QRCodeBox
-          qrCodeImg={qrCodeImg}
-          qrPosition={qrCodePosition}
-          pageNum={pageNum}
-        />
+export const LeftArea = () => {
+  return (
+    <div className="left-sidebar position-fixed">
+      <div className="container">
+        <div className="row pt-2">
+          <div style={{ display: "grid", placeItems: "center" }}>
+            <div className="button">
+              <button
+                onClick={() => {}}
+                className="btn-primary button-landing"
+                style={{
+                  borderRadius: "var(--border-radius)",
+                }}
+              >
+                One click sign
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -58,7 +62,6 @@ const PDFSigner = ({
   fileData,
   fetchAllFields,
   setFields,
-  currentSigner,
   placeFieldImages,
   isTheseFieldsSame,
 }) => {
@@ -72,8 +75,12 @@ const PDFSigner = ({
   const {
     filename: fileName = "",
     qrcode: qrCodePosition = 2,
-    qrCodeImg,
+    qrcodeImg: qrCodeImg,
   } = fileData;
+
+  useEffect(() => {
+    console.table(fields);
+  }, [fields]);
 
   return (
     <div id="main-workspace">
@@ -83,7 +90,9 @@ const PDFSigner = ({
             placeFieldImages?.map((data, i) => {
               const playableFields = fields
                 ? fields
-                    ?.filter((field) => field.pageNum === i + 1)
+                    ?.filter(
+                      (field) => field.pageNum === i + 1 && field.editable
+                    )
                     .map((field, j) => {
                       return (
                         <SignFieldBox
@@ -96,18 +105,23 @@ const PDFSigner = ({
                       );
                     })
                 : [];
+
+              const QRCode = () => (
+                <QRCodeBox
+                  qrCodeImg={qrCodeImg}
+                  qrPosition={qrCodePosition}
+                  pageNum={i + 1}
+                />
+              );
+
               return (
                 <Fragment key={i}>
                   <Page
                     data={data}
                     pageNum={i + 1}
-                    fields={fields}
-                    setFields={setFields}
-                    currentSigner={currentSigner}
                     setPageCount={setPageCount}
                     playableFields={playableFields}
-                    qrCodePosition={qrCodePosition}
-                    qrCodeImg={qrCodeImg}
+                    qrCodeComponent={<QRCode />}
                   />
                   <div className="one-image-meta-info">
                     <span>{fileName}</span>
@@ -122,61 +136,9 @@ const PDFSigner = ({
             <LoadingBackdrop />
           )}
         </div>
-        {/* </TransformComponent> */}
-        {/* )} */}
       </div>
     </div>
   );
 };
 
 export default PDFSigner;
-
-// export const StaticPDFViewer =
-
-/* <div
-          className="wrap-again"
-          // style={{ transform: `scale(${scale}%)` }}
-          ref={currentRef}
-        >
-          {placeFieldImages && placeFieldImages?.length > 0 ? (
-            placeFieldImages?.map((data, i) => {
-              const playableFields = fields
-                ? fields
-                    ?.filter((field) => field.pageNum === i + 1)
-                    .map((field, j) => {
-                      return (
-                        <FieldBox
-                          field={field}
-                          onClick={() => setCurrentField(field)}
-                          key={j}
-                          id={`field-${j + 1}`}
-                          pushToStack={pushToStack}
-                          fields={fields}
-                          setFields={setFields}
-                          scale={scale}
-                        />
-                      );
-                    })
-                : [];
-              return (
-                <Page
-                  setVisibility={setVisibility}
-                  data={data}
-                  pageNum={i + 1}
-                  fields={fields}
-                  setFields={setFields}
-                  currentSigner={currentSigner}
-                  key={i}
-                  pushToStack={pushToStack}
-                  stateStack={stateStack}
-                  playableFields={playableFields}
-                  qrCodePosition={qrCodePosition}
-                  scale={scale}
-                />
-              );
-            })
-          ) : (
-            <LoadingBackdrop />
-          )}
-        </div>
-         */

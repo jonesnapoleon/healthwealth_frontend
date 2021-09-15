@@ -40,7 +40,7 @@ export default function CustomizedTimeline({ data }) {
     <Timeline className={classes.root}>
       {data && data?.length > 0 ? (
         data?.map((ele, i) => (
-          <TimelineItem className={classes.item}>
+          <TimelineItem className={classes.item} key={i}>
             <TimelineSeparator>
               <TimelineDot variant="outlined">
                 <DoneIcon className={classes.dot} />

@@ -6,154 +6,192 @@ $pad-left-from-center: 19%;
 $pad-right-from-center: 23%;
 $tools-height: 10vh;
 
-.user-sign {
-  .place-field-area {
-    height: 100vh;
-    width: 100vw;
+.sign-place-field-area {
+  height: 100vh;
+  width: 100vw;
 
-    .tools-area {
-      position: fixed;
-      top: $pad-top;
-      height: $tools-height;
-      left: $left-width;
-      right: $right-width;
-      background-color: var(--secondary-extra-color-4);
-      z-index: 999999;
-      .wrapper {
-        height: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .button-right-tools-area {
+    position: fixed;
+    top: $pad-top;
+    height: $tools-height;
+    left: 100% - $right-width;
+    width: $right-width;
+    right: 0;
+    background-color: var(--secondary-extra-color-4);
+    z-index: 999999;
+    display: grid;
+    place-items: center;
+    > div {
+      > * {
+        margin: 0.3rem;
       }
     }
+  }
+  .tools-area {
+    position: fixed;
+    top: $pad-top;
+    height: $tools-height;
+    left: $left-width;
+    // right: $right-width;
+    right: $right-width;
+    background-color: var(--secondary-extra-color-4);
+    z-index: 999999;
+    .wrapper {
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 
-    .left-sidebar {
-      background-color: var(--secondary-extra-color-4);
-      top: $pad-top;
-      height: 100vh - $pad-top - 10vh;
-      z-index: 8888;
-      width: $left-width;
-      .container {
-        position: relative;
-        height: 100%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        // padding: 0.1rem;
-      }
+  .left-sidebar {
+    background-color: var(--secondary-extra-color-4);
+    top: $pad-top + $tools-height;
+    // height: 100vh - $pad-top - 10vh;
+    height: 100vh - $pad-top - 10vh - $tools-height;
+    z-index: 8888;
+    width: $left-width;
+    .container {
+      position: relative;
+      height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      // padding: 0.1rem;
+    }
 
-      .lead {
-        margin-top: 1rem;
-        font-weight: bolder;
-      }
-      .field-box {
-        position: relative;
-        height: 3rem;
-        display: flex;
+    .lead {
+      margin-top: 1rem;
+      font-weight: bolder;
+    }
+    .field-box {
+      position: relative;
+      height: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      line-height: 3rem;
+      vertical-align: middle;
+      background-color: white;
+      margin: 0.25rem;
+      .must-child {
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
-        line-height: 3rem;
-        vertical-align: middle;
-        background-color: white;
-        margin: 0.25rem;
-        .must-child {
-          justify-content: space-between;
-          align-items: center;
-          flex-direction: row;
-          display: flex;
-          font-weight: bolder;
-          > :first-child {
-            padding: 0 0.5rem;
-          }
-        }
-        .optional-child {
-          > :first-child {
-            padding: 0 0.25rem;
-          }
-        }
-      }
-    }
-    .right-sidebar {
-      // background-color: var(--secondary-extra-color-4);
-      z-index: 8888;
-      height: 100vh - $pad-top - 10vh - $tools-height;
-      top: $pad-top + $tools-height;
-      right: 0;
-      width: $right-width;
-      padding: 0 0.5rem 0.5rem;
-      .wrapper {
-        padding: 0 15px;
-        background-color: white;
-        position: relative;
-        height: calc(100% - 2 * 0.5rem);
-        overflow-y: scroll;
-        overflow-x: hidden;
-        padding-bottom: 0.3rem;
-        border-bottom: 0.4rem solid var(--secondary-extra-color-4);
-        // .weird {
-        // }
-      }
-      hr {
-        margin: 0;
-        opacity: 0.75;
-        border: 0.5px solid black;
-      }
-    }
-    #main-workspace {
-      width: 100%;
-      background-color: var(--secondary-extra-color-4);
-      padding-left: $pad-left-from-center;
-      padding-right: $pad-right-from-center;
-      padding-top: $pad-top;
-      margin-top: $pad-top / 16;
-      padding-bottom: $pad-top;
-      position: relative;
-
-      > :first-child.one-image-area {
-        margin-top: $pad-top;
-      }
-
-      .one-image-area {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        background-color: var(--secondary-extra-color-4);
-        margin-bottom: 1rem;
-        position: relative;
-        width: 100%;
-        &:last-child {
-          padding-bottom: 0;
-        }
-        .one-image {
-          position: relative;
-          border: 2px solid black;
-          width: 100%;
-          background-size: cover;
-          background-repeat: no-repeat;
-          img {
-            width: 100%;
-          }
-        }
-        .rnd-content {
-          height: 100%;
-          display: grid;
-          place-items: center;
-        }
-      }
-
-      .draggable-item {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ddd;
-        background: #f0f0f0;
-        .draggable-textarea {
-          width: 97%;
-          height: 97%;
-          position: absolute;
-          resize: none;
-          border: none;
+        font-weight: bolder;
+        > :first-child {
+          padding: 0 0.5rem;
         }
+      }
+      .optional-child {
+        > :first-child {
+          padding: 0 0.25rem;
+        }
+      }
+    }
+  }
+  .right-sidebar {
+    // background-color: var(--secondary-extra-color-4);
+    z-index: 8888;
+    height: 100vh - $pad-top - 10vh - $tools-height;
+    top: $pad-top + $tools-height;
+    right: 0;
+    width: $right-width;
+    padding: 1rem 1rem 0.5rem;
+    background-color: white;
+    .wrapper {
+      padding: 0 15px;
+      background-color: white;
+      position: relative;
+      height: calc(100% - 2 * 0.5rem);
+      overflow-y: scroll;
+      overflow-x: hidden;
+      padding-bottom: 0.3rem;
+      border-bottom: 0.4rem solid var(--secondary-extra-color-4);
+      // .weird {
+      // }
+    }
+    hr {
+      margin: 0;
+      opacity: 0.75;
+      border: 0.5px solid black;
+    }
+  }
+  #main-workspace {
+    width: 100%;
+    background-color: var(--secondary-extra-color-4);
+    padding-left: $pad-left-from-center;
+    padding-right: $pad-right-from-center;
+    padding-top: $pad-top + $tools-height;
+    margin-top: $pad-top / 16;
+    padding-bottom: $pad-top;
+    position: relative;
+
+    > :first-child.one-image-area {
+      margin-top: $pad-top;
+    }
+
+    .one-image-area {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: var(--secondary-extra-color-4);
+      // margin-bottom: 1rem;
+      position: relative;
+      width: 100%;
+      &:last-child {
+        padding-bottom: 0;
+      }
+      .one-image {
+        position: relative;
+        border: 2px solid black;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        img {
+          width: 100%;
+        }
+      }
+      .rnd-content {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        .full-field-box {
+          height: 100%;
+          width: 100%;
+          input {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            background: transparent !important;
+            &:disabled {
+              background: transparent !important;
+            }
+          }
+        }
+      }
+    }
+    .one-image-meta-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+    .draggable-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+      // background: #f0f0f0;
+      .draggable-textarea {
+        width: 97%;
+        height: 97%;
+        position: absolute;
+        resize: none;
+        border: none;
       }
     }
   }

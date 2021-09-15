@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState } from "react";
 import { Rnd } from "react-rnd";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { useAuth } from "contexts/AuthContext";
 import { useModal } from "contexts/ModalContext";
 
@@ -77,13 +77,11 @@ const FieldHandle = ({ color, stroke }) => {
 
 const SignFieldBox = ({
   field,
-  pushToStack,
   fields,
   onClick,
   isTheseFieldsSame,
   setFields,
 }) => {
-  const { t } = useTranslation();
   const { auth } = useAuth();
   const { openSignatureModal, show } = useModal();
   const [isEditing, setIsEditing] = useState(false);
@@ -126,6 +124,7 @@ const SignFieldBox = ({
         bottomLeft: handle,
         bottomRight: handle,
       }}
+      disableDragging={true}
       default={{
         x: field.x * field.pagePosition.width,
         y: field.y * field.pagePosition.height,
@@ -138,8 +137,12 @@ const SignFieldBox = ({
         bottomLeft: false,
         bottomRight: false,
       }}
-      onResizeStop={() => {}}
-      onDragStop={() => {}}
+      onResizeStop={() => {
+        return;
+      }}
+      onDragStop={() => {
+        return;
+      }}
       style={{ border: 0, zIndex: 888 }}
       className="draggable-item"
     >
@@ -152,57 +155,46 @@ const SignFieldBox = ({
         //     ? "img"
         //     : "txt"
         // } ${isEditing ? "editing" : "placeholder"}`}
-        // onDoubleClick={() => {
-        //   if (auth?.email === field?.signer?.email) {
-        //     if (
-        //       ["signature", "initial"].includes(
-        //         String(field?.type).toLowerCase()
-        //       )
-        //     ) {
-        //       if (
-        //         (!signature_image_url &&
-        //           String(field?.type).toLowerCase() === "signature") ||
-        //         (!initial_image_url &&
-        //           String(field?.type).toLowerCase() === "initial")
-        //       ) {
-        //         openSignatureModal({
-        //           isInitial: String(field?.type).toLowerCase() === "initial",
-        //           extraCallback: () => {
-        //             show.set(false);
-        //             let temp = fields;
-        //             let ax = temp.map((oneField) => {
-        //               return {
-        //                 ...oneField,
-        //                 value: !isTheSelectedFieldSameAsThisField(oneField)
-        //                   ? oneField?.value
-        //                   : String(field?.type).toLowerCase() === "initial"
-        //                   ? initial_image_url
-        //                   : signature_image_url,
-        //               };
-        //             });
-        //             setFields(ax);
-        //               return {
-        //                 ...field,
-        //                 value: !isTheSelectedFieldSameAsThisField(field)
-        //                   ? field?.value
-        //                   : String(field?.type).toLowerCase() === "initial"
-        //                   ? initial_image_url
-        //                   : signature_image_url,
-        //               };
-        //             });
-        //           },
-        //         });
-        //       } else {
-        //         setIsEditing(true);
-        //       }
-        //     } else {
-        //       setIsEditing(true);
-        //       // setIsEditing((a) => !a);
-        //     }
-        //   }
-        //   onClick();
-        // }}
-
+        onDoubleClick={() => {
+          if (auth?.email === field?.signer?.email) {
+            if (
+              ["signature", "initial"].includes(
+                String(field?.type).toLowerCase()
+              )
+            ) {
+              if (
+                (!signature_image_url &&
+                  String(field?.type).toLowerCase() === "signature") ||
+                (!initial_image_url &&
+                  String(field?.type).toLowerCase() === "initial")
+              ) {
+                openSignatureModal({
+                  isInitial: String(field?.type).toLowerCase() === "initial",
+                  extraCallback: () => {
+                    show.set(false);
+                    let temp = fields;
+                    let ax = temp.map((oneField) => {
+                      return {
+                        ...oneField,
+                        value: !isTheseFieldsSame(oneField, field)
+                          ? oneField?.value
+                          : String(field?.type).toLowerCase() === "initial"
+                          ? initial_image_url
+                          : signature_image_url,
+                      };
+                    });
+                    setFields(ax);
+                  },
+                });
+              }
+            } else {
+              setIsEditing(true);
+            }
+          } else {
+            setIsEditing(true);
+            // setIsEditing((a) => !a);
+          }
+        }}
         style={{
           backgroundColor: isEditing
             ? "transparent"
@@ -235,7 +227,7 @@ const SignFieldBox = ({
                   let ax = temp.map((oneField) => {
                     return {
                       ...oneField,
-                      value: isTheseFieldsSame(oneField)
+                      value: isTheseFieldsSame(oneField, field)
                         ? e.target.value
                         : oneField?.value,
                     };

@@ -1,13 +1,8 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { TransformWrapper } from "react-zoom-pan-pinch";
-// import { useHistory } from "react-router-dom";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useCallback, useState, useEffect } from "react";
 
 import "./document.scss";
 
-/* <i class="fas fa-signature"></i> */
-
-import PDFSigner from "./PDFSigner";
+import PDFSigner, { LeftArea } from "./PDFSigner";
 // import Toolbar from "./Toolbar";
 // import FieldSidebar from "./FieldSidebar";
 // import RightSnippetArea from "./RightSnippetArea";
@@ -23,19 +18,17 @@ import { getDocImages, getAllFields } from "api/docs";
 import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
 // import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import { useHashString, useProgressBar, useQuery } from "helpers/hooks";
+import { useHashString, useProgressBar } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
-import { useAuth } from "contexts/AuthContext";
 import { addToDevFields } from "helpers/transformer";
+import SignToolbar from "./SignToolbar";
 
 const Document = () => {
   const fileUId = useHashString("", "string");
-  const atr = useQuery("type");
+  // const atr = useQuery("type");
   const { push } = useHistory();
-
-  const { auth: currentSigner } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -68,7 +61,7 @@ const Document = () => {
             "one-sign-image-area-" + field?.pageNum
           );
           let pagePosition = curPage?.getBoundingClientRect();
-          return { ...field, pagePosition };
+          return { ...field, pagePosition, isEditing: false };
         });
         let temp = addToDevFields(finalField, res?.doc?.nextflow);
         console.log("t", temp);
@@ -124,32 +117,20 @@ const Document = () => {
   return (
     <>
       <SignNav />
-      <div className={"place-field-area"}>
-        {/* <Toolbar
-                setQrCodePosition={setQrCodePosition}
-                canEdit={placeFieldImages && placeFieldImages?.length > 0}
-                // scale={scale}
-                // setScale={setScale}
-                zoomIn={zoomIn}
-                zoomOut={zoomOut}
-              /> */}
+      <div className={"sign-place-field-area"}>
+        <SignToolbar />
 
-        {/* <FieldSidebar
-                  atr={atr}
-                  listSigners={listSigners}
-                  currentSigner={currentSigner}
-                  setCurrentSigner={setCurrentSigner}
-                /> */}
+        <LeftArea />
 
         <PDFSigner
+          setFields={setFields}
           fileData={fileData}
           fetchAllFields={fetchAllFields}
           fields={fields}
-          currentSigner={currentSigner}
           placeFieldImages={placeFieldImages}
           isTheseFieldsSame={isTheseFieldsSame}
         />
-        {/* <SignAuditTrail /> */}
+        <SignAuditTrail fileData={fileData} />
         {/* 
                 <RightSnippetArea
                   currentField={currentField}
