@@ -556,7 +556,6 @@ const PlaceField = ({ activeItemId, atr }) => {
               qrCodePosition={qrCodePosition}
               qrCodeImg={fileData?.qrcodeImg}
               isTheseFieldsSame={isTheseFieldsSame}
-              auth={auth}
               isTheSelectedFieldSameAsThisField={
                 isTheSelectedFieldSameAsThisField
               }

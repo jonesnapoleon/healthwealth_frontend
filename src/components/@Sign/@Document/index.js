@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { TransformWrapper } from "react-zoom-pan-pinch";
 // import { useHistory } from "react-router-dom";
-import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import "./document.scss";
@@ -29,18 +28,22 @@ import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
 import { useAuth } from "contexts/AuthContext";
+import { addToDevFields } from "helpers/transformer";
 
 const Document = () => {
   const fileUId = useHashString("", "string");
   const atr = useQuery("type");
   const { push } = useHistory();
 
+  const { auth: currentSigner } = useAuth();
+
   const [loading, setLoading] = useState(false);
 
   const [fields, setFields] = useState([]);
   const [placeFieldImages, setPlaceFieldImages] = useState([]);
+  const [fileData, setFileData] = useState(false);
 
-  const { fullname, email } = useAuth();
+  // const  } = useAuth();
 
   const { addSnackbar } = useSnackbar();
   const imgProgress = useProgressBar();
@@ -60,8 +63,19 @@ const Document = () => {
       setLoading(true);
       const res = await getAllFields(fileUId);
       if (res) {
+        let finalField = res?.fields?.map((field) => {
+          let curPage = document.getElementById(
+            "one-sign-image-area-" + field?.pageNum
+          );
+          let pagePosition = curPage?.getBoundingClientRect();
+          return { ...field, pagePosition };
+        });
+        let temp = addToDevFields(finalField, res?.doc?.nextflow);
+        console.log("t", temp);
+        setFields(temp);
         fieldProgress.set(100);
-        setFields(res);
+        // setFields(res?.fields);
+        setFileData(res?.doc);
       }
     } catch (e) {
       fieldProgress.set(-1);
@@ -89,7 +103,6 @@ const Document = () => {
         imgProgress.set(100);
         setPlaceFieldImages(res);
         setLoading(false);
-        fetchAllFields();
       }
     } catch (e) {
       imgProgress.set(-1);
@@ -97,62 +110,21 @@ const Document = () => {
       setLoading(false);
       // setTimeout(() => push(`${FRONTEND_URL.docs}`), 3000);
     }
-  }, [
-    addSnackbar,
-    fileUId,
-    placeFieldImages,
-    push,
-    imgProgress,
-    loading,
-    fetchAllFields,
-  ]);
+  }, [addSnackbar, fileUId, placeFieldImages, push, imgProgress, loading]);
 
   useEffect(() => {
     fetchAllImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const handleNext = () => {
-  //   try {
-  //     console.log(fields);
-  //     for (let i = 0; i < fields.length; i++) {
-  //       // const field = fields[i]
-  //       let newFieldElement = document.getElementById(`field-${i}`);
-  //       console.log(newFieldElement.value);
-  //     }
-  //     // const newData = data.map(({ id, ...keepAttrs }) => keepAttrs);
-  //     // const res = await addUserToDocument(newData, fileData?.uid);
-  //     // if (res) {
-  //     //   console.log(res);
-  //     //   handle_data_docs(true, atr, "signers", data);
-  //     //   setActiveItem((a) => a + 1);
-  //     //   setAvailableLevel((a) => a + 1);
-  //     //   // setFileUrl(newRes?.linkToPdf);
-  //     //   // setAvailableLevel((a) => a + 1);
-  //     //   // progress.set(100);
-  //     //   setLoading(1);
-  //     //   setSuccess(t("sign.addSigners.addSignersSuccess"));
-  //     //   setTimeout(() => setSuccess(false), 3000);
-  //     // }
-  //   } catch (err) {
-  //     addSnackbar(String(err));
-  //   }
-  // };
+  const isTheseFieldsSame = useCallback((oneField, twoField) => {
+    return oneField?.uuid === twoField?.uuid;
+  }, []);
 
   return (
     <>
       <SignNav />
       <div className={"place-field-area"}>
-        {/* <TransformWrapper initialScale={1} panning={{ disabled: true }}>
-          {({
-            zoomIn,
-            zoomOut,
-            resetTransform,
-            positionX,
-            positionY,
-            ...rest
-          }) => (
-            <> */}
         {/* <Toolbar
                 setQrCodePosition={setQrCodePosition}
                 canEdit={placeFieldImages && placeFieldImages?.length > 0}
@@ -162,22 +134,21 @@ const Document = () => {
                 zoomOut={zoomOut}
               /> */}
 
-        {/* <DndProvider backend={HTML5Backend}> */}
         {/* <FieldSidebar
                   atr={atr}
                   listSigners={listSigners}
                   currentSigner={currentSigner}
                   setCurrentSigner={setCurrentSigner}
                 /> */}
-        {/* 
-                <PDFSigner
-                  fields={fields}
-                  scale={scale}
-                  setScale={setScale}
-                  setCurrentField={setCurrentField}
-                  placeFieldImages={placeFieldImages}
-                  qrCodePosition={qrCodePosition}
-                /> */}
+
+        <PDFSigner
+          fileData={fileData}
+          fetchAllFields={fetchAllFields}
+          fields={fields}
+          currentSigner={currentSigner}
+          placeFieldImages={placeFieldImages}
+          isTheseFieldsSame={isTheseFieldsSame}
+        />
         {/* <SignAuditTrail /> */}
         {/* 
                 <RightSnippetArea
@@ -185,10 +156,7 @@ const Document = () => {
                   setCurrentField={setCurrentField}
                   fields={fields}
                 /> */}
-        {/* </DndProvider> */}
-        {/* </>
-          )}
-        </TransformWrapper> */}
+
         <SignFoot />
       </div>
     </>

@@ -24,7 +24,6 @@ const Page = ({
   scale,
   qrCodeImg,
   // fetchAllFields,
-  auth,
   addFieldToWorkspace,
   isTheSelectedFieldSameAsThisField,
 }) => {
@@ -109,7 +108,6 @@ const PDFViewer = ({
   fileName,
   placeFieldImages,
   qrCodeImg,
-  auth,
   isTheSelectedFieldSameAsThisField,
   isTheseFieldsSame,
   addFieldToWorkspace,
@@ -191,7 +189,6 @@ const PDFViewer = ({
                     qrCodePosition={qrCodePosition}
                     scale={scale}
                     qrCodeImg={qrCodeImg}
-                    auth={auth}
                   />
                   <div className="one-image-meta-info">
                     <span>{fileName}</span>

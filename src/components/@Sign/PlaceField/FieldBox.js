@@ -134,7 +134,7 @@ const FieldBox = ({
   );
 
   const deleteHandle = <DeleteFieldHandle />;
-  const EPSILON = 0.002;
+  // const EPSILON = 0.002;
   const sampleRef = useRef(null);
   sampleRef?.current?.updatePosition({
     x: field.x * field?.pagePosition?.width,

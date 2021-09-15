@@ -68,7 +68,7 @@ const SignNav = () => {
               aria-expanded="false"
               // style={{ display: "grid", placeItems: "center" }}
             >
-              <ChevronRightIcon color="black" style={{ margin: "auto" }} />
+              <ChevronRightIcon style={{ margin: "auto" }} />
             </div>
             <div className="dropdown-menu nav-dropdown">
               <Link className="dropdown-item" to={FRONTEND_URL.settings}>
