@@ -1,22 +1,15 @@
 import LoadingBackdrop from "components/commons/LoadingBackdrop";
 import { useModal } from "contexts/ModalContext";
 import { useSnackbar } from "contexts/SnackbarContext";
-import { getFrontendDateFormat } from "helpers/transformer";
 import React, { Fragment, useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import SignFieldBox, { QRCodeBox } from "./SignFieldBox";
+import SignFieldBox from "./SignFieldBox";
 
 export const INIT_FIELD_WIDTH = 100;
 export const INIT_FIELD_HEIGHT = 50;
 
-const Page = ({
-  data,
-  pageNum,
-  playableFields,
-  qrCodeComponent,
-  setPageCount,
-}) => {
+const Page = ({ data, pageNum, playableFields, setPageCount }) => {
   return (
     <div className="one-image-area">
       <div
@@ -31,7 +24,6 @@ const Page = ({
           onLoad={() => setPageCount((a) => a + 1)}
         />
         {playableFields}
-        {qrCodeComponent}
       </div>
     </div>
   );
@@ -42,6 +34,7 @@ export const LeftArea = ({
   currentSigner,
   fields,
   isTheseFieldsSame,
+  getValue,
 }) => {
   const { t } = useTranslation();
   const initial_image_url = useMemo(
@@ -55,21 +48,14 @@ export const LeftArea = ({
   const { openSignatureModal, show } = useModal();
   const { addSnackbar } = useSnackbar();
 
-  const getValue = (type) => {
-    if (type === "name") return currentSigner?.fullname;
-    if (type === "date") return getFrontendDateFormat();
-    if (type === "initial") return initial_image_url;
-    if (type === "signature") return signature_image_url;
-    return currentSigner?.[type];
-  };
-
   const handleClick = () => {
-    let temp = fields;
     try {
+      let temp = fields;
       let val = [];
       for (let field of temp) {
+        console.log(field);
         if (field.isEditing) {
-          val.push(field);
+          val.push({ ...field });
         } else if (
           !["signature", "initial"].includes(String(field?.type).toLowerCase())
         ) {
@@ -79,6 +65,7 @@ export const LeftArea = ({
             value: getValue(String(field?.type).toLowerCase()),
           });
         } else {
+          console.log(initial_image_url);
           if (
             (!signature_image_url &&
               String(field?.type).toLowerCase() === "signature") ||
@@ -103,17 +90,16 @@ export const LeftArea = ({
                 setFields(ax);
               },
             });
-            throw new Error("");
+            throw new Error("Sign first");
           } else {
-            return {
+            val.push({
               ...field,
               isEditing: true,
               value: getValue(String(field?.type).toLowerCase()),
-            };
+            });
           }
         }
       }
-      console.log(val);
       setFields(val);
     } catch (e) {
       addSnackbar(String(e));
@@ -149,6 +135,7 @@ const PDFSigner = ({
   setFields,
   placeFieldImages,
   isTheseFieldsSame,
+  getValue,
 }) => {
   const [pageCount, setPageCount] = useState(0);
 
@@ -157,11 +144,7 @@ const PDFSigner = ({
       fetchAllFields();
   }, [pageCount, placeFieldImages, fetchAllFields]);
 
-  const {
-    filename: fileName = "",
-    qrcode: qrCodePosition = 2,
-    qrcodeImg: qrCodeImg,
-  } = fileData;
+  const { filename: fileName = "" } = fileData;
 
   return (
     <div id="main-workspace">
@@ -181,19 +164,12 @@ const PDFSigner = ({
                           isTheseFieldsSame={isTheseFieldsSame}
                           key={j}
                           fields={fields}
+                          getValue={getValue}
                           setFields={setFields}
                         />
                       );
                     })
                 : [];
-
-              const QRCode = () => (
-                <QRCodeBox
-                  qrCodeImg={qrCodeImg}
-                  qrPosition={qrCodePosition}
-                  pageNum={i + 1}
-                />
-              );
 
               return (
                 <Fragment key={i}>
@@ -202,7 +178,6 @@ const PDFSigner = ({
                     pageNum={i + 1}
                     setPageCount={setPageCount}
                     playableFields={playableFields}
-                    qrCodeComponent={<QRCode />}
                   />
                   <div className="one-image-meta-info">
                     <span>{fileName}</span>

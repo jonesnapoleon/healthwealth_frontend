@@ -24,7 +24,13 @@ const FieldHandle = ({ color, stroke }) => {
   );
 };
 
-const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
+const SignFieldBox = ({
+  field,
+  fields,
+  isTheseFieldsSame,
+  setFields,
+  getValue,
+}) => {
   const { auth } = useAuth();
   const { openSignatureModal, show } = useModal();
   // const [isEditing, setIsEditing] = useState(false);
@@ -98,12 +104,15 @@ const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
                 String(field?.type).toLowerCase()
               )
             ) {
+              console.log("hi");
               if (
                 (!signature_image_url &&
                   String(field?.type).toLowerCase() === "signature") ||
                 (!initial_image_url &&
                   String(field?.type).toLowerCase() === "initial")
               ) {
+                console.log("hi2");
+
                 openSignatureModal({
                   isInitial: String(field?.type).toLowerCase() === "initial",
                   extraCallback: () => {
@@ -122,6 +131,20 @@ const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
                     setFields(ax);
                   },
                 });
+              } else {
+                let temp = fields;
+                let ax = temp.map((oneField) => {
+                  return {
+                    ...oneField,
+                    isEditing: isTheseFieldsSame(oneField, field)
+                      ? true
+                      : oneField.isEditing,
+                    value: isTheseFieldsSame(oneField, field)
+                      ? getValue(String(field?.type).toLowerCase())
+                      : oneField.value,
+                  };
+                });
+                setFields(ax);
               }
             } else {
               let temp = fields;
@@ -131,21 +154,13 @@ const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
                   isEditing: isTheseFieldsSame(oneField, field)
                     ? true
                     : oneField.isEditing,
+                  value: isTheseFieldsSame(oneField, field)
+                    ? getValue(String(field?.type).toLowerCase())
+                    : oneField.value,
                 };
               });
               setFields(ax);
             }
-          } else {
-            let temp = fields;
-            let ax = temp.map((oneField) => {
-              return {
-                ...oneField,
-                isEditing: isTheseFieldsSame(oneField, field)
-                  ? true
-                  : oneField.isEditing,
-              };
-            });
-            setFields(ax);
           }
         }}
         style={{
@@ -167,9 +182,10 @@ const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
             <div className="full-field-box">
               <input
                 value={field?.value}
-                disabled={["email", "date"].includes(
-                  String(field?.type).toLowerCase()
-                )}
+                disabled={
+                  ["date"].includes(String(field?.type).toLowerCase()) ||
+                  !field?.editable
+                }
                 style={{
                   fontSize: field?.formatting?.size,
                   fontFamily: field?.formatting?.font,
@@ -205,37 +221,37 @@ const SignFieldBox = ({ field, fields, isTheseFieldsSame, setFields }) => {
   );
 };
 
-const QR_CODE_RELATIVE_SIZE = 0.1;
-const INIT_FIELD_WIDTH = 100;
+// const QR_CODE_RELATIVE_SIZE = 0.1;
+// const INIT_FIELD_WIDTH = 100;
 
-export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
-  const divPosition = document
-    .getElementById(`one-image-area-${pageNum}`)
-    ?.getBoundingClientRect();
-  const size = QR_CODE_RELATIVE_SIZE * divPosition?.width ?? INIT_FIELD_WIDTH;
+// export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
+//   const divPosition = document
+//     .getElementById(`one-image-area-${pageNum}`)
+//     ?.getBoundingClientRect();
+//   const size = QR_CODE_RELATIVE_SIZE * divPosition?.width ?? INIT_FIELD_WIDTH;
 
-  const offsetLeftPercentage = [1, 4].includes(qrPosition)
-    ? 0.02
-    : 0.98 - QR_CODE_RELATIVE_SIZE;
-  const offsetTop = [1, 2].includes(qrPosition)
-    ? 0.015 * divPosition?.height ?? 0
-    : 0.985 * divPosition?.height - size;
+//   const offsetLeftPercentage = [1, 4].includes(qrPosition)
+//     ? 0.02
+//     : 0.98 - QR_CODE_RELATIVE_SIZE;
+//   const offsetTop = [1, 2].includes(qrPosition)
+//     ? 0.015 * divPosition?.height ?? 0
+//     : 0.985 * divPosition?.height - size;
 
-  return (
-    <img
-      src={qrCodeImg}
-      alt="qrcode"
-      style={{
-        width: isNaN(size) ? INIT_FIELD_WIDTH : size,
-        height: isNaN(size) ? INIT_FIELD_WIDTH : size,
-        position: "absolute",
-        left: isNaN(offsetLeftPercentage * divPosition?.width)
-          ? 0
-          : offsetLeftPercentage * divPosition?.width,
-        top: isNaN(offsetTop) ? 0 : offsetTop,
-      }}
-    />
-  );
-};
+//   return (
+//     <img
+//       src={qrCodeImg}
+//       alt="qrcode"
+//       style={{
+//         width: isNaN(size) ? INIT_FIELD_WIDTH : size,
+//         height: isNaN(size) ? INIT_FIELD_WIDTH : size,
+//         position: "absolute",
+//         left: isNaN(offsetLeftPercentage * divPosition?.width)
+//           ? 0
+//           : offsetLeftPercentage * divPosition?.width,
+//         top: isNaN(offsetTop) ? 0 : offsetTop,
+//       }}
+//     />
+//   );
+// };
 
 export default SignFieldBox;

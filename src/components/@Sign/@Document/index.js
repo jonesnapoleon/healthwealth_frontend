@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useMemo } from "react";
 
 import "./document.scss";
 
@@ -12,7 +12,7 @@ import { useHashString, useProgressBar } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
-import { addToDevFields } from "helpers/transformer";
+import { addToDevFields, getFrontendDateFormat } from "helpers/transformer";
 import SignToolbar from "./SignToolbar";
 import { useAuth } from "contexts/AuthContext";
 
@@ -67,6 +67,27 @@ const Document = () => {
       setLoading(false);
     }
   }, [fileUId, loading, addSnackbar, push, setFields, fields, fieldProgress]);
+
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
+
+  const initial_image_url = useMemo(
+    () => currentSigner?.initial_finished_url ?? "",
+    [currentSigner]
+  );
+  const signature_image_url = useMemo(
+    () => currentSigner?.signature_finished_url ?? "",
+    [currentSigner]
+  );
+
+  const getValue = (type) => {
+    if (type === "name") return currentSigner?.fullname;
+    if (type === "date") return getFrontendDateFormat();
+    if (type === "initial") return initial_image_url;
+    if (type === "signature") return signature_image_url;
+    return currentSigner?.[type];
+  };
 
   const fetchAllImages = useCallback(async () => {
     if (imgProgress.value !== 0) return;
@@ -123,9 +144,11 @@ const Document = () => {
           fields={fields}
           isTheseFieldsSame={isTheseFieldsSame}
           currentSigner={currentSigner}
+          getValue={getValue}
         />
 
         <PDFSigner
+          getValue={getValue}
           setFields={setFields}
           fileData={fileData}
           fetchAllFields={fetchAllFields}
