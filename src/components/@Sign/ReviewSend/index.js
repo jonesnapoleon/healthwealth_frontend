@@ -45,7 +45,7 @@ const ReviewSend = ({ atr, activeItemId }) => {
       subject: emailSubject.value,
       body: emailBody.value,
       cc: data?.map((datum) => {
-        return { ...datum.name, ...datum.email };
+        return { name: datum.name, email: datum.email };
       }),
     };
     openVerifySignature({ body, fileUID: fileData?.uid });

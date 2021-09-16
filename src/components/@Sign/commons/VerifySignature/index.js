@@ -9,6 +9,7 @@ import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 import { useModal } from "contexts/ModalContext";
+import { useData } from "contexts/DataContext";
 
 const VerifySignature = (props) => {
   const {
@@ -29,6 +30,7 @@ const VerifySignature = (props) => {
   const [loading, setLoading] = useState(false);
   const { addSnackbar } = useSnackbar();
   const [token, setToken] = useState("");
+  const { setDocs, resetDataDocs } = useData();
 
   const sendOTPDocWrapper = async () => {
     try {
@@ -56,6 +58,10 @@ const VerifySignature = (props) => {
         addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
         openIsEasy ? openWasntThatEasy() : openFasterThanPrinting();
+        if (!openIsEasy) {
+          resetDataDocs();
+          setDocs(false);
+        }
       }
     } catch (err) {
       addSnackbar(String(err));

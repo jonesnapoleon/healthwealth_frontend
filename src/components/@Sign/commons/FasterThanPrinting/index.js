@@ -8,9 +8,6 @@ import { useFormInput, useInput } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import { openWA } from "helpers/action";
-import { useSnackbar } from "contexts/SnackbarContext";
-import { getAllDocs } from "api/docs";
-import { useData } from "contexts/DataContext";
 import { useAuth } from "contexts/AuthContext";
 
 const FasterThanPrinting = () => {
@@ -45,10 +42,8 @@ export const SendWhatsapp = () => {
   const name = useFormInput("");
   const wa = useFormInput("");
 
-  const { addSnackbar } = useSnackbar();
   const { push } = useHistory();
   const { onClose } = useModal();
-  const { setDocs } = useData();
 
   return (
     <div className="send-whatsapp-container">
@@ -78,15 +73,7 @@ export const SendWhatsapp = () => {
                 t("popup.wa.template2")
               );
               onClose();
-              try {
-                const res = await getAllDocs();
-                if (res) {
-                  setDocs(res);
-                }
-                push(FRONTEND_URL.docs);
-              } catch (err) {
-                addSnackbar(String(err));
-              }
+              push(FRONTEND_URL.docs);
             }
           }}
         >

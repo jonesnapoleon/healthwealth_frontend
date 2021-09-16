@@ -23,12 +23,18 @@ const reducer = (state, action) => {
         ...state,
         [action.key]: { ...state[action.key], [action.attr]: false },
       };
+    case "RESET_ITEM":
+      return {
+        me: INITDATA,
+        all: INITDATA,
+        request: INITDATA,
+      };
     default:
       return state;
   }
 };
 
-let INITDATA = {
+export let INITDATA = {
   docs: false,
   fileData: false,
   // signers: [],
@@ -70,6 +76,10 @@ const DataProvider = ({ children }) => {
     } else await fetchAuditTrail(documentId);
   };
 
+  const resetDataDocs = () => {
+    dispatchDataDocs({ type: "RESET_ITEM" });
+  };
+
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],
     [dataDocs]
@@ -92,6 +102,7 @@ const DataProvider = ({ children }) => {
         auditTrails,
         signData,
         setSignData,
+        resetDataDocs,
       }}
     >
       {children}
