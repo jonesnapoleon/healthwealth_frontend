@@ -9,6 +9,7 @@ import VerifySignature from "components/@Sign/commons/VerifySignature";
 import TakePhoto from "components/commons/ImageUpload/TakePhoto";
 import FasterThanPrinting, {
   SendWhatsapp,
+  WasntThatEasy,
 } from "components/@Sign/commons/FasterThanPrinting";
 
 export const ModalContext = createContext({});
@@ -28,6 +29,7 @@ const ModalProvider = ({ children }) => {
     size.set("unset");
     backgroundColor.set("white");
     bg.set("light");
+    showIcon.set(true);
   };
 
   const openSignatureModal = (bringing) => {
@@ -49,7 +51,13 @@ const ModalProvider = ({ children }) => {
   const openSendWhatsapp = (bringing) => {
     innerComponent.set(<SendWhatsapp {...bringing} />);
     typeTwo();
-    showIcon.set(true);
+    show.set(true);
+  };
+
+  const openWasntThatEasy = (bringing) => {
+    innerComponent.set(<WasntThatEasy {...bringing} />);
+    typeTwo();
+    show.set(true);
   };
 
   const openTakePhoto = (bringing) => {
@@ -75,6 +83,7 @@ const ModalProvider = ({ children }) => {
         openTakePhoto,
         openSendWhatsapp,
         openFasterThanPrinting,
+        openWasntThatEasy,
         show,
         onClose,
       }}

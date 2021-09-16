@@ -46,6 +46,7 @@ const DataProvider = ({ children }) => {
     request: INITDATA,
   });
 
+  const [signData, setSignData] = useState(false);
   const [docs, setDocs] = useState(false);
 
   const [auditTrails, setAuditTrails] = useState({});
@@ -89,6 +90,8 @@ const DataProvider = ({ children }) => {
         getItemData,
         getAuditTrail,
         auditTrails,
+        signData,
+        setSignData,
       }}
     >
       {children}

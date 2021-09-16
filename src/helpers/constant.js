@@ -18,6 +18,7 @@ export const FRONTEND_URL = {
   all: `/${DOC.all}`,
   request: `/${DOC.request}`,
   document: `/${DOC.document}`,
+  documentAuditTrail: `/${DOC.document}/audit-trail`,
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",

@@ -12,15 +12,16 @@ import { useModal } from "contexts/ModalContext";
 
 const VerifySignature = (props) => {
   const {
-    // onClickCTA,
+    onClickCTA = () => {},
     body,
     fileUID,
     isAuth = false,
     sendOTPAuthWrapper = () => {},
     verifyOTPAuthWrapper = () => {},
+    openIsEasy = false,
   } = props;
   const { t } = useTranslation();
-  const { openFasterThanPrinting } = useModal();
+  const { openFasterThanPrinting, openWasntThatEasy } = useModal();
   const { auth } = useAuth();
   const phone = useFormInput(auth?.phone);
   const isSentPhone = useInput(false);
@@ -51,10 +52,10 @@ const VerifySignature = (props) => {
       setLoading(true);
       const res = await verifyOTPDoc(fileUID, otp?.number, token);
       if (res) {
-        // onClickCTA();
+        onClickCTA();
         addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
-        openFasterThanPrinting();
+        openIsEasy ? openWasntThatEasy() : openFasterThanPrinting();
       }
     } catch (err) {
       addSnackbar(String(err));

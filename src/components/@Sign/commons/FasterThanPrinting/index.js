@@ -4,13 +4,14 @@ import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
 import "./index.scss";
 import { useModal } from "contexts/ModalContext";
-import { useFormInput } from "helpers/hooks";
+import { useFormInput, useInput } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import { openWA } from "helpers/action";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { getAllDocs } from "api/docs";
 import { useData } from "contexts/DataContext";
+import { useAuth } from "contexts/AuthContext";
 
 const FasterThanPrinting = () => {
   const { t } = useTranslation();
@@ -92,6 +93,78 @@ export const SendWhatsapp = () => {
           {t("general.send")}
         </button>
       </div>
+    </div>
+  );
+};
+
+export const WasntThatEasy = () => {
+  const { t } = useTranslation();
+  const email = useInput();
+  const { signOut } = useAuth();
+
+  return (
+    <div className="send-whatsapp-container p-3 pb-0">
+      <div className="top mt-4">
+        <h5 className="text-center primary-color">
+          <strong>{t("popup.wa.wasntThatEasy")}</strong>
+        </h5>
+      </div>
+      <div className="mt-3 mb-3 text-center">
+        {t("popup.wa.was1")}
+        <br /> <span className="primary-color">3 free</span>{" "}
+        {t("popup.wa.was2")}
+      </div>
+
+      <div className="ml-4 mr-4">
+        <div
+          className="body mr-5 ml-5 mt-4 mb-4 p-4"
+          style={{ background: "var(--secondary-extra-color-4)" }}
+        >
+          <div
+            className="w-100"
+            style={{ display: "grid", placeItems: "center" }}
+          >
+            <div>
+              <div className="text-left mb-1">{t("popup.wa.act")}</div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  signOut();
+                }}
+              >
+                <input
+                  {...email}
+                  type="email"
+                  required
+                  style={{ padding: ".3rem 1rem" }}
+                />
+                <span>
+                  <button
+                    className="btn btn-primary btn-sm "
+                    type="submit"
+                    style={{ marginLeft: "1rem", padding: ".25rem .5rem" }}
+                  >
+                    Submit
+                  </button>
+                </span>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <small
+        className="small-bottom text-center"
+        style={{ fontSize: "0.7rem" }}
+      >
+        {t("popup.wa.ty")}
+      </small>
+      <style>
+        {`
+          .react-responsive-modal-modal.react-responsive-modal-modalCenter {
+            border: 2px solid var(--tertiary-color);
+          }
+          `}
+      </style>
     </div>
   );
 };

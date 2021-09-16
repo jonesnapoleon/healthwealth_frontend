@@ -3,7 +3,7 @@ import { SCALE } from "helpers/constant";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
-const SignToolbar = () => {
+const SignToolbar = ({ handleNext }) => {
   const { t } = useTranslation();
   const { goBack } = useHistory();
   return (
@@ -31,8 +31,8 @@ const SignToolbar = () => {
           <button className="btn btn-light btn-lg" onClick={goBack}>
             {t("general.back")}
           </button>
-          <button className="btn btn-primary btn-lg">
-            {t("general.next")}
+          <button className="btn btn-primary btn-lg" onClick={handleNext}>
+            {t("general.finish")}
           </button>
         </div>
       </div>

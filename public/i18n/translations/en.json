@@ -19,6 +19,7 @@
     "reply": "Reply",
     "addToFav": "Add to favorite",
     "send": "Send",
+    "finish": "Finish",
     "uploaded": "Uploaded",
     "addCommentPlaceholder": "Enter comment...",
     "viewMore": "View more",
@@ -342,7 +343,12 @@
       "sendFaster": "Send whatsapp for faster response!",
       "template1": "Hi ",
       "template2": ", I would like to request your signature - ",
-      "template3": "Click here"
+      "template3": "Click here",
+      "wasntThatEasy": "Wasn't that easy?",
+      "was1": "With Kontrasign, you can send",
+      "was2": "signature request per month",
+      "act": "Activate your free account",
+      "ty": "Thanks for submitting your document. You'll receive a copy in your inbox shortly"
     },
     "sign": {
       "done": {

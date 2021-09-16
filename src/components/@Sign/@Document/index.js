@@ -5,20 +5,24 @@ import "./document.scss";
 import PDFSigner, { LeftArea } from "./PDFSigner";
 
 import { useSnackbar } from "contexts/SnackbarContext";
-import { getDocImages, getAllFields } from "api/docs";
+import { getDocImages, getAllFields, updateFields } from "api/docs";
 import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
-import { useHashString, useProgressBar } from "helpers/hooks";
+import { useHashString, useProgressBar, useQuery } from "helpers/hooks";
 import { useHistory } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
 import { addToDevFields, getFrontendDateFormat } from "helpers/transformer";
 import SignToolbar from "./SignToolbar";
 import { useAuth } from "contexts/AuthContext";
+import { isValidEmail } from "helpers/validator";
+import { useTranslation } from "react-i18next";
+import { useData } from "contexts/DataContext";
+import { useModal } from "contexts/ModalContext";
 
 const Document = () => {
   const fileUId = useHashString("", "string");
-  // const atr = useQuery("type");
+  const atr = useQuery("type");
   const { push } = useHistory();
 
   const [loading, setLoading] = useState(false);
@@ -28,6 +32,8 @@ const Document = () => {
   const [fileData, setFileData] = useState(false);
 
   const { auth: currentSigner } = useAuth();
+  const { setSignData } = useData();
+  const { openVerifySignature } = useModal();
 
   const { addSnackbar } = useSnackbar();
   const imgProgress = useProgressBar();
@@ -86,7 +92,7 @@ const Document = () => {
     if (type === "date") return getFrontendDateFormat();
     if (type === "initial") return initial_image_url;
     if (type === "signature") return signature_image_url;
-    return currentSigner?.[type];
+    return currentSigner?.[type] ?? "";
   };
 
   const fetchAllImages = useCallback(async () => {
@@ -132,12 +138,71 @@ const Document = () => {
       inline: align,
     });
   }, []);
+  const { t } = useTranslation();
+
+  const handleSubmit = async (finalFields) => {
+    try {
+      const res = await updateFields(fileUId, finalFields);
+      if (res) {
+        setSignData(res);
+        push(`${FRONTEND_URL.documentAuditTrail}?type${atr}#${fileUId}`);
+        addSnackbar(t("sign.placeFields.placeFieldSuccess"), "success");
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    }
+  };
+  const handleNext = async () => {
+    try {
+      const finalFields = fields?.map((field) => {
+        const special =
+          ["signature", "initial"].includes(
+            String(field?.type).toLowerCase()
+          ) && currentSigner?.email === field?.signer?.email;
+
+        if (special) {
+          if (
+            initial_image_url === "" &&
+            String(field?.type).toLowerCase() === "initial"
+          )
+            throw new Error("You have initial that you need to fill first!");
+          if (
+            signature_image_url === "" &&
+            String(field?.type).toLowerCase() === "signature"
+          )
+            throw new Error("You have signature that you need to fill first!");
+        }
+        if (
+          String(field?.type).toLowerCase() === "email" &&
+          currentSigner?.email === field?.signer?.email &&
+          !isValidEmail(field?.value)
+        )
+          throw new Error("Fix your email!");
+
+        if (String(field?.value).trim() === "")
+          throw new Error(`Fix your ${field?.type}`);
+        if (!field?.isEditing) throw new Error(`Fix your ${field?.type}`);
+
+        return {
+          id: field?.id,
+          value: field?.value,
+        };
+      });
+
+      openVerifySignature({
+        onClickCTA: () => handleSubmit(finalFields),
+        openIsEasy: true,
+      });
+    } catch (err) {
+      addSnackbar(String(err));
+    }
+  };
 
   return (
     <>
       <SignNav />
       <div className={"sign-place-field-area"}>
-        <SignToolbar />
+        <SignToolbar handleNext={handleNext} />
 
         <LeftArea
           setFields={setFields}
