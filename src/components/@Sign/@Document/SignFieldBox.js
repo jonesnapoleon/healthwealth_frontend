@@ -104,15 +104,12 @@ const SignFieldBox = ({
                 String(field?.type).toLowerCase()
               )
             ) {
-              console.log("hi");
               if (
                 (!signature_image_url &&
                   String(field?.type).toLowerCase() === "signature") ||
                 (!initial_image_url &&
                   String(field?.type).toLowerCase() === "initial")
               ) {
-                console.log("hi2");
-
                 openSignatureModal({
                   isInitial: String(field?.type).toLowerCase() === "initial",
                   extraCallback: () => {

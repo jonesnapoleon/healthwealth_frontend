@@ -24,6 +24,7 @@ const Page = ({
   scale,
   qrCodeImg,
   // fetchAllFields,
+  setIsShow,
   addFieldToWorkspace,
   isTheSelectedFieldSameAsThisField,
 }) => {
@@ -62,6 +63,7 @@ const Page = ({
           <img
             src={data}
             alt=""
+            onClick={() => setIsShow(true)}
             className="invisible"
             onLoad={() => {
               setVisibility(1);
@@ -80,6 +82,7 @@ const Page = ({
           {playableFields}
           {/* {divPosition === undefined ? */}
           <QRCodeBox
+            scale={scale}
             qrCodeImg={qrCodeImg}
             qrPosition={qrCodePosition}
             pageNum={pageNum}
@@ -94,6 +97,7 @@ const Page = ({
 
 const PDFViewer = ({
   fields,
+  setIsShow,
   fetchAllFields,
   setFields,
   currentSigner,
@@ -112,7 +116,6 @@ const PDFViewer = ({
   isTheseFieldsSame,
   addFieldToWorkspace,
 }) => {
-  // const currentRef = useRef(null);
   const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
@@ -120,28 +123,17 @@ const PDFViewer = ({
       fetchAllFields();
   }, [pageCount, placeFieldImages, fetchAllFields]);
 
-  // useEffect(() => {
-  //   currentRef.current?.scrollIntoView();
-  // }, [scale]);
-
   useEffect(() => {
     console.log("ACTIVE FIELED", currentField);
-    console.log(
-      "CURRENT ALL FIELDS",
-      fields
-      // fields.map((a) => isTheSelectedFieldSameAsThisField(a))
-    );
+    console.log("CURRENT ALL FIELDS", fields);
   }, [fields, currentField, isTheSelectedFieldSameAsThisField]);
 
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">
-        {/* {({ zoomIn, zoomOut, resetTransform, ...rest }) => ( */}
-        {/* <TransformComponent> */}
         <div
           className="wrap-again"
-          // style={{ transform: `scale(${scale}%)` }}
-          // ref={currentRef}
+          style={{ transform: `scale(${scale / 100})` }}
         >
           {placeFieldImages && placeFieldImages?.length > 0 ? (
             placeFieldImages?.map((data, i) => {
@@ -160,6 +152,7 @@ const PDFViewer = ({
                           setCurrentField={setCurrentField}
                           key={j}
                           id={`field-${j + 1}`}
+                          setIsShow={setIsShow}
                           isTheSelectedFieldSameAsThisField={
                             isTheSelectedFieldSameAsThisField
                           }
@@ -183,14 +176,17 @@ const PDFViewer = ({
                     currentSigner={currentSigner}
                     setPageCount={setPageCount}
                     pushToStack={pushToStack}
-                    // fetchAllFields={fetchAllFields}
+                    setIsShow={setIsShow}
                     stateStack={stateStack}
                     playableFields={playableFields}
                     qrCodePosition={qrCodePosition}
                     scale={scale}
                     qrCodeImg={qrCodeImg}
                   />
-                  <div className="one-image-meta-info">
+                  <div
+                    className="one-image-meta-info"
+                    onClick={() => setIsShow(true)}
+                  >
                     <span>{fileName}</span>
                     <span>
                       Page {i + 1} of {placeFieldImages?.length}
@@ -211,53 +207,3 @@ const PDFViewer = ({
 };
 
 export default PDFViewer;
-
-// export const StaticPDFViewer =
-
-/* <div
-          className="wrap-again"
-          // style={{ transform: `scale(${scale}%)` }}
-          ref={currentRef}
-        >
-          {placeFieldImages && placeFieldImages?.length > 0 ? (
-            placeFieldImages?.map((data, i) => {
-              const playableFields = fields
-                ? fields
-                    ?.filter((field) => field.pageNum === i + 1)
-                    .map((field, j) => {
-                      return (
-                        <FieldBox
-                          field={field}
-                          onClick={() => setCurrentField(field)}
-                          key={j}
-                          id={`field-${j + 1}`}
-                          pushToStack={pushToStack}
-                          fields={fields}
-                          setFields={setFields}
-                          scale={scale}
-                        />
-                      );
-                    })
-                : [];
-              return (
-                <Page
-                  setVisibility={setVisibility}
-                  data={data}
-                  pageNum={i + 1}
-                  fields={fields}
-                  setFields={setFields}
-                  currentSigner={currentSigner}
-                  key={i}
-                  pushToStack={pushToStack}
-                  stateStack={stateStack}
-                  playableFields={playableFields}
-                  qrCodePosition={qrCodePosition}
-                  scale={scale}
-                />
-              );
-            })
-          ) : (
-            <LoadingBackdrop />
-          )}
-        </div>
-         */

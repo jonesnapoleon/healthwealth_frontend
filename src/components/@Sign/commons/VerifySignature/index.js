@@ -52,7 +52,6 @@ const VerifySignature = (props) => {
 
   const verifyOTPDocWrapper = async () => {
     try {
-      console.log(token);
       setLoading(true);
       const res = await verifyOTPDoc(fileUID, otp?.number, token);
       if (res) {

@@ -9,7 +9,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ArrowDropDownRounded";
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
-import SwitchCameraIcon from "@material-ui/icons/SwitchCamera";
+// import SwitchCameraIcon from "@material-ui/icons/SwitchCamera";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -287,21 +287,22 @@ const RightSnippetArea = ({
   placeFieldImages,
   fileName,
   scrollToPage,
+  setIsShow,
   isTheSelectedFieldSameAsThisField,
+  isShow,
 }) => {
   const { t } = useTranslation();
-  const [show, setShow] = useState(false);
 
   const [temp, setTemp] = useState(1);
 
   const DefaultComponent = () => (
     <div className="position-relative">
-      <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
+      <div
+        className="pt-2 d-flex justify-content-between align-items-center weird wrapper"
+        onClick={() => (currentField ? setIsShow((a) => !a) : setIsShow(true))}
+      >
         <div className="lead font-weight-bolder">
           {t("sign.placeFields.right.documents")}
-        </div>
-        <div onClick={() => setShow((a) => !a)}>
-          <SwitchCameraIcon />
         </div>
       </div>
       <div className="document-show-container">
@@ -349,9 +350,14 @@ const RightSnippetArea = ({
 
   return (
     <div className="right-sidebar position-fixed">
-      {currentField && !show ? (
+      {currentField && !isShow ? (
         <>
-          <div className="">
+          <div
+            className=""
+            onClick={() =>
+              currentField ? setIsShow((a) => !a) : setIsShow(true)
+            }
+          >
             <div className="pt-2 d-flex justify-content-between align-items-center weird wrapper">
               <div className="lead font-weight-bolder">
                 {t("sign.placeFields.right.signature")}

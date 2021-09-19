@@ -114,19 +114,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     setCurrentSigner(listSigners?.length > 0 ? listSigners[0] : {});
   }, [listSigners]);
 
-  // const placeFieldItems = getItemData(atr, "placeFieldItems");
-
-  // const updatePlaceFields = useCallback(
-  //   (newAtr) => {
-  //     console.log(placeFieldItems);
-  //     handle_data_docs(true, atr, "placeFieldItems", {
-  //       ...placeFieldItems,
-  //       ...newAtr,
-  //     });
-  //   },
-  //   [atr, handle_data_docs, placeFieldItems]
-  // );
-
   const fields = useMemo(
     () => getItemData(atr, "placeFieldFields") ?? [],
     [getItemData, atr]
@@ -141,17 +128,13 @@ const PlaceField = ({ activeItemId, atr }) => {
     [handle_data_docs, atr]
   );
 
-  const [currentField, setCurrentField] = useState(null);
   const [scale, setScale] = useState(100);
+  const [currentField, setCurrentField] = useState(null);
   const [qrCodePosition, setQrCodePosition] = useState(1);
   const [stateStack, setStateStack] = useState([[]]);
   const [stackIdx, setStackIdx] = useState(0);
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(1);
-
-  // useEffect(() => {
-  //   console.log(placeFieldItems);
-  // }, [placeFieldItems]);
 
   useEffect(() => {
     if (fileData) {
@@ -230,6 +213,8 @@ const PlaceField = ({ activeItemId, atr }) => {
     },
     [currentField]
   );
+
+  const [isShow, setIsShow] = useState(true);
 
   useEffect(() => {
     fetchAllImages();
@@ -358,10 +343,6 @@ const PlaceField = ({ activeItemId, atr }) => {
     [stateStack, setStateStack, setStackIdx, stackIdx]
   );
 
-  // useEffect(() => {
-  //   console.log("CURRENT STATESTACK",stackIdx, stateStack, stateStack[stackIdx]);
-  // }, [stateStack, stackIdx]);
-
   const pasteField = useCallback(() => {
     try {
       const ajv = new Ajv();
@@ -373,7 +354,6 @@ const PlaceField = ({ activeItemId, atr }) => {
         data.pageNum = visibility;
         scrollToPage();
         pushToStack([...fields, data]);
-        console.log("pas");
         setFields([...fields, data]);
       }
     } catch (e) {
@@ -491,7 +471,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       formatting: { font: "Arial", size: 12 },
       uuid: uuid(),
     };
-    console.log("invo");
+    console.log("add new field");
     setFields([...fields, newField]);
     pushToStack([...fields, newField]);
   };
@@ -522,9 +502,10 @@ const PlaceField = ({ activeItemId, atr }) => {
             redoField={redoField}
             setQrCodePosition={setQrCodePosition}
             canEdit={placeFieldImages && placeFieldImages?.length > 0}
-            // scale={scale}
             visibility={visibility}
-            // setScale={setScale}
+            scale={scale}
+            setScale={setScale}
+            setIsShow={setIsShow}
             // zoomIn={zoomIn}
             // zoomOut={zoomOut}
           />
@@ -543,6 +524,7 @@ const PlaceField = ({ activeItemId, atr }) => {
               scale={scale}
               setScale={setScale}
               fetchAllFields={fetchAllFields}
+              setIsShow={setIsShow}
               setFields={setFields}
               addFieldToWorkspace={addFieldToWorkspace}
               setVisibility={setVisibility}
@@ -566,9 +548,11 @@ const PlaceField = ({ activeItemId, atr }) => {
               setCurrentField={setCurrentField}
               setFields={setFields}
               fields={fields}
+              setIsShow={setIsShow}
               placeFieldImages={placeFieldImages}
               fileName={fileData?.filename ?? DEFAULT.DOC_FILE_NAME}
               scrollToPage={scrollToPage}
+              isShow={isShow}
               isTheSelectedFieldSameAsThisField={
                 isTheSelectedFieldSameAsThisField
               }

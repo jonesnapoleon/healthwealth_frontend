@@ -53,7 +53,6 @@ export const LeftArea = ({
       let temp = fields;
       let val = [];
       for (let field of temp) {
-        console.log(field);
         if (field.isEditing) {
           val.push({ ...field });
         } else if (
@@ -65,7 +64,6 @@ export const LeftArea = ({
             value: getValue(String(field?.type).toLowerCase()),
           });
         } else {
-          console.log(initial_image_url);
           if (
             (!signature_image_url &&
               String(field?.type).toLowerCase() === "signature") ||

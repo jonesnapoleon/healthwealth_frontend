@@ -3,6 +3,7 @@ import UndoIcon from "@material-ui/icons/UndoRounded";
 import RedoIcon from "@material-ui/icons/RedoRounded";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
+import { SCALE } from "helpers/constant";
 // import { SCALE } from "helpers/constant";
 
 const Toolbar = ({
@@ -11,14 +12,16 @@ const Toolbar = ({
   undoField,
   redoField,
   setQrCodePosition,
-  // scale,
-  zoomOut,
-  zoomIn,
+  scale,
+  setScale,
+  // zoomOut,
+  setIsShow,
+  // zoomIn,
   canEdit,
   visibility,
 }) => {
   return (
-    <div className="tools-area">
+    <div className="tools-area" onClick={() => setIsShow(true)}>
       <div className="wrapper">
         <div>
           <table>
@@ -46,7 +49,7 @@ const Toolbar = ({
         <div>
           {/* <button onClick={zoomIn}>+</button>
           <button onClick={zoomOut}>-</button> */}
-          {/* <select
+          <select
             value={scale}
             onChange={(e) => setScale(e.target.value)}
             disabled={!canEdit}
@@ -56,7 +59,7 @@ const Toolbar = ({
                 {val}%
               </option>
             ))}
-          </select> */}
+          </select>
         </div>
 
         <div className="need-pad">

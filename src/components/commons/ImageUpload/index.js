@@ -32,20 +32,6 @@ const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
     changingFilePicker();
   }, [isUpload, changingFilePicker]);
 
-  // useEffect(() => {
-  //   console.log(data);
-  //   if (isUpload && data?.filePicker?.current) {
-  //     data.filePicker.current.onchange = (e) => {
-  //       const newFile = e.target.files[0];
-  //       console.log(newFile);
-  //       if (newFile) data.setFile(newFile);
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(newFile);
-  //       reader.onloadend = () => setUrl(reader.result);
-  //     };
-  //   }
-  // }, [data, isUpload]);
-
   useEffect(() => {
     if (!data?.file || data?.file === null) {
       setUrl("");

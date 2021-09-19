@@ -34,7 +34,6 @@ const Docs = () => {
       try {
         const res = await getAllDocs();
         if (res) {
-          console.log(res);
           setDocs(res);
         }
       } catch (err) {

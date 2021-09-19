@@ -76,10 +76,6 @@ const Document = () => {
     }
   }, [fileUId, loading, addSnackbar, push, setFields, fields, fieldProgress]);
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
-
   const initial_image_url = useMemo(
     () => currentSigner?.initial_finished_url ?? "",
     [currentSigner]

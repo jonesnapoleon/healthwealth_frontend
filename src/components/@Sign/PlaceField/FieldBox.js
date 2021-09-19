@@ -76,7 +76,9 @@ const FieldBox = ({
   fields,
   setFields,
   onClick,
+  scale,
   currentField,
+  setIsShow,
   setCurrentField,
   isTheSelectedFieldSameAsThisField,
   isTheseFieldsSame,
@@ -137,12 +139,12 @@ const FieldBox = ({
   // const EPSILON = 0.002;
   const sampleRef = useRef(null);
   sampleRef?.current?.updatePosition({
-    x: field.x * field?.pagePosition?.width,
-    y: field.y * field?.pagePosition?.height,
+    x: (field.x * field?.pagePosition?.width * scale) / 100,
+    y: (field.y * field?.pagePosition?.height * scale) / 100,
   });
   sampleRef?.current?.updateSize({
-    width: field.w * field?.pagePosition?.width,
-    height: field.h * field?.pagePosition?.height,
+    width: (field.w * field?.pagePosition?.width * scale) / 100,
+    height: (field.h * field?.pagePosition?.height * scale) / 100,
   });
   const fieldElement = useMemo(() => getReadableFieldIcon(field), [field]);
 
@@ -157,10 +159,10 @@ const FieldBox = ({
         bottomRight: handle,
       }}
       default={{
-        x: field.x * field?.pagePosition?.width,
-        y: field.y * field?.pagePosition?.height,
-        width: field.w * field?.pagePosition?.width,
-        height: field.h * field?.pagePosition?.height,
+        x: (field.x * field?.pagePosition?.width * scale) / 100,
+        y: (field.y * field?.pagePosition?.height * scale) / 100,
+        width: (field.w * field?.pagePosition?.width * scale) / 100,
+        height: (field.h * field?.pagePosition?.height * scale) / 100,
       }}
       enableResizing={{
         topLeft: true,
@@ -172,6 +174,7 @@ const FieldBox = ({
         if (delta.width === 0 && delta.height === 0) {
           if (handlePos === "topRight") {
             let temp = fields.filter((t) => !isTheseFieldsSame(t, field));
+            if (isTheseFieldsSame(field, currentField)) setCurrentField(null);
             setFields(temp);
             pushToStack(fields);
           }
@@ -215,7 +218,10 @@ const FieldBox = ({
         //     ? "img"
         //     : "txt"
         // } ${isEditing ? "editing" : "placeholder"}`}
-        onClick={() => setCurrentField(field)}
+        onClick={() => {
+          setIsShow(false);
+          setCurrentField(field);
+        }}
         onDoubleClick={() => {
           if (auth?.email === field?.signer?.email) {
             if (
@@ -245,6 +251,7 @@ const FieldBox = ({
                       };
                     });
                     setFields(ax);
+                    setIsShow(false);
                     setCurrentField((field) => {
                       return {
                         ...field,
@@ -292,7 +299,10 @@ const FieldBox = ({
                 disabled={["email", "date"].includes(
                   String(field?.type).toLowerCase()
                 )}
-                onClick={() => setCurrentField(field)}
+                onClick={() => {
+                  setCurrentField(field);
+                  setIsShow(false);
+                }}
                 style={{
                   fontSize: field?.formatting?.size,
                   fontFamily: field?.formatting?.font,
@@ -309,6 +319,7 @@ const FieldBox = ({
                     };
                   });
                   setFields(ax);
+                  setIsShow(false);
                   setCurrentField((field) => {
                     return { ...field, value: e.target.value };
                   });
@@ -331,19 +342,49 @@ const FieldBox = ({
   );
 };
 
-export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
+export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum, scale }) => {
   // useEffect(() => {
   const divPosition = document
     .getElementById(`one-image-area-${pageNum}`)
     ?.getBoundingClientRect();
+
   const size = QR_CODE_RELATIVE_SIZE * divPosition?.width ?? INIT_FIELD_WIDTH;
 
-  const offsetLeftPercentage = [1, 4].includes(qrPosition)
-    ? 0.02
-    : 0.98 - QR_CODE_RELATIVE_SIZE;
-  const offsetTop = [1, 2].includes(qrPosition)
-    ? 0.015 * divPosition?.height ?? 0
-    : 0.985 * divPosition?.height - size;
+  let style = {};
+  if (qrPosition === 1)
+    style = {
+      left: isNaN(0.02 * divPosition?.width) ? 0 : 0.02 * divPosition?.width,
+      top: isNaN(0.015 * divPosition?.height ?? 0)
+        ? 0
+        : 0.015 * divPosition?.height ?? 0,
+    };
+  if (qrPosition === 2)
+    style = {
+      right: isNaN(0.02 * divPosition?.width) ? 0 : 0.02 * divPosition?.width,
+      top: isNaN(0.015 * divPosition?.height ?? 0)
+        ? 0
+        : 0.015 * divPosition?.height ?? 0,
+    };
+  if (qrPosition === 3)
+    style = {
+      right: isNaN(0.02 * divPosition?.width) ? 0 : 0.02 * divPosition?.width,
+      bottom: isNaN(0.015 * divPosition?.height ?? 0)
+        ? 0
+        : 0.015 * divPosition?.height ?? 0,
+    };
+  if (qrPosition === 4)
+    style = {
+      left: isNaN(0.02 * divPosition?.width) ? 0 : 0.02 * divPosition?.width,
+      bottom: isNaN(0.015 * divPosition?.height ?? 0)
+        ? 0
+        : 0.015 * divPosition?.height ?? 0,
+    };
+  // const offsetLeftPercentage = [1, 4].includes(qrPosition)
+  //   ? 0.02
+  //   : 0.98 - QR_CODE_RELATIVE_SIZE;
+  // const offsetTop = [1, 2].includes(qrPosition)
+  //   ? 0.015 * divPosition?.height ?? 0
+  //   : 0.985 * divPosition?.height - size;
 
   return (
     <img
@@ -353,10 +394,11 @@ export const QRCodeBox = ({ qrCodeImg, qrPosition, pageNum }) => {
         width: isNaN(size) ? INIT_FIELD_WIDTH : size,
         height: isNaN(size) ? INIT_FIELD_WIDTH : size,
         position: "absolute",
-        left: isNaN(offsetLeftPercentage * divPosition?.width)
-          ? 0
-          : offsetLeftPercentage * divPosition?.width,
-        top: isNaN(offsetTop) ? 0 : offsetTop,
+        ...style,
+        // left: isNaN(offsetLeftPercentage * divPosition?.width)
+        //   ? 0
+        //   : offsetLeftPercentage * divPosition?.width,
+        // top: isNaN(offsetTop) ? 0 : offsetTop,
       }}
     />
   );
