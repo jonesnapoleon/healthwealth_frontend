@@ -38,7 +38,7 @@ const LoginArea = ({ isLoginPage, setIsLoginPage }) => {
       {loading && <Snackbar text={"Loading..."} type="success" />}
 
       <div className="cta-container">
-        <div>
+        <div className="exact-google-button">
           <GoogleLogin
             clientId={GOOGLE_CLIENT_ID}
             buttonText={

@@ -1,5 +1,6 @@
 import React, { memo, useState, useCallback } from "react";
 import SingleInput from "./SingleInput";
+import "./index.scss";
 
 const OTPInputComponent = ({ otp, isNumberInput = true, autoFocus = true }) => {
   const length = otp.value.length;

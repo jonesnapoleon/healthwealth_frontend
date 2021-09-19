@@ -1,8 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import DatePicker from "react-date-picker";
-import Snackbar from "../../commons/Snackbar";
 import { useTranslation } from "react-i18next";
-import { updateUser } from "../../../api/auth";
+import { sendOTPPhone, updateUser, verifyOTPPhone } from "../../../api/auth";
 import { useAuth } from "../../../contexts/AuthContext";
 import { ReactComponent as CalendarIcon } from "../../../assets/bnw/Add Field - Dates Icon.svg";
 import {
@@ -11,15 +10,15 @@ import {
   useIsLargeScreen,
 } from "../../../helpers/hooks";
 
-import circleCorrectIcon from "../../../assets/bnw/Circle Correct Icon.svg";
 import { PersonalDetailValidator } from "../../../helpers/validator";
 import { getBackendDateFormat } from "../../../helpers/transformer";
+import { useSnackbar } from "contexts/SnackbarContext";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import { useModal } from "contexts/ModalContext";
 
 const PersonalDetail = () => {
   const { auth, putAuth } = useAuth();
   const { t } = useTranslation();
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const V = useMemo(() => new PersonalDetailValidator(), []);
 
@@ -32,6 +31,9 @@ const PersonalDetail = () => {
   const company = useFormInput(auth?.company ?? "");
   const title = useFormInput(auth?.title ?? "");
   const isLargeScreen = useIsLargeScreen();
+
+  const { addSnackbar } = useSnackbar();
+  const { openVerifySignature, onClose } = useModal();
 
   const [showButton, setShowButton] = useState(false);
 
@@ -63,24 +65,44 @@ const PersonalDetail = () => {
       if (V.isValidBirthDate(birthDate?.value, auth?.birthdate))
         temp.birthdate = getBackendDateFormat(birthDate?.value);
       const res = await updateUser(temp, auth?.userid);
-      if (res?.data) {
-        putAuth(res.data);
-      }
+      if (res?.data) putAuth(res.data);
 
-      setSuccess(t("settings.ekyc.editProfileSuccess"));
-      setTimeout(() => setSuccess(false), 3000);
+      addSnackbar(t("settings.ekyc.editProfileSuccess"), "success");
     } catch (err) {
-      setError(String(err));
-      setTimeout(() => setError(false), 3000);
+      addSnackbar(String(err));
     } finally {
       setLoading(false);
     }
   };
 
-  // useEffect(() => {
-  //   console.log(birthDate?.value);
-  //   console.table(auth);
-  // }, [auth, birthDate]);
+  const sendOTPToPhone = async () => {
+    try {
+      setLoading(true);
+      const res = await sendOTPPhone();
+      if (res) {
+        addSnackbar(t("popup.sign.verify.success1"), "success");
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    } finally {
+      setLoading(!true);
+    }
+  };
+
+  const verifyOTP = async (otp) => {
+    try {
+      setLoading(true);
+      const res = await verifyOTPPhone(otp);
+      if (res) {
+        addSnackbar(t("popup.sign.verify.success2"), "success");
+        onClose();
+      }
+    } catch (err) {
+      addSnackbar(String(err));
+    } finally {
+      setLoading(!true);
+    }
+  };
 
   const isSameAsOriginal = useMemo(() => {
     if (V.isValidName(name?.value, auth?.fullname)) return false;
@@ -98,11 +120,10 @@ const PersonalDetail = () => {
 
   return (
     <>
-      <div className="lead">{t("settings.ekyc.personalDetail")}</div>
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
+      <div className="head">UID: {auth?.uid}</div>
+      <div className="head bold">{t("settings.ekyc.personalDetail")}</div>
 
-      <table>
+      <table className="ekyc-table">
         <tbody>
           <tr>
             <td>{t("settings.ekyc.name")}</td>
@@ -140,19 +161,13 @@ const PersonalDetail = () => {
             </td>
           </tr>
 
-          <tr>
+          <tr className="position-relative">
             <td>{t("settings.ekyc.email")}</td>
             <td>
               <input className="form-input" value={auth?.email} disabled />
             </td>
             {isLargeScreen && (
-              <td>
-                <img
-                  src={circleCorrectIcon}
-                  alt=""
-                  className="mx-2 circle-correct-icon"
-                />
-              </td>
+              <VerifiedUserIcon className="hanging-right-icon verified-icon" />
             )}
           </tr>
 
@@ -167,9 +182,22 @@ const PersonalDetail = () => {
               />
               <br />
 
-              <div className="item-right">
-                <button className="text-only-button">{t("otp.sendOtp")}</button>
-              </div>
+              {!auth?.verifiedPhone && (
+                <div className="item-right">
+                  <button
+                    className="text-only-button"
+                    onClick={() =>
+                      openVerifySignature({
+                        isAuth: true,
+                        sendOTPAuthWrapper: sendOTPToPhone,
+                        verifyOTPAuthWrapper: verifyOTP,
+                      })
+                    }
+                  >
+                    {t("otp.sendOtp")}
+                  </button>
+                </div>
+              )}
             </td>
           </tr>
 
@@ -191,7 +219,7 @@ const PersonalDetail = () => {
               <td></td>
               <td className="item-right">
                 <button
-                  className="button-settings"
+                  className="btn btn-black btn-primary btn-lg"
                   onClick={handleSubmit}
                   disabled={loading}
                 >

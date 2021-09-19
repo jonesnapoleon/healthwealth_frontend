@@ -1,3 +1,4 @@
+import { getDocumentAuditTrail } from "api/docs";
 import React, {
   createContext,
   useCallback,
@@ -5,6 +6,7 @@ import React, {
   useReducer,
   useState,
 } from "react";
+import { useSnackbar } from "./SnackbarContext";
 
 export const DataContext = createContext({});
 export const useData = () => useContext(DataContext);
@@ -21,18 +23,62 @@ const reducer = (state, action) => {
         ...state,
         [action.key]: { ...state[action.key], [action.attr]: false },
       };
+    case "RESET_ITEM":
+      return {
+        me: INITDATA,
+        all: INITDATA,
+        request: INITDATA,
+      };
     default:
       return state;
   }
 };
 
+export let INITDATA = {
+  docs: false,
+  fileData: false,
+  // signers: [],
+  // copies: [],
+  placeFieldImages: [],
+  placeFieldFields: [],
+};
+
 const DataProvider = ({ children }) => {
+  const { addSnackbar } = useSnackbar();
+
   const [dataDocs, dispatchDataDocs] = useReducer(reducer, {
-    me: { docs: false, fileData: false, signers: [], copies: [] },
-    all: { docs: false, fileData: false, signers: [], copies: [] },
-    request: { docs: false, fileData: false, signers: [], copies: [] },
+    me: INITDATA,
+    all: INITDATA,
+    request: INITDATA,
   });
+
+  const [signData, setSignData] = useState(false);
   const [docs, setDocs] = useState(false);
+
+  const [auditTrails, setAuditTrails] = useState({});
+
+  const fetchAuditTrail = async (documentId) => {
+    try {
+      const res = await getDocumentAuditTrail(documentId);
+      if (res) {
+        setAuditTrails((now) => {
+          return { ...now, [documentId]: res };
+        });
+      }
+    } catch (e) {
+      addSnackbar(String(e));
+    }
+  };
+
+  const getAuditTrail = async (documentId) => {
+    if (documentId in auditTrails) {
+      return;
+    } else await fetchAuditTrail(documentId);
+  };
+
+  const resetDataDocs = () => {
+    dispatchDataDocs({ type: "RESET_ITEM" });
+  };
 
   const getItemData = useCallback(
     (atr, item) => dataDocs?.[atr]?.[item],
@@ -52,6 +98,11 @@ const DataProvider = ({ children }) => {
         dataDocs,
         handle_data_docs,
         getItemData,
+        getAuditTrail,
+        auditTrails,
+        signData,
+        setSignData,
+        resetDataDocs,
       }}
     >
       {children}

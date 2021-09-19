@@ -13,6 +13,7 @@ export const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
   const [firstTime, setFirstTime] = useState(true);
   const [auth, setAuth] = useState({});
+
   const history = useHistory();
   const location = useLocation();
 
@@ -22,7 +23,6 @@ const AuthProvider = ({ children }) => {
         process.env.REACT_APP_TOKEN_HEADER
       ] = `${newValue?.id_token}`;
       const res = await login(newValue?.id_token);
-      console.log(res);
       if (res) {
         const allValue = { ...newValue, ...res.data };
         localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));

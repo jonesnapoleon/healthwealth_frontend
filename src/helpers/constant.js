@@ -6,6 +6,7 @@ export const DOC = {
   me: "me",
   all: "all",
   request: "request",
+  document: "document",
 };
 
 export const FRONTEND_URL = {
@@ -16,6 +17,8 @@ export const FRONTEND_URL = {
   me: `/${DOC.me}`,
   all: `/${DOC.all}`,
   request: `/${DOC.request}`,
+  document: `/${DOC.document}`,
+  documentAuditTrail: `/${DOC.document}/audit-trail`,
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",
@@ -30,11 +33,55 @@ export const ADDSIGNER = {
   REVIEW: "REVIEW",
 };
 
+export const DRAFT_STATUS = {
+  DRAFTING: "DRAFTING",
+  WAITING: "WAITING",
+  OUT: "OUT",
+  COMPLETED: "COMPLETED",
+};
+
 export const publicLinks = [FRONTEND_URL.privacyPolicy];
 
 export const highlightedNavs = [
   FRONTEND_URL.me,
   FRONTEND_URL.all,
   FRONTEND_URL.request,
+  FRONTEND_URL.document,
 ];
+
 export const PROGRESS_BAR_INTERVAL = 30;
+
+export const FIXED_COLORS = [
+  { color: "red", backgroundColor: "rgba(255, 0, 0, 0.6)" },
+  { color: "blue", backgroundColor: "rgba(0, 0, 255, 0.6)" },
+  { color: "yellow", backgroundColor: "rgba(255, 255, 0, 0.6)" },
+  { color: "green", backgroundColor: "rgba(0, 255, 0, 0.6)" },
+  { color: "pink", backgroundColor: "rgba(213, 21, 13, 0.6)" },
+];
+
+export const FONTLIST = [
+  ["BeautifulBloom", "BeautifulBloom"],
+  ["Biancha", "Biancha"],
+  ["Dessthia", "Dessthia"],
+  ["Elaine", "Elaine"],
+  ["Hendrickson", "Hendrickson"],
+  ["Hudson", "Hudson"],
+  ["KingWaller", "KingWaller"],
+  ["SignatureMoments", "SignatureMoments"],
+  ["SignatureX", "SignatureX"],
+  ["Signeria", "Signeria"],
+  ["Singaporean", "Singaporean"],
+  ["Standlist", "Standlist"],
+];
+
+export const SCALE = [50, 75, 100, 125];
+
+export const SIGNING_ACTIVE_FIXED_ITEM = {
+  me: 1,
+  all: 2,
+  request: 2,
+};
+
+export const DEFAULT = {
+  DOC_FILE_NAME: "Untitled 225",
+};

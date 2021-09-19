@@ -1,0 +1,273 @@
+$pad-top: 12vh;
+$left-width: 18%;
+$right-width: 18%;
+$center-width: 60%;
+$pad-left-from-center: 20%;
+// $pad-right-from-center: 23%;
+$pad-right-from-center: 41%;
+$tools-height: 10vh;
+
+.place-field-area {
+  height: 100vh;
+  width: 100vw;
+
+  .tools-area {
+    position: fixed;
+    top: $pad-top;
+    height: $tools-height;
+    left: $left-width;
+    right: $right-width;
+    background-color: var(--secondary-extra-color-4);
+    z-index: 999999;
+    .wrapper {
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div {
+        padding: 0 1rem;
+        &:not(:first-child) {
+          border-left: 1px solid black;
+        }
+        select {
+          font-size: 1.2rem;
+        }
+        &.need-pad {
+          > svg {
+            font-size: 1.4rem;
+            margin: 0 0.4rem;
+          }
+        }
+      }
+    }
+  }
+
+  .left-sidebar {
+    background-color: var(--secondary-extra-color-4);
+    top: $pad-top;
+    height: 100vh - $pad-top - 10vh;
+    z-index: 8888;
+    width: $left-width;
+    .container {
+      position: relative;
+      height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      // padding: 0.1rem;
+    }
+
+    .lead {
+      margin-top: 1rem;
+      font-weight: bolder;
+    }
+    .field-box {
+      position: relative;
+      height: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      line-height: 3rem;
+      vertical-align: middle;
+      background-color: white;
+      margin: 0.25rem;
+      .must-child {
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        display: flex;
+        font-weight: bolder;
+        > :first-child {
+          padding: 0 0.5rem;
+        }
+      }
+      .optional-child {
+        > :first-child {
+          padding: 0 0.25rem;
+        }
+      }
+    }
+  }
+  .right-sidebar {
+    // background-color: var(--secondary-extra-color-4);
+    z-index: 8888;
+    height: 100vh - $pad-top - 10vh - $tools-height;
+    top: $pad-top + $tools-height;
+    right: 0;
+    width: $right-width;
+    padding: 0 0.5rem 0.5rem;
+    .fix-below-button {
+      position: absolute;
+      z-index: 999;
+      bottom: 0;
+      width: 100%;
+      background-color: var(--light-gray-color);
+      button.btn {
+        border-radius: 0 !important;
+        padding: 0.25rem 0.75rem;
+      }
+      > span {
+        position: absolute;
+        top: 50%;
+        transform: translate(-10%, -50%);
+        right: 0 !important;
+        select {
+          border: 0;
+          background-color: var(--light-gray-color);
+        }
+      }
+    }
+    .document-show-container {
+      position: relative;
+      width: 100%;
+      background-color: white;
+      display: grid;
+      padding: 1rem 0;
+      place-items: center;
+      overflow-y: auto;
+      max-height: 60vh;
+
+      .one-right-place-field-image {
+        width: 60%;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 1.2rem;
+        img {
+          border: 0.5px solid black;
+          width: 100%;
+          position: relative;
+        }
+        .bottom-page {
+          border: 0.5px solid black;
+          width: 100%;
+          font-size: 0.6rem;
+          padding-left: 0.5rem;
+        }
+        &:last-child {
+          margin-bottom: 2rem;
+          padding-bottom: 3rem;
+        }
+      }
+    }
+    .wrapper {
+      padding: 0 15px;
+      background-color: white;
+      position: relative;
+      height: calc(100% - 2 * 0.5rem);
+      overflow-x: hidden;
+      padding-bottom: 0.3rem;
+      border-bottom: 0.4rem solid var(--secondary-extra-color-4);
+      // .weird {
+      // }
+    }
+
+    hr {
+      margin: 0;
+      opacity: 0.75;
+      border: 0.5px solid black;
+    }
+  }
+  #main-workspace {
+    width: 100%;
+    background-color: var(--secondary-extra-color-4);
+    padding-left: $pad-left-from-center;
+    margin-right: $pad-right-from-center / 2;
+    padding-right: $pad-right-from-center / 2;
+    // background-color: white;
+    padding-top: $pad-top;
+    // margin-top: $pad-top / 16;
+    padding-bottom: $pad-top;
+    margin-top: $pad-top;
+    position: absolute;
+    // transform: scale(150%);
+
+    .react-transform-wrapper.transform-component-module_wrapper__1_Fgj {
+      overflow: unset !important;
+    }
+
+    .fu-wrapper {
+      overflow: auto;
+      height: 65vh;
+      width: 100%;
+      position: relative;
+      // margin-top: $pad-top;
+      background-color: white;
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--secondary-extra-color-2);
+      }
+      @media only screen and (max-width: 600px) {
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+      }
+
+      .wrap-again {
+        transform-origin: top left;
+        overflow: auto;
+
+        .one-image-area {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          background-color: var(--secondary-extra-color-4);
+          position: relative;
+          width: 100%;
+          &:last-child {
+            padding-bottom: 0;
+          }
+          .one-image {
+            position: relative;
+            border: 2px solid black;
+            width: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            img {
+              width: 100%;
+            }
+          }
+          .rnd-content {
+            height: 100%;
+            display: grid;
+            place-items: center;
+            .full-field-box {
+              height: 100%;
+              width: 100%;
+              input {
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                background: transparent;
+              }
+            }
+          }
+        }
+        .one-image-meta-info {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+          &:last-child {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .draggable-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+      // background: #f0f0f0;
+      .draggable-textarea {
+        width: 97%;
+        height: 97%;
+        position: absolute;
+        resize: none;
+        border: none;
+      }
+    }
+  }
+}

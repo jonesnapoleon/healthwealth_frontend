@@ -1,26 +1,32 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useData } from "../../contexts/DataContext";
 import { useFormInput, useRefreshedData } from "../../helpers/hooks";
-import { getAllDocs } from "../../api/auth";
-import Snackbar from "../commons/Snackbar";
-import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
+import { getAllDocs } from "../../api/docs";
+// import { ReactComponent as SearchIcon } from "../../assets/bnw/Search Icon.svg";
 import Table from "./Table";
 import AuditTrail from "./AuditTrail";
-import "./docs.css";
+import "./docs.scss";
 import { useHistory } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { DOC, DRAFT_STATUS, FRONTEND_URL } from "helpers/constant";
+import { downloadFile } from "helpers/transformer";
+import { useModal } from "contexts/ModalContext";
 
 const Docs = () => {
   const { t } = useTranslation();
-  const { handle_data_docs, docs, setDocs } = useData();
+  const { handle_data_docs, docs, setDocs, getAuditTrail, auditTrails } =
+    useData();
+  const { addSnackbar } = useSnackbar();
   const query = useFormInput("");
-  const [error, setError] = useState(false);
-  const history = useHistory();
+  const { push } = useHistory();
 
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
     docs ?? []
   );
-  // const setDisplayedDocs = displayedDocs.set;
+  const { openSendWhatsapp } = useModal();
+
   const activeDoc = useRefreshedData(false);
 
   const fetchingDocs = useCallback(async () => {
@@ -31,15 +37,10 @@ const Docs = () => {
           setDocs(res);
         }
       } catch (err) {
-        setError(String(err));
-        setTimeout(() => setError(false), 3000);
+        addSnackbar(String(err));
       }
     }
-  }, [setDocs, docs]);
-
-  useEffect(() => {
-    console.log(displayedDocs);
-  }, [displayedDocs]);
+  }, [setDocs, docs, addSnackbar]);
 
   useEffect(() => {
     fetchingDocs();
@@ -47,13 +48,58 @@ const Docs = () => {
 
   const handleClickingComponent = useCallback(
     (obj) => {
-      if (obj?.nextflow && obj.nextflow?.length === 0) {
-        const key = String(obj?.signType).toLowerCase();
-        handle_data_docs(true, key, "fileData", obj);
-        history.push(`${key}`);
+      console.log(obj);
+      const key = String(obj?.signType).toLowerCase();
+      if (obj?.status === DRAFT_STATUS.COMPLETED) {
+        downloadFile(obj?.linkToPdf, obj?.filename);
+        return;
+      }
+      if (obj?.status === DRAFT_STATUS.OUT) {
+        if (obj?.nextflow.length > 1) {
+          // const people = obj?.nextflow[obj?.currentflow];
+          const currentHost = window.location.host;
+          const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${key}#${obj?.uid}`;
+          openSendWhatsapp({ finalUrl: signUrl });
+          // openWA(
+          //   people.email,
+          //   people.name,
+          //   t("popup.wa.template1"),
+          //   t("popup.wa.template2")
+          // );
+        }
+        return;
+      }
+      handle_data_docs(true, key, "fileData", obj);
+      handle_data_docs(true, key, "placeFieldImages", []);
+      handle_data_docs(true, key, "placeFieldFields", []);
+      if (obj?.status === DRAFT_STATUS.WAITING) {
+        window.open(`${FRONTEND_URL.document}?type=${key}#${obj?.uid}`);
+        return;
+      }
+      // if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
+      if (key !== DOC.me) {
+        if (obj?.nextflow && obj.nextflow?.length === 0) {
+          push(`${key}#${0}`);
+        }
+        if (obj?.nextflow && obj.nextflow?.length > 0) {
+          push(`${key}#${1}`);
+        }
+      }
+      if (key === DOC.me) {
+        if (obj?.fields && obj.fields?.length > 0) {
+          push(`${key}#${1}`);
+          return;
+        }
+        if (obj?.nextflow && obj.nextflow?.length === 0) {
+          push(`${key}#${0}`);
+          return;
+        }
+        if (obj?.nextflow && obj.nextflow?.length > 0) {
+          push(`${key}#${1}`);
+        }
       }
     },
-    [handle_data_docs, history]
+    [handle_data_docs, push, openSendWhatsapp]
   );
 
   const trimNow = useCallback(
@@ -61,7 +107,6 @@ const Docs = () => {
       let temp = docs?.filter((doc) =>
         String(doc?.filename)?.toLowerCase()?.includes(trimmedQuery)
       );
-
       setDisplayedDocs(temp);
     },
     [setDisplayedDocs, docs]
@@ -72,16 +117,13 @@ const Docs = () => {
   }, [setDisplayedDocs, docs]);
 
   useEffect(() => {
-    const trimmedQuery = String(query?.value).trim();
+    const trimmedQuery = String(query?.value).trim().toLowerCase();
     if (trimmedQuery.length > 1) trimNow(trimmedQuery);
     if (trimmedQuery.length === 0) displayAll();
   }, [query?.value, trimNow, displayAll]);
 
-  // console.log(displayedDocs);
   return (
     <div className="docs mt-2">
-      {error && <Snackbar text={error} />}
-
       {/* <label class="formlabel">
           <span>{t("form.search")}</span>
         </label> */}
@@ -90,7 +132,7 @@ const Docs = () => {
       </div> */}
 
       <div className="row">
-        <div className="col col-lg-8 col-12">
+        <div className="col col-lg-9 col-12">
           <div className="formarea">
             <input className="form-input search-bar" {...query} />
             <span className="search-bar-icon">
@@ -102,10 +144,11 @@ const Docs = () => {
             displayedDocs={displayedDocs}
             activeDoc={activeDoc}
             t={t}
+            getAuditTrail={getAuditTrail}
           />
         </div>
-        <div className="col col-lg-4 col-12">
-          <AuditTrail activeDoc={activeDoc} />
+        <div className="col col-lg-3 col-12 position-relative">
+          <AuditTrail activeDoc={activeDoc} auditTrails={auditTrails} />
         </div>
       </div>
     </div>

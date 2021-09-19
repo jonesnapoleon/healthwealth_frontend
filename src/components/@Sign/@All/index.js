@@ -1,65 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import SelectDocument from "../SelectDocument";
 import AddSigners from "../AddSigners";
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 import { useTranslation } from "react-i18next";
 
-import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import { ReactComponent as PersonAddIcon } from "../../../assets/bnw/Progress Bar - Step 2 Icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
-import { DOC, FRONTEND_URL } from "../../../helpers/constant";
-import { usePreventPageLeave } from "../../../helpers/hooks";
+import {
+  DOC,
+  FRONTEND_URL,
+  SIGNING_ACTIVE_FIXED_ITEM,
+} from "../../../helpers/constant";
+// import { usePreventPageLeave } from "../../../helpers/hooks";
 
-const Me = () => {
-  const [activeItem, setActiveItem] = useState(0);
-  const [availableLevel, setAvailableLevel] = useState(activeItem);
+import ReviewSend from "../ReviewSend";
+import PlaceField from "../PlaceField";
 
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
+import { useHashString } from "helpers/hooks";
+
+const All = () => {
+  const activeItemId = useHashString(0, "number");
   const { t } = useTranslation();
-  usePreventPageLeave();
+
+  // usePreventPageLeave();
 
   const stepperData = [
     {
       name: t("sign.selectDocument.text"),
-      icon: <SelectIcon />,
-      component: (
-        <AddSigners
-          activeItem={activeItem}
-          availableLevel={availableLevel}
-          setActiveItem={setActiveItem}
-          setAvailableLevel={setAvailableLevel}
-          atr={DOC.all}
-        />
-      ),
+      icon: <DescriptionRoundedIcon />,
+      component: <SelectDocument activeItemId={activeItemId} atr={DOC.all} />,
       pathName: FRONTEND_URL.sign_selected_document,
     },
     {
       name: t("sign.addSigners.text"),
-      icon: <PersonAddIcon />,
-      component: (
-        <SelectDocument
-          activeItem={activeItem}
-          availableLevel={availableLevel}
-          setActiveItem={setActiveItem}
-          atr={DOC.all}
-        />
-        // <AddSigners
-        //   activeItem={activeItem}
-        //   availableLevel={availableLevel}
-        //   setActiveItem={setActiveItem}
-        // />
-      ),
+      icon: <FontAwesomeIcon icon={faUser} />,
+      component: <AddSigners atr={DOC.all} activeItemId={activeItemId} />,
       pathName: FRONTEND_URL.sign_add_signers,
     },
     {
       name: t("sign.placeFields.text"),
-      icon: <PlaceFieldIcon />,
+      icon: <ListAltRoundedIcon />,
+      component: <PlaceField activeItemId={activeItemId} atr={DOC.all} />,
       pathName: FRONTEND_URL.sign_place_fields,
     },
     {
       name: t("sign.reviewSend.text"),
-      icon: <ReviewSendIcon />,
-      pathName: FRONTEND_URL.sign_review_send,
+      icon: <SendRoundedIcon />,
+      component: <ReviewSend activeItemId={activeItemId} atr={DOC.all} />,
+      pathName: FRONTEND_URL.sign_place_fields,
     },
   ];
 
@@ -67,18 +60,12 @@ const Me = () => {
     <div>
       <Stepper
         items={stepperData}
-        activeItem={activeItem}
-        setActiveItem={(inc) =>
-          activeItem + inc >= 0 &&
-          activeItem + inc < stepperData?.length &&
-          activeItem + inc <= availableLevel &&
-          setActiveItem(activeItem + inc)
-        }
-        availableLevel={availableLevel}
+        isFixed={activeItemId === SIGNING_ACTIVE_FIXED_ITEM.all}
+        activeItemId={activeItemId}
       />
-      {stepperData?.[activeItem]?.component}
+      {stepperData?.[activeItemId]?.component}
     </div>
   );
 };
 
-export default Me;
+export default All;

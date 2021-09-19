@@ -1,7 +1,0 @@
-.sign-select-document-container {
-  margin-top: 3rem;
-}
-
-.sign-select-document-container > div:first-child {
-  min-height: 62vh;
-}

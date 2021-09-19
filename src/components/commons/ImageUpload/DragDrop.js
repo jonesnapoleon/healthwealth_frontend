@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import icon from "../../../assets/bnw/Upload Document Icon.svg";
-import "./imageupload.css";
+// import icon from "../../../assets/bnw/Upload Document Icon.svg";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import "./imageupload.scss";
 import DragDropClass from "./DragDropClass";
 
 const DragDrop = ({ data, disabled = false, progress }) => {
@@ -24,12 +26,19 @@ const DragDrop = ({ data, disabled = false, progress }) => {
     }
   };
 
+  const [bgOpacity, setBgOpacity] = useState(false);
+
   return (
-    <DragDropClass handleDrop={handleDrop}>
-      <div className="drag-drop-container">
+    <DragDropClass handleDrop={handleDrop} setBgOpacity={setBgOpacity}>
+      <div
+        className="drag-drop-container"
+        style={{
+          backgroundColor: bgOpacity ? "var(--secondary-extra-color-1)" : "",
+        }}
+      >
         <div>
           <button
-            className="btn btn-light primary-color upload-button"
+            className="btn btn-primary upload-button"
             disabled={disabled}
             onClick={() => {
               if (!disabled && filePicker) {
@@ -41,7 +50,9 @@ const DragDrop = ({ data, disabled = false, progress }) => {
           </button>
         </div>
         <div className="item-center drag-drop-area">
-          <img src={icon} alt="" />
+          <div className="icon">
+            <GetAppIcon />
+          </div>
           <div>{t("form.dragDrop")}</div>
         </div>
         <input

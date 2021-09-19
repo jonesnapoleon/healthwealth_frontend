@@ -3,24 +3,35 @@ import { NavLink } from "react-router-dom";
 
 import { FRONTEND_URL } from "../../../helpers/constant";
 
-import { ReactComponent as SignatureIcon } from "../../../assets/bnw/Add Signer Icon.svg";
-import { ReactComponent as AnalyticsIcon } from "../../../assets/bnw/Analytic Tab Icon.svg";
-import { ReactComponent as DocumentIcon } from "../../../assets/bnw/document tab icon.svg";
-import { ReactComponent as IntegrationIcon } from "../../../assets/bnw/Integration Tab Icon.svg";
-import { ReactComponent as TemplateIcon } from "../../../assets/bnw/Template Tab Icon.svg";
-import { ReactComponent as SettingIcon } from "../../../assets/bnw/setting tab icon.svg";
-import { ReactComponent as UserIcon } from "../../../assets/bnw/User tab icon.svg";
-import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
-import { ReactComponent as RightIcon } from "../../../assets/bnw/Right Arrow.svg";
+// import { ReactComponent as SignatureIcon } from "../../../assets/bnw/Add Signer Icon.svg";
+// import { ReactComponent as AnalyticsIcon } from "../../../assets/bnw/Analytic Tab Icon.svg";
+// import { ReactComponent as DocumentIcon } from "../../../assets/bnw/document tab icon.svg";
+// import { ReactComponent as IntegrationIcon } from "../../../assets/bnw/Integration Tab Icon.svg";
+// import { ReactComponent as TemplateIcon } from "../../../assets/bnw/Template Tab Icon.svg";
+// import { ReactComponent as SettingIcon } from "../../../assets/bnw/setting tab icon.svg";
+// import { ReactComponent as UserIcon } from "../../../assets/bnw/User tab icon.svg";
+// import { ReactComponent as LockIcon } from "../../../assets/bnw/Lock Tab Icon.svg";
+// import { ReactComponent as RightIcon } from "../../../assets/bnw/Right Arrow.svg";
 
-import "./sidebar.css";
-
+import DocumentIcon from "@material-ui/icons/DescriptionOutlined";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import LockRoundedIcon from "@material-ui/icons/LockRounded";
+import GroupAddRoundedIcon from "@material-ui/icons/GroupAddRounded";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import "./sidebar.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faChartLine,
+  faSlidersH,
+} from "@fortawesome/free-solid-svg-icons";
 const landingData = [
   {
     isAvailable: true,
     name: "Sign",
     link: FRONTEND_URL.sign,
-    icon: <SignatureIcon />,
+    icon: <FontAwesomeIcon icon={faFileSignature} />,
   },
   {
     isAvailable: true,
@@ -32,31 +43,33 @@ const landingData = [
     isAvailable: true,
     name: "Settings",
     link: FRONTEND_URL.settings,
-    icon: <SettingIcon />,
+    icon: <FontAwesomeIcon icon={faSlidersH} />,
+    // icon: <i className="fa-solid fa-sliders" />,
   },
   {
     isAvailable: false,
     name: "Team",
     link: FRONTEND_URL.realBase,
-    icon: <UserIcon />,
+    // icon: <i className="fi-rr-user-add" />,
+    icon: <GroupAddRoundedIcon />,
   },
   {
     isAvailable: false,
     name: "Templates",
     link: FRONTEND_URL.realBase,
-    icon: <TemplateIcon />,
+    icon: <AssignmentIcon />,
   },
   {
     isAvailable: false,
     name: "Integration",
     link: FRONTEND_URL.realBase,
-    icon: <IntegrationIcon />,
+    icon: <SettingsIcon />,
   },
   {
     isAvailable: false,
     name: "Analytic",
     link: FRONTEND_URL.realBase,
-    icon: <AnalyticsIcon />,
+    icon: <FontAwesomeIcon icon={faChartLine} />,
   },
 ];
 
@@ -88,7 +101,7 @@ const Sidebar = () => {
                     <span>{datum?.name}</span>
                   </div>
                   <span className="right-icon">
-                    <RightIcon />
+                    <ChevronRightIcon />
                   </span>
                 </NavLink>
               ) : (
@@ -98,7 +111,7 @@ const Sidebar = () => {
                     {/* <img src={datum?.icon} alt={datum?.name} className="icon" /> */}
                     <span>{datum?.name}</span>
                   </div>
-                  <LockIcon />
+                  <LockRoundedIcon />
                   {/* <img src={lockIcon} alt={datum?.name} /> */}
                   <small id={`coming-soon-${i}`}>Coming soon</small>
                 </div>

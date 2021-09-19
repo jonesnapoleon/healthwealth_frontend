@@ -1,5 +1,6 @@
 {
   "general": {
+    "iagree": "I agree",
     "seeAll": "Show All",
     "learnMore": "Learn More",
     "readTime": "{{count}} minute read time",
@@ -18,6 +19,7 @@
     "reply": "Reply",
     "addToFav": "Add to favorite",
     "send": "Send",
+    "finish": "Finish",
     "uploaded": "Uploaded",
     "addCommentPlaceholder": "Enter comment...",
     "viewMore": "View more",
@@ -161,11 +163,15 @@
     }
   },
   "form": {
+    "send": "Send",
+    "sent": "Sent",
     "uploadFile": "Upload file",
     "dragDrop": "Drag and drop files here",
     "email": "Email",
     "emailAddress": "Email address",
     "name": "Name",
+    "preview": "Preview",
+    "font": "Font",
     "search": "Search",
     "password": "Password",
     "pleaseWait": "Please Wait...",
@@ -232,13 +238,21 @@
       "takeAPictureDesc": "Allow access to your computer camera",
       "proofIdentity": "Proof of Identity",
       "proofIdentityHead": "Upload Proof of Identity",
+      "deleteIdentitySuccess": "Your identity successfully deleted",
       "submitIdentitySuccess": "Your identity successfully submitted",
+      "deleteSelfieSuccess": "Your picture successfully deleted",
+      "submitSelfieSuccess": "Your picture successfully submitted",
       "proofIdentityDesc": "We accept KTP / Passport"
     },
     "signature": {
       "text": "Signature",
       "initial": "Initials",
       "addSignature": "Add signature",
+      "draw": "Draw",
+      "upload": "Upload",
+      "textText": "Text",
+      "iUnderstand": "I understand that this signature represent my actual signature*",
+      "sign": "Sign",
       "addInitials": "Add initials"
     }
   },
@@ -263,6 +277,7 @@
     },
     "placeFields": {
       "text": "Place fields",
+      "placeFieldSuccess": "Place fields succeed",
       "left": {
         "signers": "Signers",
         "signature": "Signature fields",
@@ -273,12 +288,24 @@
           "initial": "Initial",
           "date": "Date",
           "checkbox": "Checkbox",
+          "textbox": "Textbox",
           "text": "Text",
           "email": "Email",
           "name": "Name",
           "company": "Company",
           "title": "Title"
         }
+      },
+      "right": {
+        "fieldName": "Field name",
+        "documents": "Document",
+        "signature": "Signature",
+        "assignedTo": "Assigned to",
+        "required": "Required",
+        "requiredField": "Required field",
+        "lastPage": "Last page",
+        "value": "Field value",
+        "formatting": "Formatting"
       }
     },
     "reviewSend": {
@@ -301,10 +328,46 @@
         "noEntry": "No entry",
         "allRecBlaBla": "All receipients will receive an email attachment of the completed documents once everyone has signed"
       }
+    },
+    "document": {
+      "oneClickSign": "One click sign"
+    }
+  },
+  "popup": {
+    "wa": {
+      "fasterThan": "It's faster than printing, right?",
+      "docsBeenSent": "Your document has been sent!",
+      "checkTheStatus": "Check the status on Document Page",
+      "easyReq": "Easily request sign through social media",
+      "sendViaWA": "Send via Whatsapp",
+      "sendFaster": "Send whatsapp for faster response!",
+      "template1": "Hi ",
+      "template2": ", I would like to request your signature. Click here",
+      "template3": "Click here",
+      "wasntThatEasy": "Wasn't that easy?",
+      "was1": "With Kontrasign, you can send",
+      "was2": "signature request per month",
+      "act": "Activate your free account",
+      "ty": "Thanks for submitting your document. You'll receive a copy in your inbox shortly"
+    },
+    "sign": {
+      "done": {
+        "almd": "Almost done.",
+        "long": "I agree to be legally bound by this document and the Kontrasign Terms of Service.",
+        "shorter": "Click on 'I agree' to sign this document."
+      },
+      "verify": {
+        "head": "Verify your own signature",
+        "resend": "Resend",
+        "bacod": "Input your 6 digit verification code",
+        "success1": "Sent",
+        "success2": "Verified"
+      }
     }
   },
   "docs": {
     "table": {
+      "clickToCreateNewDocument": "Click to create new document",
       "title": "Title",
       "SLA": "SLA",
       "action": {
@@ -365,7 +428,11 @@
     "thisMonth": "this month",
     "upgrade": "Upgrade",
     "signOut": "Sign out",
-    "myProfile": "My Profile"
+    "myProfile": "My Profile",
+    "pricing": "Pricing",
+    "products": "Products",
+    "getStarted": "Get Started",
+    "faq": "FAQ"
   },
   "login": {
     "signUp": "Sign up",

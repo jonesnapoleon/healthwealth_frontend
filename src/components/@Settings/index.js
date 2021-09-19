@@ -15,7 +15,7 @@ import { FRONTEND_URL } from "../../helpers/constant";
 import EKYC from "./@EKYC";
 import Signature from "./@Signature";
 
-import "./settings.css";
+import "./settings.scss";
 
 const navSettingsData = [
   {
@@ -67,7 +67,7 @@ const Settings = () => {
         {navSettingsData?.map((datum) => (
           <div
             key={datum?.hash}
-            className={`navlink lead ${active === datum?.hash ? "active" : ""}`}
+            className={`navlink ${active === datum?.hash ? "active" : ""}`}
             onClick={() => {
               if (datum?.isAvailable) {
                 setActive(datum?.hash);

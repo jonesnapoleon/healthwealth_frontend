@@ -1,81 +1,61 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-// import { useHistory } from "react-router-dom";
-import { DOC, FRONTEND_URL } from "../../../helpers/constant";
+import {
+  DOC,
+  FRONTEND_URL,
+  SIGNING_ACTIVE_FIXED_ITEM,
+} from "../../../helpers/constant";
 
 import SelectDocument from "../SelectDocument";
-import Stepper from "../../layout/Stepper";
+import Stepper from "../commons/Stepper";
 
 import PlaceField from "../PlaceField";
-import { ReactComponent as SelectIcon } from "../../../assets/bnw/Progress Bar - Step 1 Icon.svg";
-import { ReactComponent as PlaceFieldIcon } from "../../../assets/bnw/Progress Bar - Step 3 Icon.svg";
-import { ReactComponent as ReviewSendIcon } from "../../../assets/bnw/Progress Bar - Step 4 Icon.svg";
-import { usePreventPageLeave } from "../../../helpers/hooks";
+// import { usePreventPageLeave } from "../../../helpers/hooks";
+
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { useHashString } from "helpers/hooks";
+import ReviewSend from "../ReviewSend";
 
 const Me = () => {
-  const [activeItem, setActiveItem] = useState(0);
-  const [availableLevel, setAvailableItem] = useState(0);
-  // const history = useHistory();
+  const activeItemId = useHashString(0, "number");
   const { t } = useTranslation();
 
-  usePreventPageLeave();
+  // usePreventPageLeave();
 
   const stepperData = useMemo(
     () => [
       {
         name: t("sign.selectDocument.text"),
-        icon: <SelectIcon />,
-        component: (
-          <SelectDocument
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            setAvailableItem={setAvailableItem}
-            atr={DOC.me}
-          />
-        ),
+        icon: <DescriptionRoundedIcon />,
+        component: <SelectDocument activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_selected_document,
       },
       {
         name: t("sign.placeFields.text"),
-        icon: <PlaceFieldIcon />,
-        component: (
-          <PlaceField
-            activeItem={activeItem}
-            availableLevel={availableLevel}
-            setActiveItem={setActiveItem}
-            atr={DOC.me}
-          />
-        ),
+        icon: <ListAltRoundedIcon />,
+        component: <PlaceField activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_place_fields,
       },
       {
         name: t("sign.reviewSend.text"),
-        icon: <ReviewSendIcon />,
+        icon: <SendRoundedIcon />,
+        component: <ReviewSend activeItemId={activeItemId} atr={DOC.me} />,
         pathName: FRONTEND_URL.sign_review_send,
       },
     ],
-    [activeItem, t, availableLevel]
+    [activeItemId, t]
   );
-
-  // useEffect(() => {
-  //   history.push(`${FRONTEND_URL.me}${stepperData?.[activeItem]?.pathName}`);
-  // }, [activeItem, history, stepperData]);
 
   return (
     <div>
       <Stepper
         items={stepperData}
-        activeItem={activeItem}
-        setActiveItem={(inc) =>
-          activeItem + inc >= 0 &&
-          activeItem + inc < stepperData?.length &&
-          activeItem + inc <= availableLevel &&
-          setActiveItem(activeItem + inc)
-        }
-        availableLevel={availableLevel}
+        activeItemId={activeItemId}
+        isFixed={activeItemId === SIGNING_ACTIVE_FIXED_ITEM.me}
       />
-      {stepperData?.[activeItem]?.component}
+      {stepperData?.[activeItemId]?.component}
     </div>
   );
 };

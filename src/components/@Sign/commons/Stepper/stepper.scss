@@ -1,0 +1,49 @@
+.stepper-container {
+  background: var(--tertiary-color);
+  padding: 1.5rem;
+  height: 12vh;
+  display: flex;
+  width: 100%;
+  top: 0;
+  justify-content: space-between;
+  z-index: 9999;
+  * {
+    color: white;
+  }
+  .back {
+    border-right: 2px solid var(--tertiary-color);
+    svg {
+      height: 100%;
+      width: auto;
+      background-color: white;
+      opacity: 0.8;
+      * {
+        color: var(--tertiary-color) !important;
+      }
+      border-radius: 50px;
+    }
+  }
+  .stepper-buy-now-button {
+    color: rgba(var(--primary-color-divide), 0.7);
+    font-weight: bolder;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: 0.8rem 2rem;
+    border: 0;
+    text-decoration: none;
+    background: var(--secondary-extra-color-2);
+  }
+  .stepper-buy-now-button:hover {
+    color: var(--tertiary-color);
+    background: var(--secondary-extra-color-2);
+  }
+  .dropright {
+    height: 100%;
+    .dropdown-toggle {
+      height: 100%;
+      .rounded-img {
+        height: 100%;
+      }
+    }
+  }
+}

@@ -1,16 +1,8 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url(./fonts.css);
 
-@font-face {
-  font-family: Helvetiva;
-  src: url("./assets/Helvetica-Neue-Font/Helvetica Neue Medium Extended/Helvetica Neue Medium Extended.ttf");
-}
-@font-face {
-  font-family: PTSans;
-  src: url("./assets/PT_Sans/PTSans-Regular.ttf");
-}
 :root {
   --primary-color: #000000;
+  --black-color: #707070;
   --primary-color-divide: 0, 0, 0;
 
   --secondary-color: #fafafa;
@@ -18,8 +10,18 @@
   --secondary-extra-color-1: #f0f0f0;
   --secondary-extra-color-2: #dde4f1;
   --secondary-extra-color-3: gray;
+  --secondary-extra-color-4: #f4f8ff;
   --tertiary-color: #2f7bf7;
   --danger-color: red;
+  --orange-color: #ff8319;
+
+  --success-color: #45b336;
+
+  --primary-font-type: PTSans;
+  --secondary-font-type: Helvetica;
+
+  --secondary-extra-color-11: #bdbdbd;
+  --light-gray-color: #bdbdbd;
 
   --border-radius: 25px;
   --form-border-radius: 5px;
@@ -31,28 +33,31 @@
   }
 }
 
+.hanging-right-icon {
+  position: absolute;
+  top: 50%;
+  left: 103%;
+  transform: translate(0%, -50%);
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 ::-webkit-scrollbar {
-  width: 4px;
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--secondary-extra-color-3);
-}
-@media only screen and (max-width: 600px) {
-  ::-webkit-scrollbar {
-    width: 0;
-  }
+  width: 0px;
 }
 
 body {
   margin: 0;
-  font-family: Helvetiva, sans-serif;
+  font-family: PTSans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--standard-font-size);
   overflow-x: hidden;
   width: 100%;
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 p,
@@ -65,7 +70,7 @@ button,
 }
 
 * {
-  font-family: Helvetica, sans-serif !important;
+  font-family: PTSans;
 }
 
 h1,
@@ -74,7 +79,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: PTSans, sans-serif;
+  font-family: PTSans;
 }
 
 code {
@@ -148,10 +153,17 @@ code {
 .btn-primary {
   background: var(--tertiary-color);
   color: var(--text-color);
+  padding: 0.4rem 2rem;
   text-decoration: none;
 }
-
+.btn-primary:disabled {
+  background-color: var(--black-color);
+}
+.btn-light {
+  padding: 0.4rem 2rem;
+}
 .btn-secondary {
+  padding: 0.4rem 2rem;
   border-radius: var(--border-radius);
   background: var(--secondary-extra-color-2);
   color: var(--text-color);
@@ -174,9 +186,48 @@ code {
 }
 .text-only-button {
   background: transparent;
+  font-size: 0.8vw;
   border: 0;
   text-decoration: underline;
 }
 
+.btn-black {
+  background-color: var(--black-color);
+  border: 0;
+  color: white;
+}
+.btn-black:hover,
+.btn-black:focus,
+.btn-black:active {
+  background-color: #2f7bf7;
+  outline: none;
+  box-shadow: 0;
+}
 /* .text-only-button:hover {
 } */
+
+.btn.btn-black.squared {
+  border-radius: 0.1rem;
+  border: 0;
+  background: var(--secondary-extra-color-3);
+  color: var(--text-color);
+  padding: 0.3rem 2.1rem;
+  outline: none;
+  box-shadow: none;
+}
+.btn.btn-black.circled {
+  outline: none;
+  box-shadow: none;
+  border-radius: var(--border-radius);
+  border: 0;
+  background: var(--secondary-extra-color-3);
+  color: var(--text-color);
+  padding: 0.5rem 2.2rem;
+}
+
+button.send-wa {
+  border: 1px solid var(--success-color);
+  color: var(--success-color);
+  font-weight: bolder;
+  padding: 0.35rem 0.75rem;
+}

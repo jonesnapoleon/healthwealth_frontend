@@ -5,34 +5,26 @@ import { useData } from "../../../contexts/DataContext";
 
 import DragDrop from "../../commons/ImageUpload/DragDrop";
 import FloatingButton from "../commons/FloatingButton";
-import Snackbar from "../../commons/Snackbar";
 import Progressbar from "../../../components/commons/Progressbar";
-
-import { ReactComponent as DocumentIcon } from "../../../assets/bnw/Upload Document Icon.svg";
-import { ReactComponent as DeleteDocumentIcon } from "../../../assets/bnw/Delete Upload Document Icon.svg";
 
 import { deleteDoc, addDoc, replaceDoc } from "../../../api/docs";
 import { isFileValid } from "../../../helpers/validator";
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import "./selectDocument.scss";
+import { useSnackbar } from "contexts/SnackbarContext";
+import { useHistory } from "react-router-dom";
+import Footer from "components/layout/Navbar/Footer";
 
-import "./selectDocument.css";
-
-const SelectDocument = ({
-  activeItem,
-  setActiveItem,
-  availableLevel,
-  setAvailableItem,
-  atr,
-}) => {
+const SelectDocument = ({ atr, activeItemId }) => {
   const { t } = useTranslation();
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const { addSnackbar } = useSnackbar();
   const data = useFile();
-  const { dataDocs, handle_data_docs, getItemData } = useData();
+  const { handle_data_docs, getItemData, setDocs } = useData();
+  const { push } = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const fileData = getItemData(atr, "fileData");
-  useEffect(() => {
-    console.log(fileData);
-  }, [fileData]);
 
   const progress = useProgressBar();
 
@@ -41,24 +33,22 @@ const SelectDocument = ({
     return progress.value !== 100;
   };
 
-  useEffect(() => {
-    console.log(dataDocs);
-  }, [dataDocs]);
-
   const handleUploadFile = useCallback(async () => {
-    if (!data?.file || data?.file === null) return;
+    if (!data.file || data.file === undefined || data.file === null) return;
     if (progress.value !== 0) return;
-    // throw new Error(t("form.error.fileNotUploadedYet"));
+    if (loading) return;
+
     try {
       const bool = isFileValid(data?.file, [".pdf", ".docx"], 3000);
       if (bool) {
+        setLoading(true);
         progress.set(1);
         let res;
-        if (fileData) {
+        if (fileData?.uid) {
           res = await replaceDoc(
             data?.file,
             data?.file?.name,
-            fileData.id,
+            fileData.uid,
             String(atr).toUpperCase()
           );
         } else {
@@ -70,109 +60,123 @@ const SelectDocument = ({
         }
         if (res?.data) {
           handle_data_docs(true, atr, "fileData", res.data);
-          setAvailableItem((a) => a + 1);
+          setDocs((docs) => {
+            if (docs) {
+              return [res.data, ...docs];
+            } else return docs;
+          });
           progress.set(100);
-          setSuccess(t("sign.selectDocument.uploadFileSuccess"));
-          setTimeout(() => setSuccess(false), 3000);
+          addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
         }
       }
     } catch (err) {
-      setError(String(err));
+      addSnackbar(String(err));
       progress.set(-1);
-      setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(false);
     }
   }, [
     data?.file,
     handle_data_docs,
-    setAvailableItem,
     progress,
     t,
+    setDocs,
     fileData,
     atr,
+    addSnackbar,
+    loading,
+    setLoading,
   ]);
 
   useEffect(() => {
     handleUploadFile();
-    return () => handleUploadFile();
   }, [handleUploadFile]);
 
   const handleDeleteFile = async () => {
     try {
-      if (!fileData?.id || fileData?.id === null)
+      if (!fileData?.uid || fileData?.uid === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
-      const res = await deleteDoc(fileData?.id);
+      const fileUid = fileData?.uid;
+      const res = await deleteDoc(fileUid);
       if (res?.data) {
         data?.setFile(null);
         data?.filePicker.current.focus();
         data.filePicker.current.value = null;
         handle_data_docs(false, atr, "fileData");
         progress.set(0);
-        setSuccess(t("sign.selectDocument.deleteFileSuccess"));
-        setTimeout(() => setSuccess(false), 3000);
+        setDocs((docs) => {
+          if (docs) {
+            return docs.filter((doc) => doc?.uid === fileUid);
+          } else return docs;
+        });
+        addSnackbar(t("sign.selectDocument.deleteFileSuccess"), "success");
       }
     } catch (err) {
       progress.set(-1);
-      setError(String(err));
-      setTimeout(() => setError(false), 3000);
+      addSnackbar(String(err));
     }
   };
 
   return (
-    <div className="container container-center sign-select-document-container">
-      {error && <Snackbar text={error} />}
-      {success && <Snackbar type="primary" text={success} />}
-      <div>
-        <h4 className="">{t("sign.selectDocument.whatNeed")}</h4>
-        <div className="mt-5 lead mb-2">{t("sign.selectDocument.text")}</div>
-        <DragDrop
-          data={data}
-          progress={progress}
-          // disabled={progress.value === 100}
-        />
+    <>
+      <div className="container container-center sign-select-document-container">
+        <div className="first-child">
+          <h4 className="bold">{t("sign.selectDocument.whatNeed")}</h4>
+          <div className="mt-5 bold mb-2">{t("sign.selectDocument.text")}</div>
+          <DragDrop
+            data={data}
+            progress={progress}
+            // disabled={progress.value === 100}
+          />
 
-        <div className="mt-5 lead mb-2">
-          {t("sign.selectDocument.docsUSelected")}
+          <div className="mt-5 bold mb-2">
+            {t("sign.selectDocument.docsUSelected")}
+          </div>
+          {fileData && !data?.file && (
+            <>
+              <div className="item-left">
+                <DescriptionRoundedIcon className="file-icon" />
+                <div className="px-2">{fileData?.filename}</div>
+                <div className="mx-2 cursor-pointer">
+                  <CancelRoundedIcon
+                    onClick={handleDeleteFile}
+                    className="delete-red"
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <Progressbar progress={100} />
+              </div>
+            </>
+          )}
+          {data?.file && (
+            <>
+              <div className="item-left">
+                <DescriptionRoundedIcon className="file-icon" />
+                <div className="px-2">{data?.file?.name}</div>
+                <div className="mx-2 cursor-pointer">
+                  <CancelRoundedIcon
+                    className="delete-red"
+                    onClick={handleDeleteFile}
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <Progressbar progress={progress.value} />
+              </div>
+            </>
+          )}
         </div>
-        {fileData && !data?.file && (
-          <>
-            <div className="item-left">
-              {console.log(fileData)}
-              <DocumentIcon />
-              <div className="px-2">{fileData?.filename}</div>
-              <div className="mx-2 cursor-pointer">
-                <DeleteDocumentIcon onClick={handleDeleteFile} />
-              </div>
-            </div>
-            <div className="mt-3">
-              <Progressbar progress={100} />
-            </div>
-          </>
-        )}
-        {data?.file && (
-          <>
-            <div className="item-left">
-              <DocumentIcon />
-              <div className="px-2">{data?.file?.name}</div>
-              <div className="mx-2 cursor-pointer">
-                <DeleteDocumentIcon onClick={handleDeleteFile} />
-              </div>
-            </div>
-            <div className="mt-3">
-              <Progressbar progress={progress.value} />
-            </div>
-          </>
-        )}
-      </div>
 
-      <FloatingButton
-        activeItem={activeItem}
-        // availableLevel={availableLevel}
-        onClickNext={() => {
-          setActiveItem((a) => a + 1);
-        }}
-        disabled={shallNext()}
-      />
-    </div>
+        <FloatingButton
+          onClickNext={() => {
+            push(`${atr}#${activeItemId + 1}`);
+          }}
+          disabled={shallNext()}
+        />
+      </div>
+      <Footer />
+    </>
   );
 };
 

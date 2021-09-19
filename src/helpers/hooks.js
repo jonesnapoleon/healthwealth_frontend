@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BREAKPOINT_WIDTH, PROGRESS_BAR_INTERVAL } from "./constant";
+import { useLocation } from "react-router-dom";
 
 export const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
@@ -16,6 +17,11 @@ export const useRefreshedData = (updatingValue) => {
       setValue(updatingValue);
   }, [updatingValue]);
   return { value, set: setValue };
+};
+
+export const useCheckbox = (initialValue = false) => {
+  const [checked, setChecked] = useState(initialValue);
+  return { checked, onChange: () => setChecked((a) => !a) };
 };
 
 export const useFormInput = (initialValue) => {
@@ -73,6 +79,12 @@ export const usePrevious = (value) => {
   return ref.current;
 };
 
+export const useOTP = (length) => {
+  const [value, setValue] = useState(Array(length).fill(""));
+  const number = value.join("");
+  return { value, set: setValue, number };
+};
+
 export const useWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -106,6 +118,13 @@ export const useProgressBar = () => {
   return { value, set: setValue };
 };
 
+export const useLocationChanged = (callback) => {
+  const location = useLocation();
+  useEffect(() => {
+    callback();
+  }, [location, callback]);
+};
+
 export const usePreventPageLeave = () => {
   useEffect(() => {
     const give = (window.onload = () => {
@@ -127,4 +146,19 @@ export const usePreventPageLeave = () => {
     give();
     return () => give();
   }, []);
+};
+
+export const useHashString = (defaultValue = "", type = "string") => {
+  const location = useLocation();
+  if (type === "number")
+    return location?.hash
+      ? parseInt(String(location.hash).substr(1))
+      : defaultValue;
+  return location?.hash ? String(location.hash).substr(1) : defaultValue;
+};
+
+export const useQuery = (atr) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  return searchParams.get(atr);
 };

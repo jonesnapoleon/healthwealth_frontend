@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 
 class DragDropClass extends Component {
-  state = {
-    drag: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      drag: false,
+    };
+  }
   dropRef = React.createRef();
   handleDrag = (e) => {
     e.preventDefault();
@@ -12,6 +15,7 @@ class DragDropClass extends Component {
   handleDragIn = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    this.props.setBgOpacity(true);
     this.dragCounter++;
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       this.setState({ drag: true });
@@ -28,6 +32,7 @@ class DragDropClass extends Component {
   handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    this.props.setBgOpacity(false);
     this.setState({ drag: false });
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       this.props.handleDrop(e.dataTransfer.files);
@@ -64,7 +69,8 @@ class DragDropClass extends Component {
           <div
             style={{
               border: "dashed grey 4px",
-              backgroundColor: "rgba(255,255,255,.8)",
+              backgroundColor: "red",
+              // rgba(255,255,255,.8)
               position: "absolute",
               top: 0,
               bottom: 0,
