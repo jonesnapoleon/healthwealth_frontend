@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: "12.x"
 
-      - name: Use cached node_modules
-        uses: actions/cache@master
-        with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('**/package-lock.lock') }}
-          restore-keys: |
-            nodeModules-
+      # - name: Use cached node_modules
+      #   uses: actions/cache@master
+      #   with:
+      #     path: node_modules
+      #     key: nodeModules-${{ hashFiles('**/package-lock.lock') }}
+      #     restore-keys: |
+      #       nodeModules-
 
       - name: Install dependencies
         run: npm install

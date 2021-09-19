@@ -29,7 +29,7 @@ export const BasicSelect = ({ label, data, list, className }) => {
   return (
     <div className={className ?? "basic-input-label-container"}>
       <div className="label">{label}</div>
-      <select {...data} defaultValue={list[0][0]} className="input">
+      <select {...data} className="input">
         {list?.map((item) => (
           <option key={item[0]} value={item[0]}>
             {item[1]}

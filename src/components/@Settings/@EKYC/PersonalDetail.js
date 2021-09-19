@@ -93,7 +93,8 @@ const PersonalDetail = () => {
     try {
       setLoading(true);
       const res = await verifyOTPPhone(otp);
-      if (res) {
+      if (res?.data) {
+        putAuth(res.data);
         addSnackbar(t("popup.sign.verify.success2"), "success");
         onClose();
       }

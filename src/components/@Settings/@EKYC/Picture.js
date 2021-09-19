@@ -105,9 +105,10 @@ const Picture = () => {
     try {
       pictureProgress.set(1);
       setLoading(true);
-      if (!takePict?.value || takePict?.file === null)
+      if (!takePict?.value || takePict?.value === null)
         throw new Error(t("form.error.fileNotUploadedYet"));
       const res = await uploadSelfie(takePict.value);
+
       if (res?.data) {
         takePict.set(null);
         isPictureEdit.set(false);
@@ -119,8 +120,8 @@ const Picture = () => {
       addSnackbar(String(err));
       pictureProgress.set(-1);
     } finally {
-      setLoading(false);
       pictureProgress.set(0);
+      setLoading(false);
     }
   };
 
