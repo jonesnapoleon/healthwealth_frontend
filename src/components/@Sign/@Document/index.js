@@ -39,6 +39,8 @@ const Document = () => {
   const imgProgress = useProgressBar();
   const fieldProgress = useProgressBar();
 
+  const [scale, setScale] = useState(100);
+
   const fetchAllFields = useCallback(async () => {
     if (fieldProgress.value !== 0) return;
     if (!fileUId || fileUId === undefined) {
@@ -192,6 +194,8 @@ const Document = () => {
       openVerifySignature({
         onClickCTA: () => handleSubmit(finalFields),
         openIsEasy: true,
+        fileUID: fileData?.uid,
+        atr,
       });
     } catch (err) {
       addSnackbar(String(err));
@@ -202,7 +206,12 @@ const Document = () => {
     <>
       <SignNav />
       <div className={"sign-place-field-area"}>
-        <SignToolbar handleNext={handleNext} />
+        <SignToolbar
+          handleNext={handleNext}
+          setScale={setScale}
+          scale={scale}
+          scrollToPage={scrollToPage}
+        />
 
         <LeftArea
           setFields={setFields}
@@ -215,6 +224,7 @@ const Document = () => {
         <PDFSigner
           getValue={getValue}
           setFields={setFields}
+          scale={scale}
           fileData={fileData}
           fetchAllFields={fetchAllFields}
           fields={fields}

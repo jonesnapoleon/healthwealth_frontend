@@ -12,7 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { DOC, DRAFT_STATUS, FRONTEND_URL } from "helpers/constant";
 import { downloadFile } from "helpers/transformer";
-import { openWA } from "helpers/action";
+import { useModal } from "contexts/ModalContext";
 
 const Docs = () => {
   const { t } = useTranslation();
@@ -25,7 +25,8 @@ const Docs = () => {
   const { value: displayedDocs, set: setDisplayedDocs } = useRefreshedData(
     docs ?? []
   );
-  // const setDisplayedDocs = displayedDocs.set;
+  const { openSendWhatsapp } = useModal();
+
   const activeDoc = useRefreshedData(false);
 
   const fetchingDocs = useCallback(async () => {
@@ -56,13 +57,16 @@ const Docs = () => {
       }
       if (obj?.status === DRAFT_STATUS.OUT) {
         if (obj?.nextflow.length > 1) {
-          const people = obj?.nextflow[obj?.currentflow];
-          openWA(
-            people.email,
-            people.name,
-            t("popup.wa.template1"),
-            t("popup.wa.template2")
-          );
+          // const people = obj?.nextflow[obj?.currentflow];
+          const currentHost = window.location.host;
+          const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${key}#${obj?.uid}`;
+          openSendWhatsapp({ finalUrl: signUrl });
+          // openWA(
+          //   people.email,
+          //   people.name,
+          //   t("popup.wa.template1"),
+          //   t("popup.wa.template2")
+          // );
         }
         return;
       }
@@ -70,7 +74,7 @@ const Docs = () => {
       handle_data_docs(true, key, "placeFieldImages", []);
       handle_data_docs(true, key, "placeFieldFields", []);
       if (obj?.status === DRAFT_STATUS.WAITING) {
-        push(`${FRONTEND_URL.document}?type=${key}#${obj?.uid}`);
+        window.open(`${FRONTEND_URL.document}?type=${key}#${obj?.uid}`);
         return;
       }
       // if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
@@ -96,7 +100,7 @@ const Docs = () => {
         }
       }
     },
-    [handle_data_docs, push, t]
+    [handle_data_docs, push, openSendWhatsapp]
   );
 
   const trimNow = useCallback(

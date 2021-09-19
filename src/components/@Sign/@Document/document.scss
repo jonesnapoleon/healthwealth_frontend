@@ -47,9 +47,9 @@ $tools-height: 10vh;
 
   .left-sidebar {
     background-color: var(--secondary-extra-color-4);
-    top: $pad-top + $tools-height;
-    // height: 100vh - $pad-top - 10vh;
-    height: 100vh - $pad-top - 10vh - $tools-height;
+    padding-top: $pad-top + $tools-height;
+    height: 100vh - 10vh;
+    // height: 100vh - $pad-top - 10vh - $tools-height;
     z-index: 8888;
     width: $left-width;
     .container {
@@ -143,19 +143,45 @@ $tools-height: 10vh;
     }
   }
   #main-workspace {
-    width: 100%;
+    // padding-left: $pad-left-from-center;
+    // padding-right: $pad-right-from-center;
     background-color: var(--secondary-extra-color-4);
-    padding-left: $pad-left-from-center;
-    padding-right: $pad-right-from-center;
-    padding-top: $pad-top + $tools-height;
-    margin-top: $pad-top / 16;
-    padding-bottom: $pad-top;
-    position: relative;
+    // padding-top: $pad-top + $tools-height;
+    // margin-top: $pad-top / 16;
+    // padding-bottom: $pad-top;
+    // position: relative;
+    width: 100% - $pad-right-from-center - $pad-left-from-center;
+    position: absolute;
+    left: $pad-left-from-center;
+    right: $pad-right-from-center;
+    top: $pad-top + $tools-height;
+    padding-top: $pad-top / 16;
+    padding-bottom: $pad-top / 16;
+    bottom: $pad-top;
 
     > :first-child.one-image-area {
       margin-top: $pad-top;
     }
+    .fu-wrapper {
+      overflow: auto;
+      padding-bottom: $pad-top;
 
+      // &::-webkit-scrollbar {
+      //   width: 12px;
+      // }
+      // &::-webkit-scrollbar-thumb {
+      //   background: var(--secondary-extra-color-2);
+      // }
+      // @media only screen and (max-width: 600px) {
+      //   &::-webkit-scrollbar {
+      //     width: 0;
+      //   }
+      // }
+      .wrap-again {
+        transform-origin: top left;
+        // overflow: auto;
+      }
+    }
     .one-image-area {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);

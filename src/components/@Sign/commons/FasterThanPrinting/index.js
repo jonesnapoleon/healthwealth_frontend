@@ -10,7 +10,7 @@ import { FRONTEND_URL } from "helpers/constant";
 import { openWA } from "helpers/action";
 import { useAuth } from "contexts/AuthContext";
 
-const FasterThanPrinting = () => {
+const FasterThanPrinting = ({ finalUrl }) => {
   const { t } = useTranslation();
   const { openSendWhatsapp } = useModal();
 
@@ -26,7 +26,10 @@ const FasterThanPrinting = () => {
         <div>{t("popup.wa.easyReq")}</div>
       </div>
       <div>
-        <button className="send-wa" onClick={() => openSendWhatsapp()}>
+        <button
+          className="send-wa"
+          onClick={() => openSendWhatsapp({ finalUrl })}
+        >
           <WhatsAppIcon className="success-color" />
           <span>{t("popup.wa.sendViaWA")}</span>
         </button>
@@ -37,7 +40,7 @@ const FasterThanPrinting = () => {
 
 export default FasterThanPrinting;
 
-export const SendWhatsapp = () => {
+export const SendWhatsapp = ({ finalUrl }) => {
   const { t } = useTranslation();
   const name = useFormInput("");
   const wa = useFormInput("");
@@ -58,7 +61,7 @@ export const SendWhatsapp = () => {
         </span>
         <span className="mx-2">
           {t("popup.wa.template1")} {name?.value}
-          {t("popup.wa.template2")}
+          {t("popup.wa.template2")} {finalUrl}
         </span>
       </div>
       <div className="mt-5 item-right">
@@ -70,7 +73,8 @@ export const SendWhatsapp = () => {
                 wa.value,
                 name.value,
                 t("popup.wa.template1"),
-                t("popup.wa.template2")
+                t("popup.wa.template2"),
+                finalUrl
               );
               onClose();
               push(FRONTEND_URL.docs);

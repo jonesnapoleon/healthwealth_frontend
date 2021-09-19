@@ -96,14 +96,25 @@ const ControlledAccordions = ({
                   let ax = temp.map((oneField) => {
                     return {
                       ...oneField,
-                      required: isTheSelectedFieldSameAsThisField(oneField)
-                        ? e.target.checked
-                        : oneField.required,
+                      required: !isTheSelectedFieldSameAsThisField(oneField)
+                        ? oneField.required
+                        : ["initial", "signature"].includes(
+                            String(currentField?.type).toLowerCase()
+                          )
+                        ? true
+                        : e.target.checked,
                     };
                   });
                   setFields(ax);
                   setCurrentField((field) => {
-                    return { ...field, required: e.target.checked };
+                    return {
+                      ...field,
+                      required: ["initial", "signature"].includes(
+                        String(currentField?.type).toLowerCase()
+                      )
+                        ? true
+                        : e.target.checked,
+                    };
                   });
                 }}
               />
@@ -189,13 +200,11 @@ const ControlledAccordions = ({
                     }}
                     className="w-100"
                   >
-                    {["Arial", "Times New Roman", "Helvetica", "PTSans"].map(
-                      (a) => (
-                        <option value={a} key={a}>
-                          {a}
-                        </option>
-                      )
-                    )}
+                    {["Arial", "Times New Roman", "Helvetica"].map((a) => (
+                      <option value={a} key={a}>
+                        {a}
+                      </option>
+                    ))}
                   </select>
                 </>
               )}
@@ -352,9 +361,9 @@ const RightSnippetArea = ({
                   <DeleteIcon />
                 </div>
               )}
-              <div onClick={() => setShow((a) => !a)}>
+              {/* <div onClick={() => setShow((a) => !a)}>
                 <SwitchCameraIcon />
-              </div>
+              </div> */}
             </div>
           </div>
           <ControlledAccordions

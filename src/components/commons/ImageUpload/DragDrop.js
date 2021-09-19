@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // import icon from "../../../assets/bnw/Upload Document Icon.svg";
@@ -26,9 +26,16 @@ const DragDrop = ({ data, disabled = false, progress }) => {
     }
   };
 
+  const [bgOpacity, setBgOpacity] = useState(false);
+
   return (
-    <DragDropClass handleDrop={handleDrop}>
-      <div className="drag-drop-container">
+    <DragDropClass handleDrop={handleDrop} setBgOpacity={setBgOpacity}>
+      <div
+        className="drag-drop-container"
+        style={{
+          backgroundColor: bgOpacity ? "var(--secondary-extra-color-1)" : "",
+        }}
+      >
         <div>
           <button
             className="btn btn-primary upload-button"

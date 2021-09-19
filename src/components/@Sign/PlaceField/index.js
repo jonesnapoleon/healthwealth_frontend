@@ -576,6 +576,7 @@ const PlaceField = ({ activeItemId, atr }) => {
                 let temp = fields.filter(
                   (t) => !isTheseFieldsSame(t, currentField)
                 );
+                setFields(temp);
                 pushToStack(temp);
                 setCurrentField(null);
               }}

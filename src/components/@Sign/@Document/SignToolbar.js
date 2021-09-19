@@ -3,7 +3,7 @@ import { SCALE } from "helpers/constant";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
-const SignToolbar = ({ handleNext }) => {
+const SignToolbar = ({ handleNext, setScale, scale, scrollToPage }) => {
   const { t } = useTranslation();
   const { goBack } = useHistory();
   return (
@@ -12,9 +12,11 @@ const SignToolbar = ({ handleNext }) => {
         <div className="wrapper">
           <div>
             <select
-            // value={scale}
-            // onChange={(e) => setScale(e.target.value)}
-            // disabled={!canEdit}
+              value={scale}
+              onChange={(e) => {
+                setScale(e.target.value);
+                scrollToPage(1);
+              }}
             >
               {SCALE.map((val, i) => (
                 <option value={val} key={i}>

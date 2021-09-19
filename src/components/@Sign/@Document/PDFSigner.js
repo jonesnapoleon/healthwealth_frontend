@@ -135,6 +135,7 @@ const PDFSigner = ({
   setFields,
   placeFieldImages,
   isTheseFieldsSame,
+  scale,
   getValue,
 }) => {
   const [pageCount, setPageCount] = useState(0);
@@ -149,7 +150,13 @@ const PDFSigner = ({
   return (
     <div id="main-workspace">
       <div className="fu-wrapper">
-        <div className="wrap-again">
+        <div
+          className="wrap-again"
+          style={{
+            transform: `scale(${scale / 100})`,
+            marginBottom: scale === "125" ? "80vh" : "0",
+          }}
+        >
           {placeFieldImages && placeFieldImages?.length > 0 ? (
             placeFieldImages?.map((data, i) => {
               const playableFields = fields

@@ -48,7 +48,7 @@ const ReviewSend = ({ atr, activeItemId }) => {
         return { name: datum.name, email: datum.email };
       }),
     };
-    openVerifySignature({ body, fileUID: fileData?.uid });
+    openVerifySignature({ body, fileUID: fileData?.uid, atr });
   };
 
   // const handleSubmit = async () => {

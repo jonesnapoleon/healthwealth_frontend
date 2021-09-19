@@ -10,6 +10,7 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { sendOTPDoc, verifyOTPDoc } from "api/docs";
 import { useModal } from "contexts/ModalContext";
 import { useData } from "contexts/DataContext";
+import { FRONTEND_URL } from "helpers/constant";
 
 const VerifySignature = (props) => {
   const {
@@ -20,6 +21,7 @@ const VerifySignature = (props) => {
     sendOTPAuthWrapper = () => {},
     verifyOTPAuthWrapper = () => {},
     openIsEasy = false,
+    atr,
   } = props;
   const { t } = useTranslation();
   const { openFasterThanPrinting, openWasntThatEasy } = useModal();
@@ -57,7 +59,11 @@ const VerifySignature = (props) => {
         onClickCTA();
         addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
-        openIsEasy ? openWasntThatEasy() : openFasterThanPrinting();
+        const currentHost = window.location.host;
+        const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${atr}#${fileUID}`;
+        openIsEasy
+          ? openWasntThatEasy({ finalUrl: signUrl })
+          : openFasterThanPrinting({ finalUrl: signUrl });
         if (!openIsEasy) {
           resetDataDocs();
           setDocs(false);

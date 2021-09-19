@@ -14,13 +14,23 @@ const Footer = () => {
         <div className="d-flex justify-content-start">
           <div className="footer-item">{/* <img src={} */}</div>
           {[
-            "header.pricing",
-            "header.products",
-            "header.getStarted",
-            "header.faq",
-          ].map((a) => (
-            <div key={a} className="footer-item">
-              {t(a)}
+            ["header.pricing", "https://jonesnapoleon.com/nimfinder"],
+            ["header.products", "https://youtube.com"],
+            ["header.getStarted", "https://google.com"],
+            ["header.faq", "https://netflix.com"],
+          ].map((a, i) => (
+            <div key={i} className="footer-item">
+              <a
+                href={a[1]}
+                rel="noopener noreferrer"
+                target="_blank"
+                style={{
+                  color: "var(--primary-color)",
+                  textDecoration: "unset",
+                }}
+              >
+                {t(a[0])}
+              </a>
             </div>
           ))}
         </div>
