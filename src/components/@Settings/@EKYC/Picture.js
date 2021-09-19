@@ -179,6 +179,7 @@ const Picture = () => {
         </div>
       );
   };
+  const [bgOpacity, setBgOpacity] = useState(false);
 
   return (
     <>
@@ -202,8 +203,10 @@ const Picture = () => {
           handleDrop={(file) => {
             if (file) identity?.setFile(file[0]);
           }}
+          setBgOpacity={setBgOpacity}
         >
           <ImageUpload
+            bgOpacity={bgOpacity}
             meta={{ ...imagesData[0], isEdit: isIdentityEdit.value }}
             data={identity}
             onDelete={handleDeleteIdentity}

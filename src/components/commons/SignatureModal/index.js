@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import SignaturePad from "react-signature-canvas";
 import { useTranslation } from "react-i18next";
 import {
@@ -40,15 +40,10 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   const [tab, setTab] = useState(0);
   const checkbox = useCheckbox();
 
-  // const [error, setError] = useState(null);
-  // const [success, setSuccess] = useState(null);
   const { addSnackbar } = useSnackbar();
-  // const [loading, setLoading] = useState(false);
   const { putAuth } = useAuth();
   const [loading, setLoading] = useState(0);
-  // const [imageURL, setImageURL] = useState(null);
   const signCanvas = useRef({});
-  // const clear = () => signCanvas.current?.clear();
 
   const data = useFile();
   const progress = useProgressBar();
@@ -56,41 +51,28 @@ const SignatureModal = ({ isInitial, extraCallback = () => {} }) => {
   const formItemData = useFormInput("");
 
   const fontData = useFormInput(FONTLIST[0][0]);
-  // const formItemDisplay = useMemo(
-  //   () => (
-  //     <span
-  //       className="form-item-display"
-  //       style={{ fontFamily: fontData?.value }}
-  //     >
-  //       {formItemData?.value}
-  //     </span>
-  //   ),
-  //   [formItemData, fontData]
-  // );
 
-  const addingSignature = async (fileData) => {
-    try {
-      setLoading(1);
-      const res = await addSignature(fileData, isInitial);
-      if (res?.data) {
-        //     handle_data_docs(true, atr, "fileData", res.data);
-        //     setAvailableLevel((a) => a + 1);
-        progress.set(100);
-
-        putAuth(res?.data);
-        // if (isInitial) putAuth({ ...auth, initial_finished_img: newRes });
-        // if (!isInitial) putAuth({ ...auth, signature_finished_img: newRes });
-        addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
-        extraCallback();
-        //     setTimeout(() => setSuccess(false), 3000);
+  const addingSignature = useCallback(
+    async (fileData) => {
+      try {
+        setLoading(1);
+        const res = await addSignature(fileData, isInitial);
+        if (res?.data) {
+          progress.set(100);
+          putAuth(res.data);
+          addSnackbar(t("sign.selectDocument.uploadFileSuccess"), "success");
+          extraCallback();
+        }
+      } catch (err) {
+        addSnackbar(String(err));
+        progress.set(-1);
+      } finally {
+        progress.set(0);
+        setLoading(0);
       }
-    } catch (err) {
-      addSnackbar(String(err));
-      progress.set(-1);
-    } finally {
-      setLoading(0);
-    }
-  };
+    },
+    [isInitial, progress, putAuth, addSnackbar, t, extraCallback]
+  );
 
   const save = async () => {
     if (![0, 1, 2].includes(tab)) return;

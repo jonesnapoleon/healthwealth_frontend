@@ -3,7 +3,14 @@ import CancelRounded from "@material-ui/icons/CancelRounded";
 
 import "./imageupload.scss";
 
-const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
+const ImageUpload = ({
+  meta,
+  data,
+  onDelete,
+  onClick,
+  currentFile,
+  bgOpacity,
+}) => {
   const { icon, head, desc, isEdit, isUpload } = meta;
 
   const [url, setUrl] = useState("");
@@ -26,6 +33,14 @@ const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
       };
     }
   }, [data]);
+
+  useEffect(() => {
+    if (data?.file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(data?.file);
+      reader.onloadend = () => setUrl(reader.result);
+    }
+  }, [data?.file]);
 
   useEffect(() => {
     if (!isUpload) return;
@@ -64,6 +79,8 @@ const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
       (isUpload && !data?.file && !!!currentFile)
     )
       return <ImageGetInput />;
+    if (isUpload && data?.file && url)
+      return <img src={url} alt="" className="showing-image" />;
     if (!isUpload && data?.value)
       return <img src={data?.value} alt="" className="showing-image" />;
     if (isEdit && !imageToShow) return <ImageGetInput />;
@@ -97,6 +114,9 @@ const ImageUpload = ({ meta, data, onDelete, onClick, currentFile }) => {
   return (
     <div
       className="image-upload-container"
+      style={{
+        backgroundColor: bgOpacity ? "var(--secondary-extra-color-1)" : "",
+      }}
       onClick={isUpload ? () => data?.filePicker?.current?.click() : onClick}
     >
       {currentFile && !isEdit && <DeleteIcon />}
