@@ -323,7 +323,10 @@ const RightSnippetArea = ({
       <div className="fix-below-button">
         <button
           className="btn btn-primary btn-sm"
-          onClick={() => scrollToPage(placeFieldImages?.length, "start")}
+          onClick={() => {
+            scrollToPage(placeFieldImages?.length, "start");
+            setTemp(placeFieldImages?.length);
+          }}
         >
           {t("sign.placeFields.right.lastPage")}
         </button>

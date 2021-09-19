@@ -97,6 +97,7 @@ const SignFieldBox = ({
     >
       <span
         className="rnd-content"
+        id={`sign-field-${field?.uuid}`}
         onDoubleClick={() => {
           if (auth?.email === field?.signer?.email) {
             if (

@@ -136,6 +136,7 @@ const Document = () => {
       inline: align,
     });
   }, []);
+
   const { t } = useTranslation();
 
   const handleSubmit = async (finalFields) => {
@@ -150,51 +151,106 @@ const Document = () => {
       addSnackbar(String(err));
     }
   };
-  const handleNext = async () => {
-    try {
-      const finalFields = fields?.map((field) => {
-        const special =
-          ["signature", "initial"].includes(
-            String(field?.type).toLowerCase()
-          ) && currentSigner?.email === field?.signer?.email;
 
-        if (special) {
-          if (
-            initial_image_url === "" &&
-            String(field?.type).toLowerCase() === "initial"
-          )
-            throw new Error("You have initial that you need to fill first!");
-          if (
-            signature_image_url === "" &&
-            String(field?.type).toLowerCase() === "signature"
-          )
-            throw new Error("You have signature that you need to fill first!");
-        }
+  const isAllFieldDone = useMemo(() => {
+    for (let field of fields) {
+      const special =
+        ["signature", "initial"].includes(String(field?.type).toLowerCase()) &&
+        currentSigner?.email === field?.signer?.email;
+      if (special) {
         if (
-          String(field?.type).toLowerCase() === "email" &&
-          currentSigner?.email === field?.signer?.email &&
-          !isValidEmail(field?.value)
+          initial_image_url === "" &&
+          String(field?.type).toLowerCase() === "initial"
         )
-          throw new Error("Fix your email!");
+          return false;
+        if (
+          signature_image_url === "" &&
+          String(field?.type).toLowerCase() === "signature"
+        )
+          return false;
+      }
+      if (
+        String(field?.type).toLowerCase() === "email" &&
+        currentSigner?.email === field?.signer?.email &&
+        !isValidEmail(field?.value)
+      )
+        return false;
+      if (String(field?.value).trim() === "") return false;
+      if (!field?.isEditing) return false;
+    }
+    return true;
+  }, [fields, currentSigner?.email, initial_image_url, signature_image_url]);
 
-        if (String(field?.value).trim() === "")
-          throw new Error(`Fix your ${field?.type}`);
-        if (!field?.isEditing) throw new Error(`Fix your ${field?.type}`);
+  useEffect(() => console.log("isdone", isAllFieldDone));
 
-        return {
-          id: field?.id,
-          value: field?.value,
-        };
-      });
+  const handleNext = () => {
+    // const finalFields = fields?.map((field) => {
+    //   const special =
+    //     ["signature", "initial"].includes(
+    //       String(field?.type).toLowerCase()
+    //     ) && currentSigner?.email === field?.signer?.email;
 
+    //   if (special) {
+    //     if (
+    //       initial_image_url === "" &&
+    //       String(field?.type).toLowerCase() === "initial"
+    //     )
+    //       throw new Error("You have initial that you need to fill first!");
+    //     if (
+    //       signature_image_url === "" &&
+    //       String(field?.type).toLowerCase() === "signature"
+    //     )
+    //       throw new Error("You have signature that you need to fill first!");
+    //   }
+    //   if (
+    //     String(field?.type).toLowerCase() === "email" &&
+    //     currentSigner?.email === field?.signer?.email &&
+    //     !isValidEmail(field?.value)
+    //   )
+    //     throw new Error("Fix your email!");
+
+    //   if (String(field?.value).trim() === "")
+    //     throw new Error(`Fix your ${field?.type}`);
+    //   if (!field?.isEditing) throw new Error(`Fix your ${field?.type}`);
+
+    //   return {
+    //     id: field?.id,
+    //     value: field?.value,
+    //   };
+    // });
+
+    for (let i = 0; i < fields.length; i++) {
+      const field = fields[i];
+      if (field?.isEditing) {
+        continue;
+      }
+      if (!field?.idEditing) {
+        const currentField = document.getElementById(
+          `sign-field-${field.uuid}`
+        );
+        currentField.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+        return;
+      }
+    }
+
+    const finalFields = fields?.map((field) => {
+      return {
+        id: field?.id,
+        value: field?.value,
+      };
+    });
+
+    if (isAllFieldDone) {
       openVerifySignature({
         onClickCTA: () => handleSubmit(finalFields),
         openIsEasy: true,
         fileUID: fileData?.uid,
         atr,
       });
-    } catch (err) {
-      addSnackbar(String(err));
     }
   };
 
@@ -206,6 +262,7 @@ const Document = () => {
           handleNext={handleNext}
           setScale={setScale}
           scale={scale}
+          isAllFieldDone={isAllFieldDone}
           scrollToPage={scrollToPage}
         />
 
@@ -233,11 +290,11 @@ const Document = () => {
           scrollToPage={scrollToPage}
         />
         {/* 
-                <RightSnippetArea
-                  currentField={currentField}
-                  setCurrentField={setCurrentField}
-                  fields={fields}
-                /> */}
+          <RightSnippetArea
+            currentField={currentField}
+            setCurrentField={setCurrentField}
+            fields={fields}
+          /> */}
 
         <SignFoot />
       </div>

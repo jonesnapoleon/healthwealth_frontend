@@ -3,7 +3,13 @@ import { SCALE } from "helpers/constant";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
-const SignToolbar = ({ handleNext, setScale, scale, scrollToPage }) => {
+const SignToolbar = ({
+  handleNext,
+  setScale,
+  scale,
+  scrollToPage,
+  isAllFieldDone,
+}) => {
   const { t } = useTranslation();
   const { goBack } = useHistory();
   return (
@@ -34,7 +40,7 @@ const SignToolbar = ({ handleNext, setScale, scale, scrollToPage }) => {
             {t("general.back")}
           </button>
           <button className="btn btn-primary btn-lg" onClick={handleNext}>
-            {t("general.finish")}
+            {isAllFieldDone ? t("general.finish") : t("general.next")}
           </button>
         </div>
       </div>

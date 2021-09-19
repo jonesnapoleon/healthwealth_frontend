@@ -147,13 +147,22 @@ const PDFSigner = ({
 
   return (
     <div id="main-workspace">
-      <div className="fu-wrapper">
+      <div
+        className="fu-wrapper"
+        style={scale === "125" ? { paddingBottom: "50vh" } : {}}
+      >
         <div
           className="wrap-again"
-          style={{
-            transform: `scale(${scale / 100})`,
-            marginBottom: scale === "125" ? "80vh" : "0",
-          }}
+          style={
+            scale === "125"
+              ? {
+                  transform: `scale(${scale / 100})`,
+                  marginBottom: "105vh",
+                }
+              : {
+                  transform: `scale(${scale / 100})`,
+                }
+          }
         >
           {placeFieldImages && placeFieldImages?.length > 0 ? (
             placeFieldImages?.map((data, i) => {

@@ -1,11 +1,12 @@
 import CustomizedTimeline from "components/commons/Timeline";
 import { useData } from "contexts/DataContext";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const SignAuditTrail = ({ fileData, placeFieldImages, scrollToPage }) => {
   const { getAuditTrail, auditTrails } = useData();
   const { t } = useTranslation();
+  const [temp, setTemp] = useState(1);
 
   useEffect(() => {
     getAuditTrail(fileData?.uid);
@@ -32,15 +33,20 @@ const SignAuditTrail = ({ fileData, placeFieldImages, scrollToPage }) => {
       <div className="fix-below-button">
         <button
           className="btn btn-primary btn-sm"
-          onClick={() => scrollToPage(placeFieldImages?.length, "start")}
+          onClick={() => {
+            scrollToPage(placeFieldImages?.length, "start");
+            setTemp(placeFieldImages?.length);
+          }}
         >
           {t("sign.placeFields.right.lastPage")}
         </button>
         <span>
           <select
             onChange={(e) => {
+              setTemp(e.target.value);
               scrollToPage(e.target.value, "start");
             }}
+            value={temp}
           >
             {placeFieldImages?.length > 0 &&
               placeFieldImages?.map((_, i) => (

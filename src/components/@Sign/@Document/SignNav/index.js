@@ -66,11 +66,14 @@ const SignNav = () => {
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              // style={{ display: "grid", placeItems: "center" }}
+              style={{ zIndex: 2293882939182939122 }}
             >
               <ChevronRightIcon style={{ margin: "auto" }} />
             </div>
-            <div className="dropdown-menu nav-dropdown">
+            <div
+              className="dropdown-menu nav-dropdown"
+              style={{ zIndex: 9999999999999999999999999999 }}
+            >
               <Link className="dropdown-item" to={FRONTEND_URL.settings}>
                 {t("header.myProfile")}
               </Link>
