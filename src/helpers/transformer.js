@@ -19,6 +19,9 @@ export const getMoment = (date) => {
 export const getBackendDateFormat = (date) =>
   format(new Date(date), "yyyy-MM-dd");
 
+export const getReadableTimestamp = (date = new Date()) =>
+  format(new Date(date), "yyyy-MM-dd hh:mm:ss");
+
 export const getFrontendDateFormat = (date = new Date()) =>
   format(new Date(date), "dd/MM/yyyy");
 

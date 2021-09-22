@@ -161,10 +161,12 @@ export const sendDoc = async (fileId, data) => {
   }
 };
 
-export const verifyOTPDoc = async (fileId, OTP, token) => {
+export const verifyOTPDoc = async (fileId, OTP, token, isSign = false) => {
   try {
     const response = await axios.post(
-      `/api/doc/${fileId}/send/verify?otp=${OTP}&token=${token}`
+      `/api/doc/${fileId}/${
+        isSign ? "sign" : "send"
+      }/verify?otp=${OTP}&token=${token}`
     );
     return response.data;
   } catch (e) {
@@ -175,7 +177,7 @@ export const verifyOTPDoc = async (fileId, OTP, token) => {
 export const sendOTPDoc = async (fileId, phone, body) => {
   try {
     const response = await axios.post(
-      `/api/doc/${fileId}/send/phone?phone=${phone}`,
+      `/api/doc/${fileId}/sign/phone?phone=${phone}`,
       body
     );
     return response.data?.data;

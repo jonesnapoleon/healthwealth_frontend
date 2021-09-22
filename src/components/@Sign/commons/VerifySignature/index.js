@@ -20,7 +20,7 @@ const VerifySignature = (props) => {
     isAuth = false,
     sendOTPAuthWrapper = () => {},
     verifyOTPAuthWrapper = () => {},
-    openIsEasy = false,
+    isSign = false,
     atr,
   } = props;
   const { t } = useTranslation();
@@ -60,10 +60,10 @@ const VerifySignature = (props) => {
         isSentPhone?.set(true);
         const currentHost = window.location.host;
         const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${atr}#${fileUID}`;
-        openIsEasy
+        isSign
           ? openWasntThatEasy({ finalUrl: signUrl })
           : openFasterThanPrinting({ finalUrl: signUrl });
-        if (!openIsEasy) {
+        if (!isSign) {
           resetDataDocs();
           setDocs(false);
         }

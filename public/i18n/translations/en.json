@@ -60,7 +60,9 @@
     "status": "Status",
     "success": "Success",
     "failed": "Failed",
-    "buyNow": "Buy Now"
+    "buyNow": "Buy Now",
+    "summary": "Summary",
+    "download": "Download"
   },
   "otp": {
     "sendOtp": "Send OTP",
@@ -306,6 +308,33 @@
         "lastPage": "Last page",
         "value": "Field value",
         "formatting": "Formatting"
+      }
+    },
+    "documentAuditTrail": {
+      "hs": "Summary",
+      "hr": "Recipient",
+      "ha": "Audit Trail",
+      "account": "Account",
+      "activity": "Activity",
+      "ip": "IP Address",
+      "useAgent": "User agent",
+      "timestamp": "Timestamp",
+      "title": "Title",
+      "docPages": "Document pages",
+      "owner": "Owner",
+      "recipients": "Recipients",
+      "recipient": "Recipient",
+      "createdAt": "Created at",
+      "completedAt": "Completed at",
+      "acc": "Account",
+      "sta": "Status",
+      "inf": "Information",
+      "template": {
+        "send": "Sent for signing",
+        "all": "Sent copy to all",
+        "sign": "Signed",
+        "view": "Viewed",
+        "create": "Created"
       }
     },
     "reviewSend": {

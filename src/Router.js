@@ -14,6 +14,7 @@ import Settings from "./components/@Settings";
 import Docs from "./components/@Docs";
 import { FRONTEND_URL } from "./helpers/constant";
 import Document from "./components/@Sign/@Document";
+import DocumentAuditTrail from "components/@Sign/@AuditTrail";
 
 const Router = () => {
   const location = useLocation();
@@ -22,7 +23,8 @@ const Router = () => {
       location?.pathname === FRONTEND_URL.me ||
       location?.pathname === FRONTEND_URL.all ||
       location?.pathname === FRONTEND_URL.request ||
-      location?.pathname === FRONTEND_URL.document
+      location?.pathname === FRONTEND_URL.document ||
+      String(location?.pathname).includes("document/audittrail")
     );
   }, [location]);
 
@@ -43,6 +45,11 @@ const Router = () => {
           <Route
             render={() => <Document />}
             path={`${FRONTEND_URL.document}`}
+            exact
+          />
+          <Route
+            render={() => <DocumentAuditTrail />}
+            path={`${FRONTEND_URL.documentAuditTrail}/:fileUId`}
             exact
           />
           <Route

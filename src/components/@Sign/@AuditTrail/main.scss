@@ -1,0 +1,53 @@
+.docs-audit-trail {
+  font-weight: bolder;
+  padding: 0 1rem;
+  .full-long-blue {
+    width: 100%;
+    background-color: var(--secondary-extra-color-4);
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .detail-wrapper {
+    padding: 0.5rem 1rem;
+    thead {
+      tr {
+        width: 100%;
+        td {
+          background-color: var(--secondary-extra-color-1);
+          text-align: center;
+          text-transform: uppercase;
+          padding: 0.5rem 0;
+          width: 33.333%;
+          border-left: 1px solid black;
+          &:first-child {
+            border-left: 0;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          width: 33.333%;
+          padding: 0.5rem;
+        }
+      }
+    }
+    .timeliner-text {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      > div {
+        width: 18%;
+        text-align: center;
+      }
+    }
+    .special-header {
+      text-align: center;
+      text-transform: uppercase;
+      padding: 0.5rem 0;
+      background-color: var(--secondary-extra-color-1);
+    }
+  }
+}

@@ -247,7 +247,7 @@ const Document = () => {
     if (isAllFieldDone) {
       openVerifySignature({
         onClickCTA: () => handleSubmit(finalFields),
-        openIsEasy: true,
+        isSign: true,
         fileUID: fileData?.uid,
         atr,
       });

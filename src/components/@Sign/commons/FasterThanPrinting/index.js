@@ -135,7 +135,7 @@ export const WasntThatEasy = () => {
                     type="submit"
                     style={{ marginLeft: "1rem", padding: ".25rem .5rem" }}
                   >
-                    Submit
+                    {t("general.submit")}
                   </button>
                 </span>
               </form>

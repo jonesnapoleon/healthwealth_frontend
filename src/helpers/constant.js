@@ -18,7 +18,7 @@ export const FRONTEND_URL = {
   all: `/${DOC.all}`,
   request: `/${DOC.request}`,
   document: `/${DOC.document}`,
-  documentAuditTrail: `/${DOC.document}/audit-trail`,
+  documentAuditTrail: `/${DOC.document}/audittrail`,
   settings: "/settings",
   docs: "/docs",
   privacyPolicy: "/privacy-policy",
@@ -40,7 +40,10 @@ export const DRAFT_STATUS = {
   COMPLETED: "COMPLETED",
 };
 
-export const publicLinks = [FRONTEND_URL.privacyPolicy];
+export const publicLinks = [
+  FRONTEND_URL.privacyPolicy,
+  FRONTEND_URL.documentAuditTrail,
+];
 
 export const highlightedNavs = [
   FRONTEND_URL.me,
