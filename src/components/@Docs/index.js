@@ -60,7 +60,7 @@ const Docs = () => {
         if (obj?.nextflow.length > 1) {
           // const people = obj?.nextflow[obj?.currentflow];
           const currentHost = window.location.host;
-          const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${key}#${obj?.uid}`;
+          const signUrl = `https://${currentHost}${FRONTEND_URL.document}/${obj?.uid}`;
           openSendWhatsapp({ finalUrl: signUrl });
           // openWA(
           //   people.email,
@@ -75,7 +75,7 @@ const Docs = () => {
       handle_data_docs(true, key, "placeFieldImages", []);
       handle_data_docs(true, key, "placeFieldFields", []);
       if (obj?.status === DRAFT_STATUS.WAITING) {
-        window.open(`${FRONTEND_URL.document}?type=${key}#${obj?.uid}`);
+        window.open(`${FRONTEND_URL.document}/${obj?.uid}`);
         return;
       }
       // if (obj?.status !== DRAFT_STATUS.DRAFTING) return;
@@ -83,12 +83,16 @@ const Docs = () => {
         if (obj?.nextflow && obj.nextflow?.length === 0) {
           push(`${key}#${0}`);
         }
+        if (obj?.status === DRAFT_STATUS.DRAFTING) {
+          push(`${key}#${2}`);
+          return;
+        }
         if (obj?.nextflow && obj.nextflow?.length > 0) {
           push(`${key}#${1}`);
         }
       }
       if (key === DOC.me) {
-        if (obj?.fields && obj.fields?.length > 0) {
+        if (obj?.status === DRAFT_STATUS.DRAFTING) {
           push(`${key}#${1}`);
           return;
         }

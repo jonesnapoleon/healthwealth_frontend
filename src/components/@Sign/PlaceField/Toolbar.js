@@ -4,6 +4,7 @@ import RedoIcon from "@material-ui/icons/RedoRounded";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
 import { SCALE } from "helpers/constant";
+import RoundedCornerIcon from "@material-ui/icons/RoundedCorner";
 // import { SCALE } from "helpers/constant";
 
 const Toolbar = ({
@@ -20,6 +21,12 @@ const Toolbar = ({
   canEdit,
   visibility,
 }) => {
+  const getDeg = (i, j) => {
+    if (i === 0 && j === 0) return -90;
+    if (i === 1 && j === 0) return 180;
+    if (i === 1 && j === 1) return 90;
+    return 0;
+  };
   return (
     <div className="tools-area" onClick={() => setIsShow(true)}>
       <div className="wrapper">
@@ -29,15 +36,20 @@ const Toolbar = ({
               {[
                 [1, 2],
                 [4, 3],
-              ].map((arrow) => (
+              ].map((arrow, i) => (
                 <tr key={arrow}>
-                  {arrow?.map((val) => (
+                  {arrow?.map((val, j) => (
                     <td key={val}>
                       <button
                         disabled={!canEdit}
                         onClick={() => setQrCodePosition(val)}
                       >
-                        {visibility}
+                        <RoundedCornerIcon
+                          color="black"
+                          style={{
+                            transform: `rotate(${getDeg(i, j)}deg)`,
+                          }}
+                        />
                       </button>
                     </td>
                   ))}

@@ -127,12 +127,7 @@ const FieldBox = ({
   // ]);
 
   const handle = (
-    <FieldHandle
-      color={!isEditing ? field?.signer?.color ?? "transparent" : "transparent"}
-      stroke={
-        !isEditing ? field?.signer?.color ?? "transparent" : "transparent"
-      }
-    />
+    <FieldHandle color={field?.signer?.color} stroke={field?.signer?.color} />
   );
 
   const deleteHandle = <DeleteFieldHandle />;
@@ -206,7 +201,7 @@ const FieldBox = ({
         pushToStack(temp);
         setIsEditing((a) => a);
       }}
-      style={{ border: 0, zIndex: 888 }}
+      style={{ border: "1px solid", zIndex: 888 }}
       className="draggable-item"
     >
       <span

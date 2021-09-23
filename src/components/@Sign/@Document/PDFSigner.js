@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 
 import SignFieldBox from "./SignFieldBox";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignature } from "@fortawesome/free-solid-svg-icons";
+
 export const INIT_FIELD_WIDTH = 100;
 export const INIT_FIELD_HEIGHT = 50;
 
@@ -116,6 +119,7 @@ export const LeftArea = ({
                   borderRadius: "var(--border-radius)",
                 }}
               >
+                <FontAwesomeIcon icon={faSignature} />{" "}
                 {t("sign.document.oneClickSign")}
               </button>
             </div>

@@ -37,23 +37,21 @@ const SummaryArea = ({ data, t }) => {
           {t("sign.documentAuditTrail.title")}: {data?.filename}
         </div>
         <div>
-          {t("sign.documentAuditTrail.docPages")}: {data?.filename}
+          {t("sign.documentAuditTrail.docPages")}: {data?.numPages}
         </div>
         <div>
           {t("sign.documentAuditTrail.owner")}: {data?.userEmail}
         </div>
         <div>
           {t("sign.documentAuditTrail.recipients")}:{" "}
-          {data?.nextflow?.length - 1}
+          {data?.recipient?.length ?? 1}
         </div>
-        {data?.nextflow?.map(
-          (user, i) =>
-            i !== 0 && (
-              <div>
-                {t("sign.documentAuditTrail.recipients")} {i}: {user?.email}
-              </div>
-            )
-        )}
+        {data &&
+          data?.recipient?.map((user, i) => (
+            <div>
+              {t("sign.documentAuditTrail.recipient")} {i + 1}: {user?.email}
+            </div>
+          ))}
         <div>
           {t("sign.documentAuditTrail.createdAt")}:{" "}
           {getReadableTimestamp(data?.createdAt)}
@@ -69,7 +67,7 @@ const SummaryArea = ({ data, t }) => {
 const Recipient = ({ t, data }) => {
   return (
     <div>
-      <div className="full-long-blue">{t("sign.documentAuditTrail.ha")}</div>
+      <div className="full-long-blue">{t("sign.documentAuditTrail.hr")}</div>
       <div className="detail-wrapper">
         <table>
           <thead>
@@ -92,7 +90,9 @@ const Recipient = ({ t, data }) => {
                       paddingRight: ".5rem",
                     }}
                   >
-                    <small>{datum?.userAgent}</small>
+                    <small>
+                      <div>{}</div>
+                    </small>
                   </td>
                 </tr>
               ))}

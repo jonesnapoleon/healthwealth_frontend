@@ -8,8 +8,8 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { getDocImages, getAllFields, updateFields } from "api/docs";
 import SignNav from "./SignNav";
 import SignFoot from "./SignNav/Foot";
-import { useHashString, useProgressBar, useQuery } from "helpers/hooks";
-import { useHistory } from "react-router";
+import { useProgressBar } from "helpers/hooks";
+import { useHistory, useParams } from "react-router";
 import { FRONTEND_URL } from "helpers/constant";
 import SignAuditTrail from "./SignAuditTrail";
 import { addToDevFields, getFrontendDateFormat } from "helpers/transformer";
@@ -21,8 +21,7 @@ import { useData } from "contexts/DataContext";
 import { useModal } from "contexts/ModalContext";
 
 const Document = () => {
-  const fileUId = useHashString("", "string");
-  const atr = useQuery("type");
+  const { fileUId } = useParams();
   const { push } = useHistory();
 
   const [loading, setLoading] = useState(false);
@@ -70,7 +69,7 @@ const Document = () => {
     } catch (e) {
       fieldProgress.set(-1);
       addSnackbar(String(e));
-      setTimeout(() => push(`${FRONTEND_URL.docs}`), 3000);
+      // setTimeout(() => push(`${FRONTEND_URL.docs}`), 3000);
     } finally {
       setLoading(false);
     }
@@ -144,7 +143,7 @@ const Document = () => {
       const res = await updateFields(fileUId, finalFields);
       if (res) {
         setSignData(res);
-        push(`${FRONTEND_URL.documentAuditTrail}?type${atr}#${fileUId}`);
+        push(`${FRONTEND_URL.documentAuditTrail}/${fileUId}`);
         addSnackbar(t("sign.placeFields.placeFieldSuccess"), "success");
       }
     } catch (err) {
@@ -249,7 +248,6 @@ const Document = () => {
         onClickCTA: () => handleSubmit(finalFields),
         isSign: true,
         fileUID: fileData?.uid,
-        atr,
       });
     }
   };

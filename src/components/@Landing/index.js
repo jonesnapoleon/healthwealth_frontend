@@ -20,7 +20,7 @@ import { useData } from "contexts/DataContext";
 const Welcome = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { handle_data_docs } = useData();
+  const { resetDataDocs } = useData();
 
   const signComponents = [
     {
@@ -49,8 +49,8 @@ const Welcome = () => {
     },
   ];
 
-  const handleClick = (atr) => {
-    handle_data_docs(false, atr, "placeFieldItems");
+  const handleClick = () => {
+    resetDataDocs();
   };
 
   return (

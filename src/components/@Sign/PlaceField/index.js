@@ -351,6 +351,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       if (validate(data) && typeof data === "object") {
         data.x = 0.5 - 0.5 * data.w;
         data.y = 0.5 - 0.5 * data.w;
+        data.uuid = String(data?.uuid) + String(uuid());
         data.pageNum = visibility;
         scrollToPage();
         pushToStack([...fields, data]);

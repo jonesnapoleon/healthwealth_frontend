@@ -26,6 +26,10 @@ const SelectDocument = ({ atr, activeItemId }) => {
 
   const fileData = getItemData(atr, "fileData");
 
+  useEffect(() => {
+    console.log(fileData);
+  }, [fileData]);
+
   const progress = useProgressBar();
 
   const shallNext = () => {

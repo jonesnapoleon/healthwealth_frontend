@@ -21,7 +21,6 @@ const VerifySignature = (props) => {
     sendOTPAuthWrapper = () => {},
     verifyOTPAuthWrapper = () => {},
     isSign = false,
-    atr,
   } = props;
   const { t } = useTranslation();
   const { openFasterThanPrinting, openWasntThatEasy } = useModal();
@@ -59,7 +58,7 @@ const VerifySignature = (props) => {
         addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
         const currentHost = window.location.host;
-        const signUrl = `https://${currentHost}${FRONTEND_URL.document}?type=${atr}#${fileUID}`;
+        const signUrl = `https://${currentHost}${FRONTEND_URL.document}#${fileUID}`;
         isSign
           ? openWasntThatEasy({ finalUrl: signUrl })
           : openFasterThanPrinting({ finalUrl: signUrl });

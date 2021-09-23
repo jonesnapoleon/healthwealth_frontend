@@ -43,13 +43,13 @@ const Router = () => {
           <Route render={() => <All />} path={FRONTEND_URL.all} exact />
           <Route render={() => <Request />} path={FRONTEND_URL.request} exact />
           <Route
-            render={() => <Document />}
-            path={`${FRONTEND_URL.document}`}
+            render={() => <DocumentAuditTrail />}
+            path={`${FRONTEND_URL.documentAuditTrail}/:fileUId`}
             exact
           />
           <Route
-            render={() => <DocumentAuditTrail />}
-            path={`${FRONTEND_URL.documentAuditTrail}/:fileUId`}
+            render={() => <Document />}
+            path={`${FRONTEND_URL.document}/:fileUId`}
             exact
           />
           <Route

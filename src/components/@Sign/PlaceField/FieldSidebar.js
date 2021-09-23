@@ -29,8 +29,18 @@ const StaticFieldBox = ({ type, icon, isYes, addFieldToWorkspace }) => {
   return (
     <div
       ref={drag}
+      style={
+        isYes
+          ? {
+              pointerEvents: "none",
+              userSelect: "none",
+              userDrag: "none",
+              cursor: "not-allowed",
+            }
+          : {}
+      }
       className="field-box cursor-pointer"
-      onClick={() => addFieldToWorkspace(type)}
+      onClick={() => !isYes && addFieldToWorkspace(type)}
     >
       <div className="must-child">
         <div>{icon}</div>
