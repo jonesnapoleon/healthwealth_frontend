@@ -64,6 +64,7 @@ const SummaryArea = ({ data, t }) => {
     </div>
   );
 };
+
 const Recipient = ({ t, data }) => {
   return (
     <div>
@@ -81,8 +82,42 @@ const Recipient = ({ t, data }) => {
             {data &&
               data?.map((datum, i) => (
                 <tr key={i}>
-                  <td>{datum?.userAgent}</td>
-                  <td>{datum?.userAgent}</td>
+                  <td>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                  </td>
+                  <td>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                  </td>
+                  <td
+                    style={{
+                      textAlign: "left",
+                      paddingLeft: ".5rem",
+                      paddingRight: ".5rem",
+                    }}
+                  >
+                    <small>
+                      <div>{}</div>
+                    </small>
+                  </td>
+                </tr>
+              ))}
+            {data &&
+              data?.map((datum, i) => (
+                <tr key={i}>
+                  <td>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                  </td>
+                  <td>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                    <div>{datum?.email}</div>
+                  </td>
                   <td
                     style={{
                       textAlign: "left",
@@ -261,7 +296,7 @@ const DocumentAuditTrail = () => {
         <div className="container">
           <SummaryArea data={auditTrail?.doc} t={t} />
           <div className="mt-4" />
-          <Recipient data={auditTrail?.auditTrails} t={t} />
+          <Recipient data={auditTrail?.doc?.recipient} t={t} />
           <div className="mt-4" />
           <RealAuditTrail data={auditTrail?.auditTrails} t={t} />
         </div>
