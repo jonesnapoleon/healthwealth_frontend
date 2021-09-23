@@ -177,7 +177,7 @@ export const verifyOTPDoc = async (fileId, OTP, token, isSign = false) => {
 export const sendOTPDoc = async (fileId, phone, body) => {
   try {
     const response = await axios.post(
-      `/api/doc/${fileId}/sign/phone?phone=${phone}`,
+      `/api/doc/${fileId}/send/phone?phone=${phone}`,
       body
     );
     return response.data?.data;

@@ -62,13 +62,17 @@ const DataProvider = ({ children }) => {
       const res = await getDocumentAuditTrail(documentId);
       if (res) {
         setAuditTrails((now) => {
-          return { ...now, [documentId]: res };
+          return { ...now, [documentId]: res.auditTrails };
         });
       }
     } catch (e) {
       addSnackbar(String(e));
     }
   };
+
+  React.useEffect(() => {
+    console.log(auditTrails);
+  });
 
   const getAuditTrail = async (documentId) => {
     if (documentId in auditTrails) {

@@ -27,7 +27,7 @@ const AuditTrailTop = () => (
   </div>
 );
 
-const SummaryArea = ({ data, t }) => {
+const SummaryArea = ({ data, t, recipient }) => {
   // console.log(data);
   return (
     <div>
@@ -43,13 +43,13 @@ const SummaryArea = ({ data, t }) => {
           {t("sign.documentAuditTrail.owner")}: {data?.userEmail}
         </div>
         <div>
-          {t("sign.documentAuditTrail.recipients")}:{" "}
-          {data?.recipient?.length ?? 1}
+          {t("sign.documentAuditTrail.recipients")}: {recipient?.length ?? 1}
         </div>
-        {data &&
-          data?.recipient?.map((user, i) => (
+        {recipient &&
+          recipient?.map((user, i) => (
             <div>
-              {t("sign.documentAuditTrail.recipient")} {i + 1}: {user?.email}
+              {t("sign.documentAuditTrail.recipient")} {i + 1}:{" "}
+              {user?.account?.name}
             </div>
           ))}
         <div>
@@ -83,14 +83,12 @@ const Recipient = ({ t, data }) => {
               data?.map((datum, i) => (
                 <tr key={i}>
                   <td>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
+                    <div>{datum?.account?.name}</div>
+                    <div>{datum?.account?.email}</div>
+                    <div>{datum?.account?.phone}</div>
                   </td>
                   <td>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
+                    <div>{datum?.status}</div>
                   </td>
                   <td
                     style={{
@@ -100,33 +98,26 @@ const Recipient = ({ t, data }) => {
                     }}
                   >
                     <small>
-                      <div>{}</div>
-                    </small>
-                  </td>
-                </tr>
-              ))}
-            {data &&
-              data?.map((datum, i) => (
-                <tr key={i}>
-                  <td>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                  </td>
-                  <td>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                    <div>{datum?.email}</div>
-                  </td>
-                  <td
-                    style={{
-                      textAlign: "left",
-                      paddingLeft: ".5rem",
-                      paddingRight: ".5rem",
-                    }}
-                  >
-                    <small>
-                      <div>{}</div>
+                      {datum?.information?.map((info) => (
+                        <div>
+                          {String(info?.action).toUpperCase()}{" "}
+                          {t("sign.documentAuditTrail.at")}:{" "}
+                          {getReadableTimestamp(info?.updatedAt)}
+                        </div>
+                      ))}
+                      {datum?.information?.length > 0 && (
+                        <>
+                          <div>
+                            {t("sign.documentAuditTrail.ip")}:{" "}
+                            {datum?.information?.[0]?.ip}
+                          </div>
+                          <div>
+                            {t("sign.documentAuditTrail.loc")}:{" "}
+                            {datum?.information?.[0]?.city}
+                          </div>
+                          <div>{t("sign.documentAuditTrail.dev")}: Web</div>
+                        </>
+                      )}
                     </small>
                   </td>
                 </tr>
@@ -138,7 +129,7 @@ const Recipient = ({ t, data }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     padding: "0",
   },
@@ -294,9 +285,13 @@ const DocumentAuditTrail = () => {
       <div id="defjrhglefwjrh">
         <AuditTrailTop />
         <div className="container">
-          <SummaryArea data={auditTrail?.doc} t={t} />
+          <SummaryArea
+            data={auditTrail?.summary}
+            recipient={auditTrail?.recipient}
+            t={t}
+          />
           <div className="mt-4" />
-          <Recipient data={auditTrail?.doc?.recipient} t={t} />
+          <Recipient data={auditTrail?.recipient} t={t} />
           <div className="mt-4" />
           <RealAuditTrail data={auditTrail?.auditTrails} t={t} />
         </div>

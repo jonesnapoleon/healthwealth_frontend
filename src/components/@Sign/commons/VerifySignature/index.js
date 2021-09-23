@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import "./index.scss";
 // import { useModal } from "contexts/ModalContext";
-import { useFormInput, useInput, useOTP } from "helpers/hooks";
+import { useInput, useOTP } from "helpers/hooks";
 import OTPInput from "components/commons/OTPInput";
 import { useAuth } from "contexts/AuthContext";
 import { useSnackbar } from "contexts/SnackbarContext";
@@ -25,7 +25,7 @@ const VerifySignature = (props) => {
   const { t } = useTranslation();
   const { openFasterThanPrinting, openWasntThatEasy } = useModal();
   const { auth } = useAuth();
-  const phone = useFormInput(auth?.phone);
+  const [phone, setPhone] = useState("");
   const isSentPhone = useInput(false);
   const otp = useOTP(6);
   const [loading, setLoading] = useState(false);
@@ -33,10 +33,14 @@ const VerifySignature = (props) => {
   const [token, setToken] = useState("");
   const { setDocs, resetDataDocs } = useData();
 
+  useEffect(() => {
+    auth?.phone && setPhone(auth?.phone);
+  }, [auth]);
+
   const sendOTPDocWrapper = async () => {
     try {
       setLoading(true);
-      const res = await sendOTPDoc(fileUID, phone?.value, body);
+      const res = await sendOTPDoc(fileUID, phone, body);
       if (res) {
         setToken(res.token);
         addSnackbar(t("popup.sign.verify.success1"), "success");
@@ -52,13 +56,13 @@ const VerifySignature = (props) => {
   const verifyOTPDocWrapper = async () => {
     try {
       setLoading(true);
-      const res = await verifyOTPDoc(fileUID, otp?.number, token);
+      const res = await verifyOTPDoc(fileUID, otp?.number, token, false);
       if (res) {
         onClickCTA();
         addSnackbar(t("popup.sign.verify.success2"), "success");
         isSentPhone?.set(true);
         const currentHost = window.location.host;
-        const signUrl = `https://${currentHost}${FRONTEND_URL.document}#${fileUID}`;
+        const signUrl = `https://${currentHost}${FRONTEND_URL.document}/${fileUID}`;
         isSign
           ? openWasntThatEasy({ finalUrl: signUrl })
           : openFasterThanPrinting({ finalUrl: signUrl });
@@ -96,7 +100,7 @@ const VerifySignature = (props) => {
       <h5 className="head">{t("popup.sign.verify.head")}</h5>
       <div className="middle">
         <div>
-          <input {...phone} />
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} />
         </div>
         <div>
           <button
@@ -118,7 +122,7 @@ const VerifySignature = (props) => {
         <div className="resend-button-area">
           <button
             className="btn btn-light squared"
-            disabled={!phone?.value}
+            disabled={!phone}
             onClick={isAuth ? sendOTPAuthWrapper : sendOTPDocWrapper}
           >
             {t("popup.sign.verify.resend")}

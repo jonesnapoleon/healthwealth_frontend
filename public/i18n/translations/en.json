@@ -335,7 +335,10 @@
         "sign": "Signed",
         "view": "Viewed",
         "create": "Created"
-      }
+      },
+      "at": "AT",
+      "loc": "Location",
+      "dev": "Device"
     },
     "reviewSend": {
       "text": "Review and send",
