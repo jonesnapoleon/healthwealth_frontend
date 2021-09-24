@@ -27,29 +27,28 @@ const AuditTrailTop = () => (
   </div>
 );
 
-const SummaryArea = ({ data, t, recipient }) => {
+const SummaryArea = ({ data, t }) => {
   // console.log(data);
   return (
     <div>
       <div className="full-long-blue">{t("sign.documentAuditTrail.hs")}</div>
       <div className="detail-wrapper">
         <div>
-          {t("sign.documentAuditTrail.title")}: {data?.filename}
+          {t("sign.documentAuditTrail.title")}: {data?.title}
         </div>
         <div>
           {t("sign.documentAuditTrail.docPages")}: {data?.numPages}
         </div>
         <div>
-          {t("sign.documentAuditTrail.owner")}: {data?.userEmail}
+          {t("sign.documentAuditTrail.owner")}: {data?.owner}
         </div>
         <div>
-          {t("sign.documentAuditTrail.recipients")}: {recipient?.length ?? 1}
+          {t("sign.documentAuditTrail.recipients")}: {data?.numRecipients ?? 1}
         </div>
-        {recipient &&
-          recipient?.map((user, i) => (
+        {data?.nameRecipients &&
+          data?.nameRecipients?.map((user, i) => (
             <div>
-              {t("sign.documentAuditTrail.recipient")} {i + 1}:{" "}
-              {user?.account?.name}
+              {t("sign.documentAuditTrail.recipient")} {i + 1}: {user}
             </div>
           ))}
         <div>
@@ -97,8 +96,18 @@ const Recipient = ({ t, data }) => {
                       paddingRight: ".5rem",
                     }}
                   >
-                    <small>
-                      {datum?.information?.map((info) => (
+                    <div>
+                      {Object.entries(datum?.information)?.map((dat, i) => (
+                        <div key={i}>
+                          <small>
+                            {/* {String(dat[0])} */}
+                            {t(
+                              `sign.documentAuditTrail.f.${String(dat[0])}`
+                            )}: {dat[1]}
+                          </small>
+                        </div>
+                      ))}
+                      {/* {datum?.information?.map((info) => (
                         <div>
                           {String(info?.action).toUpperCase()}{" "}
                           {t("sign.documentAuditTrail.at")}:{" "}
@@ -117,8 +126,8 @@ const Recipient = ({ t, data }) => {
                           </div>
                           <div>{t("sign.documentAuditTrail.dev")}: Web</div>
                         </>
-                      )}
-                    </small>
+                      )} */}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -188,15 +197,16 @@ const RealAuditTrail = ({ t, data }) => {
                   {i !== data?.length - 1 && <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent className="timeliner-text">
-                  <div>{datum?.fullname}</div>
-                  <div>
-                    {t(
+                  <div>{datum?.account}</div>
+                  <div style={{ textTransform: "capitalize" }}>
+                    {datum?.activity}
+                    {/* {t(
                       `sign.documentAuditTrail.template.${
                         String(datum?.action).toLowerCase() ?? "sign"
                       }`
-                    )}
+                    )} */}
                   </div>
-                  <div>{datum?.ip}</div>
+                  <div>{datum?.ipAddress}</div>
                   <div
                     style={{
                       textAlign: "left",
@@ -285,11 +295,7 @@ const DocumentAuditTrail = () => {
       <div id="defjrhglefwjrh">
         <AuditTrailTop />
         <div className="container">
-          <SummaryArea
-            data={auditTrail?.summary}
-            recipient={auditTrail?.recipient}
-            t={t}
-          />
+          <SummaryArea data={auditTrail?.summary} t={t} />
           <div className="mt-4" />
           <Recipient data={auditTrail?.recipient} t={t} />
           <div className="mt-4" />

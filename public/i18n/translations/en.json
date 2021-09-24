@@ -338,7 +338,14 @@
       },
       "at": "AT",
       "loc": "Location",
-      "dev": "Device"
+      "dev": "Device",
+      "f": {
+        "signedAt": "SIGN AT",
+        "sentAt": "SEND AT",
+        "location": "Location",
+        "ipAddress": "IP address",
+        "device": "Device"
+      }
     },
     "reviewSend": {
       "text": "Review and send",
