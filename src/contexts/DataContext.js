@@ -70,10 +70,6 @@ const DataProvider = ({ children }) => {
     }
   };
 
-  React.useEffect(() => {
-    console.log(auditTrails);
-  });
-
   const getAuditTrail = async (documentId) => {
     if (documentId in auditTrails) {
       return;

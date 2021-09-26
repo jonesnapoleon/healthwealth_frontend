@@ -10,7 +10,7 @@ import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 
 import "./timeline.scss";
-import { getFrontendDateFormat } from "helpers/transformer";
+import { getReadableTimestamp } from "helpers/transformer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,10 +49,10 @@ export default function CustomizedTimeline({ data }) {
             </TimelineSeparator>
             <TimelineContent className="timeline-text">
               <div style={{ fontSize: "0.8rem" }}>
-                {ele?.fullname} {ele?.action}
+                {ele?.account} {String(ele?.activity).toLowerCase()}
               </div>
-              <div>{getFrontendDateFormat(ele?.updatedAt)}</div>
-              <div>IP: {ele?.ip}</div>
+              <div>{getReadableTimestamp(ele?.timestamp)}</div>
+              <div>IP: {ele?.ipAddress}</div>
             </TimelineContent>
           </TimelineItem>
         ))

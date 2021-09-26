@@ -6,8 +6,8 @@ import VisibilitySensor from "react-visibility-sensor";
 
 import FieldBox, { QRCodeBox } from "./FieldBox";
 
-export const INIT_FIELD_WIDTH = 100;
-export const INIT_FIELD_HEIGHT = 50;
+export const INIT_FIELD_WIDTH = 120;
+export const INIT_FIELD_HEIGHT = 60;
 
 const Page = ({
   data,
@@ -46,52 +46,51 @@ const Page = ({
   );
 
   return (
-    <VisibilitySensor
-      containment={document.querySelector(`fu-wrapper`)}
-      minTopValue={0.5 * window.innerHeight}
-      partialVisibility
-      onChange={(isVisible) => {
-        isVisible && setVisibility(pageNum);
-      }}
-    >
-      <div className="one-image-area" ref={drop}>
-        <div
-          id={`one-image-area-${pageNum}`}
-          style={{ backgroundImage: `url(${data})` }}
-          className="one-image"
+    <div className="one-image-area" ref={drop}>
+      <div
+        id={`one-image-area-${pageNum}`}
+        style={{ backgroundImage: `url(${data})` }}
+        className="one-image"
+      >
+        <VisibilitySensor
+          containment={document.querySelector(`.fu-wrapper`)}
+          minTopValue={0.5 * window.innerHeight}
+          partialVisibility
+          onChange={(isVisible) => {
+            isVisible && setVisibility(pageNum);
+          }}
         >
-          <img
-            src={data}
-            alt=""
-            onClick={() => setIsShow(true)}
-            className="invisible"
-            onLoad={() => {
-              setVisibility(1);
-              // fetchAllFields();
-              setPageCount((a) => a + 1);
-              // let curPage = document.getElementById(
-              //   "one-image-area-" + pageNum
-              // );
-              // const pagePosition = curPage?.getBoundingClientRect();
-              // let temp = fields.map((field) => {
-              //   return { ...field, pagePosition };
-              // });
-              // setFields(temp);
-            }}
-          />
-          {playableFields}
-          {/* {divPosition === undefined ? */}
-          <QRCodeBox
-            scale={scale}
-            qrCodeImg={qrCodeImg}
-            qrPosition={qrCodePosition}
-            pageNum={pageNum}
-          />
-
-          {/* : null} */}
-        </div>
+          <>
+            <img
+              src={data}
+              alt=""
+              onClick={() => setIsShow(true)}
+              className="invisible"
+              onLoad={() => {
+                setVisibility(1);
+                // fetchAllFields();
+                setPageCount((a) => a + 1);
+                // let curPage = document.getElementById(
+                //   "one-image-area-" + pageNum
+                // );
+                // const pagePosition = curPage?.getBoundingClientRect();
+                // let temp = fields.map((field) => {
+                //   return { ...field, pagePosition };
+                // });
+                // setFields(temp);
+              }}
+            />
+            {playableFields}
+            <QRCodeBox
+              scale={scale}
+              qrCodeImg={qrCodeImg}
+              qrPosition={qrCodePosition}
+              pageNum={pageNum}
+            />
+          </>
+        </VisibilitySensor>
       </div>
-    </VisibilitySensor>
+    </div>
   );
 };
 
@@ -123,10 +122,10 @@ const PDFViewer = ({
       fetchAllFields();
   }, [pageCount, placeFieldImages, fetchAllFields]);
 
-  useEffect(() => {
-    console.log("ACTIVE FIELED", currentField);
-    console.log("CURRENT ALL FIELDS", fields);
-  }, [fields, currentField, isTheSelectedFieldSameAsThisField]);
+  // useEffect(() => {
+  //   console.log("ACTIVE FIELED", currentField);
+  //   console.log("CURRENT ALL FIELDS", fields);
+  // }, [fields, currentField, isTheSelectedFieldSameAsThisField]);
 
   return (
     <div id="main-workspace">

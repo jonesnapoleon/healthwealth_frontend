@@ -332,6 +332,11 @@ const PlaceField = ({ activeItemId, atr }) => {
     setClipboard(JSON.stringify(currentField));
   }, [currentField, setClipboard]);
 
+  // useEffect(() => {
+  //   console.log("newStack");
+  //   console.log(stateStack);
+  // }, [stateStack]);
+
   const pushToStack = useCallback(
     (fields) => {
       let newStack = stateStack.slice(0, stackIdx + 1);
@@ -472,7 +477,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       formatting: { font: "Arial", size: 12 },
       uuid: uuid(),
     };
-    console.log("add new field");
+
     setFields([...fields, newField]);
     pushToStack([...fields, newField]);
   };
@@ -547,6 +552,7 @@ const PlaceField = ({ activeItemId, atr }) => {
             <RightSnippetArea
               currentField={currentField}
               setCurrentField={setCurrentField}
+              visibility={visibility}
               setFields={setFields}
               fields={fields}
               setIsShow={setIsShow}

@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClone } from "@fortawesome/free-solid-svg-icons";
 import { SCALE } from "helpers/constant";
 import RoundedCornerIcon from "@material-ui/icons/RoundedCorner";
-// import { SCALE } from "helpers/constant";
 
 const Toolbar = ({
   copyField,
@@ -19,7 +18,6 @@ const Toolbar = ({
   setIsShow,
   // zoomIn,
   canEdit,
-  visibility,
 }) => {
   const getDeg = (i, j) => {
     if (i === 0 && j === 0) return -90;
@@ -45,7 +43,6 @@ const Toolbar = ({
                         onClick={() => setQrCodePosition(val)}
                       >
                         <RoundedCornerIcon
-                          color="black"
                           style={{
                             transform: `rotate(${getDeg(i, j)}deg)`,
                           }}
@@ -62,10 +59,14 @@ const Toolbar = ({
           {/* <button onClick={zoomIn}>+</button>
           <button onClick={zoomOut}>-</button> */}
           <select
+            // value={scale}
+
             value={scale}
             onChange={(e) => setScale(e.target.value)}
-            disabled={!canEdit}
+            // disabled={!canEdit}
+            disabled={true}
           >
+            {/* <option value={visibility}>{visibility}</option> */}
             {SCALE.map((val, i) => (
               <option value={val} key={i}>
                 {val}%

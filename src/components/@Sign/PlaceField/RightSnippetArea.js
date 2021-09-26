@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -290,10 +290,15 @@ const RightSnippetArea = ({
   setIsShow,
   isTheSelectedFieldSameAsThisField,
   isShow,
+  visibility,
 }) => {
   const { t } = useTranslation();
 
   const [temp, setTemp] = useState(1);
+
+  useEffect(() => {
+    setTemp(visibility);
+  }, [visibility]);
 
   const DefaultComponent = () => (
     <div className="position-relative">
