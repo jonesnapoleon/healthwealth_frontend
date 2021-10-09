@@ -45,7 +45,7 @@ const Stepper = ({ items, activeItemId, isFixed }) => {
       <div className="item-center">
         <div className="dropright">
           <div
-            className="dropdown-toggle"
+            className="dropdown-toggle aaaaaaaa"
             type="button"
             onMouseLeave={() => toggleDropdown(!true)}
             onClick={() =>
