@@ -62,7 +62,8 @@
     "failed": "Failed",
     "buyNow": "Buy Now",
     "summary": "Summary",
-    "download": "Download"
+    "download": "Download",
+    "openfile": "Open file"
   },
   "otp": {
     "sendOtp": "Send OTP",

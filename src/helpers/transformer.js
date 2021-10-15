@@ -75,6 +75,7 @@ export const addToDevFields = (fieldArray, signers) => {
         color: hashmap[datum?.assignedTo]?.val?.color,
         backgroundColor: hashmap[datum?.assignedTo]?.val?.backgroundColor,
       },
+      isEditing: false,
       uuid: uuid(),
     };
   });

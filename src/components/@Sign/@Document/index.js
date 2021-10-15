@@ -59,7 +59,7 @@ const Document = () => {
             "one-sign-image-area-" + field?.pageNum
           );
           let pagePosition = curPage?.getBoundingClientRect();
-          return { ...field, pagePosition, isEditing: false };
+          return { ...field, pagePosition };
         });
         let temp = addToDevFields(finalField, res?.doc?.nextflow);
         setFields(temp);

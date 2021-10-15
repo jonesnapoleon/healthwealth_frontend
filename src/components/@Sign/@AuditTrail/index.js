@@ -306,6 +306,12 @@ const DocumentAuditTrail = () => {
         <button className="btn btn-primary" onClick={download}>
           {t("general.download")}
         </button>
+        {/* <button
+          className="btn btn-primary"
+          // onClick={() => downloadFile()}
+        >
+          {t("general.openfile")}
+        </button> */}
       </div>
       <div className="mt-4" />
     </div>

@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { DOC, DRAFT_STATUS, FRONTEND_URL } from "helpers/constant";
-// import { downloadFile } from "helpers/transformer";
+import { downloadFile } from "helpers/transformer";
 import { useModal } from "contexts/ModalContext";
 
 const Docs = () => {
@@ -50,10 +50,7 @@ const Docs = () => {
       console.log(obj);
       const key = String(obj?.signType).toLowerCase();
       if (obj?.status === DRAFT_STATUS.COMPLETED) {
-        const currentHost = window.location.host;
-        const auditTrailUrl = `http://${currentHost}${FRONTEND_URL.documentAuditTrail}/${obj?.uid}`;
-        window.open(auditTrailUrl);
-        // downloadFile(obj?.linkToPdf, obj?.filename);
+        downloadFile(obj?.linkToPdf, obj?.filename);
         return;
       }
       if (obj?.status === DRAFT_STATUS.OUT) {

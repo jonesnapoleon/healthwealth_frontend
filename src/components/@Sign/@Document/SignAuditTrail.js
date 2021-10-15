@@ -9,7 +9,7 @@ const SignAuditTrail = ({ fileData, placeFieldImages, scrollToPage }) => {
   const [temp, setTemp] = useState(1);
 
   useEffect(() => {
-    getAuditTrail(fileData?.uid);
+    fileData && getAuditTrail(fileData?.uid);
   }, [fileData, getAuditTrail]);
 
   const auditData = useMemo(

@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from "react";
+import React, { useRef, useMemo } from "react";
 import { Rnd } from "react-rnd";
 import { INIT_FIELD_WIDTH } from "./PDFViewer";
 import { QR_CODE_RELATIVE_SIZE } from ".";
@@ -84,7 +84,19 @@ const FieldBox = ({
   isTheseFieldsSame,
 }) => {
   const { auth } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
+  const isEditing = field?.isEditing;
+  const setIsEditing = (newValue) => {
+    let ax = fields.map((oneField) => {
+      return {
+        ...oneField,
+        isEditing: isTheseFieldsSame(oneField, field)
+          ? newValue
+          : oneField.isEditing,
+      };
+    });
+    setFields(ax);
+  };
+
   const { openSignatureModal, show } = useModal();
 
   const initial_image_url = useMemo(
@@ -199,7 +211,7 @@ const FieldBox = ({
         });
         setFields(temp);
         pushToStack(temp);
-        setIsEditing((a) => a);
+        // setIsEditing(isEditing);
       }}
       style={{ border: "1px solid", zIndex: 888 }}
       className="draggable-item"
