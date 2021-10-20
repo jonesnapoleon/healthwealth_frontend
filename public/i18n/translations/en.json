@@ -397,7 +397,7 @@
         "shorter": "Click on 'I agree' to sign this document."
       },
       "verify": {
-        "head": "Verify your own signature",
+        "head": "Enter phone number to verify your signature via whatsapp",
         "resend": "Resend",
         "bacod": "Input your 6 digit verification code",
         "success1": "Sent",
