@@ -2,7 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./commons.scss";
 
-const SuperFloatingButton = ({ onClickNext, disabled, onClickPrev }) => {
+const SuperFloatingButton = ({
+  onClickNext,
+  disabled,
+  onClickPrev,
+  disabledBack = disabled,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -16,7 +21,7 @@ const SuperFloatingButton = ({ onClickNext, disabled, onClickPrev }) => {
           <button
             onClick={onClickPrev}
             className="btn btn-light btn-lg"
-            disabled={disabled}
+            disabled={disabledBack}
           >
             {t("general.back")}
           </button>

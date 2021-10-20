@@ -6,8 +6,8 @@ import VisibilitySensor from "react-visibility-sensor";
 
 import FieldBox, { QRCodeBox } from "./FieldBox";
 
-export const INIT_FIELD_WIDTH = 120;
-export const INIT_FIELD_HEIGHT = 60;
+export const INIT_FIELD_WIDTH = 140;
+export const INIT_FIELD_HEIGHT = 70;
 
 const Page = ({
   data,

@@ -57,9 +57,9 @@ export const PROGRESS_BAR_INTERVAL = 30;
 export const FIXED_COLORS = [
   { color: "red", backgroundColor: "rgba(255, 0, 0, 0.6)" },
   { color: "blue", backgroundColor: "rgba(0, 0, 255, 0.6)" },
-  { color: "yellow", backgroundColor: "rgba(255, 255, 0, 0.6)" },
-  { color: "green", backgroundColor: "rgba(0, 255, 0, 0.6)" },
-  { color: "pink", backgroundColor: "rgba(213, 21, 13, 0.6)" },
+  { color: "black", backgroundColor: "rgba(0, 0, 0, 0.6)" },
+  { color: "green", backgroundColor: "rgba(0, 200, 0, 0.6)" },
+  { color: "pink", backgroundColor: "#fd788b" },
 ];
 
 export const FONTLIST = [

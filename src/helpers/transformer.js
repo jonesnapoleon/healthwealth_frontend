@@ -32,8 +32,8 @@ export const getOnlyThePath = (pathName) => {
 export const addColorToArr = (array) => {
   return array?.map((datum, i) => ({
     ...datum,
-    color: FIXED_COLORS[i].color,
-    backgroundColor: FIXED_COLORS[i].backgroundColor,
+    color: FIXED_COLORS[i % FIXED_COLORS.length].color,
+    backgroundColor: FIXED_COLORS[i % FIXED_COLORS.length].backgroundColor,
   }));
 };
 

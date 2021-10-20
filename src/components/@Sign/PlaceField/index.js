@@ -73,7 +73,7 @@ const schema = {
   },
 };
 
-const MAX_STACK_SIZE = 30;
+const MAX_STACK_SIZE = 40;
 export const QR_CODE_RELATIVE_SIZE = 0.1;
 
 const PlaceField = ({ activeItemId, atr }) => {
@@ -580,6 +580,7 @@ const PlaceField = ({ activeItemId, atr }) => {
       <SuperFloatingButton
         onClickPrev={() => push(`${atr}#${activeItemId - 1}`)}
         onClickNext={handleNext}
+        disabledBack={false}
         disabled={fields?.length === 0}
       />
     </>
