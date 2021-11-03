@@ -141,11 +141,7 @@ const Document = () => {
   const handleSubmit = async (finalFields) => {
     try {
       const res = await updateFields(fileUId, finalFields);
-      if (res) {
-        setSignData(res);
-        push(`${FRONTEND_URL.documentAuditTrail}/${fileUId}`);
-        addSnackbar(t("sign.placeFields.placeFieldSuccess"), "success");
-      }
+      return res;
     } catch (err) {
       addSnackbar(String(err));
     }
@@ -180,7 +176,7 @@ const Document = () => {
     return true;
   }, [fields, currentSigner?.email, initial_image_url, signature_image_url]);
 
-  useEffect(() => console.log("isdone", isAllFieldDone));
+  // useEffect(() => console.log("isdone", isAllFieldDone));
 
   const handleNext = () => {
     // const finalFields = fields?.map((field) => {
@@ -244,11 +240,24 @@ const Document = () => {
     });
 
     if (isAllFieldDone) {
-      openVerifySignature({
-        onClickCTA: () => handleSubmit(finalFields),
-        isSign: true,
-        fileUID: fileData?.uid,
-      });
+      try {
+        setLoading(true);
+        const res = handleSubmit(finalFields);
+        if (res) {
+          setSignData(res);
+          openVerifySignature({
+            onClickCTA: () => {
+              addSnackbar(t("sign.placeFields.placeFieldSuccess"), "success");
+              push(`${FRONTEND_URL.documentAuditTrail}/${fileUId}`);
+            },
+            isSign: true,
+            fileUID: fileData?.uid,
+          });
+        }
+      } catch (e) {
+        addSnackbar(String(e));
+        setLoading(false);
+      }
     }
   };
 

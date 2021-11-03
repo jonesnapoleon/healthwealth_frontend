@@ -263,7 +263,7 @@ const DocumentAuditTrail = () => {
     //   );
     // });
   };
-  console.log(auditTrail);
+  // console.log(auditTrail);
 
   const fetchFileInfo = useCallback(async () => {
     if (!fileUId || fileUId === undefined) {

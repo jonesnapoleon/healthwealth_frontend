@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const putAuth = async (newValue) => {
-    console.log("putAuth", newValue);
+    // console.log("putAuth", newValue);
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
     if (newValue) {

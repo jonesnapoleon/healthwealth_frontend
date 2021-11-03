@@ -47,7 +47,7 @@ const Docs = () => {
 
   const handleClickingComponent = useCallback(
     (obj) => {
-      console.log(obj);
+      // console.log(obj);
       const key = String(obj?.signType).toLowerCase();
       if (obj?.status === DRAFT_STATUS.COMPLETED) {
         downloadFile(obj?.linkToPdf, obj?.filename);

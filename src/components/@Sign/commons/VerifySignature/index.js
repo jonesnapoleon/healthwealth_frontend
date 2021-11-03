@@ -40,7 +40,7 @@ const VerifySignature = (props) => {
   const sendOTPDocWrapper = async () => {
     try {
       setLoading(true);
-      const res = await sendOTPDoc(fileUID, phone, body);
+      const res = await sendOTPDoc(fileUID, phone, body, isSign);
       if (res) {
         setToken(res.token);
         addSnackbar(t("popup.sign.verify.success1"), "success");
@@ -56,7 +56,7 @@ const VerifySignature = (props) => {
   const verifyOTPDocWrapper = async () => {
     try {
       setLoading(true);
-      const res = await verifyOTPDoc(fileUID, otp?.number, token, false);
+      const res = await verifyOTPDoc(fileUID, otp?.number, token, isSign);
       if (res) {
         onClickCTA();
         addSnackbar(t("popup.sign.verify.success2"), "success");
