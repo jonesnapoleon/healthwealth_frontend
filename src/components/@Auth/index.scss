@@ -1,0 +1,17 @@
+.auth-page {
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+  > div {
+    max-width: 700px;
+    display: grid;
+    place-items: center;
+    > * {
+      padding: 1rem;
+    }
+  }
+  img {
+    width: 80%;
+  }
+}

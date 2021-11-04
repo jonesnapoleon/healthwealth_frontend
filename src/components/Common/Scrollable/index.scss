@@ -1,0 +1,28 @@
+.scrollable-up {
+  margin-top: 1rem;
+  .horizontal-scrollable-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    display: grid;
+    grid-gap: calc(var(--gutter));
+    grid-template-columns: 0.2rem;
+    grid-auto-flow: column;
+    scroll-snap-type: x proximity;
+    padding: 0.5rem 0 0.5rem;
+    margin: 1rem 0;
+    &.no-template {
+      padding: 0.5rem 0;
+      grid-template-columns: unset;
+    }
+    &:before,
+    &:after {
+      content: "";
+      width: 0.1rem;
+    }
+    li {
+      width: 100%;
+      list-style: none;
+    }
+  }
+}

@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Nunito+Sans&display=swap");
+
+:root {
+  --primary-color: #0c776b;
+  --secondary-color: #997b0c;
+
+  --text-color: #000;
+  --background-color: #fff;
+
+  --danger-color: red;
+
+  --border-radius: 25px;
+  --standard-font-size: 14px;
+
+  --gutter: 0.3rem;
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --standard-font-size: 10px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-extra-color-3);
+}
+@media only screen and (max-width: 600px) {
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: Helvetiva, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--standard-font-size);
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+p,
+div,
+span,
+input,
+button,
+.btn {
+  font-size: var(--standard-font-size);
+}
+
+* {
+  font-family: "Inter", sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Nunito Sans", sans-serif !important;
+  font-weight: 700 !important;
+}
