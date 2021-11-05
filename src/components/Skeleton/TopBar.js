@@ -8,7 +8,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ShareIcon from "@material-ui/icons/Share";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { searchProduct } from "api/product";
+import { searchProduct } from "api/data";
 import { useSnackbar } from "contexts/SnackbarContext";
 // import { useProduct } from "contexts/DataContext";
 import { FRONTEND_URL } from "utils/constant/routeList";
@@ -64,36 +64,6 @@ export default function TopBar() {
   const location = useLocation();
   const { addSnackbar } = useSnackbar();
   // const { setSearchResults } = useProduct();
-  const [queryText, setQueryText] = useState("");
-
-  useEffect(() => {
-    if (location.search) {
-      const query = location.search.slice(3, location.search.length);
-      if (query) setQueryText(decodeURIComponent(query.trim()));
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (queryText.trim() === "") {
-      history.push(location.pathname);
-      return;
-    }
-    history.push(`${location.pathname}?q=${queryText}`);
-  }, [queryText, history, location.pathname]);
-
-  const handleKeyDown = async (event) => {
-    if (event.key === "Enter") {
-      try {
-        const res = await searchProduct(queryText);
-        if (res) {
-          // setSearchResults(res);
-          history.push(`${FRONTEND_URL.result}?q=${queryText}`);
-        }
-      } catch (err) {
-        addSnackbar(err);
-      }
-    }
-  };
 
   return (
     <div className={classes.wrapper}>
@@ -111,7 +81,7 @@ export default function TopBar() {
               <ArrowBackIcon />
             </IconButton>
           )}
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <InputBase
               onKeyDown={handleKeyDown}
               placeholder="Cari Vitamin C di Tokopedia"
@@ -123,7 +93,7 @@ export default function TopBar() {
               onChange={(e) => setQueryText(e.target.value)}
               inputProps={{ "aria-label": "search" }}
             />
-          </div>
+          </div> */}
           <IconButton>
             <ShareIcon />
           </IconButton>

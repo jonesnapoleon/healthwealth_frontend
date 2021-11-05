@@ -6,7 +6,7 @@ export const FRONTEND_URL = {
   account: "/account",
   productDetail: "/product/:id",
   product: "/product/",
-  auth: "/login",
+  auth: "/auth",
   result: "/result",
   confirm: "/order/confirm",
   pay: "/order/pay",

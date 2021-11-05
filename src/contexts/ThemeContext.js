@@ -4,22 +4,23 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const theme = createTheme({
   typography: {
-    fontSize: 10,
+    fontFamily: "Inter",
+    fontSize: 16,
     body2: {
-      fontSize: 10,
+      fontSize: 16,
     },
     h1: {
-      fontSize: 23,
+      fontSize: 27,
       fontWeight: 800,
     },
     h2: {
-      fontSize: 20,
+      fontSize: 24,
     },
     h3: {
-      fontSize: 17,
+      fontSize: 21,
     },
     h4: {
-      fontSize: 15,
+      fontSize: 19,
     },
   },
   palette: {

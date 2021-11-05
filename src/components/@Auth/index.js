@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, makeStyles } from "@material-ui/core";
+import React, { useState } from "react";
+import { TextField, Button, makeStyles, Typography } from "@material-ui/core";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { useAuth } from "contexts/AuthContext";
 import { useFormInput } from "utils/hooks";
@@ -17,18 +17,25 @@ const useStyles = makeStyles({
     width: "80%",
     margin: "1rem 10%",
   },
+  center: {
+    textAlign: "center",
+  },
 });
 
 const Auth = () => {
-  // const classes = useStyles();
-  const { login } = useAuth();
+  const classes = useStyles();
+  const { login, register } = useAuth();
   const { addSnackbar } = useSnackbar();
-  const username = useFormInput();
+  const email = useFormInput();
+  const full_name = useFormInput();
   const password = useFormInput();
+  const [isLogin, setIsLogin] = useState(!false);
 
   const clickLogin = async () => {
     try {
-      await login(username.value, password.value);
+      isLogin
+        ? await login(email.value, password.value)
+        : await register(full_name.value, email.value, password.value);
     } catch (err) {
       addSnackbar(String(err));
     }
@@ -38,10 +45,21 @@ const Auth = () => {
     <div className="auth-page">
       <div>
         <img src={logo} alt="" />
-        {/* <div className={classes.container}>
+        <div className={classes.container}>
+          <Typography className={classes.center} variant="h1">
+            {isLogin ? `Login` : "Sign up"}
+          </Typography>
+          {!isLogin && (
+            <TextField
+              {...full_name}
+              label="Username"
+              variant="outlined"
+              className={classes.item}
+            />
+          )}
           <TextField
-            {...username}
-            label="Username"
+            {...email}
+            label="Email"
             variant="outlined"
             className={classes.item}
           />
@@ -52,26 +70,30 @@ const Auth = () => {
             variant="outlined"
             className={classes.item}
           />
-        </div> */}
-        <div>
-          <ReactLoginMS
-            clientId={process.env.REACT_APP_MICROSOFT_CLIENT_ID}
-            redirectUri={
-              process.env.REACT_APP_FRONTEND_DOMAIN + FRONTEND_URL.home
-            }
-            btnContent="LOGIN WITH MICROSOFT"
-            responseType="token"
-            handleLogin={(data) => console.log(data)}
-          />
-          {/* <Button
+        </div>
+        <>
+          <Button
             color="primary"
             variant="contained"
             size="large"
             onClick={clickLogin}
           >
-            Login
-          </Button> */}
-        </div>
+            {isLogin ? "Login" : "Sign up"}
+          </Button>
+        </>
+        <>
+          <Typography
+            className={classes.center}
+            style={{
+              color: "var(--primary-color)",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+            onClick={() => setIsLogin((a) => !a)}
+          >
+            {!isLogin ? `Already has account?` : `New to HealthWealth?`}
+          </Typography>
+        </>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import Account from "components/@Account";
+import Account from "components/@Auth/Account";
 import Auth from "components/@Auth";
 import Home from "components/@Home";
 

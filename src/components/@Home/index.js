@@ -3,24 +3,25 @@ import React, { useEffect } from "react";
 import BottomNavigation from "components/Skeleton/BottomNavigation";
 // import Scrollable from "components/Common/Scrollable";
 import { useQuery } from "react-query";
-import { getProductList } from "api/product";
+import { getDocumentList } from "api/data";
 import { useSnackbar } from "contexts/SnackbarContext";
-// import { useData } from "contexts/DataContext";
+import { useData } from "contexts/DataContext";
 import TopBar from "components/Skeleton/TopBar";
 import { Typography } from "@material-ui/core";
 // import ProductCard from "components/Common/ProductCard";
 
 const Home = () => {
-  const { data, error, isLoading } = useQuery("getProductList", getProductList);
+  const { data, error } = useQuery("getDocumentList", getDocumentList);
   const { addSnackbar } = useSnackbar();
-  // const { data, setData } = useData();
+  const { documents, setDocuments } = useData();
 
   useEffect(() => {
     if (error) addSnackbar(error);
   }, [error, addSnackbar]);
-  // useEffect(() => {
-  //   if (data) setData(data);
-  // }, [data, setProducts]);
+
+  useEffect(() => {
+    if (data) setDocuments(data);
+  }, [data, setDocuments]);
 
   return (
     <div>
