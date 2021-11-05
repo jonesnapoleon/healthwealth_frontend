@@ -17,8 +17,9 @@ axios.defaults.headers["Content-Type"] = "application/json";
 var token = window.localStorage.getItem(AUTH_KEY);
 var jsonizedToken = JSON.parse(token);
 
-if (jsonizedToken && jsonizedToken?.token)
+if (jsonizedToken && jsonizedToken?.token) {
   axios.defaults.headers["Authorization"] = `Bearer ${jsonizedToken.token}`;
+}
 
 axios.interceptors.response.use(
   (response) => response,

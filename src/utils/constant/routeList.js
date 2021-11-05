@@ -1,5 +1,5 @@
 export const FRONTEND_URL = {
-  home: "/",
+  home: "/dashboard",
   feed: "/feed",
   officialStore: "/official-store",
   cart: "/cart",

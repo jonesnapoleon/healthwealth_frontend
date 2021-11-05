@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 // import MainNavigation from "components/Skeleton/MainNavigation";
-import BottomNavigation from "components/Skeleton/BottomNavigation";
+import TopNavigation from "components/Skeleton/TopNavigation";
 // import Scrollable from "components/Common/Scrollable";
 import { useQuery } from "react-query";
 import { getDocumentList } from "api/data";
 import { useSnackbar } from "contexts/SnackbarContext";
 import { useData } from "contexts/DataContext";
-import TopBar from "components/Skeleton/TopBar";
 import { Typography } from "@material-ui/core";
 // import ProductCard from "components/Common/ProductCard";
 
@@ -25,7 +24,7 @@ const Home = () => {
 
   return (
     <div>
-      <TopBar />
+      <TopNavigation />
 
       <div className="wrapper">
         <Typography variant="h1" color="textPrimary">
@@ -33,7 +32,6 @@ const Home = () => {
         </Typography>
         <div className="flex-wrap"></div>
       </div>
-      <BottomNavigation />
     </div>
   );
 };

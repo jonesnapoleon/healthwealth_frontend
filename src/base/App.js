@@ -6,6 +6,7 @@ import DataProvider from "contexts/DataContext";
 import SnackbarProvider from "contexts/SnackbarContext";
 import AuthProvider from "contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
+import TopNavigation from "components/Skeleton/TopNavigation";
 // import LargeScreen from "components/Common/LargeScreen";
 // import { useWidth } from "utils/hooks";
 
@@ -29,6 +30,7 @@ const App = () => {
           <SnackbarProvider>
             <AuthProvider>
               <DataProvider>
+                <TopNavigation />
                 <RouteWrapper />
                 {/* {isLargeScreen ? <LargeScreen /> : <RouteWrapper />} */}
               </DataProvider>

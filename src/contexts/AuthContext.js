@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
     const tokenData = JSON.parse(savedAuth) ?? {};
 
     if (firstTime) {
-      if (tokenData) {
+      if (tokenData && tokenData?.exp && tokenData?.token) {
         setAuth(tokenData);
         if (
           location?.pathname === FRONTEND_URL.auth ||

@@ -13,16 +13,16 @@ import FiberNewIcon from "@material-ui/icons/FiberNew";
 
 const useStyles = makeStyles({
   wrapper: {
-    height: "48px",
+    height: "80px",
     // marginTop: "48px",
   },
   root: {
-    height: "48px",
+    height: "80px",
     width: "100%",
     position: "fixed",
-    bottom: 0,
+    top: 0,
     boxShadow: "0px -1px .5px rgba(200, 200, 200, 0.75)",
-    marginTop: ".2rem",
+    marginBottom: ".2rem",
   },
   action: {
     padding: "0rem",
@@ -37,32 +37,33 @@ const navigationData = [
     navigateTo: FRONTEND_URL.home,
     icon: <HomeIcon />,
   },
+  // {
+  //   label: "Feed",
+  //   navigateTo: FRONTEND_URL.feed,
+  //   icon: <FiberNewIcon />,
+  // },
+  // {
+  //   label: "Official Store",
+  //   navigateTo: FRONTEND_URL.officialStore,
+  //   icon: <StorefrontIcon />,
+  // },
+  // {
+  //   label: "Keranjang",
+  //   navigateTo: FRONTEND_URL.cart,
+  //   icon: <AddShoppingCartIcon />,
+  // },
   {
-    label: "Feed",
-    navigateTo: FRONTEND_URL.feed,
-    icon: <FiberNewIcon />,
-  },
-  {
-    label: "Official Store",
-    navigateTo: FRONTEND_URL.officialStore,
-    icon: <StorefrontIcon />,
-  },
-  {
-    label: "Keranjang",
-    navigateTo: FRONTEND_URL.cart,
-    icon: <AddShoppingCartIcon />,
-  },
-  {
-    label: "Akun",
+    label: "Account",
     navigateTo: FRONTEND_URL.account,
     icon: <PersonIcon />,
   },
 ];
 
-export default function SimpleBottomNavigation() {
+export default function TopNavigation() {
   const classes = useStyles();
 
   const location = useLocation();
+
   const navigationIndex = useMemo(() => {
     const currentParam = location.pathname;
     return navigationData.findIndex((data) => data.navigateTo === currentParam);
@@ -70,6 +71,12 @@ export default function SimpleBottomNavigation() {
 
   const [value, setValue] = useState(navigationIndex);
   const history = useHistory();
+
+  if (
+    location?.pathname === FRONTEND_URL.auth ||
+    location?.pathname === `${FRONTEND_URL.auth}/`
+  )
+    return <></>;
 
   return (
     <div className={classes.wrapper}>

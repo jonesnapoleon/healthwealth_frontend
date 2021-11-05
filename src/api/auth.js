@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_LOGIN = "/api/login/";
 const API_REGISTER = "/api/register/";
+const API_ACCOUNT = "/api/user/";
 
 export const login = async (email, password) => {
   try {
@@ -26,5 +27,14 @@ export const register = async (full_name, email, password) => {
     return response.data;
   } catch (e) {
     throw e?.response?.data?.detail ?? "Fail to login";
+  }
+};
+
+export const editAccount = async (newBody) => {
+  try {
+    const response = await axios.post(API_ACCOUNT, newBody);
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.detail;
   }
 };
