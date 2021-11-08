@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { login, register } from "api/auth";
+import { editAccount, login, register } from "api/auth";
 import { AUTH_KEY } from "utils/constant";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { useHistory, useLocation } from "react-router-dom";
@@ -21,10 +21,10 @@ const AuthProvider = ({ children }) => {
       const res = await register(fullname, email, password);
       if (res) {
         const newRes = await callLogin(email, password);
-        if (newRes) addSnackbar(res.code);
+        if (newRes) addSnackbar(res.code, "success");
       }
     } catch (e) {
-      throw e;
+      addSnackbar(String(e));
     }
   };
 
@@ -39,7 +39,35 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       localStorage.removeItem(AUTH_KEY);
-      throw e;
+      addSnackbar(String(e));
+    }
+  };
+
+  const putAuth = async (newValue) => {
+    // console.log("putAuth", newValue);
+    const savedAuth = localStorage.getItem(AUTH_KEY);
+    const tokenData = JSON.parse(savedAuth) ?? {};
+    if (newValue) {
+      if (tokenData?.exp && tokenData?.token) {
+        const allValue = {
+          user: { ...newValue },
+          exp: tokenData.exp,
+          token: tokenData.token,
+        };
+        setAuth(allValue);
+        localStorage.setItem(AUTH_KEY, JSON.stringify(allValue));
+        addSnackbar("Successfully edit profile", "success");
+      }
+    }
+  };
+
+  const callEditProfile = async (fullName, email) => {
+    try {
+      const finalData = { fullName, email };
+      const res = await editAccount(finalData);
+      if (res) await putAuth(res);
+    } catch (e) {
+      addSnackbar(String(e));
     }
   };
 
@@ -76,6 +104,7 @@ const AuthProvider = ({ children }) => {
     signOut,
     login: callLogin,
     register: callRegister,
+    editProfile: callEditProfile,
   };
 
   return (

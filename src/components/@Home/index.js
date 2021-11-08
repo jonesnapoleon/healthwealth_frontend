@@ -9,6 +9,8 @@ import { useData } from "contexts/DataContext";
 import { Typography } from "@material-ui/core";
 // import ProductCard from "components/Common/ProductCard";
 
+import "./index.scss";
+
 const Home = () => {
   const { data, error } = useQuery("getDocumentList", getDocumentList);
   const { addSnackbar } = useSnackbar();
@@ -23,9 +25,7 @@ const Home = () => {
   }, [data, setDocuments]);
 
   return (
-    <div>
-      <TopNavigation />
-
+    <div className="dashboard-page">
       <div className="wrapper">
         <Typography variant="h1" color="textPrimary">
           Rekomendasi untukmu

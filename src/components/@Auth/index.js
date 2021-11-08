@@ -4,10 +4,8 @@ import { useSnackbar } from "contexts/SnackbarContext";
 import { useAuth } from "contexts/AuthContext";
 import { useFormInput } from "utils/hooks";
 import "./index.scss";
-import ReactLoginMS from "react-ms-login";
-import { FRONTEND_URL } from "utils/constant/routeList";
 
-const logo = "https://cdn.worldvectorlogo.com/logos/tokopedia.svg";
+import logo from "../../assets/images/logo.jpg";
 
 const useStyles = makeStyles({
   container: {
@@ -27,18 +25,14 @@ const Auth = () => {
   const { login, register } = useAuth();
   const { addSnackbar } = useSnackbar();
   const email = useFormInput();
-  const full_name = useFormInput();
+  const fullName = useFormInput();
   const password = useFormInput();
   const [isLogin, setIsLogin] = useState(!false);
 
   const clickLogin = async () => {
-    try {
-      isLogin
-        ? await login(email.value, password.value)
-        : await register(full_name.value, email.value, password.value);
-    } catch (err) {
-      addSnackbar(String(err));
-    }
+    isLogin
+      ? await login(email.value, password.value)
+      : await register(fullName.value, email.value, password.value);
   };
 
   return (
@@ -51,8 +45,8 @@ const Auth = () => {
           </Typography>
           {!isLogin && (
             <TextField
-              {...full_name}
-              label="Username"
+              {...fullName}
+              label="Full name"
               variant="outlined"
               className={classes.item}
             />

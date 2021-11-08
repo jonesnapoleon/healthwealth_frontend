@@ -11,6 +11,8 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import PersonIcon from "@material-ui/icons/Person";
 import FiberNewIcon from "@material-ui/icons/FiberNew";
 
+import logo from "../../assets/images/logo.jpg";
+
 const useStyles = makeStyles({
   wrapper: {
     height: "80px",
@@ -19,23 +21,41 @@ const useStyles = makeStyles({
   root: {
     height: "80px",
     width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    background: "white",
     position: "fixed",
     top: 0,
-    boxShadow: "0px -1px .5px rgba(200, 200, 200, 0.75)",
+    zIndex: "999",
+    boxShadow: "0px -1px 15px rgba(200, 200, 200, 0.75)",
     marginBottom: ".2rem",
   },
   action: {
     padding: "0rem",
-    width: "20%",
+    width: "25%",
     minWidth: "unset",
+  },
+  logo: {
+    width: "auto",
+    height: "1.2rem",
   },
 });
 
 const navigationData = [
   {
-    label: "Home",
+    label: "",
     navigateTo: FRONTEND_URL.home,
-    icon: <HomeIcon />,
+    icon: (
+      <img
+        src={logo}
+        alt=""
+        className={"logo"}
+        style={{
+          width: "90%",
+        }}
+      />
+    ),
+    // icon: <HomeIcon />,
   },
   // {
   //   label: "Feed",
@@ -89,12 +109,13 @@ export default function TopNavigation() {
         showLabels
         className={classes.root}
       >
-        {navigationData.map((data) => (
+        {navigationData.map((data, i) => (
           <BottomNavigationAction
             label={data.label}
             icon={data.icon}
             key={data.navigateTo}
             className={classes.action}
+            style={i === 0 ? { padding: "0 1.1rem" } : {}}
           />
         ))}
       </BottomNavigation>

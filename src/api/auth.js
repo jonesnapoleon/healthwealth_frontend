@@ -17,10 +17,10 @@ export const login = async (email, password) => {
   }
 };
 
-export const register = async (full_name, email, password) => {
+export const register = async (fullName, email, password) => {
   try {
     const response = await axios.post(API_REGISTER, {
-      full_name,
+      fullName,
       email,
       password,
     });
@@ -32,7 +32,7 @@ export const register = async (full_name, email, password) => {
 
 export const editAccount = async (newBody) => {
   try {
-    const response = await axios.post(API_ACCOUNT, newBody);
+    const response = await axios.patch(API_ACCOUNT, newBody);
     return response.data;
   } catch (e) {
     throw e?.response?.data?.detail;

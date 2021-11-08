@@ -6,8 +6,6 @@ import { useFormInput } from "utils/hooks";
 import "./index.scss";
 import { editAccount } from "api/auth";
 
-const logo = "https://cdn.worldvectorlogo.com/logos/tokopedia.svg";
-
 const useStyles = makeStyles({
   container: {
     width: "100%",
@@ -25,43 +23,54 @@ const Account = () => {
   const classes = useStyles();
   const {
     auth: { user },
+    signOut,
+    editProfile,
   } = useAuth();
 
-  const { addSnackbar } = useSnackbar();
-  const full_name = useFormInput(user?.full_name);
+  const fullName = useFormInput(user?.fullName);
   const email = useFormInput(user?.email);
-
-  const edit = async () => {
-    try {
-      const finalData = { full_name: full_name?.value, email: email?.value };
-      const res = await editAccount(finalData);
-      console.log(res);
-    } catch (e) {
-      addSnackbar(String(e));
-    }
-  };
 
   return (
     <div className="account-page">
-      <div className={classes.container}>
-        <TextField
-          {...full_name}
-          label="Full name"
-          variant="outlined"
-          // className={classes.item}
-        />
-        <TextField
-          {...email}
-          label="Email"
-          variant="outlined"
-          // className={classes.item}
-        />
+      <div className={"left"}>
+        <div className={classes.container}>
+          <TextField
+            {...fullName}
+            label="Full name"
+            variant="outlined"
+            // className={classes.item}
+          />
+          <TextField
+            {...email}
+            label="Email"
+            variant="outlined"
+            // className={classes.item}
+          />
+        </div>
+        <>
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
+            onClick={async () => await editProfile(fullName.value, email.value)}
+          >
+            Edit
+          </Button>
+        </>
       </div>
-      <>
-        <Button color="primary" variant="contained" size="large" onClick={edit}>
-          Edit
-        </Button>
-      </>
+
+      <div className="right">
+        <div>
+          <Button
+            className={"sign-out-button"}
+            color="primary"
+            variant="outlined"
+            onClick={signOut}
+          >
+            Sign out
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

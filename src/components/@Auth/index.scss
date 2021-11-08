@@ -19,4 +19,15 @@
 .account-page {
   width: 100vw;
   height: 100vh;
+  padding: 2vh 2vw;
+  display: flex;
+  .left {
+    width: 80%;
+  }
+  .right {
+    width: 20%;
+    .sign-out-button {
+      float: right;
+    }
+  }
 }
