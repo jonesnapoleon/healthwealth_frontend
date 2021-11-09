@@ -4,7 +4,6 @@ import { AUTH_KEY } from "utils/constant";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { useHistory, useLocation } from "react-router-dom";
 import { useSnackbar } from "./SnackbarContext";
-import { isTimeInMsBeforeNow } from "utils/validator";
 
 export const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
@@ -44,7 +43,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const putAuth = async (newValue) => {
-    // console.log("putAuth", newValue);
     const savedAuth = localStorage.getItem(AUTH_KEY);
     const tokenData = JSON.parse(savedAuth) ?? {};
     if (newValue) {
@@ -61,9 +59,9 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const callEditProfile = async (fullName, email) => {
+  const callEditProfile = async (data) => {
     try {
-      const finalData = { fullName, email };
+      const finalData = data;
       const res = await editAccount(finalData);
       if (res) await putAuth(res);
     } catch (e) {

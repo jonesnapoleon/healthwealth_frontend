@@ -5,11 +5,7 @@ import { FRONTEND_URL } from "utils/constant/routeList";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import HomeIcon from "@material-ui/icons/Home";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import StorefrontIcon from "@material-ui/icons/Storefront";
 import PersonIcon from "@material-ui/icons/Person";
-import FiberNewIcon from "@material-ui/icons/FiberNew";
 
 import logo from "../../assets/images/logo.jpg";
 

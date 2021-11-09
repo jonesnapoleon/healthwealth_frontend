@@ -1,13 +1,12 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useContext } from "react";
 
 export const DataContext = createContext({});
 export const useData = () => useContext(DataContext);
 
 const DataProvider = ({ children }) => {
   // const [, ] = useState({});
-  const [searchResults, setSearchResults] = useState({});
+  // const [searchResults, setSearchResults] = useState({});
   // const [dataDetails, setDataDetails] = useState({});
-  const [currentOrder, setCurrentOrder] = useState({});
 
   // const addDataDetail = useCallback((DataDetail) => {
   //   setDataDetails((state) => {

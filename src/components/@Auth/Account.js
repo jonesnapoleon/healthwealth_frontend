@@ -1,23 +1,31 @@
 import React from "react";
-import { Button, makeStyles, TextField } from "@material-ui/core";
-import { useSnackbar } from "contexts/SnackbarContext";
+import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 import { useAuth } from "contexts/AuthContext";
-import { useFormInput } from "utils/hooks";
+import { useInput, useMultipleFormInput } from "utils/hooks";
+import { convertCamelCase, getBackendDateFormat } from "utils/transformer";
 import "./index.scss";
-import { editAccount } from "api/auth";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const useStyles = makeStyles({
   container: {
     width: "100%",
+    display: "flex",
+    marginTop: "2rem",
+    flexWrap: "wrap",
   },
   item: {
-    width: "80%",
-    margin: "1rem 10%",
+    width: "30%",
+    margin: "1rem 2% 1rem 0",
   },
   center: {
     textAlign: "center",
   },
 });
+
+const dateSet = new Set(["birthDate"]);
+const BASELINE_DATE = new Date("2020-01-01");
+
+const multilineSet = new Set(["address"]);
 
 const Account = () => {
   const classes = useStyles();
@@ -27,32 +35,60 @@ const Account = () => {
     editProfile,
   } = useAuth();
 
-  const fullName = useFormInput(user?.fullName);
-  const email = useFormInput(user?.email);
+  const { data, handleChange } = useMultipleFormInput(user);
+
+  const birthDate = useInput(user?.birthDate ?? BASELINE_DATE);
 
   return (
     <div className="account-page">
       <div className={"left"}>
+        <Typography variant={"h1"}>Your profile</Typography>
         <div className={classes.container}>
-          <TextField
-            {...fullName}
-            label="Full name"
-            variant="outlined"
-            // className={classes.item}
-          />
-          <TextField
-            {...email}
-            label="Email"
-            variant="outlined"
-            // className={classes.item}
-          />
+          {data &&
+            Object.entries(data)?.map(([key, value]) => {
+              console.log(multilineSet.has(key), key);
+              return (
+                !dateSet.has(key) && (
+                  <TextField
+                    key={key}
+                    value={value}
+                    onChange={handleChange}
+                    label={convertCamelCase(key)}
+                    name={key}
+                    multiline={multilineSet.has(key) ? true : false}
+                    maxRows={3}
+                    variant="outlined"
+                    className={classes.item}
+                  />
+                )
+              );
+            })}
+          {
+            <DesktopDatePicker
+              label={convertCamelCase("birthDate")}
+              inputFormat="yyyy-MM-dd"
+              {...birthDate}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  className={classes.item}
+                />
+              )}
+            />
+          }
         </div>
         <>
           <Button
             color="primary"
             variant="contained"
             size="large"
-            onClick={async () => await editProfile(fullName.value, email.value)}
+            onClick={async () =>
+              await editProfile({
+                ...data,
+                birthDate: getBackendDateFormat(birthDate.value),
+              })
+            }
           >
             Edit
           </Button>

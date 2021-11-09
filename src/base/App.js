@@ -9,6 +9,8 @@ import { BrowserRouter } from "react-router-dom";
 import TopNavigation from "components/Skeleton/TopNavigation";
 // import LargeScreen from "components/Common/LargeScreen";
 // import { useWidth } from "utils/hooks";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,13 +30,15 @@ const App = () => {
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <SnackbarProvider>
-            <AuthProvider>
-              <DataProvider>
-                <TopNavigation />
-                <RouteWrapper />
-                {/* {isLargeScreen ? <LargeScreen /> : <RouteWrapper />} */}
-              </DataProvider>
-            </AuthProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <AuthProvider>
+                <DataProvider>
+                  <TopNavigation />
+                  <RouteWrapper />
+                  {/* {isLargeScreen ? <LargeScreen /> : <RouteWrapper />} */}
+                </DataProvider>
+              </AuthProvider>
+            </LocalizationProvider>
           </SnackbarProvider>
         </QueryClientProvider>
       </BrowserRouter>

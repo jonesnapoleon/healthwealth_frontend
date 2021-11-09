@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { TextField, Button, makeStyles, Typography } from "@material-ui/core";
-import { useSnackbar } from "contexts/SnackbarContext";
 import { useAuth } from "contexts/AuthContext";
 import { useFormInput } from "utils/hooks";
 import "./index.scss";
@@ -23,7 +22,7 @@ const useStyles = makeStyles({
 const Auth = () => {
   const classes = useStyles();
   const { login, register } = useAuth();
-  const { addSnackbar } = useSnackbar();
+
   const email = useFormInput();
   const fullName = useFormInput();
   const password = useFormInput();
@@ -40,9 +39,9 @@ const Auth = () => {
       <div>
         <img src={logo} alt="" />
         <div className={classes.container}>
-          <Typography className={classes.center} variant="h1">
+          {/* <Typography className={classes.center} variant="h1">
             {isLogin ? `Login` : "Sign up"}
-          </Typography>
+          </Typography> */}
           {!isLogin && (
             <TextField
               {...fullName}
@@ -85,7 +84,9 @@ const Auth = () => {
             }}
             onClick={() => setIsLogin((a) => !a)}
           >
-            {!isLogin ? `Already has account?` : `New to HealthWealth?`}
+            {!isLogin
+              ? `Already has account? Log in`
+              : `New to HealthWealth? Sign up`}
           </Typography>
         </>
       </div>
