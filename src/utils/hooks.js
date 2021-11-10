@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BREAKPOINT_WIDTH } from "./constant";
 
 export const useMultipleFormInput = (initialObject) => {
@@ -23,20 +23,48 @@ export const useMultipleFormInput = (initialObject) => {
   return { data, handleChange };
 };
 
-export const useInput = (initialValue) => {
+export const useInput = (initialValue, changingValue = "") => {
   const [value, setValue] = useState(initialValue);
   const handleChange = (newVal) => setValue(newVal);
+  const [isFirstTime, setIsFirstTime] = useState(true);
 
   useEffect(() => {
     if (
-      initialValue !== null &&
-      initialValue !== "" &&
-      initialValue !== undefined
-    )
-      setValue(initialValue);
-  }, [initialValue]);
+      isFirstTime &&
+      changingValue &&
+      changingValue !== "" &&
+      changingValue !== {} &&
+      String(changingValue) !== "Invalid Date"
+    ) {
+      setValue(changingValue);
+      setIsFirstTime(false);
+    }
+  }, [changingValue, isFirstTime]);
 
   return { value, onChange: handleChange };
+};
+
+export const useFile = () => {
+  const [file, setFile] = useState(null);
+  const filePicker = useRef(null);
+
+  const handleUploadFile = (e) => {
+    if (e?.target?.files?.[0]) setFile(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    filePicker.current.onchange = (e) => {
+      const newFile = e.target.files[0];
+      if (newFile) setFile(newFile);
+    };
+  }, [filePicker, setFile]);
+
+  return {
+    file,
+    setFile,
+    filePicker,
+    onChange: handleUploadFile,
+  };
 };
 
 export const useFormInput = (initialValue) => {

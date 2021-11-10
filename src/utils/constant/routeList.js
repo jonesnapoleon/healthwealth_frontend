@@ -1,13 +1,7 @@
 export const FRONTEND_URL = {
   home: "/dashboard",
-  feed: "/feed",
-  officialStore: "/official-store",
-  cart: "/cart",
+  document: "/document",
+  documentDetail: "/document/:fileId",
   account: "/account",
-  productDetail: "/product/:id",
-  product: "/product/",
   auth: "/auth",
-  result: "/result",
-  confirm: "/order/confirm",
-  pay: "/order/pay",
 };

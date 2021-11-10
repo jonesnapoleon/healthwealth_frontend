@@ -5,6 +5,7 @@ import { useInput, useMultipleFormInput } from "utils/hooks";
 import { convertCamelCase, getBackendDateFormat } from "utils/transformer";
 import "./index.scss";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import { BASELINE_DATE } from "utils/constant";
 
 const useStyles = makeStyles({
   container: {
@@ -23,7 +24,6 @@ const useStyles = makeStyles({
 });
 
 const dateSet = new Set(["birthDate"]);
-const BASELINE_DATE = new Date("2020-01-01");
 
 const multilineSet = new Set(["address"]);
 
@@ -37,7 +37,7 @@ const Account = () => {
 
   const { data, handleChange } = useMultipleFormInput(user);
 
-  const birthDate = useInput(user?.birthDate ?? BASELINE_DATE);
+  const birthDate = useInput(BASELINE_DATE, new Date(user?.birthDate));
 
   return (
     <div className="account-page">

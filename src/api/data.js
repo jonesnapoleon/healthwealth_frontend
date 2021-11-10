@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_DOCUMENT = "/api/documents";
-// const API_SEARCH = "/v1/search";
+const API_DOCUMENT = "/api/documents/";
+const API_UPLOAD = "/api/upload/";
 // const API_ORDER = "/v1/order";
 // const API_PRODUCT_DETAIL = "/v1/product";
 
@@ -11,6 +11,20 @@ export const getDocumentList = async () => {
     return response.data;
   } catch (e) {
     throw e?.response?.data?.detail ?? "Fail to get documents. Try again!";
+  }
+};
+
+export const uploadFile = async (file, description, issuerName, issuedDate) => {
+  try {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("description", description ?? " ");
+    data.append("issuerName", issuerName ?? " ");
+    data.append("issuedDate", issuedDate);
+    const response = await axios.post(API_UPLOAD, data);
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.detail ?? "Fail to upload document. Try again!";
   }
 };
 

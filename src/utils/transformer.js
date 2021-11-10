@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export const convertCamelCase = (text) => {
   const result = text.replace(/([A-Z])/g, " $1");
@@ -7,5 +7,18 @@ export const convertCamelCase = (text) => {
 };
 
 export const getBackendDateFormat = (date) => {
-  return format(date, "yyyy-MM-dd");
+  try {
+    return format(date, "yyyy-MM-dd");
+  } catch {
+    return "2000-01-01";
+  }
+};
+
+export const getFrontendDateFormat = (date) => {
+  try {
+    const parsedDate = parseISO(date);
+    return format(parsedDate, "yyyy-MM-dd hh:mm:ss");
+  } catch {
+    return "2000-01-01";
+  }
 };

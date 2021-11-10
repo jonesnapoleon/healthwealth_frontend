@@ -3,6 +3,7 @@ import Auth from "components/@Auth";
 import Home from "components/@Home";
 
 import { FRONTEND_URL } from "./routeList";
+import DocumentDetail from "components/@Home/Document/DocumentDetail";
 
 export const routingComponent = [
   // MAIN NAV
@@ -13,6 +14,10 @@ export const routingComponent = [
   {
     path: FRONTEND_URL.home,
     component: Home,
+  },
+  {
+    path: FRONTEND_URL.documentDetail,
+    component: DocumentDetail,
   },
   // AUTH
   {

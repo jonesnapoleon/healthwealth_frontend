@@ -97,7 +97,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const authContext = {
-    isLoggedIn: auth?.token ?? false,
+    isLoggedIn: !!auth?.user?.email ?? false,
     auth,
     signOut,
     login: callLogin,
