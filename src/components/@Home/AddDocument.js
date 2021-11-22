@@ -1,12 +1,24 @@
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+  MenuItem,
+} from "@material-ui/core";
 import { DesktopDatePicker } from "@mui/lab";
-import React from "react";
 import { BASELINE_DATE } from "utils/constant";
 import { useFile, useFormInput, useInput } from "utils/hooks";
 import { convertCamelCase } from "utils/transformer";
 
 import { uploadFile } from "api/data";
 import { useSnackbar } from "contexts/SnackbarContext";
+
+const DOCUMENT_CATEGORY_CHOICES = [
+  "Lab result",
+  "Health recipe",
+  "Health certificate",
+];
 
 const useStyles = makeStyles({
   container: {
@@ -27,21 +39,29 @@ const useStyles = makeStyles({
 const AddDocument = ({ appendDocument }) => {
   const classes = useStyles();
 
+  const title = useFormInput("");
   const description = useFormInput("");
   const issuerName = useFormInput("");
   const issuedDate = useInput(BASELINE_DATE);
   const fileData = useFile();
+  const category = useFormInput("");
+
+  const [loading, setLoading] = useState(false);
 
   const { addSnackbar } = useSnackbar();
 
   const handleClick = async () => {
     try {
+      setLoading(true);
       if (!fileData.file) throw new Error("No file uploaded");
+      if (title.value.trim() === "") throw new Error("Title cannot be empty");
       const res = await uploadFile(
         fileData.file,
+        title.value,
         description.value,
         issuerName.value,
-        issuedDate.value
+        issuedDate.value,
+        category.value
       );
       if (res) {
         appendDocument(res);
@@ -49,6 +69,8 @@ const AddDocument = ({ appendDocument }) => {
       }
     } catch (e) {
       addSnackbar(String(e));
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -107,13 +129,33 @@ const AddDocument = ({ appendDocument }) => {
       )}
 
       <TextField
+        {...title}
+        label={convertCamelCase("title")}
+        variant="outlined"
+        className={classes.item}
+      />
+      <TextField
         {...description}
-        label={convertCamelCase("Description")}
+        label={convertCamelCase("description")}
         variant="outlined"
         className={classes.item}
         multiline
         maxRows={3}
       />
+      <TextField
+        select
+        label={convertCamelCase("documentCategory")}
+        {...category}
+        className={classes.item}
+        variant="outlined"
+      >
+        {DOCUMENT_CATEGORY_CHOICES.map((choice) => (
+          <MenuItem key={choice} value={choice}>
+            {choice}
+          </MenuItem>
+        ))}
+      </TextField>
+
       <TextField
         {...issuerName}
         label={convertCamelCase("issuerName")}
@@ -137,6 +179,7 @@ const AddDocument = ({ appendDocument }) => {
           paddingBottom: ".7rem",
         }}
         onClick={handleClick}
+        disabled={loading}
       >
         Add document
       </Button>

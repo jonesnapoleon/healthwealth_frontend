@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-import { getFrontendDateFormat } from "utils/transformer";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { Link } from "react-router-dom";
 
@@ -10,6 +9,7 @@ const useStyles = makeStyles({
     display: "flex",
     marginTop: "1rem",
     flexWrap: "wrap",
+    justifyContent: "flex-start",
   },
   item: {
     // width: "80%",
@@ -45,13 +45,13 @@ const DocumentList = ({ documents }) => {
                   {document?.fileName}
                 </Typography>
               </Link>
+              <img
+                src={document?.documentUrl}
+                style={{ maxWidth: "100%" }}
+                alt={document?.fileName}
+              />
+
               <Typography variant="body2">{document?.description}</Typography>
-              <Typography variant="body2">
-                Uploaded at: {getFrontendDateFormat(document?.uploadedAt)}
-              </Typography>
-              <Typography variant="subtitle2">
-                File ID: {document?.id}
-              </Typography>
             </Grid>
           ))}
       </Grid>

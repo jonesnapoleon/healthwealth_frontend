@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getBackendDateFormat } from "utils/transformer";
 
 const API_DOCUMENT = "/api/documents/";
 const API_UPLOAD = "/api/upload/";
@@ -14,46 +15,25 @@ export const getDocumentList = async () => {
   }
 };
 
-export const uploadFile = async (file, description, issuerName, issuedDate) => {
+export const uploadFile = async (
+  file,
+  title,
+  description,
+  issuerName,
+  issuedDate,
+  category
+) => {
   try {
     const data = new FormData();
     data.append("file", file);
+    data.append("title", title ?? " ");
     data.append("description", description ?? " ");
-    data.append("issuerName", issuerName ?? " ");
-    data.append("issuedDate", issuedDate);
+    data.append("issuername", issuerName ?? " ");
+    data.append("issueddate", getBackendDateFormat(issuedDate));
+    data.append("category", category);
     const response = await axios.post(API_UPLOAD, data);
     return response.data;
   } catch (e) {
     throw e?.response?.data?.detail ?? "Fail to upload document. Try again!";
   }
 };
-
-// export const searchProduct = async (queryText) => {
-//   try {
-//     const response = await axios.get(`${API_SEARCH}/${queryText}`);
-//     return response.data.body;
-//   } catch (e) {
-//     throw e?.response?.data?.errorMessage ?? "Product failed to fetch";
-//   }
-// };
-
-// export const makeOrder = async (body) => {
-//   try {
-//     const response = await axios.post(`${API_ORDER}`, body);
-//     return response.data.body;
-//   } catch (e) {
-//     throw e?.response?.data?.errorMessage ?? "Order can't be made";
-//   }
-// };
-
-// export const getProductDetail = async (productId) => {
-//   try {
-//     const response = await axios.get(`${API_PRODUCT_DETAIL}/${productId}`);
-//     return response.data.body;
-//   } catch (e) {
-//     throw (
-//       e?.response?.data?.errorMessage ??
-//       "Product details is currently unavailable. Try again!"
-//     );
-//   }
-// };
