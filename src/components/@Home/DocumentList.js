@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { Link } from "react-router-dom";
+import { isImage } from "utils/validator";
 
 const useStyles = makeStyles({
   container: {
@@ -42,14 +43,16 @@ const DocumentList = ({ documents }) => {
                   style={{ fontWeight: "bolder" }}
                   color="primary"
                 >
-                  {document?.fileName}
+                  {document?.title}
                 </Typography>
               </Link>
-              <img
-                src={document?.documentUrl}
-                style={{ maxWidth: "100%" }}
-                alt={document?.fileName}
-              />
+              {isImage(document?.fileType) && (
+                <img
+                  src={document?.documentUrl}
+                  style={{ maxWidth: "100%" }}
+                  alt={document?.fileName}
+                />
+              )}
 
               <Typography variant="body2">{document?.description}</Typography>
             </Grid>

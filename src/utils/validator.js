@@ -45,48 +45,5 @@ export const isDateSame = (date1, date2) => {
 
 export const isTimeInMsBeforeNow = (ms) => ms > Date.now();
 
-export const isFileValid = (file, extensions, maxFileSize) => {
-  return true;
-  // TODO JOJO
-  // const format = `.${file?.type.split("/").pop()}`;
-  // const allowAllFile = extensions.includes("*");
-
-  // if (!allowAllFile) {
-  //   if (format && !extensions.includes(format)) {
-  //     const fileExtensionText = extensions?.reduce(
-  //       (accumulator, extension, i) =>
-  //         `${accumulator}${i === 0 ? "" : ", "}${extension}`
-  //     );
-  //     throw new Error(`file_format_error ${fileExtensionText}.`);
-  //   }
-  // }
-
-  // const size = Math.ceil(file?.size / 1024 / 1000);
-  // const sizeConstraint = parseInt(maxFileSize.split(" ")[0]);
-  // if (size > sizeConstraint) {
-  //   throw new Error(`file_size_error ${maxFileSize}.`);
-  // }
-  // return true;
-};
-
-export class PersonalDetailValidator {
-  isValidName = (inputName, authName) =>
-    inputName !== "" && String(inputName).trim() !== String(authName).trim();
-  isValidNIK = (inputNik, authNik) =>
-    inputNik !== "" &&
-    String(inputNik).trim() !== String(authNik).trim() &&
-    String(inputNik).trim().length > 9;
-  isValidBirthDate = (inputBirthDate, authBirthDate) => {
-    return (
-      !isDateSame(inputBirthDate, new Date()) &&
-      inputBirthDate !== "" &&
-      inputBirthDate !== undefined &&
-      inputBirthDate !== null &&
-      !isDateSame(inputBirthDate, authBirthDate)
-    );
-  };
-  isValidPhoneNumber = (inputPhoneNumber, authPhoneNumber) =>
-    inputPhoneNumber !== "" &&
-    String(inputPhoneNumber).trim() !== String(authPhoneNumber).trim() &&
-    String(inputPhoneNumber).trim().length > 4;
-}
+export const isImage = (fileType) =>
+  [".jpeg", ".jpg", ".png", ".pneg"].includes(fileType);
