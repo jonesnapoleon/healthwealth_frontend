@@ -3,6 +3,7 @@ import { getBackendDateFormat } from "utils/transformer";
 
 const API_DOCUMENT = "/api/documents/";
 const API_UPLOAD = "/api/upload/";
+const API_DOCUMENT_ACCESS = `${API_DOCUMENT}access/`;
 // const API_ORDER = "/v1/order";
 // const API_PRODUCT_DETAIL = "/v1/product";
 
@@ -35,5 +36,17 @@ export const uploadFile = async (
     return response.data;
   } catch (e) {
     throw e?.response?.data?.detail ?? "Fail to upload document. Try again!";
+  }
+};
+
+export const addViewer = async (email, documentId) => {
+  try {
+    const response = await axios.post(API_DOCUMENT_ACCESS, {
+      documentId,
+      email,
+    });
+    return response.data;
+  } catch (e) {
+    throw e?.response?.data?.detail ?? "Fail to add viewer. Try again!";
   }
 };

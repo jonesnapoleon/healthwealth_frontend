@@ -3,6 +3,7 @@ import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { Link } from "react-router-dom";
 import { isImage } from "utils/validator";
+import { Chip } from "../../../node_modules/@material-ui/core/index";
 
 const useStyles = makeStyles({
   container: {
@@ -34,18 +35,6 @@ const DocumentList = ({ documents }) => {
               lg={6}
               className={classes.item}
             >
-              <Link
-                to={`${FRONTEND_URL.document}/${document?.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Typography
-                  variant="body1"
-                  style={{ fontWeight: "bolder" }}
-                  color="primary"
-                >
-                  {document?.title}
-                </Typography>
-              </Link>
               {isImage(document?.fileType) && (
                 <img
                   src={document?.documentUrl}
@@ -54,7 +43,22 @@ const DocumentList = ({ documents }) => {
                 />
               )}
 
-              <Typography variant="body2">{document?.description}</Typography>
+              <Link
+                to={`${FRONTEND_URL.document}/${document?.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Typography
+                  variant="h3"
+                  style={{ fontWeight: "bolder" }}
+                  color="primary"
+                >
+                  {document?.title}
+                </Typography>
+              </Link>
+              <Typography variant="body1">
+                Owner: {document?.uploadedBy}
+              </Typography>
+              <Chip label={document?.category} />
             </Grid>
           ))}
       </Grid>

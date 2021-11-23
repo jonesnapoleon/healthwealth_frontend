@@ -4,6 +4,7 @@ import React from "react";
 import { useParams } from "react-router";
 import { getFrontendDateFormat } from "utils/transformer";
 import { isImage } from "utils/validator";
+import GrantAccess from "./GrantAccess";
 import PDFViewer from "./PDFViewer";
 
 const useStyles = makeStyles({
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
     margin: "1rem",
   },
   item: {
-    width: "80%",
+    width: "40%",
     margin: "1rem auto",
   },
   center: {
@@ -47,6 +48,7 @@ const DocumentDetail = () => {
             <PDFViewer fileUrl={document?.documentUrl} />
           )}
         </Grid>
+
         <Grid item xs={12} lg={6} className={classes.pt}>
           <Typography variant="h1" style={{ marginBottom: "1rem" }}>
             {document?.title}
@@ -56,9 +58,7 @@ const DocumentDetail = () => {
             color="primary"
             style={{ marginBottom: "1rem" }}
           />
-          {/* <Typography variant="h3" background="primary">
-            
-          </Typography> */}
+
           <Typography variant="subtitle2">
             Uploaded at: {getFrontendDateFormat(document?.uploadedAt)}
           </Typography>
@@ -76,6 +76,7 @@ const DocumentDetail = () => {
           <Typography variant="body1">{document?.description}</Typography>
         </Grid>
       </Grid>
+      <GrantAccess documentId={document?.id} />
     </div>
   );
 };

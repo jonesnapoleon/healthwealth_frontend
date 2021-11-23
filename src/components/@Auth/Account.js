@@ -46,7 +46,6 @@ const Account = () => {
         <div className={classes.container}>
           {data &&
             Object.entries(data)?.map(([key, value]) => {
-              console.log(multilineSet.has(key), key);
               return (
                 !dateSet.has(key) && (
                   <TextField

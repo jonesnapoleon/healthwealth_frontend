@@ -15,10 +15,16 @@ const Home = () => {
         <Grid container spacing={2}>
           <Grid item xs={8} style={{ background: "rgba(255, 255, 255, 0.3)" }}>
             <Typography variant="h1">Your secured documents</Typography>
-            <DocumentList documents={documents} />
+            {documents && documents?.length > 0 ? (
+              <DocumentList documents={documents} />
+            ) : (
+              <Typography variant="body1" style={{ marginTop: "2rem" }}>
+                You have no document. Upload now!
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="h2" style={{ textAlign: "center" }}>
+            <Typography variant="h3" style={{ textAlign: "center" }}>
               Add Document
             </Typography>
             <AddDocument appendDocument={appendDocument} />
