@@ -66,7 +66,7 @@ const DocumentDetail = () => {
             Issued at: {getFrontendDateFormat(document?.issueddate)}
           </Typography>
           <Typography variant="subtitle2">
-            Issued by: {getFrontendDateFormat(document?.issuername)}
+            Issued by: {document?.issuername}
           </Typography>
 
           <Typography variant="subtitle2" style={{ marginBottom: "1rem" }}>
