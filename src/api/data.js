@@ -4,8 +4,6 @@ import { getBackendDateFormat } from "utils/transformer";
 const API_DOCUMENT = "/api/documents/";
 const API_UPLOAD = "/api/upload/";
 const API_DOCUMENT_ACCESS = `${API_DOCUMENT}access/`;
-// const API_ORDER = "/v1/order";
-// const API_PRODUCT_DETAIL = "/v1/product";
 
 export const getDocumentList = async () => {
   try {

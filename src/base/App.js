@@ -7,8 +7,6 @@ import SnackbarProvider from "contexts/SnackbarContext";
 import AuthProvider from "contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import TopNavigation from "components/Skeleton/TopNavigation";
-// import LargeScreen from "components/Common/LargeScreen";
-// import { useWidth } from "utils/hooks";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
@@ -35,7 +33,6 @@ const App = () => {
                 <DataProvider>
                   <TopNavigation />
                   <RouteWrapper />
-                  {/* {isLargeScreen ? <LargeScreen /> : <RouteWrapper />} */}
                 </DataProvider>
               </AuthProvider>
             </LocalizationProvider>

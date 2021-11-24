@@ -39,9 +39,6 @@ const Auth = () => {
       <div>
         <img src={logo} alt="" />
         <div className={classes.container}>
-          {/* <Typography className={classes.center} variant="h1">
-            {isLogin ? `Login` : "Sign up"}
-          </Typography> */}
           {!isLogin && (
             <TextField
               {...fullName}

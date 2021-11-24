@@ -12,7 +12,6 @@ import logo from "../../assets/images/logo.jpg";
 const useStyles = makeStyles({
   wrapper: {
     height: "80px",
-    // marginTop: "48px",
   },
   root: {
     height: "80px",
@@ -51,23 +50,7 @@ const navigationData = [
         }}
       />
     ),
-    // icon: <HomeIcon />,
   },
-  // {
-  //   label: "Feed",
-  //   navigateTo: FRONTEND_URL.feed,
-  //   icon: <FiberNewIcon />,
-  // },
-  // {
-  //   label: "Official Store",
-  //   navigateTo: FRONTEND_URL.officialStore,
-  //   icon: <StorefrontIcon />,
-  // },
-  // {
-  //   label: "Keranjang",
-  //   navigateTo: FRONTEND_URL.cart,
-  //   icon: <AddShoppingCartIcon />,
-  // },
   {
     label: "Account",
     navigateTo: FRONTEND_URL.account,
