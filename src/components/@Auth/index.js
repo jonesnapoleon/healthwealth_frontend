@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, makeStyles, Typography } from "@material-ui/core";
 import { useAuth } from "contexts/AuthContext";
-import { useFormInput } from "utils/hooks";
+import { useFormInput, useWidth } from "utils/hooks";
 import "./index.scss";
 
 import logo from "../../assets/images/logo.jpg";
@@ -9,10 +9,6 @@ import logo from "../../assets/images/logo.jpg";
 const useStyles = makeStyles({
   container: {
     width: "100%",
-  },
-  item: {
-    width: "80%",
-    margin: "1rem 10%",
   },
   center: {
     textAlign: "center",
@@ -23,15 +19,22 @@ const Auth = () => {
   const classes = useStyles();
   const { login, register } = useAuth();
 
-  const email = useFormInput();
-  const fullName = useFormInput();
-  const password = useFormInput();
+  const { isLargeScreen } = useWidth();
+
+  const email = useFormInput("");
+  const fullName = useFormInput("");
+  const password = useFormInput("");
   const [isLogin, setIsLogin] = useState(!false);
 
   const clickLogin = async () => {
     isLogin
       ? await login(email.value, password.value)
       : await register(fullName.value, email.value, password.value);
+  };
+
+  const formStyle = {
+    width: isLargeScreen ? "80%" : "100%",
+    margin: isLargeScreen ? "1rem 10%" : "1rem 0%",
   };
 
   return (
@@ -44,21 +47,21 @@ const Auth = () => {
               {...fullName}
               label="Full name"
               variant="outlined"
-              className={classes.item}
+              style={formStyle}
             />
           )}
           <TextField
             {...email}
             label="Email"
             variant="outlined"
-            className={classes.item}
+            style={formStyle}
           />
           <TextField
             type="password"
             {...password}
             label="Password"
             variant="outlined"
-            className={classes.item}
+            style={formStyle}
           />
         </div>
         <>

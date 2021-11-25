@@ -10,15 +10,7 @@ import PDFViewer from "./PDFViewer";
 
 const useStyles = makeStyles({
   container: {
-    width: "calc(100%-2rem)",
-    margin: "1rem",
-  },
-  item: {
-    width: "40%",
-    margin: "1rem auto",
-  },
-  center: {
-    textAlign: "center",
+    margin: "2vh 2vw",
   },
   image: {
     width: "100%",

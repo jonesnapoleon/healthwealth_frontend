@@ -33,9 +33,6 @@ const useStyles = makeStyles({
     width: "80%",
     margin: "1rem auto",
   },
-  center: {
-    textAlign: "center",
-  },
 });
 
 const AddDocument = ({ appendDocument, closeDrawer }) => {

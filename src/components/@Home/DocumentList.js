@@ -16,9 +16,6 @@ const useStyles = makeStyles({
   item: {
     margin: "1rem auto",
   },
-  center: {
-    textAlign: "center",
-  },
 });
 const DocumentList = ({ documents }) => {
   const classes = useStyles();

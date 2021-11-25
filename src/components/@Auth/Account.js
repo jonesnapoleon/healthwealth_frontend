@@ -25,9 +25,6 @@ const useStyles = makeStyles({
     margin: "1rem 2% 1rem 0",
     width: "100%",
   },
-  center: {
-    textAlign: "center",
-  },
 });
 
 const dateSet = new Set(["birthDate"]);

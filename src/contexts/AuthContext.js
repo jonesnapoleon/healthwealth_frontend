@@ -4,6 +4,7 @@ import { AUTH_KEY } from "utils/constant";
 import { FRONTEND_URL } from "utils/constant/routeList";
 import { useHistory, useLocation } from "react-router-dom";
 import { useSnackbar } from "./SnackbarContext";
+import { isValidEmail } from "utils/validator";
 
 export const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
@@ -17,6 +18,10 @@ const AuthProvider = ({ children }) => {
 
   const callRegister = async (fullname, email, password) => {
     try {
+      if (fullname.trim() === "") throw new Error("Fill in the full name");
+      if (!isValidEmail(email)) throw new Error("Email is not valid");
+      if (password.trim().length < 9)
+        throw new Error("Password must has more than 8 characters");
       const res = await register(fullname, email, password);
       if (res) {
         const newRes = await callLogin(email, password);
@@ -29,6 +34,8 @@ const AuthProvider = ({ children }) => {
 
   const callLogin = async (email, password) => {
     try {
+      if (!isValidEmail(email)) throw new Error("Email is not valid");
+      if (password.trim().length < 4) throw new Error("Password is not valid");
       const res = await login(email, password);
       if (res) {
         localStorage.setItem(AUTH_KEY, JSON.stringify(res));

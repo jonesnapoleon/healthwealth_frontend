@@ -30,10 +30,6 @@ const useStyles = makeStyles({
     width: "25%",
     minWidth: "unset",
   },
-  logo: {
-    width: "auto",
-    height: "1.2rem",
-  },
 });
 
 const navigationData = [
