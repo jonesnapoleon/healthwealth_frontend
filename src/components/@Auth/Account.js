@@ -1,7 +1,13 @@
 import React from "react";
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { useAuth } from "contexts/AuthContext";
-import { useInput, useMultipleFormInput } from "utils/hooks";
+import { useInput, useMultipleFormInput, useWidth } from "utils/hooks";
 import { convertCamelCase, getBackendDateFormat } from "utils/transformer";
 import "./index.scss";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
@@ -10,13 +16,14 @@ import { BASELINE_DATE } from "utils/constant";
 const useStyles = makeStyles({
   container: {
     width: "100%",
-    display: "flex",
-    marginTop: "2rem",
-    flexWrap: "wrap",
+    marginTop: "1rem",
+  },
+  marginContainer: {
+    padding: "0 2% 0 0",
   },
   item: {
-    width: "30%",
     margin: "1rem 2% 1rem 0",
+    width: "100%",
   },
   center: {
     textAlign: "center",
@@ -37,74 +44,92 @@ const Account = () => {
 
   const { data, handleChange } = useMultipleFormInput(user);
 
+  const { isLargeScreen } = useWidth();
+
   const birthDate = useInput(BASELINE_DATE, new Date(user?.birthDate));
 
   return (
     <div className="account-page">
-      <div className={"left"}>
-        <Typography variant={"h1"}>Your profile</Typography>
-        <div className={classes.container}>
-          {data &&
-            Object.entries(data)?.map(([key, value]) => {
-              return (
-                !dateSet.has(key) && (
-                  <TextField
-                    key={key}
-                    value={value}
-                    onChange={handleChange}
-                    label={convertCamelCase(key)}
-                    name={key}
-                    multiline={multilineSet.has(key) ? true : false}
-                    maxRows={3}
-                    variant="outlined"
-                    className={classes.item}
+      <div className={"wrapper"}>
+        <div className={"left"}>
+          <Typography variant={"h1"}>Your profile</Typography>
+          <div className={classes.container}>
+            <Grid container>
+              {data &&
+                Object.entries(data)?.map(([key, value]) => {
+                  return (
+                    !dateSet.has(key) && (
+                      <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        xl={3}
+                        className={classes.marginContainer}
+                      >
+                        <TextField
+                          key={key}
+                          value={value}
+                          onChange={handleChange}
+                          label={convertCamelCase(key)}
+                          name={key}
+                          multiline={multilineSet.has(key) ? true : false}
+                          maxRows={3}
+                          variant="outlined"
+                          className={classes.item}
+                        />
+                      </Grid>
+                    )
+                  );
+                })}
+              <Grid
+                item
+                xs={12}
+                md={6}
+                xl={4}
+                className={classes.marginContainer}
+              >
+                {
+                  <DesktopDatePicker
+                    label={convertCamelCase("birthDate")}
+                    inputFormat="yyyy-MM-dd"
+                    {...birthDate}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={classes.item}
+                      />
+                    )}
                   />
-                )
-              );
-            })}
-          {
-            <DesktopDatePicker
-              label={convertCamelCase("birthDate")}
-              inputFormat="yyyy-MM-dd"
-              {...birthDate}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  className={classes.item}
-                />
-              )}
-            />
-          }
+                }
+              </Grid>
+            </Grid>
+          </div>
+          <>
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              onClick={async () =>
+                await editProfile({
+                  ...data,
+                  birthDate: getBackendDateFormat(birthDate.value),
+                })
+              }
+            >
+              Edit
+            </Button>
+          </>
         </div>
-        <>
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            onClick={async () =>
-              await editProfile({
-                ...data,
-                birthDate: getBackendDateFormat(birthDate.value),
-              })
-            }
-          >
-            Edit
-          </Button>
-        </>
-      </div>
 
-      <div className="right">
-        <div>
-          <Button
-            className={"sign-out-button"}
-            color="primary"
-            variant="outlined"
-            onClick={signOut}
-          >
-            Sign out
-          </Button>
-        </div>
+        <Button
+          className={`${isLargeScreen ? "sign-out-button" : "margin-top"}`}
+          color="primary"
+          variant="outlined"
+          onClick={signOut}
+        >
+          Sign out
+        </Button>
       </div>
     </div>
   );

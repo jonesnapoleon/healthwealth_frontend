@@ -6,6 +6,7 @@ import {
   Typography,
   MenuItem,
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { DesktopDatePicker } from "@mui/lab";
 import { BASELINE_DATE } from "utils/constant";
 import { useFile, useFormInput, useInput } from "utils/hooks";
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
     display: "flex",
     marginTop: "1rem",
     flexWrap: "wrap",
+    position: "relative",
   },
   item: {
     width: "80%",
@@ -36,7 +38,7 @@ const useStyles = makeStyles({
   },
 });
 
-const AddDocument = ({ appendDocument }) => {
+const AddDocument = ({ appendDocument, closeDrawer }) => {
   const classes = useStyles();
 
   const title = useFormInput("");
@@ -75,6 +77,21 @@ const AddDocument = ({ appendDocument }) => {
   };
   return (
     <div className={classes.container}>
+      <CloseIcon
+        style={{
+          position: "absolute",
+          right: ".6rem",
+          top: ".1rem",
+        }}
+        onClick={closeDrawer}
+      />
+
+      <div style={{ width: "100%", margin: "1rem 0 2rem" }}>
+        <Typography variant="h2" style={{ textAlign: "center" }}>
+          New Document
+        </Typography>
+      </div>
+
       <Button
         variant={"outlined"}
         color={fileData.file ? "secondary" : "primary"}

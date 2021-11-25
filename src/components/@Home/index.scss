@@ -2,4 +2,20 @@
   width: 100vw;
   height: 100vh;
   padding: 2vh 2vw;
+  .wrapper {
+    position: relative;
+    .add-document-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+    }
+    .margin-top {
+      margin-top: 1rem;
+    }
+    .close-icon {
+      position: absolute;
+      top: 1rem;
+      right: 0.5rem;
+    }
+  }
 }

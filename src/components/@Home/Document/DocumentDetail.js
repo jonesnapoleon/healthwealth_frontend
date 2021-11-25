@@ -2,6 +2,7 @@ import { Chip, Grid, makeStyles, Typography } from "@material-ui/core";
 import { useData } from "contexts/DataContext";
 import React from "react";
 import { useParams } from "react-router";
+import { useWidth } from "utils/hooks";
 import { getFrontendDateFormat } from "utils/transformer";
 import { isImage } from "utils/validator";
 import GrantAccess from "./GrantAccess";
@@ -31,6 +32,7 @@ const DocumentDetail = () => {
   const { fileId } = useParams();
   const classes = useStyles();
 
+  const { isLargeScreen } = useWidth();
   const { getDocumentData } = useData();
   const document = getDocumentData(fileId);
 
@@ -49,7 +51,7 @@ const DocumentDetail = () => {
           )}
         </Grid>
 
-        <Grid item xs={12} lg={6} className={classes.pt}>
+        <Grid item xs={12} lg={6} className={isLargeScreen ? classes.pt : {}}>
           <Typography variant="h1" style={{ marginBottom: "1rem" }}>
             {document?.title}
           </Typography>

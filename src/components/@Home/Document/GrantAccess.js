@@ -38,7 +38,7 @@ const GrantAccess = ({ documentId }) => {
   };
 
   return (
-    <div style={{ margin: "1rem" }}>
+    <div style={{ margin: "1rem 0" }}>
       <div style={{ marginBottom: "1rem" }}>
         <Typography
           style={{ verticalAlign: "middle", paddingRight: "1rem" }}

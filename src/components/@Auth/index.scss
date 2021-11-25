@@ -25,14 +25,18 @@
   width: 100vw;
   height: 100vh;
   padding: 2vh 2vw;
-  display: flex;
-  .left {
-    width: 80%;
-  }
-  .right {
-    width: 20%;
+  .wrapper {
+    position: relative;
     .sign-out-button {
-      float: right;
+      position: absolute;
+      right: 1rem;
+      top: 0.5rem;
+    }
+    .margin-top {
+      position: absolute;
+      right: 1rem;
+      bottom: 0rem;
+      // margin-top: 2rem;
     }
   }
 }
