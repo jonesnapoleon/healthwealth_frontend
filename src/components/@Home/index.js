@@ -64,7 +64,6 @@ const Home = () => {
               width: width > 400 ? 400 : width,
             }}
             role="presentation"
-            onKeyDown={toggleDrawer(false)}
           >
             <AddDocument
               appendDocument={appendDocument}
