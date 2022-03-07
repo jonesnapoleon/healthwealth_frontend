@@ -54,6 +54,7 @@ const GrantAccess = ({ documentId }) => {
           variant="outlined"
         />
       </div>
+
       <Button
         disabled={loading}
         onClick={handleGrant}
