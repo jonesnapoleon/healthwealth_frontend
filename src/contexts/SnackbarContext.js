@@ -10,7 +10,7 @@ function Alert(props) {
 }
 
 const SnackbarProvider = ({ children }) => {
-  const DURATION = 3000;
+  const DURATION = 5000;
   const [snackbar, setSnackbar] = useState({
     show: false,
   });

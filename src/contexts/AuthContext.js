@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
   const [firstTime, setFirstTime] = useState(true);
   const { addSnackbar } = useSnackbar();
 
-  const callRegister = async (fullname, email, password) => {
+  const callRegister = async (fullname, email, password, callback) => {
     try {
       if (fullname.trim() === "") throw new Error("Fill in the full name");
       if (!isValidEmail(email)) throw new Error("Email is not valid");
@@ -29,10 +29,12 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       addSnackbar(String(e));
+    } finally {
+      callback();
     }
   };
 
-  const callLogin = async (email, password) => {
+  const callLogin = async (email, password, callback) => {
     try {
       if (!isValidEmail(email)) throw new Error("Email is not valid");
       if (password.trim().length < 4) throw new Error("Password is not valid");
@@ -46,6 +48,8 @@ const AuthProvider = ({ children }) => {
     } catch (e) {
       localStorage.removeItem(AUTH_KEY);
       addSnackbar(String(e));
+    } finally {
+      callback();
     }
   };
 
@@ -66,13 +70,15 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const callEditProfile = async (data) => {
+  const callEditProfile = async (data, callback) => {
     try {
       const finalData = data;
       const res = await editAccount(finalData);
       if (res) await putAuth(res);
     } catch (e) {
       addSnackbar(String(e));
+    } finally {
+      callback();
     }
   };
 

@@ -2,6 +2,7 @@ import { Chip, Grid, makeStyles, Typography } from "@material-ui/core";
 import { useData } from "contexts/DataContext";
 import React from "react";
 import { useParams } from "react-router";
+import { CLOUDINARY_DOMAIN } from "utils/constant/index";
 import { useWidth } from "utils/hooks";
 import { getFrontendDateFormat } from "utils/transformer";
 import { isImage } from "utils/validator";
@@ -34,12 +35,12 @@ const DocumentDetail = () => {
         <Grid item xs={12} lg={6}>
           {isImage(document?.fileType) ? (
             <img
-              src={document?.documentUrl}
+              src={CLOUDINARY_DOMAIN + document?.documentUrl}
               className={classes.image}
               alt={document?.fileName}
             />
           ) : (
-            <PDFViewer fileUrl={document?.documentUrl} />
+            <PDFViewer fileUrl={CLOUDINARY_DOMAIN + document?.documentUrl} />
           )}
         </Grid>
 

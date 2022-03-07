@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Button,
@@ -41,6 +41,7 @@ const Account = () => {
 
   const { data, handleChange } = useMultipleFormInput(user);
 
+  const [loading, setLoading] = useState(false);
   const { isLargeScreen } = useWidth();
 
   const birthDate = useInput(BASELINE_DATE, new Date(user?.birthDate));
@@ -107,12 +108,17 @@ const Account = () => {
               color="primary"
               variant="contained"
               size="large"
-              onClick={async () =>
-                await editProfile({
-                  ...data,
-                  birthDate: getBackendDateFormat(birthDate.value),
-                })
-              }
+              disabled={loading}
+              onClick={async () => {
+                setLoading(true);
+                await editProfile(
+                  {
+                    ...data,
+                    birthDate: getBackendDateFormat(birthDate.value),
+                  },
+                  () => setLoading(false)
+                );
+              }}
             >
               Edit
             </Button>

@@ -7,6 +7,7 @@ import AddDocument from "./AddDocument";
 import DocumentList from "./DocumentList";
 import { Box, Button, SwipeableDrawer } from "@material-ui/core";
 import { useWidth } from "utils/hooks";
+import Loading from "components/Skeleton/Loading";
 
 const Home = () => {
   const { documents, appendDocument } = useData();
@@ -29,20 +30,27 @@ const Home = () => {
           Your Secured Health{" "}
           {documents && documents?.length > 0 ? "Documents" : "App"}
         </Typography>
-        {documents && documents?.length > 0 ? (
-          <DocumentList documents={documents} />
+
+        {documents ? (
+          documents?.length > 0 ? (
+            <DocumentList documents={documents} />
+          ) : (
+            <>
+              <Typography variant="body1" style={{ marginTop: "2rem" }}>
+                You have no health document.{" "}
+                <Typography
+                  display="inline"
+                  color="primary"
+                  onClick={() => setIsAddDocumentDrawerOpen(true)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Add now!
+                </Typography>
+              </Typography>
+            </>
+          )
         ) : (
-          <Typography variant="body1" style={{ marginTop: "2rem" }}>
-            You have no health document.{" "}
-            <Typography
-              display="inline"
-              color="primary"
-              onClick={() => setIsAddDocumentDrawerOpen(true)}
-              style={{ cursor: "pointer" }}
-            >
-              Add now!
-            </Typography>
-          </Typography>
+          <Loading />
         )}
 
         <Button
@@ -54,6 +62,7 @@ const Home = () => {
         >
           Add Document
         </Button>
+
         <SwipeableDrawer
           anchor={"right"}
           open={isAddDocumentDrawerOpen}

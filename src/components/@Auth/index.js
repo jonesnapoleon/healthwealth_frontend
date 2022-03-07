@@ -26,10 +26,15 @@ const Auth = () => {
   const password = useFormInput("");
   const [isLogin, setIsLogin] = useState(!false);
 
+  const [loading, setLoading] = useState(false);
+
   const clickLogin = async () => {
+    setLoading(true);
     isLogin
-      ? await login(email.value, password.value)
-      : await register(fullName.value, email.value, password.value);
+      ? await login(email.value, password.value, () => setLoading(false))
+      : await register(fullName.value, email.value, password.value, () =>
+          setLoading(false)
+        );
   };
 
   const formStyle = {
@@ -70,6 +75,7 @@ const Auth = () => {
             variant="contained"
             size="large"
             onClick={clickLogin}
+            disabled={loading}
           >
             {isLogin ? "Login" : "Sign up"}
           </Button>

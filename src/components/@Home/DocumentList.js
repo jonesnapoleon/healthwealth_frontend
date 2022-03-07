@@ -4,6 +4,7 @@ import { FRONTEND_URL } from "utils/constant/routeList";
 import { Link } from "react-router-dom";
 import { isImage } from "utils/validator";
 import { Chip } from "../../../node_modules/@material-ui/core/index";
+import { CLOUDINARY_DOMAIN } from "utils/constant/index";
 
 const useStyles = makeStyles({
   container: {
@@ -11,10 +12,10 @@ const useStyles = makeStyles({
     display: "flex",
     marginTop: "1rem",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   item: {
-    margin: "1rem auto",
+    margin: "1rem 0",
   },
 });
 const DocumentList = ({ documents }) => {
@@ -28,12 +29,14 @@ const DocumentList = ({ documents }) => {
               item
               key={document?.id}
               xs={12}
-              lg={6}
+              md={6}
+              lg={4}
+              xl={3}
               className={classes.item}
             >
               {isImage(document?.fileType) && (
                 <img
-                  src={document?.documentUrl}
+                  src={CLOUDINARY_DOMAIN + document?.documentUrl}
                   style={{ maxWidth: "100%" }}
                   alt={document?.fileName}
                 />
