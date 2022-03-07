@@ -176,6 +176,7 @@ const AddDocument = ({ appendDocument, closeDrawer }) => {
         variant="outlined"
         className={classes.item}
       />
+
       <DesktopDatePicker
         label={convertCamelCase("issuerDate")}
         inputFormat="yyyy-MM-dd"
@@ -184,6 +185,7 @@ const AddDocument = ({ appendDocument, closeDrawer }) => {
           <TextField {...params} variant="outlined" className={classes.item} />
         )}
       />
+
       <Button
         variant="contained"
         color="primary"
